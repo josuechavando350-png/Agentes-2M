@@ -2,6 +2,7 @@ name: Escuela continua SEMAR
 on:
   schedule:
     - cron: '17 10 * * *'
+    - cron: '37 * * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -32,12 +33,19 @@ jobs:
           node-version: '24'
       - run: npm ci && npm run setup && npm test
         working-directory: engine
-      - run: node scripts/cycle.mjs ../state/escuela
+      - run: |
+          if [ "$SCHEDULE" = '37 * * * *' ]; then
+            node scripts/cycle.mjs ../state/escuela --pulse --public-feed
+          else
+            node scripts/cycle.mjs ../state/escuela --public-feed
+          fi
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
         working-directory: engine
       - name: Guardar únicamente el estado auditado
         working-directory: state
         run: |
-          git add -- escuela/avance.json escuela/bitacora.json.gz escuela/censo-100m.json
+          git add -- escuela/avance.json escuela/bitacora.json.gz escuela/censo-100m.json escuela/mando.json
           if ! git diff --cached --quiet; then
             git config user.name 'SEMAR Escuela'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

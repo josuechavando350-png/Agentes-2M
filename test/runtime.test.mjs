@@ -39,10 +39,10 @@ const work = (id, op = "sum", data = [1, 2]) => ({
   data,
 });
 
-test("one hundred million initial funded identities partitioned equally, ten leaders and a single supreme", async (t) => {
+test("one hundred million initial funded identities partitioned equally, ten supreme sector leaders and one absolute office", async (t) => {
   const { s } = await fixture(t);
   assert.equal(s.status().population, INITIAL);
-  assert.equal(s.status().leaders.filter((l) => l.supreme).length, 1);
+  assert.equal(s.status().leaders.filter((l) => l.supreme).length, 10);
   for (let i = 0; i < 10; i++) {
     assert.equal(s.agent(i * 1_000_000 + 1).sector, i + 1);
     assert.equal(s.agent((i + 1) * 1_000_000).sector, i + 1);

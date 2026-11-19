@@ -8,6 +8,50 @@ La escuela existente añadió 90,000,000 de fundadores en un rango posterior a l
 
 El informe recorre cada ID y ejecuta una prueba de su especialidad por cada identidad viva. Usa un banco reproducible de 4,096 casos y compara el resultado con el de una implementación independiente. Además, un nuevo fundador de cada sector abre un expediente del maestro original y pasa por las cinco capacidades de Nexus. El informe contiene su dictamen y los datos de las nuevas cohortes. [Censo y examen del padrón ampliado](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/censo-100m.json) · [Último ciclo](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/avance.json)
 
+## Diablo 666 y la misión de siete días
+
+Diablo 666 ocupa el mando absoluto. Salud selecciona la estrategia de lectura con casos nuevos generados después de fijar las candidaturas. Los candidatos trabajan en procesos de ejecución independientes sobre los mismos documentos. El Oráculo verifica los aciertos por caso, las afirmaciones graves sin evidencia, el costo en filas leídas y el límite de latencia. Dos políticas que empatan en aciertos pueden diferenciarse en costo. El cargo pasa a la siguiente identidad viva y acreditada cuando el titular agota su saldo o pierde su generación. El nombre identifica al cargo durante la sucesión. [Estado público de la misión](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/mando.json)
+
+Las nuevas mutaciones de habilidades y los árboles de decisión se comparan con su versión anterior antes de registrar las 666 réplicas. Salud usa una semilla aleatoria nueva, resuelve casos reservados con respuestas independientes, vuelve a probar las habilidades y programas anteriores y conserva los resultados individuales. El tiempo se registra en microsegundos. La auditoría reproduce los resultados y el costo determinista y comprueba el límite de tiempo observado al admitir la mutación.
+
+El reloj de cada misión corre durante 168 horas. La exploración ocupa las primeras 24, la validación llega hasta la hora 96 y el último tramo busca evidencia comercial. La primera misión dispone de 168 créditos simulados. Se reserva presupuesto para las fases posteriores. Diablo puede modificar el presupuesto y detener la misión. Al vencer el plazo se bloquean nuevas entregas, aunque GitHub retrase el siguiente pulso horario que archiva el cierre. El informe incluye diez balances sectoriales, cobros y egresos documentados, hipótesis pendientes y error de las probabilidades declaradas. Los agentes con saldo sobreviven al cierre.
+
+El piloto consulta hasta cinco convocatorias vigentes por lectura en la API pública de Postor Abierto y conserva la ficha, la referencia al campo y el enlace al procedimiento de origen. Postor Abierto distribuye estos datos bajo CC BY 4.0. Una convocatoria documenta una necesidad del comprador. Para decidir sobre un margen hacen falta precios, costos y cantidades acreditados. [Postor y condiciones de atribución](https://postor.com.mx/api-docs)
+
+Un equipo investiga una oportunidad por pulso mientras haya evidencia y presupuesto. Un agente propone, otro examina todas las fuentes y un tercero contrasta el cálculo y vuelve a ejecutarlo retirando cada documento citado. Se registran el comprador, el problema, la alternativa, la evidencia faltante y el dato que llevaría a abandonar. Con dos oportunidades y presupuesto para ambos ensayos, Diablo asigna cuatro créditos a cada una. Tras observar los resultados prioriza la viable. La escuela aprende de los pronósticos de misiones cerradas y conserva el desempeño de cada investigador por generación. Tres revisiones con al menos 90 % de aciertos confieren rango de élite al especialista mientras mantenga ese nivel.
+
+### Usar expedientes autorizados
+
+La interfaz local de administración es de confianza. Cada misión admite documentos expresamente seleccionados por el operador. El manifiesto acepta archivos bajo su directorio o URLs HTTPS exactas. El importador solo consulta esas fuentes. Un documento de texto usa una afirmación por línea y admite comentarios con `#`. Por ejemplo:
+
+```text
+taller.buyer = Taller del Sur
+taller.problem = Tiempo de mantenimiento
+taller.alternative = Personal interno
+taller.price = 10000
+taller.cost = 6000
+taller.units = 5
+```
+
+Los precios y costos de la misión comercial se expresan en centavos MXN. Guarda las líneas en `taller.txt` y el manifiesto en su mismo directorio con el contenido `[{"id":"taller","format":"text","source":"taller.txt"}]`. Para archivos JSON, el formato `rows` admite una lista de registros con `subject`, `field` y `value`. Los expedientes privados se ejecutan en una base local. La rama de estado de GitHub es pública.
+
+```sh
+npm run semar -- init 66600
+echo '{"type":"open_mission","mission":"semana","budget":168}' | npm run semar -- request abrir
+npm run semar -- sources ./manifiesto.json
+echo '{"type":"research"}' | npm run semar -- request ronda-uno
+npm run semar -- aware 666
+npm run semar -- mission
+```
+
+El comando `inquire` recibe identidad, generación, versión, IDs de documentos autorizados y una consulta con `subject`, `op` y `fields`. Admite lectura, diferencia y producto con el identificador de operación `lookup`, `difference` y `product`. Devuelve referencias exactas y el efecto de retirar cada fuente. Un crédito agotado causa la baja antes de emitir respuesta. Las conclusiones distinguen contradicción, información insuficiente y resultado respaldado.
+
+Tesorería registra una vez su clave pública Ed25519 mediante `settlement_key`. Para `commerce` firma los bytes UTF-8 de `canonical(record)` con el esquema `{mission,subject,sale,stage,reference,currency,cents,contributors}` y entrega la firma en base64. Los identificadores de fuente contable son únicos por etapa. Las revisiones de estimación, cotización y pedido ocupan columnas propias. Los pagos y gastos firmados se concilian por referencia y una venta conserva su atribución a los participantes. El operador de tesorería debe verificar el comprobante contra su sistema de cobros. La misión pública consulta información y utiliza créditos simulados. La prueba de integración recorre pagos, duplicados, cierre y calibración con una clave efímera.
+
+### Comparar con otro sistema
+
+`node scripts/comparar.mjs crear /tmp/examen-semar-nuevo` genera 64 problemas reservados de evidencia documental. Comparte `casos.json` con cada participante y conserva `clave-privada.json` en el examinador. El formato de respuesta se ilustra con `semar.json`. Ejecuta `node scripts/comparar.mjs evaluar /tmp/examen-semar-nuevo /tmp/examen-semar-nuevo/semar.json` para obtener aciertos con citas exactas, errores graves, tiempo y costo externo declarado. Las comparaciones entre proveedores requieren ejecuciones reales sobre el mismo examen y presupuesto. Esta medición cubre el dominio documental implementado.
+
 ## Estado histórico de la primera escuela
 
 Diez rondas ejecutadas, 30 entregas aprobadas y 6,660 certificados de réplica. Ese checkpoint contiene 10,006,660 identidades lógicas. El comando `resume` restaura sus lecciones y saldos y después amplía el padrón. [Censo inicial](evidence/censo-inicial.json) · [Resultados de las diez rondas](evidence/escuela-inicial.json) · [Bitácora transportable](evidence/escuela-inicial.json.gz)
@@ -52,7 +96,7 @@ El primer argumento de `academy` es la ronda inicial y el segundo es el número 
 | Infantería de SEMAR | Comprueba la autoría de las entregas externas mediante Ed25519. Ante un resultado firmado incorrecto revoca la generación y su clave. El sustituto conserva el saldo restante y recibe una generación nueva.                          |
 | Salud               | Antes de promover a un agente compara la versión candidata con la anterior y comprueba que conserva sus habilidades y gana una nueva. Examina individualmente a las 666 réplicas. Los propios agentes de Salud pasan por ese proceso. |
 | Oráculo de SEMAR    | Autoridad técnica final. Recalcula las respuestas con una implementación independiente y verifica identidad, saldos, linaje, certificados y bitácora antes de confirmar la transacción.                                               |
-| Consejo             | L1 dirige el consejo y pertenece a los diez líderes. Cada evento queda en su buzón y en el de los otros nueve. Una consulta del consejo genera diez respuestas sobre habilidades y lecciones disponibles.                             |
+| Consejo             | Los diez líderes de sector tienen rango supremo. Diablo 666 dirige el consejo y recibe los eventos junto con los diez líderes. Los asientos históricos previos a la carta conservan el enrutamiento original hacia L1. Una consulta del consejo genera diez respuestas sobre habilidades y lecciones disponibles.                             |
 
 Los diez sectores iniciales son Coordinación, Salud, Educación, Ciencia, Industria, Energía, Logística, Finanzas, Infraestructura y Tecnología. Salud se ocupa de la aptitud del software. SEMAR y sus rangos son nombres internos del proyecto.
 

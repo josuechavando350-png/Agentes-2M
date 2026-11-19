@@ -1,3 +1,4 @@
+import { ABSOLUTE, charter, decide, incumbent } from "./missions.mjs";
 import { DatabaseSync } from "node:sqlite";
 import {
   BATCH,
@@ -19,7 +20,8 @@ let pending = Promise.resolve();
 const ZERO = "0".repeat(64);
 export class Ledger {
   #db;
-  constructor(path) {
+  constructor(path, clock = Date.now) {
+    this.clock = clock;
     this.#db = new DatabaseSync(path);
     this.#db
       .exec(`PRAGMA busy_timeout=10000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
@@ -54,8 +56,10 @@ export class Ledger {
         e.key !== row.key ||
         e.prev !== state.tip ||
         digest(e) !== row.hash ||
-        e.route?.supreme !== "L1" ||
-        e.route?.readers?.join() !== LEADERS.join()
+        e.route?.supreme !== (state.gov ? ABSOLUTE : "L1") ||
+        e.route?.readers?.join() !==
+          (state.gov ? [...LEADERS, ABSOLUTE] : LEADERS).join() ||
+        (state.gov && e.at < (state.events.at(-1)?.at ?? 0))
       )
         throw Error("Bitácora alterada");
       state.tip = row.hash;
@@ -97,10 +101,11 @@ export class Ledger {
           this.#db.exec("COMMIT");
           return old.result;
         }
+        const now = Math.max(this.clock(), state.events.at(-1)?.at ?? 0);
         let action;
         try {
           if (old) throw Error("Clave repetida para otra solicitud");
-          action = await build(state);
+          action = await build(state, now);
         } catch (error) {
           failure = error;
           const reason = String(error.message).slice(0, 360);
@@ -128,9 +133,13 @@ export class Ledger {
             seq: state.events.length + 1,
             key: entryKey,
             input: fingerprint,
-            at: Date.now(),
+            at: now,
             prev: state.tip,
-            route: { origin: "L" + sector, supreme: "L1", readers: LEADERS },
+            route: {
+              origin: "L" + sector,
+              supreme: state.gov ? ABSOLUTE : "L1",
+              readers: state.gov ? [...LEADERS, ABSOLUTE] : LEADERS,
+            },
             steps,
             result,
           };
@@ -165,6 +174,23 @@ function applyStep(state, step, e) {
       state.population = step.size;
       state.treasury = step.reserve;
       break;
+    case "charter":
+      if (!state.population || state.gov)
+        throw Error("Carta de gobierno inválida");
+      state.gov = charter();
+      break;
+    case "government": {
+      if (!state.gov || e.steps[0] !== step || digest(step.command) !== e.input)
+        throw Error("Acta sin mandato");
+      const projected = decide(state, step.command, e.at, step.seal);
+      const charges = governmentDebits(state, projected.actors);
+      if (
+        digest(projected.result) !== digest(e.result) ||
+        digest(charges) !== digest(e.steps.slice(1))
+      )
+        throw Error("Mandato o cargo alterado");
+      break;
+    }
     case "founder_expansion": {
       applyExpansion(state, step);
       state.treasury -= (step.hi - step.lo + 1) * STIPEND;
@@ -218,6 +244,25 @@ function applyStep(state, step, e) {
   }
   if (state.treasury < 0 || state.dead < 0)
     throw Error("Saldo contable imposible");
+}
+export function governmentDebits(state, ids) {
+  if (new Set(ids).size !== ids.length)
+    throw Error("Una identidad no puede ocupar dos puestos del equipo");
+  return ids.map((id) => {
+    const agent = getAgent(state, id);
+    if (agent.status !== "LIVE") throw Error("Identidad retirada");
+    agent.balance--;
+    if (agent.balance === 0) {
+      agent.status = "DEAD";
+      agent.publicKey = null;
+    }
+    return {
+      kind: "agent",
+      agent,
+      spent: 1,
+      ...(agent.balance === 0 ? { deadDelta: 1 } : {}),
+    };
+  });
 }
 export function applyExpansion(state, step) {
   if (
@@ -300,10 +345,13 @@ export function statusOf(state) {
     cap: CAP,
     events: state.events.length,
     tip: state.tip,
+    ...(state.gov
+      ? { absolute: { name: ABSOLUTE, holder: incumbent(state) } }
+      : {}),
     leaders: LEADERS.map((id, i) => ({
       id,
       sector: SECTORS[i],
-      supreme: i === 0,
+      supreme: state.gov ? true : i === 0,
     })),
   };
 }

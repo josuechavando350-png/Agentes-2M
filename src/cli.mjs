@@ -1,3 +1,4 @@
+import { importSources } from "./sources.mjs";
 import { gunzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
 import { trainRound } from "./academy.mjs";
@@ -34,6 +35,9 @@ try {
         await staging.command("dotacion-unica-de-incubacion", {
           type: "reserve_births",
         });
+        await staging.command("mando-diablo-666", {
+          type: "install_government",
+        });
         await enrollAndExercise(staging);
         const checkpoint = staging.checkpoint();
         show(store.restore(checkpoint.events, checkpoint.tip));
@@ -63,6 +67,7 @@ try {
           type: "reserve_births",
         });
       }
+      await store.command("mando-diablo-666", { type: "install_government" });
       show(await enrollAndExercise(store));
       break;
     }
@@ -96,6 +101,15 @@ try {
       );
       break;
     }
+    case "mission":
+      show(store.mission());
+      break;
+    case "aware":
+      show(store.awareness(Number(args[0])));
+      break;
+    case "sources":
+      show(await importSources(store, args[0]));
+      break;
     case "status":
       show(store.status());
       break;
@@ -150,7 +164,7 @@ try {
     }
     default:
       throw Error(
-        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit o demo",
+        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, aware, sources o demo",
       );
   }
 } catch (error) {

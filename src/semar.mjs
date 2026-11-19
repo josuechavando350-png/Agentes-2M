@@ -1,3 +1,13 @@
+import {
+  ABSOLUTE,
+  GOVERNED,
+  incumbent,
+  awareness,
+  missionView,
+  decide,
+} from "./missions.mjs";
+import { contestSeal } from "./command-exam.mjs";
+import { freshSeed, mutationScore, verifyMetrics } from "./blind.mjs";
 import { createPublicKey, verify } from "node:crypto";
 import {
   canonical,
@@ -22,6 +32,7 @@ import {
   getAgent,
   statusOf,
   Ledger,
+  governmentDebits,
   applyExpansion,
   founderId,
 } from "./ledger.mjs";
@@ -104,7 +115,17 @@ function cohortProposal(state, a, op, peer, key) {
     ...(a.programs ? { programs: a.programs } : {}),
     gates: ["SALUD:aptitud", "SEMAR:infantería-integridad", "SEMAR:oráculo"],
   };
+  band.blind = examineBand(state, a, band);
   return { band };
+}
+function examineBand(state, before, band) {
+  return mutationScore(
+    freshSeed(),
+    before,
+    { skills: band.skills, programs: band.programs },
+    (source) =>
+      state.keys.get(source).steps.find((s) => s.kind === "lesson").data,
+  );
 }
 function member(a, spent = 0, other = {}) {
   return { kind: "agent", agent: a, spent, ...other };
@@ -142,8 +163,9 @@ function signed(body, sig, key) {
 
 export class Semar {
   #journal;
-  constructor(path) {
-    this.#journal = new Ledger(path);
+  constructor(path, { clock = Date.now } = {}) {
+    this.clock = clock;
+    this.#journal = new Ledger(path, clock);
   }
   close() {
     this.#journal.close();
@@ -171,8 +193,24 @@ export class Semar {
   agent(id) {
     return getAgent(this.#journal.read(), id);
   }
+  sourceRevision(id) {
+    const doc = this.#journal
+      .read()
+      .gov?.missions.at(-1)
+      ?.docs.find((d) => d.id === id);
+    return doc ? { sha256: doc.sha256, revision: doc.revision } : null;
+  }
+  awareness(id) {
+    const s = this.#journal.read();
+    return awareness(s, id, Math.max(this.clock(), s.events.at(-1)?.at ?? 0));
+  }
+  mission() {
+    const s = this.#journal.read();
+    return missionView(s, Math.max(this.clock(), s.events.at(-1)?.at ?? 0));
+  }
   feed(leader, after = 0, limit = 100) {
-    if (!LEADERS.includes(leader)) throw Error("Líder desconocido");
+    if (leader !== ABSOLUTE && !LEADERS.includes(leader))
+      throw Error("Líder desconocido");
     integer(after, 0, Number.MAX_SAFE_INTEGER, "cursor");
     integer(limit, 1, 1000, "límite");
     return this.#journal
@@ -192,7 +230,7 @@ export class Semar {
     return this.#journal.dispatch(
       key,
       c,
-      async (state) => {
+      async (state, now) => {
         if (c.type === "init") {
           strict(
             c,
@@ -205,13 +243,46 @@ export class Semar {
             throw Error("Tamaño de génesis inválido");
           integer(c.reserve, 0, CAP * STIPEND, "reserva");
           if (state.population) throw Error("El padrón ya existe");
-          return pack(1, [{ kind: "genesis", size, reserve: c.reserve }], {
-            status: "INITIALIZED",
-            population: size,
-            reserve: c.reserve,
-          });
+          return pack(
+            1,
+            [
+              { kind: "genesis", size, reserve: c.reserve },
+              ...(size === INITIAL ? [{ kind: "charter" }] : []),
+            ],
+            {
+              status: "INITIALIZED",
+              population: size,
+              reserve: c.reserve,
+            },
+          );
         }
         if (!state.population) throw Error("Inicializa el padrón");
+        if (c.type === "install_government") {
+          strict(c, ["type"]);
+          return pack(
+            1,
+            state.gov ? [notice("mando vigente")] : [{ kind: "charter" }],
+            { status: "COMMISSIONED", name: ABSOLUTE },
+          );
+        }
+        if (GOVERNED.has(c.type)) {
+          const seal =
+            c.type === "contest"
+              ? await contestSeal(
+                  incumbent(state) ?? state.gov.roster[0],
+                  c.candidates,
+                )
+              : null;
+          const { actors, result } = decide(state, c, now, seal);
+          return pack(
+            1,
+            [
+              { kind: "government", command: c, ...(seal ? { seal } : {}) },
+              ...governmentDebits(state, actors),
+            ],
+            result,
+          );
+        }
         if (c.type === "expand_founders") {
           strict(c, ["type"]);
           if (state.expansion || state.genesisSize === INITIAL)
@@ -263,7 +334,7 @@ export class Semar {
           return pack(c.sector, [notice("consulta de capacidades")], {
             status: "COUNCIL",
             from: "L" + c.sector,
-            to: "L1",
+            to: state.gov ? ABSOLUTE : "L1",
             op: c.op,
             replies,
           });
@@ -322,6 +393,7 @@ export class Semar {
               id: a.id,
             });
           const program = { ...trial.policy, source: c.from };
+          const priorAbilities = structuredClone(a);
           a.programs = [...(a.programs ?? []), program];
           a.version++;
           const seed = digest({
@@ -346,12 +418,14 @@ export class Semar {
             exam: trial.exam,
             certificates: policyManifest(program, seed),
           };
+          band.blind = examineBand(state, priorAbilities, band);
           steps.push(member({ ...a }), band);
           return pack(a.sector, steps, {
             status: "EVOLVED",
             id: a.id,
             version: a.version,
             program: program.id,
+            blind: band.blind,
             exam: trial.exam,
             replicas: BATCH,
             first: band.lo,
@@ -439,6 +513,7 @@ export class Semar {
                   first: mutation.lo,
                   last: mutation.hi,
                   standby: mutation.standby,
+                  blind: mutation.blind,
                   exam: mutation.exam,
                 }
               : {}),
@@ -517,7 +592,12 @@ export class Semar {
           ...(predictor ? { program: predictor.id, mask } : {}),
           peer: peer?.key ?? null,
           ...(mutation
-            ? { replicas: BATCH, first: mutation.lo, last: mutation.hi }
+            ? {
+                replicas: BATCH,
+                first: mutation.lo,
+                last: mutation.hi,
+                blind: mutation.blind,
+              }
             : {}),
         });
       },
@@ -533,12 +613,20 @@ export class Semar {
       issued = 0,
       initialReserve = 0;
     const prior = { population: 0, agents: new Map(), bands: [] };
+    let chartered = false;
+    const seals = new Set();
     for (const e of state.events) {
+      const government = e.steps[0]?.kind === "government";
+      let beforeMutation;
       const cohort = e.steps.find((s) => s.kind === "cohort");
       const author = e.steps.find((s) => s.submission)?.submission;
-      if (e.steps.filter((s) => s.kind === "agent" && s.spent).length > 1)
+      if (
+        e.steps.filter((s) => s.kind === "agent" && s.spent).length > 1 &&
+        !government
+      )
         throw Error("Cargo duplicado");
       for (const s of e.steps) {
+        if (s.kind === "charter") chartered = true;
         if (s.kind === "birth_endowment") initialReserve += s.amount;
         if (s.kind === "genesis") {
           initialReserve = s.reserve;
@@ -566,7 +654,7 @@ export class Semar {
           if (
             previous.status !== "LIVE" ||
             next.sector !== previous.sector ||
-            e.route.origin !== "L" + next.sector
+            (!government && e.route.origin !== "L" + next.sector)
           )
             throw Error("Transición de identidad inválida");
           if (s.spent === 1) {
@@ -592,6 +680,7 @@ export class Semar {
             expected.generation++;
             expected.publicKey = null;
           } else if (cohort?.parent === next.id) {
+            beforeMutation = previous;
             if (cohort.program) {
               if (
                 previous.programs?.some((p) => p.id === cohort.program.id) ||
@@ -693,6 +782,28 @@ export class Semar {
             if (digest(manifest) !== s.certificates)
               throw Error("Certificación de cohorte inválida");
           }
+          if (chartered || s.blind) {
+            if (
+              !s.blind ||
+              digest(s.blind) !== digest(e.result.blind) ||
+              seals.has(s.blind.seed) ||
+              !beforeMutation
+            )
+              throw Error("Falta examen único de Salud");
+            seals.add(s.blind.seed);
+            const result = mutationScore(
+              s.blind.seed,
+              beforeMutation,
+              { skills: s.skills, programs: s.programs },
+              (key) =>
+                state.keys.get(key).steps.find((x) => x.kind === "lesson").data,
+              true,
+            );
+            if (s.blind.candidate.elapsedUs > s.blind.candidate.total * 250000)
+              throw Error("Tiempo de admisión excedido");
+            verifyMetrics(result.old, s.blind.old);
+            verifyMetrics(result.candidate, s.blind.candidate);
+          }
           const parent = getAgent(prior, s.parent);
           if (
             parent.sector !== s.sector ||
@@ -722,6 +833,7 @@ export class Semar {
     return {
       status: "VERIFIED",
       deliveries,
+      ...(chartered ? { blindPromotions: seals.size } : {}),
       replicaCertificates: issued,
       registeredReplicas: admitted,
       events: state.events.length,
