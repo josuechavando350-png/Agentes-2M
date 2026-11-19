@@ -213,7 +213,11 @@ function applyStep(state, step, e) {
         step.seal,
         step.protocol,
       );
-      const charges = governmentDebits(state, projected.actors);
+      const charges = governmentDebits(
+        state,
+        projected.actors,
+        projected.transfer,
+      );
       if (
         digest(projected.result) !== digest(e.result) ||
         digest(charges) !== digest(e.steps.slice(1))
@@ -275,7 +279,22 @@ function applyStep(state, step, e) {
   if (state.treasury < 0 || state.dead < 0)
     throw Error("Saldo contable imposible");
 }
-export function governmentDebits(state, ids) {
+export function governmentDebits(state, ids, transfer) {
+  if (transfer) {
+    const from = getAgent(state, transfer.from),
+      to = getAgent(state, transfer.to);
+    if (
+      ids.length ||
+      from.id === to.id ||
+      from.balance <= 1 ||
+      to.status !== "LIVE" ||
+      to.balance >= STIPEND
+    )
+      throw Error("Transferencia de créditos inválida");
+    from.balance--;
+    to.balance++;
+    return [from, to].map((agent) => ({ kind: "agent", agent, spent: 0 }));
+  }
   if (new Set(ids).size !== ids.length)
     throw Error("Una identidad no puede ocupar dos puestos del equipo");
   return ids.map((id) => {

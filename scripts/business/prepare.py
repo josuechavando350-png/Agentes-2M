@@ -23,7 +23,7 @@ def fingerprint(value):
     return hashlib.sha256(str(value).encode()).hexdigest()
 
 
-def prepare(archive, destination):
+def prepare(archive, destination, reserve=False):
     raw = archive.read_bytes()
     if hashlib.sha256(raw).hexdigest() != ARCHIVE:
         raise ValueError("La huella del archivo de UCI no coincide")
@@ -44,7 +44,9 @@ def prepare(archive, destination):
         finally:
             wb.close()
     destination.mkdir(parents=True, exist_ok=True)
-    for split, cutoff, buckets, limit in SPLITS:
+    used = set()
+    splits = SPLITS + ([("reserve", date(2011, 11, 9), {0, 1, 2, 3}, 480)] if reserve else [])
+    for split, cutoff, buckets, limit in splits:
         past = []
         outcomes = {}
         for customer, invoices in by_account.items():
@@ -69,6 +71,8 @@ def prepare(archive, destination):
                 "last_pence": last[2],
             }
             cid = "u-" + hashed[:18]
+            if split == "reserve" and cid in used:
+                continue
             refs = [{"invoice":r[0],"firstRow":r[4],"day":r[1].isoformat()} for r in sorted(history)]
             past.append({"id":cid,"cutoff":cutoff.isoformat(),"features":features,"references":refs})
             future = [(k,v) for k,v in invoices.items() if cutoff<=v[0]<cutoff+timedelta(days=30)]
@@ -76,6 +80,7 @@ def prepare(archive, destination):
             outcomes[cid]=int(net>0 and any(not k.startswith("C") and v[1]>0 for k,v in future))
         # Selection uses only historical eligibility and a hash of the account ID.
         cases = sorted(past,key=lambda r:r["id"])[:limit]
+        used.update(r["id"] for r in cases)
         for suffix, data in [("cases",cases),("outcomes",{r["id"]:outcomes[r["id"]] for r in cases})]:
             (destination/f"{split}-{suffix}.json").write_text(json.dumps(data,separators=(",",":"))+"\n")
         print(split,len(cases))
@@ -85,5 +90,6 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("archive",type=Path)
     parser.add_argument("destination",type=Path)
+    parser.add_argument("--reserve", action="store_true")
     args=parser.parse_args()
-    prepare(args.archive,args.destination)
+    prepare(args.archive,args.destination,args.reserve)

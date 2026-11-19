@@ -1,3 +1,6 @@
+import { fieldCommands, fieldCommand } from "./field-lab.mjs";
+import { deliveryCommands, deliveryCommand } from "./pilot-delivery.mjs";
+import { admittedForecast } from "./market-methods.mjs";
 import { accountForecast } from "./account-market.mjs";
 import { commercialReview, businessOutcomes } from "./business.mjs";
 import { planTeam, finishTeam } from "./teams.mjs";
@@ -28,6 +31,9 @@ export const GOVERNED = new Set([
   "open_mission",
   "admit_source",
   "research",
+  ...fieldCommands,
+  ...deliveryCommands,
+  "method_prediction",
   "business_review",
   "account_prediction",
   "pilot_feedback",
@@ -760,6 +766,8 @@ export function decide(state, c, at, seal, protocol = 1) {
       return { result: { status: "CLOSED", report: m.closed }, actors: [] };
     }
   }
+  if (fieldCommands.includes(c.type)) return fieldCommand(state, c, at, seal);
+  if (deliveryCommands.includes(c.type)) return deliveryCommand(state, c, at);
   if (c.type === "business_settlement") {
     const target = g.missions.find((x) => x.id === c.record?.mission);
     if (!target || !Object.hasOwn(target.business ?? {}, c.record?.subject))
@@ -857,9 +865,15 @@ export function decide(state, c, at, seal, protocol = 1) {
       actors: [],
     };
   }
-  if (c.type === "account_prediction" || c.type === "business_review") {
+  if (
+    ["account_prediction", "method_prediction", "business_review"].includes(
+      c.type,
+    )
+  ) {
     if (c.mission !== m.id || ![1, 10].includes(c.size))
       throw Error("Misión o tamaño inválido");
+    if (c.type === "method_prediction")
+      strict(c, ["type", "mission", "size", "row", "model", "program"]);
     if (c.type === "account_prediction")
       strict(c, ["type", "mission", "size", "row", "model"]);
     const target = c.type === "business_review" ? c.subject : c.row.id;
@@ -876,14 +890,18 @@ export function decide(state, c, at, seal, protocol = 1) {
     const detail =
       c.type === "account_prediction"
         ? accountForecast(c.row, c.model, actors)
-        : commercialReview(state, m, c, actors, at);
+        : c.type === "method_prediction"
+          ? { ...admittedForecast(c.row, c.model, c.program), actors }
+          : commercialReview(state, m, c, actors, at);
     m.spent += actors.length;
     return {
       result: {
         status:
           c.type === "account_prediction"
             ? "ACCOUNT_FORECAST"
-            : "BUSINESS_REVIEWED",
+            : c.type === "method_prediction"
+              ? "METHOD_FORECAST"
+              : "BUSINESS_REVIEWED",
         detail,
         credits: actors.length,
       },

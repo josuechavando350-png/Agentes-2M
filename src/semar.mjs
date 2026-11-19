@@ -1,3 +1,4 @@
+import { fieldView, fieldLesson, fieldHypotheses } from "./field-lab.mjs";
 import { businessOutcomes, commercialQueue } from "./business.mjs";
 import { rosterLayout } from "./packed.mjs";
 import { NativeWorker } from "./native.mjs";
@@ -13,7 +14,7 @@ import {
 } from "./missions.mjs";
 import { contestSeal } from "./command-exam.mjs";
 import { freshSeed, mutationScore, verifyMetrics } from "./blind.mjs";
-import { createPublicKey, verify } from "node:crypto";
+import { createPublicKey, verify, randomBytes } from "node:crypto";
 import {
   canonical,
   digest,
@@ -206,6 +207,25 @@ export class Semar {
   agent(id) {
     return getAgent(this.#journal.read(), id);
   }
+  fieldTrials() {
+    return structuredClone(fieldView(this.#journal.read().gov ?? {}));
+  }
+  fieldLesson(scope) {
+    return structuredClone(fieldLesson(this.#journal.read().gov ?? {}, scope));
+  }
+  fieldHypotheses(subject) {
+    return structuredClone(
+      fieldHypotheses(this.#journal.read().gov?.missions.at(-1), subject),
+    );
+  }
+  pilotProduct(mission, id) {
+    return structuredClone(
+      this.#journal
+        .read()
+        .gov?.missions.find((m) => m.id === mission)
+        ?.products?.find((p) => p.id === id) ?? null,
+    );
+  }
   businessQueue() {
     return commercialQueue(this.#journal.read().gov?.missions.at(-1));
   }
@@ -334,6 +354,8 @@ export class Semar {
         }
         if (GOVERNED.has(c.type)) {
           let seal = null;
+          if (c.type === "trial_open")
+            seal = { seed: randomBytes(32).toString("hex") };
           if (c.type === "contest")
             seal = await contestSeal(
               incumbent(state) ?? state.gov.roster[0],
@@ -368,7 +390,13 @@ export class Semar {
                   ],
                 }
               : structuredClone(state.gov);
-          const { actors, result } = decide({ ...state, gov }, c, now, seal, 2);
+          const { actors, result, transfer } = decide(
+            { ...state, gov },
+            c,
+            now,
+            seal,
+            2,
+          );
           return pack(
             1,
             [
@@ -378,7 +406,7 @@ export class Semar {
                 command: c,
                 ...(seal ? { seal } : {}),
               },
-              ...governmentDebits(state, actors),
+              ...governmentDebits(state, actors, transfer),
             ],
             result,
           );
@@ -782,6 +810,11 @@ export class Semar {
             }
             if ((s.deadDelta ?? 0) !== Number(expected.balance === 0))
               throw Error("Baja inconsistente");
+          } else if (government && e.result.status === "VERIFIED_REFUTATION") {
+            const { from, to } = e.result.transfer;
+            if (next.id !== from && next.id !== to)
+              throw Error("Recompensa inválida");
+            expected.balance += next.id === from ? -1 : 1;
           } else if (e.result.status === "REGISTERED" && !previous.publicKey) {
             if (createPublicKey(next.publicKey).asymmetricKeyType !== "ed25519")
               throw Error("Clave de agente inválida");

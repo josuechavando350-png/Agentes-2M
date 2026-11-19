@@ -1,0 +1,93 @@
+name: Examen de métodos comerciales
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/metodos.yml'
+      - 'scripts/methods/**'
+      - 'scripts/business/prepare.py'
+      - 'src/market-methods.mjs'
+      - 'src/account-market.mjs'
+      - 'evidence/metodos-negocio.json'
+permissions: {contents: read}
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python -m pip install openpyxl==3.1.5
+          curl -fsSL --retry 3 --max-time 90 'https://archive.ics.uci.edu/static/public/352/online+retail.zip' -o /tmp/uci.zip
+          python scripts/business/prepare.py /tmp/uci.zip datos --reserve
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desarrollo
+          path: |
+            datos/train-*.json
+            datos/validation-*.json
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with: {name: expedientes, path: datos/*-cases.json, retention-days: 5}
+      - uses: actions/upload-artifact@v4
+        with: {name: reserva, path: datos/reserve-outcomes.json, retention-days: 5}
+  investigar:
+    needs: preparar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: titular, ref: 4afdef2a7cafecd5a570f13d80df2082fc4571d3, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: desarrollo, path: datos}
+      - run: node scripts/methods/exam.mjs search datos titular
+      - uses: actions/upload-artifact@v4
+        with: {name: finalista, path: datos/candidate.json, retention-days: 30}
+  congelar:
+    needs: investigar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: titular, ref: 4afdef2a7cafecd5a570f13d80df2082fc4571d3, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: finalista, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: expedientes, path: datos}
+      - run: node scripts/methods/exam.mjs freeze datos titular
+      - uses: actions/upload-artifact@v4
+        with: {name: decisiones, path: datos/sealed.json, retention-days: 30}
+  dictamen:
+    needs: congelar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: titular, ref: 4afdef2a7cafecd5a570f13d80df2082fc4571d3, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: expedientes, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: reserva, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: decisiones, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: finalista, path: datos}
+      - run: |
+          node scripts/methods/exam.mjs judge datos titular evidence/metodos-negocio.json
+          cmp datos/metodos.json evidence/metodos-negocio.json

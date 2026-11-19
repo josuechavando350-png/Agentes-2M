@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "scope": "positive-net-invoicing-next-30-days",
+  "source": "UCI Online Retail · Daqing Chen · DOI 10.24432/C5BW33 · CC BY 4.0",
+  "cutoff": "2011-11-09",
+  "reserve": "01179bfac6c06e7c05dc67f2189c8a7a66c053f86a1aedccc6880ed11bfb3aa6",
+  "commitment": "1a78feab52770e64764f82a5d4d5f2ffdffc7b7df1e4eb2ecb0d8e6e9fb57829",
+  "incumbent": "5251466737f8309d64fb8b01206e4afdd2ab60761bf4044597a000562f43c205",
+  "programHash": "97a0c90cf2694346d98ffe4eca333134e0426db3fa14fb8dad921b3b3d6b2a11",
+  "candidate": {
+    "op": "difference",
+    "left": 10,
+    "right": 11,
+    "cut": -2.302585092994046,
+    "below": -0.01523847905835454,
+    "above": 0.052169751365715285
+  },
+  "signals": [
+    "recency",
+    "orders",
+    "gross_pence",
+    "returns_permille",
+    "recent_orders",
+    "active_weeks",
+    "sku_count",
+    "largest_share",
+    "gap_days",
+    "last_pence",
+    "distinct_buying_days",
+    "longest_gap",
+    "last_gap"
+  ],
+  "tested": 499,
+  "shortlist": 12,
+  "developmentMisses": 77,
+  "validation": {
+    "incumbent": {
+      "cases": 400,
+      "observed": 109,
+      "pilots": 80,
+      "pilotHits": 51,
+      "wastedPilots": 29,
+      "missedAfterAbandon": 22,
+      "brier": 0.15696272899828226
+    },
+    "candidate": {
+      "cases": 400,
+      "observed": 109,
+      "pilots": 80,
+      "pilotHits": 51,
+      "wastedPilots": 29,
+      "missedAfterAbandon": 22,
+      "brier": 0.1545136865965171
+    }
+  },
+  "holdout": {
+    "incumbent": {
+      "cases": 480,
+      "observed": 152,
+      "pilots": 96,
+      "pilotHits": 49,
+      "wastedPilots": 47,
+      "missedAfterAbandon": 50,
+      "brier": 0.2118430740348098
+    },
+    "candidate": {
+      "cases": 480,
+      "observed": 152,
+      "pilots": 96,
+      "pilotHits": 50,
+      "wastedPilots": 46,
+      "missedAfterAbandon": 50,
+      "brier": 0.21184060067414492
+    }
+  },
+  "admitted": true,
+  "paidEvidence": null
+}

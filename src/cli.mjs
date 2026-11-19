@@ -1,3 +1,4 @@
+import { activeProgram } from "./market-methods.mjs";
 import { admittedModel, allocate, accountForecast } from "./account-market.mjs";
 import { digest } from "./policy.mjs";
 import { join } from "node:path";
@@ -133,12 +134,21 @@ try {
     case "aware":
       show(store.awareness(Number(args[0])));
       break;
+    case "method-rank":
     case "account-rank": {
       const [report, policy, rows] = args
         .slice(0, 3)
         .map((p) => JSON.parse(readFileSync(p, "utf8")));
       const model = admittedModel(policy, report),
         size = Number(args[3] ?? 1);
+      const method =
+        action === "method-rank"
+          ? activeProgram(
+              JSON.parse(readFileSync(args[4], "utf8")),
+              model,
+              report.scope,
+            )
+          : null;
       const mission = store.mission()?.mission;
       if (!mission || mission.phase === "CLOSED" || ![1, 10].includes(size))
         throw Error("Se requiere una misión abierta y equipo de 1 o 10");
@@ -153,7 +163,11 @@ try {
       for (const row of rows) accountForecast(row, model, [1]);
       for (const row of rows) {
         const c = {
-          type: "account_prediction",
+          type:
+            action === "method-rank"
+              ? "method_prediction"
+              : "account_prediction",
+          ...(action === "method-rank" ? { program: method } : {}),
           mission: mission.id,
           size,
           row,
@@ -167,7 +181,7 @@ try {
         )
           key = base + "-" + ++retry;
         const r = await store.command(key, c);
-        if (r.status !== "ACCOUNT_FORECAST")
+        if (!["METHOD_FORECAST", "ACCOUNT_FORECAST"].includes(r.status))
           throw Error(
             r.status + " tras " + forecasts.length + " cuentas confirmadas",
           );
@@ -176,6 +190,18 @@ try {
       show(allocate(forecasts));
       break;
     }
+    case "field-trials":
+      show(store.fieldTrials());
+      break;
+    case "field-method":
+      show(store.fieldLesson(args[0]));
+      break;
+    case "field-hypotheses":
+      show(store.fieldHypotheses(args[0]));
+      break;
+    case "pilot-product":
+      show(store.pilotProduct(args[0], args[1]));
+      break;
     case "business-queue":
       show(store.businessQueue());
       break;
