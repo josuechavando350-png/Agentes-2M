@@ -76,8 +76,8 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 22,
-      "documents": 11,
+      "spent": 32,
+      "documents": 12,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -90,6 +90,206 @@
           "decision": "SEEK_EVIDENCE",
           "at": 1795065167372,
           "cost": 4
+        }
+      ],
+      "business": [
+        {
+          "subject": "mx-1f765f22e2edb848eefd",
+          "firstDecision": "INVESTIGATE",
+          "latest": {
+            "mission": "semana-inaugural",
+            "subject": "mx-1f765f22e2edb848eefd",
+            "at": 1795071496199,
+            "revision": "740675161d64bb1f4f71227eac9ce262c2f12d79cfa0d575cddb1e267305ed7f",
+            "decision": "INVESTIGATE",
+            "checks": {
+              "buyer": {
+                "status": "SUPPORTED",
+                "value": "065P13 - SERVICIOS DE SALUD DEL ESTADO DE COLIMA",
+                "refs": [
+                  {
+                    "document": "mx-1f765f22e2edb848eefd",
+                    "source": "https://postor.com.mx/invitacion/ia-65-p13-906019995-n-43-2026",
+                    "sha256": "379c93fb0342dbb9d4ae1428ff2cf746dc8de15abb0b861b784b0d1773c6d896",
+                    "row": 1,
+                    "pointer": "/dependencia",
+                    "quote": "065P13 - SERVICIOS DE SALUD DEL ESTADO DE COLIMA"
+                  }
+                ],
+                "usable": true,
+                "actor": 60812872
+              },
+              "prior_spend_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 61176091
+              },
+              "authority": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 2219018
+              },
+              "alternative": {
+                "status": "SUPPORTED",
+                "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+                "refs": [
+                  {
+                    "document": "mx-1f765f22e2edb848eefd",
+                    "source": "https://postor.com.mx/invitacion/ia-65-p13-906019995-n-43-2026",
+                    "sha256": "379c93fb0342dbb9d4ae1428ff2cf746dc8de15abb0b861b784b0d1773c6d896",
+                    "row": 3,
+                    "pointer": "/tipo_procedimiento",
+                    "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                  }
+                ],
+                "usable": true,
+                "actor": 93384750
+              },
+              "access": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 54310406
+              },
+              "scope": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 95225657
+              },
+              "price_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 26588592
+              },
+              "cost_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 87503748
+              },
+              "delivery_days": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 68499002
+              },
+              "acceptance": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 49961011
+              }
+            },
+            "veto": [],
+            "gaps": [
+              {
+                "field": "access",
+                "question": "¿El comprador confirmó el acceso indispensable para entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [
+                  "ABANDON"
+                ],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "authority",
+                "question": "¿Qué puesto puede autorizar el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "delivery_days",
+                "question": "¿Cuántos días toma entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "prior_spend_mxn_cents",
+                "question": "¿Qué pagó recientemente el comprador por resolverlo?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "scope",
+                "question": "¿Qué entrega concreta aceptaría el comprador?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "price_mxn_cents",
+                "question": "¿Qué precio de piloto respalda la fuente?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "acceptance",
+                "question": "¿Qué medición demostraría que funcionó el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "cost_mxn_cents",
+                "question": "¿Cuál es el costo completo estimado de entregar ese piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 3
+              }
+            ],
+            "nextQuestion": "¿El comprador confirmó el acceso indispensable para entregar?",
+            "abandonIf": "Acceso indispensable denegado o margen del piloto no positivo",
+            "forecast": {
+              "paidProbability": null,
+              "observations": 0,
+              "priceMxnCents": null,
+              "costMxnCents": null,
+              "deliveryDays": null
+            },
+            "offer": null,
+            "actors": [
+              60812872,
+              61176091,
+              2219018,
+              93384750,
+              54310406,
+              95225657,
+              26588592,
+              87503748,
+              68499002,
+              49961011
+            ]
+          },
+          "review": "e23d11459c1476f4d7996cf8ccec08a745e51e3c1b5eb83c1cbaa732c2d2031e",
+          "feedback": [],
+          "firstForecast": {
+            "paidProbability": null,
+            "observations": 0,
+            "priceMxnCents": null,
+            "costMxnCents": null,
+            "deliveryDays": null
+          },
+          "observed": null,
+          "paidMxnCents": 0,
+          "bookedExpenseMxnCents": 0,
+          "bookedNetMxnCents": 0,
+          "brier": null
         }
       ],
       "lastTeam": {
@@ -552,5 +752,5 @@
       "close": null
     }
   },
-  "checkpoint": "b13a0b943a402cef375b20a76e24fda6b5a4d92b6744e32412abce65d967fe3a"
+  "checkpoint": "754bae265a172ecb124a0c1747dae6aeeb8b0fe0d5bc9968296a60460775cd14"
 }
