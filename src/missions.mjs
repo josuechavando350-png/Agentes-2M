@@ -10,6 +10,7 @@ import {
 } from "./policy.mjs";
 import { getAgent, founderId } from "./ledger.mjs";
 import {
+  checkQuery,
   freezeDocument,
   investigate,
   tribunal,
@@ -27,6 +28,7 @@ export const GOVERNED = new Set([
   "research",
   "inquire",
   "team_inquiry",
+  "dispatch_inquiry",
   "pulse",
   "halt",
   "settlement_key",
@@ -607,6 +609,53 @@ function research(state, m, at, chief, protocol) {
   return { result: { status: "RESEARCHED", finding }, actors };
 }
 
+// Recheck the pinned source, mandate and agent at commit, even when the scan
+// completed on a different machine or in a prior coordinator process.
+export function dispatchPlan(state, c, at) {
+  strict(c, [
+    "type",
+    "mission",
+    "document",
+    "revision",
+    "sha256",
+    "query",
+    "id",
+    "generation",
+    "version",
+  ]);
+  const m = state.gov && lastMission(state.gov);
+  if (
+    !m ||
+    phase(m, at) === "CLOSED" ||
+    !incumbent(state) ||
+    m.id !== c.mission
+  )
+    throw Error("Misión cerrada, distinta o mando vacante");
+  checkQuery(c.query);
+  const doc = m.docs.find((d) => d.id === c.document);
+  if (!doc || doc.revision !== c.revision || doc.sha256 !== c.sha256)
+    throw Error("Fuente sin autorización o revisión caducada");
+  const agent = getAgent(state, c.id);
+  if (
+    agent.status !== "LIVE" ||
+    agent.version !== c.version ||
+    agent.generation !== c.generation
+  )
+    throw Error("Identidad caducada");
+  if (m.spent >= allowance(m, at))
+    return { result: { status: "BUDGET_LIMIT" }, actors: [] };
+  if (agent.balance === 1)
+    return {
+      result: { status: "DEAD_ZERO", id: agent.id },
+      actors: [agent.id],
+    };
+  return {
+    members: [agent],
+    docs: [doc],
+    rows: doc.rows.length,
+    revision: doc.sha256,
+  };
+}
 export function teamPreparation(state, c, at) {
   const g = state.gov,
     m = g && lastMission(g),
@@ -747,6 +796,8 @@ export function decide(state, c, at, seal, protocol = 1) {
       actors: [],
     };
   }
+  if (c.type === "dispatch_inquiry")
+    return finishTeam(m, { ...c, size: 1 }, dispatchPlan(state, c, at), seal);
   if (c.type === "team_inquiry")
     return finishTeam(m, c, teamPreparation(state, c, at), seal);
   if (c.type === "inquire") {

@@ -2,6 +2,7 @@ import { availableParallelism } from "node:os";
 import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
+import { token } from "./dossiers.mjs";
 import { OPS } from "./policy.mjs";
 export const executable = fileURLToPath(
   new URL("../.cache/semar-native", import.meta.url),
@@ -12,10 +13,36 @@ export const executable = fileURLToPath(
 export class NativeWorker {
   #child = null;
   #request = null;
+  constructor(host = "local") {
+    if (
+      typeof host !== "string" ||
+      !/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(host)
+    )
+      throw Error("Alias de trabajador inválido");
+    this.host = host;
+  }
   #start() {
-    const child = spawn(executable, ["serve"], {
-      stdio: ["pipe", "pipe", "inherit"],
-    });
+    const remote = this.host !== "local";
+    const child = spawn(
+      remote ? "ssh" : executable,
+      remote
+        ? [
+            "-T",
+            "-o",
+            "BatchMode=yes",
+            "-o",
+            "StrictHostKeyChecking=yes",
+            "-o",
+            "ConnectTimeout=5",
+            "--",
+            this.host,
+            "semar-native serve",
+          ]
+        : ["serve"],
+      {
+        stdio: ["pipe", "pipe", "inherit"],
+      },
+    );
     this.#child = child;
     const fail = (error) => {
       if (this.#child !== child) return;
@@ -64,6 +91,33 @@ export class NativeWorker {
     for (const doc of docs)
       for (const r of doc.rows) fields.push(r.subject, r.field);
     return JSON.parse(await this.#send(fields));
+  }
+  async scan(packet) {
+    if (
+      !Array.isArray(packet.keys) ||
+      packet.keys.length < 1 ||
+      packet.keys.length > 256 ||
+      !Array.isArray(packet.fields) ||
+      ![1, 2].includes(packet.fields.length)
+    )
+      throw Error("Expediente repartido inválido");
+    const fields = [
+      "TEAM",
+      1,
+      1,
+      packet.keys.length,
+      packet.fields.length,
+      token(packet.subject),
+      ...packet.fields.map(token),
+    ];
+    for (const [subject, field] of packet.keys)
+      fields.push(token(subject), token(field));
+    const timer = setTimeout(() => this.close(), 15000);
+    try {
+      return JSON.parse(await this.#send(fields));
+    } finally {
+      clearTimeout(timer);
+    }
   }
   async run(op, data) {
     const index = OPS.indexOf(op);

@@ -4,6 +4,7 @@ import {
   ABSOLUTE,
   GOVERNED,
   teamPreparation,
+  dispatchPlan,
   incumbent,
   awareness,
   missionView,
@@ -244,7 +245,42 @@ export class Semar {
         result: structuredClone(e.result),
       }));
   }
-  async command(key, input) {
+  prepareDossier(key, c) {
+    if (c?.type !== "dispatch_inquiry")
+      throw Error("Comando de reparto inválido");
+    if (typeof key !== "string" || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(key))
+      throw Error("Clave inválida");
+    const state = this.#journal.read(),
+      known = state.keys.get(key);
+    this.#verify(state);
+    if (known) {
+      if (known.input !== digest(c))
+        throw Error("Clave repetida para otra solicitud");
+      return { receipt: structuredClone(known.result) };
+    }
+    const plan = dispatchPlan(
+      state,
+      c,
+      Math.max(this.clock(), state.events.at(-1)?.at ?? 0),
+    );
+    if (!plan.members) return { packet: null };
+    return {
+      packet: {
+        subject: c.query.subject,
+        fields: [...c.query.fields],
+        keys: plan.docs[0].rows.map((r) => [r.subject, r.field]),
+      },
+    };
+  }
+  confirmDossier(key, input, seal) {
+    if (input?.type !== "dispatch_inquiry")
+      throw Error("Comando de reparto inválido");
+    return this.#apply(key, input, { seal: structuredClone(seal) });
+  }
+  command(key, input) {
+    return this.#apply(key, input);
+  }
+  async #apply(key, input, external) {
     const c = structuredClone(input);
     return this.#journal.dispatch(
       key,
@@ -291,6 +327,13 @@ export class Semar {
               incumbent(state) ?? state.gov.roster[0],
               c.candidates,
             );
+          if (c.type === "dispatch_inquiry") {
+            const plan = dispatchPlan(state, c, now);
+            if (plan.members)
+              seal = external
+                ? external.seal
+                : await this.#native.team(plan.docs, c.query, 1, plan.rows);
+          }
           if (c.type === "team_inquiry") {
             const plan = teamPreparation(state, c, now);
             if (plan.members)
@@ -301,13 +344,19 @@ export class Semar {
                 plan.rows,
               );
           }
-          const { actors, result } = decide(
-            { ...state, gov: structuredClone(state.gov) },
-            c,
-            now,
-            seal,
-            2,
-          );
+          // Distributed confirmations only update spent on the current mission.
+          // Its admitted documents are immutable during this transaction.
+          const gov =
+            c.type === "dispatch_inquiry"
+              ? {
+                  ...state.gov,
+                  missions: [
+                    ...state.gov.missions.slice(0, -1),
+                    { ...state.gov.missions.at(-1) },
+                  ],
+                }
+              : structuredClone(state.gov);
+          const { actors, result } = decide({ ...state, gov }, c, now, seal, 2);
           return pack(
             1,
             [

@@ -157,7 +157,8 @@ export function finishTeam(m, c, plan, seal) {
   if (digest(answer) !== digest(referee(docs, c.query)))
     throw Error("El Oráculo rechazó el dictamen del equipo");
   const result = {
-    status: "TEAM_ANSWERED",
+    status:
+      c.type === "dispatch_inquiry" ? "DISPATCH_ANSWERED" : "TEAM_ANSWERED",
     mission: m.id,
     query: c.query,
     revision,
@@ -170,15 +171,16 @@ export function finishTeam(m, c, plan, seal) {
     answer,
   };
   m.spent += c.size;
-  m.lastTeam = {
-    revision,
-    query: c.query,
-    size: c.size,
-    rows,
-    credits: c.size,
-    lanes: seal.lanes,
-    sectors: [...new Set(members.map((a) => a.sector))],
-    answer,
-  };
+  if (c.type === "team_inquiry")
+    m.lastTeam = {
+      revision,
+      query: c.query,
+      size: c.size,
+      rows,
+      credits: c.size,
+      lanes: seal.lanes,
+      sectors: [...new Set(members.map((a) => a.sector))],
+      answer,
+    };
   return { result, actors: members.map((a) => a.id) };
 }

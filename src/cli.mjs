@@ -1,5 +1,11 @@
 import { join } from "node:path";
 import { materialize, openPacked } from "./packed.mjs";
+import {
+  runBatch,
+  packBatch,
+  scanShard,
+  mergeShards,
+} from "./distribution.mjs";
 import { serve } from "./serve.mjs";
 import { importSources } from "./sources.mjs";
 import { gunzipSync } from "node:zlib";
@@ -18,7 +24,7 @@ import { Semar } from "./semar.mjs";
 
 const [action = "status", ...args] = process.argv.slice(2);
 const store = new Semar(
-  ["demo", "packed"].includes(action)
+  ["demo", "packed", "batch-scan"].includes(action)
     ? ":memory:"
     : (process.env.SEMAR_DB ?? "semar.sqlite"),
 );
@@ -153,6 +159,36 @@ try {
         ),
       );
       break;
+    case "distribute": {
+      const jobs = JSON.parse(readFileSync(args[0], "utf8"));
+      const result = await runBatch(
+        store,
+        jobs,
+        args.length > 1 ? args.slice(1) : ["local"],
+      );
+      show(result);
+      if (result.results.some((r) => r.error)) process.exitCode = 1;
+      break;
+    }
+    case "batch-pack":
+      show(packBatch(store, JSON.parse(readFileSync(args[0], "utf8"))));
+      break;
+    case "batch-scan":
+      show(
+        await scanShard(
+          JSON.parse(readFileSync(args[0], "utf8")),
+          Number(args[1]),
+          Number(args[2]),
+        ),
+      );
+      break;
+    case "batch-merge": {
+      const [jobs, batch, ...parts] = args.map((p) =>
+        JSON.parse(readFileSync(p, "utf8")),
+      );
+      show(await mergeShards(store, jobs, batch, parts));
+      break;
+    }
     case "serve":
       await serve(store);
       break;
@@ -210,7 +246,7 @@ try {
     }
     default:
       throw Error(
-        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, mission-sources, aware, sources, restore-state, materialize, packed, serve o demo",
+        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, mission-sources, aware, sources, restore-state, materialize, packed, serve, distribute, batch-pack, batch-scan, batch-merge o demo",
       );
   }
 } catch (error) {

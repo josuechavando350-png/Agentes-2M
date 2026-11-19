@@ -1,0 +1,118 @@
+name: Reparto entre servidores
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/reparto.yml'
+      - 'scripts/reparto.mjs'
+      - 'scripts/dossier-cases.mjs'
+      - 'src/distribution.mjs'
+      - 'src/teams.mjs'
+      - 'src/native.mjs'
+      - 'native/**'
+permissions:
+  contents: read
+concurrency:
+  group: medicion-reparto-semar
+  cancel-in-progress: false
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {path: engine, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: state, ref: estado-semar, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: npm ci && npm run setup
+        working-directory: engine
+      - run: node engine/scripts/reparto.mjs prepare lote state/escuela
+      - uses: actions/upload-artifact@v4
+        with: {name: paquete, path: lote/paquete.json, retention-days: 3}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coordinador
+          path: |
+            lote/base.sqlite
+            lote/solicitudes.json
+            lote/clave.json
+            lote/origen.json
+          retention-days: 3
+  escanear:
+    needs: preparar
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: node scripts/build-native.mjs
+      - uses: actions/download-artifact@v4
+        with: {name: paquete, path: lote}
+      - run: node scripts/reparto.mjs scan lote "$SHARD" 4
+        env:
+          SHARD: ${{ matrix.shard }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parte-${{ matrix.shard }}
+          path: lote/parte-*.json
+          retention-days: 3
+  verificar:
+    needs: escanear
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: npm ci && npm run setup
+      - uses: actions/download-artifact@v4
+        with: {name: paquete, path: lote}
+      - uses: actions/download-artifact@v4
+        with: {name: coordinador, path: lote}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: parte-*
+          merge-multiple: true
+          path: lote
+      - run: node scripts/reparto.mjs collect lote 4 --distinct-hosts
+      - uses: actions/upload-artifact@v4
+        with: {name: medicion-verificada, path: lote/reparto.json, retention-days: 30}
+  publicar:
+    if: github.ref == 'refs/heads/main'
+    needs: verificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: {path: evidence}
+      - uses: actions/download-artifact@v4
+        with: {name: medicion-verificada, path: informe}
+      - name: Publicar el informe en su rama de evidencia
+        working-directory: evidence
+        run: |
+          set -eu
+          ref=refs/heads/evidencia-reparto
+          if test -n "$(git ls-remote --heads origin "$ref")"; then
+            git fetch origin "$ref"
+            git switch -c evidencia-reparto FETCH_HEAD
+          else
+            git switch --orphan evidencia-reparto
+          fi
+          cp ../informe/reparto.json reparto.json
+          git add -- reparto.json
+          git config user.name 'SEMAR Escuela'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Registrar reparto medido entre cuatro servidores'
+          git push origin "HEAD:$ref"
