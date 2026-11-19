@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { gunzipSync, gzipSync } from "node:zlib";
 import { Semar } from "../src/semar.mjs";
+import { enrollAndExercise, rolloutReport } from "../src/rollout.mjs";
 import { researchRound } from "../src/research.mjs";
 import { STIPEND, BATCH, CAP } from "../src/policy.mjs";
 
@@ -30,6 +31,7 @@ const s = new Semar(":memory:");
 try {
   s.restore(JSON.parse(log), meta.audit.tip);
   await s.command("dotacion-unica-de-incubacion", { type: "reserve_births" });
+  const admission = await enrollAndExercise(s);
   const cycle = (meta.cycle ?? 0) + 1;
   const status = s.status();
   if (
@@ -40,6 +42,12 @@ try {
   } else {
     const result = await researchRound(s, cycle);
     const state = s.checkpoint();
+    const censusPath = join(dir, "censo-100m.json");
+    if (!existsSync(censusPath))
+      writeFileSync(
+        censusPath,
+        JSON.stringify(rolloutReport(s, admission), null, 2) + "\n",
+      );
     const out = {
       cycle,
       parentTip: meta.audit.tip,

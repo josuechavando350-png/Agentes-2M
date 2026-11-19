@@ -8,7 +8,11 @@ const s = new Semar(":memory:"),
 const read = (name) =>
   readFileSync(new URL("../evidence/" + name, import.meta.url));
 try {
-  await s.command("genesis", { type: "init", reserve: 66600 });
+  await s.command("genesis", {
+    type: "init",
+    size: 10_000_000,
+    reserve: 66600,
+  });
   assert.deepEqual(s.census(), JSON.parse(read("censo-inicial.json")));
   const recorded = JSON.parse(read("escuela-inicial.json"));
   assert.deepEqual(

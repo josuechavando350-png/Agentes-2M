@@ -4,12 +4,13 @@ import { examCase } from "./inference.mjs";
 // A local school run. Students request a skill from another sector, then a child
 // receives an unseen input. Stable round IDs make a partially finished run resumable.
 export async function trainRound(s, round) {
-  integer(round, 1, 10_000_000, "ronda");
+  const founders = s.status().founders ?? 10_000_000;
+  integer(round, 1, founders, "ronda");
   const teacherSector = 1 + ((round - 1) % 10);
   const learnerSector = (teacherSector % 10) + 1;
   const offset = Math.floor((round - 1) / 10) + 1;
-  const teacherId = (teacherSector - 1) * 1_000_000 + offset;
-  const studentId = (learnerSector - 1) * 1_000_000 + offset;
+  const teacherId = s.founderId(teacherSector, offset);
+  const studentId = s.founderId(learnerSector, offset);
   const op = initialSkills(teacherSector).find(
     (x) => !initialSkills(learnerSector).includes(x),
   );

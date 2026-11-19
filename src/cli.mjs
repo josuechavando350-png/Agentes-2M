@@ -1,7 +1,15 @@
 import { gunzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
 import { trainRound } from "./academy.mjs";
-import { integer } from "./policy.mjs";
+import { enrollAndExercise } from "./rollout.mjs";
+import {
+  integer,
+  INITIAL,
+  LEGACY_INITIAL,
+  STIPEND,
+  BATCH,
+  SECTORS,
+} from "./policy.mjs";
 import { Semar } from "./semar.mjs";
 
 const [action = "status", ...args] = process.argv.slice(2);
@@ -20,7 +28,18 @@ try {
         readFileSync(new URL("escuela-inicial.json.gz", evidence)),
         { maxOutputLength: 8_000_000 },
       );
-      show(store.restore(JSON.parse(log), audit.tip));
+      const staging = new Semar(":memory:");
+      try {
+        staging.restore(JSON.parse(log), audit.tip);
+        await staging.command("dotacion-unica-de-incubacion", {
+          type: "reserve_births",
+        });
+        await enrollAndExercise(staging);
+        const checkpoint = staging.checkpoint();
+        show(store.restore(checkpoint.events, checkpoint.tip));
+      } finally {
+        staging.close();
+      }
       break;
     }
     case "init":
@@ -31,12 +50,29 @@ try {
         }),
       );
       break;
+    case "upgrade": {
+      const state = store.status();
+      if (!state.population) throw Error("Inicializa o restaura un padrón");
+      if (
+        state.treasury <
+        ((state.founders ? 0 : INITIAL - LEGACY_INITIAL) +
+          SECTORS.length * BATCH) *
+          STIPEND
+      ) {
+        await store.command("dotacion-unica-de-incubacion", {
+          type: "reserve_births",
+        });
+      }
+      show(await enrollAndExercise(store));
+      break;
+    }
     case "academy": {
-      const first = integer(Number(args[0] ?? 1), 1, 10_000_000, "inicio");
+      const founders = store.status().founders ?? 10_000_000;
+      const first = integer(Number(args[0] ?? 1), 1, founders, "inicio");
       const rounds = integer(
         Number(args[1] ?? 1),
         1,
-        10_000_001 - first,
+        founders + 1 - first,
         "rondas",
       );
       for (let i = first; i < first + rounds; i++) {
@@ -46,9 +82,20 @@ try {
       }
       break;
     }
-    case "census":
-      show(store.census(...args.map(Number)));
+    case "census": {
+      const examine = args.at(-1) === "--examine";
+      const range = examine ? args.slice(0, -1) : args;
+      if (range.length > 2)
+        throw Error("Usa census [primer-ID] [último-ID] [--examine]");
+      show(
+        store.census(
+          range[0] === undefined ? undefined : Number(range[0]),
+          range[1] === undefined ? undefined : Number(range[1]),
+          { examine },
+        ),
+      );
       break;
+    }
     case "status":
       show(store.status());
       break;
@@ -103,7 +150,7 @@ try {
     }
     default:
       throw Error(
-        "Usa init, resume, status, academy, census, agent, request, feed, audit o demo",
+        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit o demo",
       );
   }
 } catch (error) {

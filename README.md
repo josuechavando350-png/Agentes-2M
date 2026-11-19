@@ -1,10 +1,16 @@
 # Agentes-2M · SEMAR
 
-Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón inicial contiene 10,000,000 identidades, un millón por líder. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
+Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón base contiene 100,000,000 de fundadores lógicos, diez millones por líder. Las réplicas certificadas se cuentan aparte. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
 
-## Estado de la primera escuela
+## Ampliación a cien millones
 
-Diez rondas ejecutadas, 30 entregas aprobadas y 6,660 certificados de réplica. El padrón resultante tiene 10,006,660 identidades lógicas. Se puede restaurar ese estado, con las lecciones y los saldos de la escuela, y continuar por la ronda 11. [Censo inicial](evidence/censo-inicial.json) · [Resultados de las diez rondas](evidence/escuela-inicial.json) · [Bitácora transportable](evidence/escuela-inicial.json.gz)
+La escuela existente añadió 90,000,000 de fundadores en un rango posterior a las identidades ya emitidas. Cada fundador recibe diez créditos simulados de la reserva de incubación. El libro conserva los IDs, saldos, exámenes, generaciones retiradas y reglas aprendidas en las rondas anteriores.
+
+El informe recorre cada ID y ejecuta una prueba de su especialidad por cada identidad viva. Usa un banco reproducible de 4,096 casos y compara el resultado con el de una implementación independiente. Además, un nuevo fundador de cada sector abre un expediente del maestro original y pasa por las cinco capacidades de Nexus. El informe contiene su dictamen y los datos de las nuevas cohortes. [Censo y examen del padrón ampliado](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/censo-100m.json) · [Último ciclo](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/avance.json)
+
+## Estado histórico de la primera escuela
+
+Diez rondas ejecutadas, 30 entregas aprobadas y 6,660 certificados de réplica. Ese checkpoint contiene 10,006,660 identidades lógicas. El comando `resume` restaura sus lecciones y saldos y después amplía el padrón. [Censo inicial](evidence/censo-inicial.json) · [Resultados de las diez rondas](evidence/escuela-inicial.json) · [Bitácora transportable](evidence/escuela-inicial.json.gz)
 
 ## Ejecutar
 
@@ -33,10 +39,10 @@ export SEMAR_DB=mi-escuela.sqlite
 npm run semar -- init 66600
 npm run semar -- census
 npm run semar -- academy 1 3
-npm run semar -- agent 10000001
+npm run semar -- agent 100000001
 ```
 
-El primer argumento de `academy` es la ronda inicial y el segundo es el número de rondas. Cada ronda coordina al docente, al alumno, a una réplica cuando hubo promoción y a los diez líderes. Las claves de ronda permiten reanudar un intento interrumpido. Una reserva insuficiente detiene las nuevas admisiones. El censo admite rangos inclusivos, por ejemplo `census 9999900 10000000`. La demo usa una base en memoria.
+El primer argumento de `academy` es la ronda inicial y el segundo es el número de rondas. Cada ronda coordina al docente, al alumno, a una réplica cuando hubo promoción y a los diez líderes. Las claves de ronda permiten reanudar un intento interrumpido. Una reserva insuficiente detiene las nuevas admisiones. El censo admite rangos inclusivos, por ejemplo `census 9999900 10000000`. Con `census 9999900 10000000 --examine` también se verifica una tarea por identidad viva. Para ampliar una base local existente, usa `npm run semar -- upgrade`. El comando `node scripts/verify-census.mjs RUTA_A_ESCUELA` reproduce el censo publicado desde los archivos de la rama de estado y comprueba la huella. La demo usa una base en memoria.
 
 ## Autoridad y economía
 

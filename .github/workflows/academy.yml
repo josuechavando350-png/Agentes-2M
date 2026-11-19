@@ -37,7 +37,7 @@ jobs:
       - name: Guardar únicamente el estado auditado
         working-directory: state
         run: |
-          git add -- escuela/avance.json escuela/bitacora.json.gz
+          git add -- escuela/avance.json escuela/bitacora.json.gz escuela/censo-100m.json
           if ! git diff --cached --quiet; then
             git config user.name 'SEMAR Escuela'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

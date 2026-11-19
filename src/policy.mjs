@@ -7,7 +7,8 @@ import {
   examCase,
 } from "./inference.mjs";
 
-export const INITIAL = 10_000_000;
+export const LEGACY_INITIAL = 10_000_000;
+export const INITIAL = 100_000_000;
 export const CAP = 1_000_000_000_000;
 export const BATCH = 666;
 export const STIPEND = 10; // simulation credits, integers

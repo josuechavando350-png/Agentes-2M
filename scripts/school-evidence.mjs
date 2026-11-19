@@ -5,7 +5,11 @@ import { trainRound } from "../src/academy.mjs";
 
 const s = new Semar(":memory:");
 try {
-  await s.command("genesis", { type: "init", reserve: 133200 });
+  await s.command("genesis", {
+    type: "init",
+    size: 10_000_000,
+    reserve: 133200,
+  });
   const rounds = [];
   for (let i = 1; i <= 10; i++) rounds.push(await trainRound(s, i));
   if (rounds.some((r) => r.status !== "COMPLETED" || r.replicas !== 666))

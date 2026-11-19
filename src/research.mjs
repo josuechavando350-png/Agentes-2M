@@ -43,7 +43,8 @@ export function researchCase(index) {
   };
 }
 export async function researchRound(s, cycle) {
-  integer(cycle, 1, 10_000_000, "ciclo");
+  const founders = s.status().founders ?? 10_000_000;
+  integer(cycle, 1, founders, "ciclo");
   const index = (cycle - 1) % 262;
   const sample = researchCase(index);
   const previous =
@@ -52,11 +53,14 @@ export async function researchRound(s, cycle) {
   const sector = 1 + ((cycle + 7) % 10);
   const predecessor =
     cycle > 12 ? s.receipt("investigacion-" + (cycle - 10) + "-salud") : null;
+  const ordinal =
+    1500 +
+    (cycle % 400_000) +
+    (founders > 10_000_000 ? (1 + (cycle % 9)) * 1_000_000 : 0);
   const student =
     cycle <= 2
       ? 6_500_001 + (cycle % 490_000)
-      : (predecessor?.last ??
-        (sector - 1) * 1_000_000 + 1500 + (cycle % 400_000));
+      : (predecessor?.last ?? s.founderId(sector, ordinal));
   const name = "investigacion-" + cycle;
   async function invoke(stage, id, fields) {
     const key = name + "-" + stage;

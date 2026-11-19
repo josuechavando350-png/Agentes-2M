@@ -2,7 +2,15 @@ import { createHash } from "node:crypto";
 import { integer, SECTORS } from "./policy.mjs";
 import { getAgent } from "./ledger.mjs";
 
-export function census(state, first = 1, last = state.population) {
+import { qualification } from "./qualification.mjs";
+
+export function census(
+  state,
+  first = 1,
+  last = state.population,
+  { examine = false } = {},
+) {
+  const exam = examine ? qualification() : null;
   integer(first, 1, state.population, "primer ID");
   integer(last, first, state.population, "último ID");
   const hash = createHash("sha256"),
@@ -10,6 +18,7 @@ export function census(state, first = 1, last = state.population) {
       leader: "L" + (i + 1),
       name,
       identities: 0,
+      ...(exam ? { founders: 0, replicas: 0, passed: 0 } : {}),
     }));
   let live = 0,
     balance = 0,
@@ -22,7 +31,21 @@ export function census(state, first = 1, last = state.population) {
       (a.balance === 0) !== (a.status === "DEAD")
     )
       throw Error("Identidad incompleta: " + id);
-    sectors[a.sector - 1].identities++;
+    const group = sectors[a.sector - 1];
+    group.identities++;
+    let result;
+    if (exam) {
+      const founder =
+        id <= state.genesisSize ||
+        (state.expansion &&
+          id >= state.expansion.lo &&
+          id <= state.expansion.hi);
+      group[founder ? "founders" : "replicas"]++;
+      if (a.status === "LIVE") {
+        result = exam.evaluate(a);
+        group.passed++;
+      }
+    }
     live += Number(a.status === "LIVE");
     balance += a.balance;
     chunk +=
@@ -34,7 +57,9 @@ export function census(state, first = 1, last = state.population) {
         a.balance,
         a.status,
         a.skills.join(","),
-      ].join("|") + "\n";
+      ].join("|") +
+      (exam ? "|" + (result ?? "RETIRED") : "") +
+      "\n";
     if (id % 2048 === 0) {
       hash.update(chunk);
       chunk = "";
@@ -49,5 +74,6 @@ export function census(state, first = 1, last = state.population) {
     simulationCredits: balance,
     sectors,
     sha256: hash.digest("hex"),
+    ...(exam ? { tested: live, byMethod: exam.counts } : {}),
   };
 }

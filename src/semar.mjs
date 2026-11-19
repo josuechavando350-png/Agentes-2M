@@ -12,12 +12,19 @@ import {
   healthExam,
   CAP,
   INITIAL,
+  LEGACY_INITIAL,
   STIPEND,
   BATCH,
   LEADERS,
   SECTORS,
 } from "./policy.mjs";
-import { getAgent, statusOf, Ledger } from "./ledger.mjs";
+import {
+  getAgent,
+  statusOf,
+  Ledger,
+  applyExpansion,
+  founderId,
+} from "./ledger.mjs";
 import { infer, verifyDerivation, examCase } from "./inference.mjs";
 import { experiment, runTree, scenario, policyManifest } from "./induction.mjs";
 import { census } from "./census.mjs";
@@ -56,7 +63,7 @@ function fitnessCertificate(seed, skills, index) {
   return digest({ index, skills, sample });
 }
 export function birthCounts(population) {
-  integer(population, INITIAL, CAP, "población");
+  integer(population, LEGACY_INITIAL, CAP, "población");
   const count = Math.min(BATCH, CAP - population);
   return { count, standby: BATCH - count };
 }
@@ -155,8 +162,11 @@ export class Semar {
   status() {
     return statusOf(this.#journal.read());
   }
-  census(first, last) {
-    return census(this.#journal.read(), first, last);
+  founderId(sector, ordinal) {
+    return founderId(this.#journal.read(), sector, ordinal);
+  }
+  census(first, last, options) {
+    return census(this.#journal.read(), first, last, options);
   }
   agent(id) {
     return getAgent(this.#journal.read(), id);
@@ -184,16 +194,45 @@ export class Semar {
       c,
       async (state) => {
         if (c.type === "init") {
-          strict(c, ["type", "reserve"]);
+          strict(
+            c,
+            Object.hasOwn(c, "size")
+              ? ["type", "reserve", "size"]
+              : ["type", "reserve"],
+          );
+          const size = Object.hasOwn(c, "size") ? c.size : INITIAL;
+          if (![INITIAL, LEGACY_INITIAL].includes(size))
+            throw Error("Tamaño de génesis inválido");
           integer(c.reserve, 0, CAP * STIPEND, "reserva");
           if (state.population) throw Error("El padrón ya existe");
-          return pack(
-            1,
-            [{ kind: "genesis", size: INITIAL, reserve: c.reserve }],
-            { status: "INITIALIZED", population: INITIAL, reserve: c.reserve },
-          );
+          return pack(1, [{ kind: "genesis", size, reserve: c.reserve }], {
+            status: "INITIALIZED",
+            population: size,
+            reserve: c.reserve,
+          });
         }
         if (!state.population) throw Error("Inicializa el padrón");
+        if (c.type === "expand_founders") {
+          strict(c, ["type"]);
+          if (state.expansion || state.genesisSize === INITIAL)
+            return pack(1, [notice("padrón de fundadores completo")], {
+              status: "ALREADY_EXPANDED",
+              founders: INITIAL,
+            });
+          const added = INITIAL - state.genesisSize,
+            lo = state.population + 1,
+            hi = state.population + added;
+          if (hi > CAP || state.treasury < added * STIPEND)
+            throw Error("Reserva o capacidad insuficiente para la expansión");
+          return pack(1, [{ kind: "founder_expansion", lo, hi }], {
+            status: "EXPANDED",
+            founders: INITIAL,
+            added,
+            lo,
+            hi,
+            credits: added * STIPEND,
+          });
+        }
         if (c.type === "reserve_births") {
           strict(c, ["type"]);
           if (state.hasEndowment)
@@ -503,7 +542,22 @@ export class Semar {
         if (s.kind === "birth_endowment") initialReserve += s.amount;
         if (s.kind === "genesis") {
           initialReserve = s.reserve;
+          prior.genesisSize = s.size;
           prior.population = s.size;
+        }
+        if (s.kind === "founder_expansion") {
+          applyExpansion(prior, s);
+          if (
+            e.route.origin !== "L1" ||
+            e.steps.length !== 1 ||
+            e.result.status !== "EXPANDED" ||
+            e.result.founders !== INITIAL ||
+            e.result.lo !== s.lo ||
+            e.result.hi !== s.hi ||
+            e.result.added !== s.hi - s.lo + 1 ||
+            e.result.credits !== e.result.added * STIPEND
+          )
+            throw Error("Acta de expansión inválida");
         }
         if (s.kind === "agent") {
           const next = s.agent,
@@ -659,9 +713,10 @@ export class Semar {
       [...state.agents.values()].reduce((n, a) => n + a.balance, 0);
     if (
       state.population &&
-      (INITIAL + admitted !== state.population ||
+      ((state.expansion ? INITIAL : state.genesisSize) + admitted !==
+        state.population ||
         balances + state.spent + state.treasury !==
-          INITIAL * STIPEND + initialReserve)
+          state.genesisSize * STIPEND + initialReserve)
     )
       throw Error("Conservación fallida");
     return {

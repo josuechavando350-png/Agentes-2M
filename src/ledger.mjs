@@ -3,6 +3,7 @@ import {
   BATCH,
   CAP,
   INITIAL,
+  LEGACY_INITIAL,
   STIPEND,
   LEADERS,
   SECTORS,
@@ -155,11 +156,20 @@ export class Ledger {
 function applyStep(state, step, e) {
   switch (step.kind) {
     case "genesis":
-      if (state.population !== 0 || step.size !== INITIAL)
+      if (
+        state.population !== 0 ||
+        ![LEGACY_INITIAL, INITIAL].includes(step.size)
+      )
         throw Error("Génesis inválida");
+      state.genesisSize = step.size;
       state.population = step.size;
       state.treasury = step.reserve;
       break;
+    case "founder_expansion": {
+      applyExpansion(state, step);
+      state.treasury -= (step.hi - step.lo + 1) * STIPEND;
+      break;
+    }
     case "birth_endowment": {
       const needed = Math.max(
         0,
@@ -209,18 +219,54 @@ function applyStep(state, step, e) {
   if (state.treasury < 0 || state.dead < 0)
     throw Error("Saldo contable imposible");
 }
+export function applyExpansion(state, step) {
+  if (
+    state.genesisSize !== LEGACY_INITIAL ||
+    state.expansion ||
+    step.lo !== state.population + 1 ||
+    step.hi !== state.population + (INITIAL - LEGACY_INITIAL) ||
+    step.hi > CAP
+  )
+    throw Error("Expansión de fundadores inválida");
+  state.expansion = { lo: step.lo, hi: step.hi };
+  state.population = step.hi;
+}
+export function founderId(state, sector, ordinal) {
+  if (!state.genesisSize) throw Error("Padrón sin inicializar");
+  integer(sector, 1, SECTORS.length, "sector");
+  const founders = state.expansion ? INITIAL : state.genesisSize;
+  integer(ordinal, 1, founders / SECTORS.length, "ordinal de fundador");
+  const stripe = LEGACY_INITIAL / SECTORS.length;
+  const logical =
+    Math.floor((ordinal - 1) / stripe) * LEGACY_INITIAL +
+    (sector - 1) * stripe +
+    ((ordinal - 1) % stripe) +
+    1;
+  return logical > state.genesisSize && state.expansion
+    ? state.expansion.lo + logical - state.genesisSize - 1
+    : logical;
+}
+const skillsBySector = SECTORS.map((_, i) =>
+  Object.freeze(initialSkills(i + 1)),
+);
 export function getAgent(state, id) {
   integer(id, 1, state.population, "identidad");
   const current = state.agents.get(id);
   if (current) return structuredClone(current);
-  if (id <= INITIAL) {
-    const sector = sectorOf(id);
+  const logical =
+    id <= state.genesisSize
+      ? id
+      : state.expansion && id >= state.expansion.lo && id <= state.expansion.hi
+        ? id - state.expansion.lo + 1
+        : 0;
+  if (logical) {
+    const sector = sectorOf(logical);
     return {
       id,
       sector,
       generation: 1,
       version: 1,
-      skills: initialSkills(sector),
+      skills: [...skillsBySector[sector - 1]],
       balance: STIPEND,
       status: "LIVE",
       publicKey: null,
@@ -243,6 +289,9 @@ export function getAgent(state, id) {
 export function statusOf(state) {
   return {
     population: state.population,
+    ...(state.expansion || state.genesisSize === INITIAL
+      ? { founders: INITIAL, foundersPerSector: INITIAL / SECTORS.length }
+      : {}),
     live: state.population - state.dead,
     dead: state.dead,
     treasury: state.treasury,
