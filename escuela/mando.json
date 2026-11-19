@@ -76,7 +76,7 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 32,
+      "spent": 36,
       "documents": 12,
       "pilots": [
         {
@@ -737,6 +737,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-1f765f22e2edb848eefd",
+          "sector": 3,
+          "revision": "028b2bb656e345404315715fa4176770d1e52210a3af6b450d8c45b15d8682be",
+          "phase": "DISCOVERY",
+          "policy": "indexed",
+          "crew": [
+            32676144,
+            93512484,
+            64442265
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "065P13 - SERVICIOS DE SALUD DEL ESTADO DE COLIMA",
+              "refs": [
+                {
+                  "document": "mx-1f765f22e2edb848eefd",
+                  "source": "https://postor.com.mx/invitacion/ia-65-p13-906019995-n-43-2026",
+                  "sha256": "379c93fb0342dbb9d4ae1428ff2cf746dc8de15abb0b861b784b0d1773c6d896",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "065P13 - SERVICIOS DE SALUD DEL ESTADO DE COLIMA"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "SERV INTE, CONGRESOS Y CONVENCIONES P/CAPACITACIÓN Y ASISTENCIA TÉC SANAS 2026",
+              "refs": [
+                {
+                  "document": "mx-1f765f22e2edb848eefd",
+                  "source": "https://postor.com.mx/invitacion/ia-65-p13-906019995-n-43-2026",
+                  "sha256": "379c93fb0342dbb9d4ae1428ff2cf746dc8de15abb0b861b784b0d1773c6d896",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "SERV INTE, CONGRESOS Y CONVENCIONES P/CAPACITACIÓN Y ASISTENCIA TÉC SANAS 2026"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-1f765f22e2edb848eefd",
+                  "source": "https://postor.com.mx/invitacion/ia-65-p13-906019995-n-43-2026",
+                  "sha256": "379c93fb0342dbb9d4ae1428ff2cf746dc8de15abb0b861b784b0d1773c6d896",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795073406349,
+          "at": 1795073406349,
+          "chief": 1007968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-1f765f22e2edb848eefd",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -752,5 +881,5 @@
       "close": null
     }
   },
-  "checkpoint": "754bae265a172ecb124a0c1747dae6aeeb8b0fe0d5bc9968296a60460775cd14"
+  "checkpoint": "28ded835b76525cd6b65d0d375e132d3b9417b7d5b634cde9d8fcf2957043c74"
 }
