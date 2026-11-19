@@ -76,13 +76,19 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 4,
-      "documents": 5,
+      "spent": 8,
+      "documents": 10,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
           "decision": "SEEK_EVIDENCE",
           "at": 1795063681803,
+          "cost": 4
+        },
+        {
+          "subject": "mx-4ee43bc0520eedd7c828",
+          "decision": "SEEK_EVIDENCE",
+          "at": 1795065167372,
           "cost": 4
         }
       ],
@@ -97,11 +103,12 @@
           {
             "subject": "mx-4ee43bc0520eedd7c828",
             "allocation": 4,
-            "spent": 0
+            "spent": 4
           }
         ],
         "winner": null,
-        "reserve": 160
+        "reserve": 160,
+        "authorizedFollowup": 0
       },
       "findings": [
         {
@@ -232,6 +239,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-4ee43bc0520eedd7c828",
+          "sector": 5,
+          "revision": "7e81df50838463843571a8ce8cb6a3f75fcd77a457766cd1a6696a97d280f9ea",
+          "phase": "DISCOVERY",
+          "policy": "indexed",
+          "crew": [
+            64742713,
+            35216343,
+            6490097
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL",
+              "refs": [
+                {
+                  "document": "mx-4ee43bc0520eedd7c828",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-84-2026",
+                  "sha256": "dc968b1f24a81e4f320f8768cd195a5301b8f02076fc5470606a3afbd749306d",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "MANTENIMIENTO Y REHABILITACIÓN DE LOS SISTEMAS DE TRANSPORTE DE GAS NATURAL DE L",
+              "refs": [
+                {
+                  "document": "mx-4ee43bc0520eedd7c828",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-84-2026",
+                  "sha256": "dc968b1f24a81e4f320f8768cd195a5301b8f02076fc5470606a3afbd749306d",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "MANTENIMIENTO Y REHABILITACIÓN DE LOS SISTEMAS DE TRANSPORTE DE GAS NATURAL DE L"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "LICITACIÓN PÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-4ee43bc0520eedd7c828",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-84-2026",
+                  "sha256": "dc968b1f24a81e4f320f8768cd195a5301b8f02076fc5470606a3afbd749306d",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "LICITACIÓN PÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795065167372,
+          "at": 1795065167372,
+          "chief": 1007968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-20d12f5e4c8e9a4734ae",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -247,5 +383,5 @@
       "close": null
     }
   },
-  "checkpoint": "d9cd3884b560fbb2e99e7ed89fdedd9dd31f889d0afaba55b2e9cec01ed1d56d"
+  "checkpoint": "ffd24df1bb4f5b721e825a7b47e2f7983d10be7402946aa52d25e0b2a5f1e1a8"
 }
