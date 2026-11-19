@@ -8,10 +8,10 @@
     "sha256Zip": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b"
   },
   "scope": "positive-net-invoicing-next-30-days",
-  "code": "e50b7f98cc04fff9300275da0680e677f2792eed",
+  "code": "65193065bfb0c772e40d2d737bdff46b7a077976",
   "exam": "37040931e4a18011eb375aec0a147f9b9674cf4d1b499ebe021084b78f8f9519",
   "decisionCommitment": "f305059f2d741f659b38298f9bb701a22b813287d7caec1d02e75bdc1dbab256",
-  "predictionsHash": "ac7fb53b69f66703c06aa121bf3c8c029a0d0c35f1262f37f4ca4b9690238eaf",
+  "predictionsHash": "c680ff77559eec5880f3ca5c3b2202ff9dc391116d3f07e5ed5f33572879200c",
   "cutoff": "2011-10-01",
   "trainCases": 896,
   "validation": {
@@ -51,7 +51,7 @@
       "creditCeiling": 2400,
       "creditsSpent": 240,
       "reads": 2400,
-      "elapsedMs": 323.070301,
+      "elapsedMs": 382.42193,
       "checkpoint": "98e168c95f74627524d36add10df8b6552e8578a365f3f83ffa30fe9d603468a"
     },
     "ten": {
@@ -65,7 +65,7 @@
       "creditCeiling": 2400,
       "creditsSpent": 2400,
       "reads": 2400,
-      "elapsedMs": 600.5699789999999,
+      "elapsedMs": 815.4780679999999,
       "checkpoint": "5b202a8176055c39aff265da8b5e54ed4a94a5917a5bd2770668677145ed0179"
     },
     "incumbent": {
@@ -79,7 +79,7 @@
       "creditCeiling": 2400,
       "creditsSpent": 240,
       "reads": 2400,
-      "elapsedMs": 196.61937899999998,
+      "elapsedMs": 285.728834,
       "checkpoint": "4b457b43322aa4d7b569576b0b600d7394c6379cbec06e3deb9ef0584bf9fcb7"
     }
   },
