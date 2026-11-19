@@ -111,7 +111,7 @@ function calculate(q, values) {
     q.op === "difference" ? values[0] - values[1] : values[0] * values[1];
   return Number.isSafeInteger(v) ? v : null;
 }
-function ref(doc, idx) {
+export function ref(doc, idx) {
   return {
     document: doc.id,
     source: doc.source,
@@ -119,7 +119,7 @@ function ref(doc, idx) {
     ...(doc.locators?.[idx] ?? { row: idx + 1 }),
   };
 }
-function assess(q, columns, first = false) {
+export function assess(q, columns, first = false) {
   const refs = columns.flat().map((x) => x.ref);
   const groups = columns.map((c) => new Set(c.map((x) => x.value)));
   if (!first && groups.some((g) => g.size > 1))

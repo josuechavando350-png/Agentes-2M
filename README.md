@@ -2,6 +2,24 @@
 
 Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón base contiene 100,000,000 de fundadores lógicos, diez millones por líder. Las réplicas certificadas se cuentan aparte. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
 
+## Consultas repartidas entre sectores
+
+`team_inquiry` permite que 1, 10 o 100 identidades vivas revisen los documentos admitidos de una misión. El motor C++17 asigna a cada agente un tramo exclusivo de filas, con hasta cuatro hilos de ejecución por solicitud. El titular de Diablo 666 ocupa el primer puesto. Los equipos de 10 y 100 distribuyen los demás puestos hasta tener el mismo número de participantes por sector. El recibo conserva el ID, la generación, la versión, el sector y el intervalo de cada participante. El Oráculo comprueba la cobertura y vuelve a calcular la conclusión y sus citas. El saldo y el dictamen se confirman juntos en SQLite.
+
+Para consultar un aviso admitido en la misión inaugural, obtén los identificadores actuales con `node src/cli.mjs mission` y `node src/cli.mjs mission-sources`. Este ejemplo usa una ficha de siete filas del historial público y por eso solicita un solo agente.
+
+```sh
+node src/cli.mjs request verificar-comprador <<'JSON'
+{"type":"team_inquiry","mission":"semana-inaugural","documents":["mx-21904339beeb2287248f"],"query":{"subject":"mx-21904339beeb2287248f","op":"lookup","fields":["buyer"]},"size":1,"rowBudget":7,"creditBudget":1}
+JSON
+```
+
+Una consulta acepta hasta 8,192 filas y requiere al menos una por participante. Cobra un crédito interno por participante que entrega. Si el jefe consume su último crédito, la identidad muere y se registra únicamente ese débito. El ciclo de la escuela solicita una verificación entre los diez sectores cuando hay un comprador documentado, suficientes filas y presupuesto. El dictamen incluye la fuente y la ubicación exacta del dato. Una ficha de licitación acredita lo que publicó la fuente. Una venta cobrada requiere su propio comprobante.
+
+`npm run bench:teams -- /ruta/estado-semar/escuela` compara los tres tamaños sobre 36 expedientes generados tras fijar el código. Cada equipo comienza en una copia privada del mismo checkpoint con un tope de 100 créditos y las mismas filas. El orden de los equipos rota. Las claves correctas se construyen antes de ejecutar el motor y exigen coincidencia de estado, valor y todas las citas. El informe distingue el tiempo del escaneo en C++ del tiempo hasta confirmar la transacción, incluido el reparto, la auditoría y la escritura. La prueba usa un solo servidor, proceso nativo precalentado y una solicitud a la vez. Para repetir los mismos expedientes, pasa la semilla publicada como segundo argumento después del directorio.
+
+[Comparación de equipos](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/equipos.json) · [Último dictamen de la misión](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/mando.json)
+
 ## Acciones en C++ y padrón materializado
 
 El proceso residente de C++17 ejecuta las ocho operaciones numéricas y la inferencia de hechos, negaciones y reglas. El servicio local verifica cada respuesta con el Oráculo independiente, conserva las cinco capacidades de Nexus en las entregas, descuenta el crédito y responde después del commit de SQLite en disco. Las operaciones de aprendizaje y los documentos comerciales conservan sus caminos especializados. Los tiempos de lectura de fuentes externas dependen del proveedor.

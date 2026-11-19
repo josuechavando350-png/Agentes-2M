@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <vector>
 
+std::string team_scan(std::istream& input);
 int snapshot(const char* path, unsigned threads);
 
 namespace {
@@ -48,6 +49,12 @@ void serve() {
     std::string line;
     while (std::getline(std::cin, line)) {
         try {
+            if (line.rfind("TEAM ", 0) == 0) {
+                if (line.size() > 2 * 1024 * 1024) throw std::runtime_error("Expediente demasiado grande");
+                std::istringstream packet(line.substr(5));
+                std::cout << team_scan(packet) << std::endl;
+                continue;
+            }
             if (line.size() > 65536) throw std::runtime_error("Tarea demasiado larga");
             std::istringstream in(line);
             const auto op = static_cast<semar::Op>(bounded(in, 0, 8));

@@ -1,3 +1,4 @@
+import { planTeam, finishTeam } from "./teams.mjs";
 import { createPublicKey, verify } from "node:crypto";
 import {
   canonical,
@@ -25,6 +26,7 @@ export const GOVERNED = new Set([
   "admit_source",
   "research",
   "inquire",
+  "team_inquiry",
   "pulse",
   "halt",
   "settlement_key",
@@ -101,6 +103,7 @@ function closeReport(g, m, at, why) {
     finance: money,
     simulationCost: m.spent,
     forecasts: calibrated,
+    ...(m.lastTeam ? { lastTeam: m.lastTeam } : {}),
     sectors: LEADERS.map((leader, i) => {
       const own = decisions.filter((f) => f.sector === i + 1),
         collected = calibrated.filter(
@@ -162,6 +165,7 @@ export function missionView(state, at) {
           spent: m.spent,
           documents: m.docs.length,
           pilots: m.pilots,
+          ...(m.lastTeam ? { lastTeam: m.lastTeam } : {}),
           portfolio: m.portfolio,
           findings: Object.values(m.findings),
           finance: finance(g, m),
@@ -424,7 +428,7 @@ function selection(g, m, at, policy) {
   );
   return options;
 }
-function allowance(m, at) {
+export function allowance(m, at) {
   const stages = { DISCOVERY: 0.25, VALIDATION: 0.7, COMMERCIAL: 1 };
   return Math.min(
     m.budget,
@@ -603,6 +607,14 @@ function research(state, m, at, chief, protocol) {
   return { result: { status: "RESEARCHED", finding }, actors };
 }
 
+export function teamPreparation(state, c, at) {
+  const g = state.gov,
+    m = g && lastMission(g),
+    chief = g && incumbent(state);
+  if (!m || phase(m, at) === "CLOSED" || !chief)
+    throw Error("Misión cerrada, inexistente o mando vacante");
+  return planTeam(state, m, chief, c, allowance(m, at) - m.spent);
+}
 export function decide(state, c, at, seal, protocol = 1) {
   integer(protocol, 1, 2, "versión de mando");
   const g = state.gov;
@@ -735,6 +747,8 @@ export function decide(state, c, at, seal, protocol = 1) {
       actors: [],
     };
   }
+  if (c.type === "team_inquiry")
+    return finishTeam(m, c, teamPreparation(state, c, at), seal);
   if (c.type === "inquire") {
     strict(c, ["type", "id", "generation", "version", "documents", "query"]);
     if (

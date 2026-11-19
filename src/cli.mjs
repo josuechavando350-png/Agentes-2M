@@ -125,6 +125,9 @@ try {
     case "aware":
       show(store.awareness(Number(args[0])));
       break;
+    case "mission-sources":
+      show(store.missionSources());
+      break;
     case "sources":
       show(await importSources(store, args[0]));
       break;
@@ -207,7 +210,7 @@ try {
     }
     default:
       throw Error(
-        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, aware, sources, restore-state, materialize, packed, serve o demo",
+        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, mission-sources, aware, sources, restore-state, materialize, packed, serve o demo",
       );
   }
 } catch (error) {

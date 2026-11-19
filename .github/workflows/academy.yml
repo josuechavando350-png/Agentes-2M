@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['.github/workflows/academy.yml', 'scripts/cycle.mjs', 'src/research.mjs', 'src/missions.mjs', 'native/**', 'src/native.mjs', 'src/packed.mjs', 'src/ledger.mjs', 'src/semar.mjs', 'scripts/latencia.mjs']
+    paths: ['.github/workflows/academy.yml', 'scripts/cycle.mjs', 'src/research.mjs', 'src/mission-cycle.mjs', 'src/teams.mjs', 'src/dossiers.mjs', 'scripts/equipos.mjs', 'src/missions.mjs', 'native/**', 'src/native.mjs', 'src/packed.mjs', 'src/ledger.mjs', 'src/semar.mjs', 'scripts/latencia.mjs']
 concurrency:
   group: escuela-semar-persistente
   cancel-in-progress: false
@@ -46,6 +46,10 @@ jobs:
         if: github.event.schedule != '37 * * * *'
         working-directory: engine
         run: node scripts/latencia.mjs ../state/escuela
+      - name: Comparar equipos en expedientes inéditos
+        if: github.event.schedule != '37 * * * *'
+        working-directory: engine
+        run: node scripts/equipos.mjs ../state/escuela
       - name: Guardar únicamente el estado auditado
         working-directory: state
         run: |
@@ -53,6 +57,7 @@ jobs:
           if test -f escuela/latencia.json; then
             git add -- escuela/latencia.json escuela/padron-100m.bin.gz
           fi
+          if test -f escuela/equipos.json; then git add -- escuela/equipos.json; fi
           if ! git diff --cached --quiet; then
             git config user.name 'SEMAR Escuela'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

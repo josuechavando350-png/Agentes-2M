@@ -1,3 +1,4 @@
+import { availableParallelism } from "node:os";
 import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
@@ -41,8 +42,30 @@ export class NativeWorker {
     });
     return child;
   }
-  async run(op, data) {
+  #send(fields) {
     if (this.#request) throw Error("Solicitud nativa pendiente");
+    const child = this.#child ?? this.#start();
+    return new Promise((resolve, reject) => {
+      this.#request = { resolve, reject };
+      child.stdin.write(fields.join(" ") + "\n");
+    });
+  }
+  async team(docs, query, members, rows) {
+    const lanes = Math.min(4, availableParallelism(), members);
+    const fields = [
+      "TEAM",
+      members,
+      lanes,
+      rows,
+      query.fields.length,
+      query.subject,
+      ...query.fields,
+    ];
+    for (const doc of docs)
+      for (const r of doc.rows) fields.push(r.subject, r.field);
+    return JSON.parse(await this.#send(fields));
+  }
+  async run(op, data) {
     const index = OPS.indexOf(op);
     let fields;
     if (op === "inference") {
@@ -55,11 +78,7 @@ export class NativeWorker {
       ];
       for (const r of data.rules) fields.push(r.then, r.if.length, ...r.if);
     } else fields = [index, data.length, ...data];
-    const child = this.#child ?? this.#start();
-    const line = await new Promise((resolve, reject) => {
-      this.#request = { resolve, reject };
-      child.stdin.write(fields.join(" ") + "\n");
-    });
+    const line = await this.#send(fields);
     if (op === "inference") {
       if (!["UNKNOWN", "SUPPORTED", "REFUTED", "CONFLICTED"].includes(line))
         throw Error("Veredicto nativo inválido");

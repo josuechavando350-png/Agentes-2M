@@ -16,6 +16,7 @@ try {
       "-Wall",
       "-Wextra",
       "native/main.cpp",
+      "native/team.cpp",
       "native/snapshot.cpp",
       "-lz",
       "-o",

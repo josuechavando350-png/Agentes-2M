@@ -1,5 +1,7 @@
 import { importSources, discoverTenders } from "./sources.mjs";
-import { HOUR } from "./missions.mjs";
+import { digest } from "./policy.mjs";
+import { MAX_TEAM_ROWS } from "./teams.mjs";
+import { HOUR, allowance } from "./missions.mjs";
 
 export async function runMission(s, { publicFeed = false, manifest } = {}) {
   await s.command("mando-diablo-666", { type: "install_government" });
@@ -61,5 +63,38 @@ export async function runMission(s, { publicFeed = false, manifest } = {}) {
       (m.phase === "CLOSED" ? "-cierre" : ""),
     { type: "pulse" },
   );
+  const current = s.mission().mission;
+  const sectorKey =
+    "consulta-sectorial-" + digest([current.id, current.start]).slice(0, 24);
+  let attempt = 0;
+  let prior = s.receipt(sectorKey);
+  while (prior && prior.status !== "TEAM_ANSWERED")
+    prior = s.receipt(sectorKey + "-" + ++attempt);
+  if (
+    current.phase !== "CLOSED" &&
+    !prior &&
+    allowance(current, s.clock()) - current.spent >= 10
+  ) {
+    const opportunity = current.findings.find(
+      (f) => f.facts.buyer?.refs.length,
+    );
+    const sources = s.missionSources(),
+      rows = sources.reduce((n, d) => n + d.rows, 0);
+    if (opportunity && rows >= 10 && rows <= MAX_TEAM_ROWS) {
+      await s.command(attempt ? sectorKey + "-" + attempt : sectorKey, {
+        type: "team_inquiry",
+        mission: current.id,
+        documents: sources.map((d) => d.id),
+        query: {
+          subject: opportunity.subject,
+          op: "lookup",
+          fields: ["buyer"],
+        },
+        size: 10,
+        rowBudget: rows,
+        creditBudget: 10,
+      });
+    }
+  }
   return { feed, latest: receipt.status, command: s.mission() };
 }

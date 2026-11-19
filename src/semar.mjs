@@ -3,6 +3,7 @@ import { NativeWorker } from "./native.mjs";
 import {
   ABSOLUTE,
   GOVERNED,
+  teamPreparation,
   incumbent,
   awareness,
   missionView,
@@ -203,6 +204,10 @@ export class Semar {
   agent(id) {
     return getAgent(this.#journal.read(), id);
   }
+  missionSources() {
+    const docs = this.#journal.read().gov?.missions.at(-1)?.docs ?? [];
+    return docs.map((d) => ({ id: d.id, rows: d.rows.length }));
+  }
   sourceRevision(id) {
     const doc = this.#journal
       .read()
@@ -280,13 +285,22 @@ export class Semar {
           );
         }
         if (GOVERNED.has(c.type)) {
-          const seal =
-            c.type === "contest"
-              ? await contestSeal(
-                  incumbent(state) ?? state.gov.roster[0],
-                  c.candidates,
-                )
-              : null;
+          let seal = null;
+          if (c.type === "contest")
+            seal = await contestSeal(
+              incumbent(state) ?? state.gov.roster[0],
+              c.candidates,
+            );
+          if (c.type === "team_inquiry") {
+            const plan = teamPreparation(state, c, now);
+            if (plan.members)
+              seal = await this.#native.team(
+                plan.docs,
+                c.query,
+                plan.members.length,
+                plan.rows,
+              );
+          }
           const { actors, result } = decide(
             { ...state, gov: structuredClone(state.gov) },
             c,
