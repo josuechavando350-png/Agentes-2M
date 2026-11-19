@@ -470,3 +470,30 @@ test("a hypothesis fitting every training example is rejected if the unseen outc
   assert.equal(s.status().population, INITIAL);
   assert.equal(s.audit().replicaCertificates, 0);
 });
+
+test("lab birth endowment is bounded, single-use and cannot revive a dead agent", async (t) => {
+  const { s } = await fixture(t, 0);
+  for (let i = 0; i < STIPEND; i++) await s.command("agotado-" + i, work(1));
+  const res = await s.command("nacimientos", { type: "reserve_births" });
+  assert.equal(res.amount, (CAP - INITIAL) * STIPEND);
+  assert.equal(s.agent(1).status, "DEAD");
+  assert.equal(s.agent(1).balance, 0);
+  await assert.rejects(
+    s.command("doble", { type: "reserve_births" }),
+    /constituida/,
+  );
+  assert.equal(s.audit().status, "VERIFIED");
+});
+test("extended curriculum checks all sixteen masks against an independent evaluator", async () => {
+  const { researchCase } = await import("../src/research.mjs");
+  const { experiment } = await import("../src/induction.mjs");
+  const results = Array.from({ length: 254 }, (_, n) =>
+    experiment(researchCase(n + 8), ["a", "b", "c", "d"]),
+  );
+  assert.equal(new Set(results.map((r) => r.policy.id)).size, 254);
+  assert.ok(results.some((r) => r.accepted));
+  for (const r of results.filter((r) => r.accepted)) {
+    assert.equal(r.exam.correct, 16);
+    assert.equal(r.exam.heldOutCorrect, 4);
+  }
+});

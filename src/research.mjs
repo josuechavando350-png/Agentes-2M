@@ -3,7 +3,19 @@ import { integer } from "./policy.mjs";
 // Small reproducible rulebooks for the independent school. External audited
 // dossiers use exactly the same synthesize and predict commands.
 export function researchCase(index) {
-  integer(index, 0, 7, "experimento");
+  integer(index, 0, 261, "experimento");
+  if (index >= 8) {
+    const table = index - 7; // 1..254: every nonconstant truth table over three active inputs.
+    const rules = [];
+    for (let row = 0; row < 8; row++)
+      if (table & (1 << row))
+        rules.push({
+          if: ["a", "c", "d"].map((v, i) => (row & (1 << i) ? "" : "!") + v),
+          then: "objetivo",
+          source: "currículo tabla " + table + " fila " + row,
+        });
+    return { facts: [], rules, query: "objetivo" };
+  }
   const conditions = [
     [["a"], ["c"]],
     [
@@ -32,9 +44,19 @@ export function researchCase(index) {
 }
 export async function researchRound(s, cycle) {
   integer(cycle, 1, 10_000_000, "ciclo");
-  const sample = researchCase((cycle - 1) % 8);
-  const teacher = 6_000_001 + (cycle % 490_000),
-    student = 6_500_001 + (cycle % 490_000);
+  const index = (cycle - 1) % 262;
+  const sample = researchCase(index);
+  const previous =
+    cycle > 2 ? s.receipt("investigacion-" + (cycle - 1) + "-salud") : null;
+  const teacher = previous?.first ?? 6_000_001 + (cycle % 490_000);
+  const sector = 1 + ((cycle + 7) % 10);
+  const predecessor =
+    cycle > 12 ? s.receipt("investigacion-" + (cycle - 10) + "-salud") : null;
+  const student =
+    cycle <= 2
+      ? 6_500_001 + (cycle % 490_000)
+      : (predecessor?.last ??
+        (sector - 1) * 1_000_000 + 1500 + (cycle % 400_000));
   const name = "investigacion-" + cycle;
   async function invoke(stage, id, fields) {
     const key = name + "-" + stage;
@@ -54,10 +76,19 @@ export async function researchRound(s, cycle) {
     data: sample,
   });
   if (job.status !== "APPROVED") return { cycle, status: job.status };
+  if (!s.agent(student).skills.includes("inference")) {
+    const prepared = await invoke("formacion", student, {
+      type: "work",
+      op: "inference",
+      data: sample,
+    });
+    if (prepared.status !== "APPROVED")
+      return { cycle, status: prepared.status };
+  }
   const evolved = await invoke("salud", student, {
     type: "synthesize",
     from: name + "-docente",
-    features: ["a", "b", "c"],
+    features: index < 8 ? ["a", "b", "c"] : ["a", "b", "c", "d"],
   });
   if (evolved.status !== "EVOLVED")
     return { cycle, status: evolved.status, exam: evolved.exam ?? null };

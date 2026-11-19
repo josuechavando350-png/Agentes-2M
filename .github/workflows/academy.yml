@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['.github/workflows/academy.yml']
+    paths: ['.github/workflows/academy.yml', 'scripts/cycle.mjs', 'src/research.mjs']
 concurrency:
   group: escuela-semar-persistente
   cancel-in-progress: false

@@ -194,6 +194,20 @@ export class Semar {
           );
         }
         if (!state.population) throw Error("Inicializa el padrón");
+        if (c.type === "reserve_births") {
+          strict(c, ["type"]);
+          if (state.hasEndowment)
+            throw Error("Dotación de incubación ya constituida");
+          const amount = Math.max(
+            0,
+            (CAP - state.population) * STIPEND - state.treasury,
+          );
+          return pack(1, [{ kind: "birth_endowment", amount }], {
+            status: "RESERVED",
+            amount,
+            unit: "créditos de simulación para nuevas identidades",
+          });
+        }
         if (c.type === "council") {
           strict(c, ["type", "sector", "op"]);
           integer(c.sector, 1, 10, "sector");
@@ -486,6 +500,7 @@ export class Semar {
       if (e.steps.filter((s) => s.kind === "agent" && s.spent).length > 1)
         throw Error("Cargo duplicado");
       for (const s of e.steps) {
+        if (s.kind === "birth_endowment") initialReserve += s.amount;
         if (s.kind === "genesis") {
           initialReserve = s.reserve;
           prior.population = s.size;

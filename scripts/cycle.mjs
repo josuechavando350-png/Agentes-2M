@@ -29,6 +29,7 @@ const log = gunzipSync(
 const s = new Semar(":memory:");
 try {
   s.restore(JSON.parse(log), meta.audit.tip);
+  await s.command("dotacion-unica-de-incubacion", { type: "reserve_births" });
   const cycle = (meta.cycle ?? 0) + 1;
   const status = s.status();
   if (

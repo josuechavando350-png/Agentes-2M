@@ -160,6 +160,17 @@ function applyStep(state, step, e) {
       state.population = step.size;
       state.treasury = step.reserve;
       break;
+    case "birth_endowment": {
+      const needed = Math.max(
+        0,
+        (CAP - state.population) * STIPEND - state.treasury,
+      );
+      if (!state.population || state.hasEndowment || step.amount !== needed)
+        throw Error("Dotación de nacimientos inválida");
+      state.hasEndowment = true;
+      state.treasury += step.amount;
+      break;
+    }
     case "agent":
       state.agents.set(step.agent.id, step.agent);
       state.spent += step.spent || 0;
