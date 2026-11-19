@@ -76,8 +76,8 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 36,
-      "documents": 12,
+      "spent": 40,
+      "documents": 13,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -866,6 +866,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-3ae52a864d8bcdfb41f1",
+          "sector": 7,
+          "revision": "abc519f342e14dc89b363284043ee2f971026e7c0047d5ddcbbccd1bb6a8bfce",
+          "phase": "DISCOVERY",
+          "policy": "indexed",
+          "crew": [
+            26733823,
+            27378892,
+            78539133
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "009000 - INFRAESTRUCTURA, COMUNICACIONES Y TRANSPORTES",
+              "refs": [
+                {
+                  "document": "mx-3ae52a864d8bcdfb41f1",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-994-2026",
+                  "sha256": "1870b646fc9fa42cf70355947ac2a9fc6434cd83d01189d9287f4cb9372560a7",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "009000 - INFRAESTRUCTURA, COMUNICACIONES Y TRANSPORTES"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "MIA REGIONAL Y ETJ EN EL ESTADO DE TABASCO",
+              "refs": [
+                {
+                  "document": "mx-3ae52a864d8bcdfb41f1",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-994-2026",
+                  "sha256": "1870b646fc9fa42cf70355947ac2a9fc6434cd83d01189d9287f4cb9372560a7",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "MIA REGIONAL Y ETJ EN EL ESTADO DE TABASCO"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-3ae52a864d8bcdfb41f1",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-994-2026",
+                  "sha256": "1870b646fc9fa42cf70355947ac2a9fc6434cd83d01189d9287f4cb9372560a7",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795099155463,
+          "at": 1795099155463,
+          "chief": 1007968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-49639d2b70e5c7ee9761",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -881,5 +1010,5 @@
       "close": null
     }
   },
-  "checkpoint": "28ded835b76525cd6b65d0d375e132d3b9417b7d5b634cde9d8fcf2957043c74"
+  "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959"
 }
