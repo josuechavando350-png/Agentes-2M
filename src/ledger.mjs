@@ -182,7 +182,13 @@ function applyStep(state, step, e) {
     case "government": {
       if (!state.gov || e.steps[0] !== step || digest(step.command) !== e.input)
         throw Error("Acta sin mandato");
-      const projected = decide(state, step.command, e.at, step.seal);
+      const projected = decide(
+        state,
+        step.command,
+        e.at,
+        step.seal,
+        step.protocol,
+      );
       const charges = governmentDebits(state, projected.actors);
       if (
         digest(projected.result) !== digest(e.result) ||

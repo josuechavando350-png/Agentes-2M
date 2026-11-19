@@ -1,5 +1,12 @@
 import { createPublicKey, verify } from "node:crypto";
-import { canonical, digest, integer, strict, LEADERS } from "./policy.mjs";
+import {
+  canonical,
+  digest,
+  integer,
+  strict,
+  INITIAL,
+  LEADERS,
+} from "./policy.mjs";
 import { getAgent, founderId } from "./ledger.mjs";
 import {
   freezeDocument,
@@ -282,7 +289,8 @@ function settlement(g, m, c, state) {
   g.records.push(r);
   return { status: "BOOKED", record: r, finance: finance(g, m) };
 }
-function eligible(state, sector, role, chiefId) {
+function eligible(state, sector, role, chiefId, assignment) {
+  if (assignment) return recruit(state, sector, role, chiefId, assignment);
   const g = state.gov;
   const candidates = Array.from({ length: 32 }, (_, i) =>
     getAgent(state, founderId(state, sector, 720 + role * 32 + i)),
@@ -295,6 +303,38 @@ function eligible(state, sector, role, chiefId) {
     return skill(b.id) - skill(a.id) || b.balance - a.balance || a.id - b.id;
   });
   return candidates[0];
+}
+// Sample a sector without materializing its millions of identities. Every
+// founder stripe can be selected, and each living cohort can send a specialist.
+function recruit(state, sector, role, chiefId, assignment) {
+  const ids = new Set();
+  const range =
+    (state.expansion ? INITIAL : state.genesisSize) / LEADERS.length;
+  const seed = digest({ assignment, sector, role });
+  function pick(tag, limit) {
+    return Number.parseInt(digest({ seed, tag }).slice(0, 12), 16) % limit;
+  }
+  for (let i = 0; i < 32; i++)
+    ids.add(founderId(state, sector, 1 + pick(i, range)));
+  const bands = state.bands.filter((b) => b.sector === sector);
+  if (bands.length) {
+    const band = bands[pick("cohorte", bands.length)];
+    ids.add(band.lo + pick("hija", band.hi - band.lo + 1));
+  }
+  const stats = state.gov.performance;
+  for (const [ref, history] of Object.entries(stats)) {
+    if (history.role !== role || history.sector !== sector) continue;
+    const [id, generation] = ref.split("@").map(Number);
+    if (getAgent(state, id).generation === generation) ids.add(id);
+  }
+  function score(a) {
+    const h = stats[a.id + "@" + a.generation];
+    return h?.role === role ? (h.correct + 1) / (h.attempts + 2) : 0.5;
+  }
+  return [...ids]
+    .map((id) => getAgent(state, id))
+    .filter((a) => a.status === "LIVE" && a.id !== chiefId && a.balance > 1)
+    .sort((a, b) => score(b) - score(a) || b.balance - a.balance)[0];
 }
 function probability(g, decision) {
   const past = g.missions
@@ -391,7 +431,7 @@ function allowance(m, at) {
     Math.max(4, Math.floor(m.budget * (stages[phase(m, at)] ?? 0))),
   );
 }
-function research(state, m, at, chief) {
+function research(state, m, at, chief, protocol) {
   const g = state.gov,
     options = selection(g, m, at, chief.policy);
   if (!options.length)
@@ -422,7 +462,15 @@ function research(state, m, at, chief) {
     options.find((o) => o.subject === preferred) ?? options[0];
   const sector = 1 + (Number.parseInt(digest(subject).slice(0, 6), 16) % 10);
   const crew = [0, 1, 2].map((role) =>
-    eligible(state, 1 + ((sector - 1 + role) % 10), role, chief.id),
+    eligible(
+      state,
+      1 + ((sector - 1 + role) % 10),
+      role,
+      chief.id,
+      protocol === 2
+        ? { mission: m.id, subject, revision, phase: phase(m, at) }
+        : null,
+    ),
   );
   if (crew.some((a) => !a))
     return { result: { status: "STAFF_LIMIT" }, actors: [] };
@@ -480,6 +528,10 @@ function research(state, m, at, chief) {
     const key = a.id + "@" + a.generation,
       score = (g.performance[key] ??= { correct: 0, attempts: 0 });
     const answer = [proof.proposer, proof.investigator, proof.referee][i];
+    if (protocol === 2) {
+      score.role = i;
+      score.sector = a.sector;
+    }
     score.attempts++;
     score.correct += Number(
       answer.status === proof.referee.status &&
@@ -551,7 +603,8 @@ function research(state, m, at, chief) {
   return { result: { status: "RESEARCHED", finding }, actors };
 }
 
-export function decide(state, c, at, seal) {
+export function decide(state, c, at, seal, protocol = 1) {
+  integer(protocol, 1, 2, "versión de mando");
   const g = state.gov;
   if (!g) throw Error("Instala el mando de SEMAR");
   const chief = incumbent(state);
@@ -755,7 +808,7 @@ export function decide(state, c, at, seal) {
         actors: [chief.id],
       };
     }
-    return research(state, m, at, chief);
+    return research(state, m, at, chief, protocol);
   }
   throw Error("Decisión desconocida");
 }

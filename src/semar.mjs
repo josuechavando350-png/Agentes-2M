@@ -273,11 +273,16 @@ export class Semar {
                   c.candidates,
                 )
               : null;
-          const { actors, result } = decide(state, c, now, seal);
+          const { actors, result } = decide(state, c, now, seal, 2);
           return pack(
             1,
             [
-              { kind: "government", command: c, ...(seal ? { seal } : {}) },
+              {
+                kind: "government",
+                protocol: 2,
+                command: c,
+                ...(seal ? { seal } : {}),
+              },
               ...governmentDebits(state, actors),
             ],
             result,

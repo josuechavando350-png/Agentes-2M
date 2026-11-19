@@ -124,6 +124,18 @@ test("mission chooses and funds two pilots, revises evidence, accounts one payme
   assert.equal(s.mission().mission.portfolio.winner, "alpha");
   assert.equal(s.mission().mission.spent, 8);
   assert.equal(new Set(alpha.finding.crew).size, 3);
+  assert.ok(
+    [...alpha.finding.crew, ...beta.finding.crew].some((id) => id > 10_000_000),
+  );
+  assert.equal(
+    new Set(alpha.finding.crew.map((id) => s.agent(id).sector)).size,
+    3,
+  );
+  assert.ok(
+    alpha.finding.crew.every(
+      (id, i) => s.awareness(id).specialtyRecord.role === i,
+    ),
+  );
   assert.ok(s.awareness(alpha.finding.crew[0]).commitments.length);
   const { privateKey, publicKey } = generateKeyPairSync("ed25519");
   await cmd({
