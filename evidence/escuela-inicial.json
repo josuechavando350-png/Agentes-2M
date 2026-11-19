@@ -1,0 +1,185 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "op": "minimum",
+      "status": "COMPLETED",
+      "teacher": 1,
+      "student": 1000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10000001,
+      "leaders": 10
+    },
+    {
+      "round": 2,
+      "op": "maximum",
+      "status": "COMPLETED",
+      "teacher": 1000001,
+      "student": 2000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10000667,
+      "leaders": 10
+    },
+    {
+      "round": 3,
+      "op": "range",
+      "status": "COMPLETED",
+      "teacher": 2000001,
+      "student": 3000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10001333,
+      "leaders": 10
+    },
+    {
+      "round": 4,
+      "op": "median",
+      "status": "COMPLETED",
+      "teacher": 3000001,
+      "student": 4000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10001999,
+      "leaders": 10
+    },
+    {
+      "round": 5,
+      "op": "bestRun",
+      "status": "COMPLETED",
+      "teacher": 4000001,
+      "student": 5000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10002665,
+      "leaders": 10
+    },
+    {
+      "round": 6,
+      "op": "nonAdjacent",
+      "status": "COMPLETED",
+      "teacher": 5000001,
+      "student": 6000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10003331,
+      "leaders": 10
+    },
+    {
+      "round": 7,
+      "op": "inference",
+      "status": "COMPLETED",
+      "teacher": 6000001,
+      "student": 7000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10003997,
+      "leaders": 10
+    },
+    {
+      "round": 8,
+      "op": "minimum",
+      "status": "COMPLETED",
+      "teacher": 7000001,
+      "student": 8000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10004663,
+      "leaders": 10
+    },
+    {
+      "round": 9,
+      "op": "maximum",
+      "status": "COMPLETED",
+      "teacher": 8000001,
+      "student": 9000001,
+      "version": 2,
+      "replicas": 666,
+      "child": 10005329,
+      "leaders": 10
+    },
+    {
+      "round": 10,
+      "op": "range",
+      "status": "COMPLETED",
+      "teacher": 9000001,
+      "student": 1,
+      "version": 2,
+      "replicas": 666,
+      "child": 10005995,
+      "leaders": 10
+    }
+  ],
+  "status": {
+    "population": 10006660,
+    "live": 10006660,
+    "dead": 0,
+    "treasury": 66600,
+    "spent": 30,
+    "unit": "créditos simulados",
+    "cap": 1000000000000,
+    "events": 41,
+    "tip": "968d0d6392bfddfd084de83ff5ed5efd998c8f725f43dd7537c8e1b98bfe6ac2",
+    "leaders": [
+      {
+        "id": "L1",
+        "sector": "Coordinación",
+        "supreme": true
+      },
+      {
+        "id": "L2",
+        "sector": "Salud",
+        "supreme": false
+      },
+      {
+        "id": "L3",
+        "sector": "Educación",
+        "supreme": false
+      },
+      {
+        "id": "L4",
+        "sector": "Ciencia",
+        "supreme": false
+      },
+      {
+        "id": "L5",
+        "sector": "Industria",
+        "supreme": false
+      },
+      {
+        "id": "L6",
+        "sector": "Energía",
+        "supreme": false
+      },
+      {
+        "id": "L7",
+        "sector": "Logística",
+        "supreme": false
+      },
+      {
+        "id": "L8",
+        "sector": "Finanzas",
+        "supreme": false
+      },
+      {
+        "id": "L9",
+        "sector": "Infraestructura",
+        "supreme": false
+      },
+      {
+        "id": "L10",
+        "sector": "Tecnología",
+        "supreme": false
+      }
+    ]
+  },
+  "audit": {
+    "status": "VERIFIED",
+    "deliveries": 30,
+    "replicaCertificates": 6660,
+    "registeredReplicas": 6660,
+    "events": 41,
+    "tip": "968d0d6392bfddfd084de83ff5ed5efd998c8f725f43dd7537c8e1b98bfe6ac2"
+  }
+}
