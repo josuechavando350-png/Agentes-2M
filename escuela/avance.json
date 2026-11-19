@@ -1,36 +1,36 @@
 {
-  "cycle": 8,
-  "parentTip": "ffd24df1bb4f5b721e825a7b47e2f7983d10be7402946aa52d25e0b2a5f1e1a8",
+  "cycle": 9,
+  "parentTip": "3736d1a491b9f4b238b73990889aa5e4b2212c895071c61835b2f545eb533834",
   "result": {
-    "cycle": 8,
+    "cycle": 9,
     "status": "COMPLETED",
-    "id": "0386072ab5cfd2f34f6671f6dfe03d3a4f4bde4702c1c902381f36864c559fab",
+    "id": "5a7f7356bd001240b34f2d16db44732400c3bec015eddf0a15803df1385674c8",
     "exam": {
-      "training": 6,
-      "heldOut": 2,
-      "heldOutCorrect": 2,
-      "total": 8,
-      "correct": 8,
-      "baselineCorrect": 6,
-      "nodes": 5
+      "training": 12,
+      "heldOut": 4,
+      "heldOutCorrect": 4,
+      "total": 16,
+      "correct": 16,
+      "baselineCorrect": 14,
+      "nodes": 7
     },
-    "first": 100021313,
-    "last": 100021978,
+    "first": 100021979,
+    "last": 100022644,
     "replicas": 666,
     "childValue": "UNKNOWN"
   },
   "status": {
-    "population": 100021978,
+    "population": 100022644,
     "founders": 100000000,
     "foundersPerSector": 10000000,
-    "live": 100021978,
+    "live": 100022644,
     "dead": 0,
-    "treasury": 9998999780220,
-    "spent": 89,
+    "treasury": 9998999773560,
+    "spent": 96,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 102,
-    "tip": "3736d1a491b9f4b238b73990889aa5e4b2212c895071c61835b2f545eb533834",
+    "events": 107,
+    "tip": "b13a0b943a402cef375b20a76e24fda6b5a4d92b6744e32412abce65d967fe3a",
     "absolute": {
       "name": "Diablo 666",
       "holder": {
@@ -94,11 +94,11 @@
   },
   "audit": {
     "status": "VERIFIED",
-    "deliveries": 63,
-    "blindPromotions": 8,
-    "replicaCertificates": 21978,
-    "registeredReplicas": 21978,
-    "events": 102,
-    "tip": "3736d1a491b9f4b238b73990889aa5e4b2212c895071c61835b2f545eb533834"
+    "deliveries": 65,
+    "blindPromotions": 9,
+    "replicaCertificates": 22644,
+    "registeredReplicas": 22644,
+    "events": 107,
+    "tip": "b13a0b943a402cef375b20a76e24fda6b5a4d92b6744e32412abce65d967fe3a"
   }
 }

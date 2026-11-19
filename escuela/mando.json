@@ -76,7 +76,7 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 18,
+      "spent": 22,
       "documents": 11,
       "pilots": [
         {
@@ -408,6 +408,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-20d12f5e4c8e9a4734ae",
+          "sector": 2,
+          "revision": "a0b8c1d5ec8eca18206cbab98d3a4e33a9f9b06f8f26428ff7964a2a59c7b950",
+          "phase": "DISCOVERY",
+          "policy": "indexed",
+          "crew": [
+            31847994,
+            92012799,
+            93836855
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "009000 - INFRAESTRUCTURA, COMUNICACIONES Y TRANSPORTES",
+              "refs": [
+                {
+                  "document": "mx-20d12f5e4c8e9a4734ae",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-993-2026",
+                  "sha256": "1549c5d66d10893a44dcae1550c5e71666660cdea8ab78b0a7e60e67f6f740fd",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "009000 - INFRAESTRUCTURA, COMUNICACIONES Y TRANSPORTES"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "MIA REGIONAL Y ETJ CARRETERA MEX 200 SALINA CRUZ – ZIHUATANEJO, TRAMO KM 16+220",
+              "refs": [
+                {
+                  "document": "mx-20d12f5e4c8e9a4734ae",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-993-2026",
+                  "sha256": "1549c5d66d10893a44dcae1550c5e71666660cdea8ab78b0a7e60e67f6f740fd",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "MIA REGIONAL Y ETJ CARRETERA MEX 200 SALINA CRUZ – ZIHUATANEJO, TRAMO KM 16+220"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-20d12f5e4c8e9a4734ae",
+                  "source": "https://postor.com.mx/invitacion/io-09-210-009000999-n-993-2026",
+                  "sha256": "1549c5d66d10893a44dcae1550c5e71666660cdea8ab78b0a7e60e67f6f740fd",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795069730020,
+          "at": 1795069730020,
+          "chief": 1007968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-20d12f5e4c8e9a4734ae",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -423,5 +552,5 @@
       "close": null
     }
   },
-  "checkpoint": "3736d1a491b9f4b238b73990889aa5e4b2212c895071c61835b2f545eb533834"
+  "checkpoint": "b13a0b943a402cef375b20a76e24fda6b5a4d92b6744e32412abce65d967fe3a"
 }
