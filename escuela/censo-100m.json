@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "checkpoint": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba",
+  "admission": {
+    "status": "EXPANDED",
+    "founders": 100000000,
+    "added": 90000000,
+    "lo": 10009325,
+    "hi": 100009324,
+    "credits": 900000000
+  },
+  "founders": 100000000,
+  "scan": {
+    "first": 1,
+    "last": 100016650,
+    "identities": 100016650,
+    "live": 100016650,
+    "simulationCredits": 1000166445,
+    "sectors": [
+      {
+        "leader": "L1",
+        "name": "Coordinación",
+        "identities": 10002664,
+        "founders": 10000000,
+        "replicas": 2664,
+        "passed": 10002664
+      },
+      {
+        "leader": "L2",
+        "name": "Salud",
+        "identities": 10002664,
+        "founders": 10000000,
+        "replicas": 2664,
+        "passed": 10002664
+      },
+      {
+        "leader": "L3",
+        "name": "Educación",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L4",
+        "name": "Ciencia",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L5",
+        "name": "Industria",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L6",
+        "name": "Energía",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L7",
+        "name": "Logística",
+        "identities": 10001998,
+        "founders": 10000000,
+        "replicas": 1998,
+        "passed": 10001998
+      },
+      {
+        "leader": "L8",
+        "name": "Finanzas",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L9",
+        "name": "Infraestructura",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      },
+      {
+        "leader": "L10",
+        "name": "Tecnología",
+        "identities": 10001332,
+        "founders": 10000000,
+        "replicas": 1332,
+        "passed": 10001332
+      }
+    ],
+    "sha256": "8bdfeb8c310fa78ef73bb47a708547308a3ee6ce9e85f0f8875ad0d3e2db23d3",
+    "tested": 100016650,
+    "byMethod": {
+      "minimum": 20003996,
+      "maximum": 20003996,
+      "range": 20002664,
+      "median": 10001332,
+      "bestRun": 10001332,
+      "nonAdjacent": 10001332,
+      "inference": 10001998
+    }
+  },
+  "sectors": [
+    {
+      "leader": "L1",
+      "id": 10009325,
+      "conclusion": "CONFLICTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "f4afc15584a5b306bc606b0f3f54edc3cfdf07f571b025837b11be485cf710c5"
+    },
+    {
+      "leader": "L2",
+      "id": 11009325,
+      "conclusion": "SUPPORTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "7513880f680ed9370ead932a85d8133bddca2a83267e6884c8d6b3a0b4448ef1"
+    },
+    {
+      "leader": "L3",
+      "id": 12009325,
+      "conclusion": "UNKNOWN",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "4be261553d40e86157da25a8ca93afb0c7f38ba2b047db74238f6b592ea01cbe"
+    },
+    {
+      "leader": "L4",
+      "id": 13009325,
+      "conclusion": "CONFLICTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "f4afc15584a5b306bc606b0f3f54edc3cfdf07f571b025837b11be485cf710c5"
+    },
+    {
+      "leader": "L5",
+      "id": 14009325,
+      "conclusion": "SUPPORTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "7513880f680ed9370ead932a85d8133bddca2a83267e6884c8d6b3a0b4448ef1"
+    },
+    {
+      "leader": "L6",
+      "id": 15009325,
+      "conclusion": "UNKNOWN",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "4be261553d40e86157da25a8ca93afb0c7f38ba2b047db74238f6b592ea01cbe"
+    },
+    {
+      "leader": "L7",
+      "id": 16009325,
+      "conclusion": "CONFLICTED",
+      "version": 1,
+      "replicas": 0,
+      "evidence": "f4afc15584a5b306bc606b0f3f54edc3cfdf07f571b025837b11be485cf710c5"
+    },
+    {
+      "leader": "L8",
+      "id": 17009325,
+      "conclusion": "SUPPORTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "7513880f680ed9370ead932a85d8133bddca2a83267e6884c8d6b3a0b4448ef1"
+    },
+    {
+      "leader": "L9",
+      "id": 18009325,
+      "conclusion": "UNKNOWN",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "4be261553d40e86157da25a8ca93afb0c7f38ba2b047db74238f6b592ea01cbe"
+    },
+    {
+      "leader": "L10",
+      "id": 19009325,
+      "conclusion": "CONFLICTED",
+      "version": 2,
+      "replicas": 666,
+      "evidence": "f4afc15584a5b306bc606b0f3f54edc3cfdf07f571b025837b11be485cf710c5"
+    }
+  ]
+}

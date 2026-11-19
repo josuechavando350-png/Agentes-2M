@@ -1,10 +1,10 @@
 {
-  "cycle": 3,
-  "parentTip": "be502ad5ceefbd23fd7e6bb2c1fb1a50dace0d8b72a3e0132bf71ded09f56b68",
+  "cycle": 4,
+  "parentTip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f",
   "result": {
-    "cycle": 3,
+    "cycle": 4,
     "status": "COMPLETED",
-    "id": "5cbd0290c3c8e531b444529401586efe1482fe450dd3ec96c3a9920d13d71141",
+    "id": "0f9a337a6d70248d7b71cb1a7300b87c4090f550c52047b30ba0382e76ce8b80",
     "exam": {
       "training": 6,
       "heldOut": 2,
@@ -14,21 +14,23 @@
       "baselineCorrect": 6,
       "nodes": 5
     },
-    "first": 10008659,
-    "last": 10009324,
+    "first": 100015985,
+    "last": 100016650,
     "replicas": 666,
-    "childValue": "SUPPORTED"
+    "childValue": "UNKNOWN"
   },
   "status": {
-    "population": 10009324,
-    "live": 10009324,
+    "population": 100016650,
+    "founders": 100000000,
+    "foundersPerSector": 10000000,
+    "live": 100016650,
     "dead": 0,
-    "treasury": 9999899906760,
-    "spent": 40,
+    "treasury": 9998999833500,
+    "spent": 55,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 52,
-    "tip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f",
+    "events": 69,
+    "tip": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba",
     "leaders": [
       {
         "id": "L1",
@@ -84,10 +86,10 @@
   },
   "audit": {
     "status": "VERIFIED",
-    "deliveries": 37,
-    "replicaCertificates": 9324,
-    "registeredReplicas": 9324,
-    "events": 52,
-    "tip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f"
+    "deliveries": 51,
+    "replicaCertificates": 16650,
+    "registeredReplicas": 16650,
+    "events": 69,
+    "tip": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba"
   }
 }
