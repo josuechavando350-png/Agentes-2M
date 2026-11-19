@@ -76,8 +76,8 @@
       "phase": "DISCOVERY",
       "sealed": false,
       "budget": 168,
-      "spent": 8,
-      "documents": 10,
+      "spent": 18,
+      "documents": 11,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -92,6 +92,46 @@
           "cost": 4
         }
       ],
+      "lastTeam": {
+        "revision": "7b5ccea4f2626da3850c4f03f707d877c3f7679db52031c1e73ea6c55435804d",
+        "query": {
+          "subject": "mx-21904339beeb2287248f",
+          "op": "lookup",
+          "fields": [
+            "buyer"
+          ]
+        },
+        "size": 10,
+        "rows": 77,
+        "credits": 10,
+        "lanes": 4,
+        "sectors": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          1
+        ],
+        "answer": {
+          "status": "SUPPORTED",
+          "value": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL",
+          "refs": [
+            {
+              "document": "mx-21904339beeb2287248f",
+              "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-83-2026",
+              "sha256": "373d843111b034ff42f39b4772e65fc8df3a5244895ae50f142d8ca8cc2173b3",
+              "row": 1,
+              "pointer": "/dependencia",
+              "quote": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL"
+            }
+          ]
+        }
+      },
       "portfolio": {
         "opened": 1795063681803,
         "arms": [
@@ -383,5 +423,5 @@
       "close": null
     }
   },
-  "checkpoint": "ffd24df1bb4f5b721e825a7b47e2f7983d10be7402946aa52d25e0b2a5f1e1a8"
+  "checkpoint": "3736d1a491b9f4b238b73990889aa5e4b2212c895071c61835b2f545eb533834"
 }
