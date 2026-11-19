@@ -1,3 +1,4 @@
+import { businessOutcomes, commercialQueue } from "./business.mjs";
 import { rosterLayout } from "./packed.mjs";
 import { NativeWorker } from "./native.mjs";
 import {
@@ -204,6 +205,17 @@ export class Semar {
   }
   agent(id) {
     return getAgent(this.#journal.read(), id);
+  }
+  businessQueue() {
+    return commercialQueue(this.#journal.read().gov?.missions.at(-1));
+  }
+  businessHistory() {
+    const g = this.#journal.read().gov;
+    return structuredClone(
+      g?.missions.flatMap((m) =>
+        businessOutcomes(g, m).map((r) => ({ mission: m.id, ...r })),
+      ) ?? [],
+    );
   }
   missionSources() {
     const docs = this.#journal.read().gov?.missions.at(-1)?.docs ?? [];

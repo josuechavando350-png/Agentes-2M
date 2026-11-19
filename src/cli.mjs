@@ -1,3 +1,5 @@
+import { admittedModel, allocate, accountForecast } from "./account-market.mjs";
+import { digest } from "./policy.mjs";
 import { join } from "node:path";
 import { materialize, openPacked } from "./packed.mjs";
 import {
@@ -130,6 +132,55 @@ try {
       break;
     case "aware":
       show(store.awareness(Number(args[0])));
+      break;
+    case "account-rank": {
+      const [report, policy, rows] = args
+        .slice(0, 3)
+        .map((p) => JSON.parse(readFileSync(p, "utf8")));
+      const model = admittedModel(policy, report),
+        size = Number(args[3] ?? 1);
+      const mission = store.mission()?.mission;
+      if (!mission || mission.phase === "CLOSED" || ![1, 10].includes(size))
+        throw Error("Se requiere una misión abierta y equipo de 1 o 10");
+      if (
+        !Array.isArray(rows) ||
+        !rows.length ||
+        rows.length > 8192 ||
+        new Set(rows.map((r) => r.id)).size !== rows.length
+      )
+        throw Error("Cuentas incompletas o duplicadas");
+      const forecasts = [];
+      for (const row of rows) accountForecast(row, model, [1]);
+      for (const row of rows) {
+        const c = {
+          type: "account_prediction",
+          mission: mission.id,
+          size,
+          row,
+          model,
+        };
+        const base = "cuenta-" + digest(c).slice(0, 40);
+        let key = base,
+          retry = 0;
+        while (
+          ["STAFF_LIMIT", "BUDGET_LIMIT"].includes(store.receipt(key)?.status)
+        )
+          key = base + "-" + ++retry;
+        const r = await store.command(key, c);
+        if (r.status !== "ACCOUNT_FORECAST")
+          throw Error(
+            r.status + " tras " + forecasts.length + " cuentas confirmadas",
+          );
+        forecasts.push(r.detail);
+      }
+      show(allocate(forecasts));
+      break;
+    }
+    case "business-queue":
+      show(store.businessQueue());
+      break;
+    case "business-history":
+      show(store.businessHistory());
       break;
     case "mission-sources":
       show(store.missionSources());

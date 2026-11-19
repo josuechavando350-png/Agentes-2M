@@ -1,7 +1,7 @@
 import { importSources, discoverTenders } from "./sources.mjs";
 import { digest } from "./policy.mjs";
 import { MAX_TEAM_ROWS } from "./teams.mjs";
-import { HOUR, allowance } from "./missions.mjs";
+import { HOUR, allowance, phase } from "./missions.mjs";
 
 export async function runMission(s, { publicFeed = false, manifest } = {}) {
   await s.command("mando-diablo-666", { type: "install_government" });
@@ -93,6 +93,31 @@ export async function runMission(s, { publicFeed = false, manifest } = {}) {
         size: 10,
         rowBudget: rows,
         creditBudget: 10,
+      });
+    }
+  }
+  const candidate = s.businessQueue()[0];
+  const subject = candidate?.subject;
+  if (
+    subject &&
+    current.phase !== "CLOSED" &&
+    !(current.business ?? []).some(
+      (r) => phase(current, r.latest.at) === current.phase,
+    )
+  ) {
+    const budget = s.mission().mission;
+    if (allowance(budget, s.clock()) - budget.spent >= 10) {
+      const key =
+        "dictamen-" +
+        digest([current.id, current.start, subject, candidate.revision]).slice(
+          0,
+          32,
+        );
+      await s.command(key, {
+        type: "business_review",
+        mission: current.id,
+        subject,
+        size: 10,
       });
     }
   }

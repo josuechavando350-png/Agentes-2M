@@ -1,3 +1,5 @@
+import { accountForecast } from "./account-market.mjs";
+import { commercialReview, businessOutcomes } from "./business.mjs";
 import { planTeam, finishTeam } from "./teams.mjs";
 import { createPublicKey, verify } from "node:crypto";
 import {
@@ -26,6 +28,10 @@ export const GOVERNED = new Set([
   "open_mission",
   "admit_source",
   "research",
+  "business_review",
+  "account_prediction",
+  "pilot_feedback",
+  "business_settlement",
   "inquire",
   "team_inquiry",
   "dispatch_inquiry",
@@ -105,6 +111,7 @@ function closeReport(g, m, at, why) {
     finance: money,
     simulationCost: m.spent,
     forecasts: calibrated,
+    ...(m.business ? { business: businessOutcomes(g, m) } : {}),
     ...(m.lastTeam ? { lastTeam: m.lastTeam } : {}),
     sectors: LEADERS.map((leader, i) => {
       const own = decisions.filter((f) => f.sector === i + 1),
@@ -167,6 +174,7 @@ export function missionView(state, at) {
           spent: m.spent,
           documents: m.docs.length,
           pilots: m.pilots,
+          ...(m.business ? { business: businessOutcomes(g, m) } : {}),
           ...(m.lastTeam ? { lastTeam: m.lastTeam } : {}),
           portfolio: m.portfolio,
           findings: Object.values(m.findings),
@@ -257,7 +265,8 @@ function settlement(g, m, c, state) {
   label(r.reference, 120);
   if (
     r.mission !== m.id ||
-    !Object.hasOwn(m.findings, r.subject) ||
+    (!Object.hasOwn(m.findings, r.subject) &&
+      !Object.hasOwn(m.business ?? {}, r.subject)) ||
     r.currency !== "MXN" ||
     !["estimate", "quote", "order", "paid", "expense"].includes(r.stage)
   )
@@ -751,6 +760,58 @@ export function decide(state, c, at, seal, protocol = 1) {
       return { result: { status: "CLOSED", report: m.closed }, actors: [] };
     }
   }
+  if (c.type === "business_settlement") {
+    const target = g.missions.find((x) => x.id === c.record?.mission);
+    if (!target || !Object.hasOwn(target.business ?? {}, c.record?.subject))
+      throw Error("Se requiere dictamen comercial");
+    return { result: settlement(g, target, c, state), actors: [] };
+  }
+  if (c.type === "pilot_feedback") {
+    strict(c, ["type", "record", "signature"]);
+    const r = c.record;
+    const m = g.missions.find((x) => x.id === r?.mission);
+    if (!m) throw Error("Misión desconocida");
+    strict(r, ["mission", "subject", "review", "stage", "reference"]);
+    token(r.subject);
+    label(r.reference, 120);
+    const entry = Object.hasOwn(m.business ?? {}, r.subject)
+      ? m.business[r.subject]
+      : null;
+    if (
+      !entry ||
+      r.mission !== m.id ||
+      !g.key ||
+      typeof c.signature !== "string" ||
+      !verify(
+        null,
+        Buffer.from(canonical(r)),
+        g.key,
+        Buffer.from(c.signature, "base64"),
+      )
+    )
+      throw Error("Falta constancia comercial firmada");
+    const previous = entry.feedback.at(-1);
+    const expected = previous
+      ? ({
+          sent: ["replied", "accepted", "declined"],
+          replied: ["accepted", "declined"],
+        }[previous.stage] ?? [])
+      : ["sent"];
+    const offerId = previous?.review ?? digest(entry.latest);
+    if (
+      r.review !== offerId ||
+      (!previous && !entry.latest.offer) ||
+      !expected.includes(r.stage) ||
+      g.missions.some((x) =>
+        Object.values(x.business ?? {}).some((b) =>
+          b.feedback.some((f) => f.reference === r.reference),
+        ),
+      )
+    )
+      throw Error("Etapa, referencia u oferta inválida");
+    entry.feedback.push({ ...r, at });
+    return { result: { status: "PILOT_RECORDED", stage: r.stage }, actors: [] };
+  }
   if (!chief) throw Error("Mando vacante, se requiere concurso");
   if (c.type === "settlement_key") {
     strict(c, ["type", "publicKey"]);
@@ -794,6 +855,39 @@ export function decide(state, c, at, seal, protocol = 1) {
         revision: doc.revision,
       },
       actors: [],
+    };
+  }
+  if (c.type === "account_prediction" || c.type === "business_review") {
+    if (c.mission !== m.id || ![1, 10].includes(c.size))
+      throw Error("Misión o tamaño inválido");
+    if (c.type === "account_prediction")
+      strict(c, ["type", "mission", "size", "row", "model"]);
+    const target = c.type === "business_review" ? c.subject : c.row.id;
+    token(target);
+    if (m.spent + c.size > allowance(m, at))
+      return { result: { status: "BUDGET_LIMIT" }, actors: [] };
+    const assignment = { mission: m.id, target, kind: c.type };
+    const crew = Array.from({ length: c.size }, (_, i) =>
+      recruit(state, i + 1, i, chief.id, assignment),
+    );
+    if (crew.some((a) => !a))
+      return { result: { status: "STAFF_LIMIT" }, actors: [] };
+    const actors = crew.map((a) => a.id);
+    const detail =
+      c.type === "account_prediction"
+        ? accountForecast(c.row, c.model, actors)
+        : commercialReview(state, m, c, actors, at);
+    m.spent += actors.length;
+    return {
+      result: {
+        status:
+          c.type === "account_prediction"
+            ? "ACCOUNT_FORECAST"
+            : "BUSINESS_REVIEWED",
+        detail,
+        credits: actors.length,
+      },
+      actors,
     };
   }
   if (c.type === "dispatch_inquiry")

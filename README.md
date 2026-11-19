@@ -197,3 +197,30 @@ También se puede transportar un lote entre máquinas desconectadas. En la base 
 La prueba pública reparte expedientes distintos en cuatro máquinas de GitHub y coteja cada respuesta, valor, cita, actor y débito antes de publicar. Compara también uno y cuatro procesos persistentes en un solo servidor con las mismas fuentes. El tiempo entre máquinas incluye la espera de runners, el transporte de archivos y la confirmación en SQLite. El tiempo de cada consulta dentro de un servidor se mide con un reloj monotónico. El informe incluye el costo por respuesta en créditos internos y segundos de trabajador durante el escaneo. El importe facturado en moneda requiere la factura del operador. Los datos de prueba viven en una copia del padrón.
 
 [Medición entre servidores](https://github.com/josuechavando350-png/Agentes-2M/blob/evidencia-reparto/reparto.json) · [Ejecuciones de la prueba](https://github.com/josuechavando350-png/Agentes-2M/actions/workflows/reparto.yml)
+
+## Investigación comercial y examen histórico
+
+El comando `node src/cli.mjs business-queue` ordena oportunidades nuevas o revisadas según el gasto previo documentado del comprador. Una misión abierta acepta `{"type":"business_review","mission":"semana-inaugural","subject":"proveedor","size":10}` por `request` o `serve`. Se puede elegir tamaño 1 o 10. Cada puesto cobra un crédito interno. Los diez puestos corresponden a sectores diferentes. El ciclo automático revisa como máximo una oportunidad nueva por fase cuando dispone de presupuesto.
+
+Las fuentes autorizadas pueden declarar los campos `buyer`, `prior_spend_mxn_cents`, `authority`, `alternative`, `access` (`yes` o `no`), `scope`, `price_mxn_cents`, `cost_mxn_cents`, `delivery_days` y `acceptance`. Los importes son enteros en centavos de pesos mexicanos. El dictamen cita cada dato, busca contradicciones y propone la pregunta que podría cambiar la decisión al menor esfuerzo estimado. Acceso indispensable denegado o margen documentado no positivo llevan a abandonar. Para redactar una oferta se exigen los diez datos válidos. El borrador incluye precio, alcance, plazo y criterio de aceptación.
+
+`business-history` muestra la primera previsión, la última revisión y las observaciones documentadas. `pilot_feedback` admite un `record` con `mission, subject, review, stage, reference` y la firma Ed25519 de tesorería sobre el JSON canónico. `review` es la huella de la revisión que produjo el borrador. Las etapas son `sent`, `replied`, `accepted` y `declined`. El operador registra acciones externas que ya ocurrieron. `business_settlement` admite el mismo comprobante firmado que `commerce` y permite conciliar posteriormente un cobro o gasto de una misión cerrada. La ausencia de respuesta queda pendiente. El sistema calcula la frecuencia de pago con casos anteriores que tienen cobro registrado o rechazo explícito y conserva el tamaño de esa muestra.
+
+El examen predice **facturación neta positiva durante los siguientes 30 días** para cuentas con compras previas. Usa *Online Retail* de Daqing Chen, UCI, [DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33), [licencia CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). La transformación agrupa partidas por factura, incorpora cancelaciones, excluye filas sin comprador identificable o con precio no positivo y calcula diez señales de los 90 días previos en moneda original. Las referencias apuntan a factura y primera fila del archivo original. Entrenamiento, validación y prueba usan fechas y compradores distintos. La selección de cuentas usa identificadores anonimizados antes de abrir los resultados futuros.
+
+Se compara la política de antigüedad de la última compra con una regresión logística de diez señales. Un agente y diez representantes reciben los mismos datos, oportunidades para piloto (20 %), investigación (40 %), lecturas y tope de créditos. Cada representante calcula su contribución al mismo modelo. Se miden precisión de priorización, oportunidades descartadas que volvieron a comprar, error de probabilidad Brier y gasto interno. Las decisiones se congelan en un trabajo separado antes de que el evaluador abra los desenlaces. Salud solo admite la candidata para esta tarea si mejora Brier tanto en validación como en prueba y conserva o mejora los aciertos prioritarios y los descartes. Una evaluación futura de otro modelo requiere otra reserva ciega.
+
+Para repetirlo, descarga el ZIP original de [UCI](https://archive.ics.uci.edu/dataset/352/online+retail), instala `openpyxl==3.1.5`, ejecuta `npm ci && npm run setup` y usa:
+
+```sh
+python scripts/business/prepare.py online-retail.zip datos
+node scripts/business/exam.mjs train datos
+node scripts/business/exam.mjs predict datos
+node scripts/business/exam.mjs grade datos
+```
+
+Con una misión abierta, `node src/cli.mjs account-rank negocios.json account-policy.json cuentas.json 1` aplica la política publicada a expedientes con el mismo esquema y registra cada pronóstico en el libro. El archivo de cuentas contiene `id, cutoff, features, references` por cuenta. Un cambio de modelo o de informe invalida la pareja. Cada clave incorpora el contenido de la solicitud.
+
+Para evaluar a un analista independiente, entrégale únicamente el paquete ciego antes de divulgar los desenlaces y conserva su archivo de predicciones antes de la apertura. `grade datos archivo.json` acepta `{"exam":"huella del paquete","predictions":[{"id":"cuenta","source":"huella del expediente","probability":0.4}]}` con todas las cuentas. El límite de puestos es el mismo para cada participante. El informe deja la comparación humana pendiente cuando falta una entrega real. Los pronósticos de este comercio histórico miden priorización de cuentas. Los pagos y el margen de SEMAR requieren comprobantes propios.
+
+[Resultados del examen](https://github.com/josuechavando350-png/Agentes-2M/blob/evidencia-negocios/negocios.json) · [Política de recompra evaluada](https://github.com/josuechavando350-png/Agentes-2M/blob/evidencia-negocios/account-policy.json)
