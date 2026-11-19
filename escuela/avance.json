@@ -1,34 +1,34 @@
 {
-  "cycle": 2,
-  "parentTip": "347fb5f1c48dc583571d3c5a4764b4a24523d5c970db45fe893e4c93c5aa9413",
+  "cycle": 3,
+  "parentTip": "be502ad5ceefbd23fd7e6bb2c1fb1a50dace0d8b72a3e0132bf71ded09f56b68",
   "result": {
-    "cycle": 2,
+    "cycle": 3,
     "status": "COMPLETED",
-    "id": "a4e39c26da2ab290c7289af436908c77e14eafc4ad72e01c4bc59eaf32530bd2",
+    "id": "5cbd0290c3c8e531b444529401586efe1482fe450dd3ec96c3a9920d13d71141",
     "exam": {
       "training": 6,
       "heldOut": 2,
       "heldOutCorrect": 2,
       "total": 8,
       "correct": 8,
-      "baselineCorrect": 4,
-      "nodes": 7
+      "baselineCorrect": 6,
+      "nodes": 5
     },
-    "first": 10007327,
-    "last": 10007992,
+    "first": 10008659,
+    "last": 10009324,
     "replicas": 666,
-    "childValue": "UNKNOWN"
+    "childValue": "SUPPORTED"
   },
   "status": {
-    "population": 10007992,
-    "live": 10007992,
+    "population": 10009324,
+    "live": 10009324,
     "dead": 0,
-    "treasury": 53280,
-    "spent": 36,
+    "treasury": 9999899906760,
+    "spent": 40,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 47,
-    "tip": "be502ad5ceefbd23fd7e6bb2c1fb1a50dace0d8b72a3e0132bf71ded09f56b68",
+    "events": 52,
+    "tip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f",
     "leaders": [
       {
         "id": "L1",
@@ -84,10 +84,10 @@
   },
   "audit": {
     "status": "VERIFIED",
-    "deliveries": 34,
-    "replicaCertificates": 7992,
-    "registeredReplicas": 7992,
-    "events": 47,
-    "tip": "be502ad5ceefbd23fd7e6bb2c1fb1a50dace0d8b72a3e0132bf71ded09f56b68"
+    "deliveries": 37,
+    "replicaCertificates": 9324,
+    "registeredReplicas": 9324,
+    "events": 52,
+    "tip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f"
   }
 }
