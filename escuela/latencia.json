@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-19T07:30:12.354Z",
-  "commit": "e50b7f98cc04fff9300275da0680e677f2792eed",
+  "measuredAt": "2026-11-19T16:50:09.100Z",
+  "commit": "65193065bfb0c772e40d2d737bdff46b7a077976",
   "runtime": {
     "node": "v24.22.2",
     "platform": "linux",
     "os": "7.0.0-1019-azure",
     "arch": "x64",
-    "cpu": "Intel(R) Xeon(R) 6973P-C",
+    "cpu": "AMD EPYC 9V45 96-Core Processor",
     "availableCpus": 4
   },
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "28ded835b76525cd6b65d0d375e132d3b9417b7d5b634cde9d8fcf2957043c74",
-    "population": 100025308,
+    "checkpoint": "ece5104eef70b919266de031521ff5de4f209f743f5e4c03efafc6560f7278c4",
+    "population": 100026640,
     "founders": 100000000,
-    "tested": 100025308,
+    "tested": 100026640,
     "bytesPerRow": 8,
-    "bodyBytes": 800202464,
-    "headerBytes": 19552,
-    "compressedBytes": 1169102,
-    "sha256Uncompressed": "0f000df4064d2d22bbe1745084140b827e6339077fc9bc3586fb156bb5233532",
+    "bodyBytes": 800213120,
+    "headerBytes": 20455,
+    "compressedBytes": 1169258,
+    "sha256Uncompressed": "cb827e6d826a51f07cbabc8b9c3971c3ecc80faed8992be465ed2c8001cf2488",
     "threads": 4,
-    "nativeExamAndGzipMs": 2475.4511410000005,
-    "independentVerificationMs": 656.5170039999998,
+    "nativeExamAndGzipMs": 2022.083768,
+    "independentVerificationMs": 552.830982,
     "sectors": [
       {
         "identities": 10002664,
@@ -72,59 +72,59 @@
         "tested": 10002664
       },
       {
-        "identities": 10001332,
+        "identities": 10002664,
         "founders": 10000000,
-        "tested": 10001332
+        "tested": 10002664
       }
     ]
   },
   "service": {
-    "checkpoint": "28ded835b76525cd6b65d0d375e132d3b9417b7d5b634cde9d8fcf2957043c74",
+    "checkpoint": "ece5104eef70b919266de031521ff5de4f209f743f5e4c03efafc6560f7278c4",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 326.23463200000015,
+    "coldStartAndFirstApprovedMs": 299.5735149999996,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.9928829999998925,
-        "p95Ms": 3.566581999999471,
-        "p99Ms": 3.848385000000235,
-        "maxMs": 3.8706319999992047,
-        "elapsedMs": 391.410883,
-        "actionsPerSecond": 327.0220772067802
+        "p50Ms": 2.2759249999999156,
+        "p95Ms": 3.161599000000024,
+        "p99Ms": 4.618371000000025,
+        "maxMs": 20.056988000000274,
+        "elapsedMs": 321.2695130000002,
+        "actionsPerSecond": 398.4193794323706
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.91074799999933,
-        "p95Ms": 3.9591380000001664,
-        "p99Ms": 5.553519000000051,
-        "maxMs": 7.454205000000002,
-        "elapsedMs": 390.6645779999999,
-        "actionsPerSecond": 327.64680293077413
+        "p50Ms": 2.196515999999974,
+        "p95Ms": 2.8730940000000373,
+        "p99Ms": 4.8202339999998,
+        "maxMs": 12.462516999999934,
+        "elapsedMs": 303.5311319999996,
+        "actionsPerSecond": 421.7030363791486
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 12.134250000000065,
-        "p95Ms": 21.149380000000747,
-        "p99Ms": 26.583144999999604,
-        "maxMs": 26.825620999999956,
-        "elapsedMs": 340.770716,
-        "actionsPerSecond": 375.61913037151936
+        "p50Ms": 9.272400000000744,
+        "p95Ms": 18.97803299999987,
+        "p99Ms": 27.448622999999316,
+        "maxMs": 30.060582999999497,
+        "elapsedMs": 271.3112629999996,
+        "actionsPerSecond": 471.78284670032366
       }
     ],
     "mission": {
-      "status": "RESEARCHED",
-      "localMs": 2.8374510000003283,
+      "status": "BUDGET_LIMIT",
+      "localMs": 1.5455670000001192,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "df3d0316273419db06794052e34b20702f4d6eb5284947e0a8aed225b8cb4a4d"
+    "replayedTip": "0a9329411976924c19dc1a0e11fc5c67013704d43821b686cedea178b5501374"
   }
 }

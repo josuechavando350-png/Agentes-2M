@@ -3,7 +3,7 @@
     "source": "Postor Abierto",
     "documents": 5
   },
-  "latest": "RESEARCHED",
+  "latest": "BUDGET_LIMIT",
   "command": {
     "absolute": {
       "name": "Diablo 666",
@@ -77,7 +77,7 @@
       "sealed": false,
       "budget": 168,
       "spent": 40,
-      "documents": 13,
+      "documents": 18,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -1010,5 +1010,5 @@
       "close": null
     }
   },
-  "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959"
+  "checkpoint": "ece5104eef70b919266de031521ff5de4f209f743f5e4c03efafc6560f7278c4"
 }
