@@ -1,0 +1,93 @@
+{
+  "cycle": 1,
+  "parentTip": "968d0d6392bfddfd084de83ff5ed5efd998c8f725f43dd7537c8e1b98bfe6ac2",
+  "result": {
+    "cycle": 1,
+    "status": "COMPLETED",
+    "id": "a8208f39f506726f8a78a76cff8a692d0a4cbdedf89080bacff546d697e3dc85",
+    "exam": {
+      "training": 6,
+      "heldOut": 2,
+      "heldOutCorrect": 2,
+      "total": 8,
+      "correct": 8,
+      "baselineCorrect": 6,
+      "nodes": 5
+    },
+    "first": 10006661,
+    "last": 10007326,
+    "replicas": 666,
+    "childValue": "SUPPORTED"
+  },
+  "status": {
+    "population": 10007326,
+    "live": 10007326,
+    "dead": 0,
+    "treasury": 59940,
+    "spent": 33,
+    "unit": "créditos simulados",
+    "cap": 1000000000000,
+    "events": 44,
+    "tip": "347fb5f1c48dc583571d3c5a4764b4a24523d5c970db45fe893e4c93c5aa9413",
+    "leaders": [
+      {
+        "id": "L1",
+        "sector": "Coordinación",
+        "supreme": true
+      },
+      {
+        "id": "L2",
+        "sector": "Salud",
+        "supreme": false
+      },
+      {
+        "id": "L3",
+        "sector": "Educación",
+        "supreme": false
+      },
+      {
+        "id": "L4",
+        "sector": "Ciencia",
+        "supreme": false
+      },
+      {
+        "id": "L5",
+        "sector": "Industria",
+        "supreme": false
+      },
+      {
+        "id": "L6",
+        "sector": "Energía",
+        "supreme": false
+      },
+      {
+        "id": "L7",
+        "sector": "Logística",
+        "supreme": false
+      },
+      {
+        "id": "L8",
+        "sector": "Finanzas",
+        "supreme": false
+      },
+      {
+        "id": "L9",
+        "sector": "Infraestructura",
+        "supreme": false
+      },
+      {
+        "id": "L10",
+        "sector": "Tecnología",
+        "supreme": false
+      }
+    ]
+  },
+  "audit": {
+    "status": "VERIFIED",
+    "deliveries": 32,
+    "replicaCertificates": 7326,
+    "registeredReplicas": 7326,
+    "events": 44,
+    "tip": "347fb5f1c48dc583571d3c5a4764b4a24523d5c970db45fe893e4c93c5aa9413"
+  }
+}
