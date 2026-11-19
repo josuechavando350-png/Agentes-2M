@@ -1,3 +1,5 @@
+import { rosterLayout } from "./packed.mjs";
+import { NativeWorker } from "./native.mjs";
 import {
   ABSOLUTE,
   GOVERNED,
@@ -163,29 +165,37 @@ function signed(body, sig, key) {
 
 export class Semar {
   #journal;
+  #verified = new WeakMap();
+  #native = new NativeWorker();
   constructor(path, { clock = Date.now } = {}) {
     this.clock = clock;
     this.#journal = new Ledger(path, clock);
   }
   close() {
+    this.#native.close();
     this.#journal.close();
   }
   checkpoint() {
-    const state = this.#journal.read();
-    this.audit(state.tip);
-    return { events: state.events, tip: state.tip };
+    const state = this.#journal.read(true);
+    this.#verify(state);
+    return { events: structuredClone(state.events), tip: state.tip };
   }
   restore(events, tip) {
     return this.#journal.restore(events, tip, (anchor) => this.audit(anchor));
   }
   receipt(key) {
-    return this.#journal.read().keys.get(key)?.result ?? null;
+    return structuredClone(this.#journal.read().keys.get(key)?.result ?? null);
   }
   status() {
-    return statusOf(this.#journal.read());
+    return structuredClone(statusOf(this.#journal.read()));
   }
   founderId(sector, ordinal) {
     return founderId(this.#journal.read(), sector, ordinal);
+  }
+  layout() {
+    const s = this.#journal.read(true);
+    this.#verify(s);
+    return rosterLayout(s);
   }
   census(first, last, options) {
     return census(this.#journal.read(), first, last, options);
@@ -202,11 +212,15 @@ export class Semar {
   }
   awareness(id) {
     const s = this.#journal.read();
-    return awareness(s, id, Math.max(this.clock(), s.events.at(-1)?.at ?? 0));
+    return structuredClone(
+      awareness(s, id, Math.max(this.clock(), s.events.at(-1)?.at ?? 0)),
+    );
   }
   mission() {
     const s = this.#journal.read();
-    return missionView(s, Math.max(this.clock(), s.events.at(-1)?.at ?? 0));
+    return structuredClone(
+      missionView(s, Math.max(this.clock(), s.events.at(-1)?.at ?? 0)),
+    );
   }
   feed(leader, after = 0, limit = 100) {
     if (leader !== ABSOLUTE && !LEADERS.includes(leader))
@@ -221,8 +235,8 @@ export class Semar {
         seq: e.seq,
         key: e.key,
         at: e.at,
-        route: e.route,
-        result: e.result,
+        route: structuredClone(e.route),
+        result: structuredClone(e.result),
       }));
   }
   async command(key, input) {
@@ -273,7 +287,13 @@ export class Semar {
                   c.candidates,
                 )
               : null;
-          const { actors, result } = decide(state, c, now, seal, 2);
+          const { actors, result } = decide(
+            { ...state, gov: structuredClone(state.gov) },
+            c,
+            now,
+            seal,
+            2,
+          );
           return pack(
             1,
             [
@@ -534,7 +554,7 @@ export class Semar {
           ? runTree(predictor.tree, mask)
           : c.type === "submit"
             ? c.value
-            : compute(c.op, c.data);
+            : await this.#native.run(c.op, c.data);
         if (value !== expected) {
           const old = a.generation;
           const replacement = { ...a, generation: old + 1, publicKey: null };
@@ -606,21 +626,38 @@ export class Semar {
             : {}),
         });
       },
-      () => this.audit(),
+      (state) => this.#verify(state),
     );
   }
   audit(expectedTip) {
-    const state = this.#journal.read();
+    return this.#verify(this.#journal.read(true), expectedTip);
+  }
+  #verify(state, expectedTip) {
     if (expectedTip !== undefined && state.tip !== expectedTip)
       throw Error("Ancla externa diferente");
-    let admitted = 0,
-      deliveries = 0,
-      issued = 0,
-      initialReserve = 0;
-    const prior = { population: 0, agents: new Map(), bands: [] };
-    let chartered = false;
-    const seals = new Set();
-    for (const e of state.events) {
+    const audit = this.#verified.get(state) ?? {
+      seq: 0,
+      admitted: 0,
+      deliveries: 0,
+      issued: 0,
+      initialReserve: 0,
+      chartered: false,
+      delta: 0,
+      prior: { population: 0, agents: new Map(), bands: [] },
+      seals: new Set(),
+    };
+    let {
+      admitted,
+      deliveries,
+      issued,
+      initialReserve,
+      chartered,
+      delta,
+      prior,
+      seals,
+    } = audit;
+    for (let i = audit.seq; i < state.events.length; i++) {
+      const e = state.events[i];
       const government = e.steps[0]?.kind === "government";
       let beforeMutation;
       const cohort = e.steps.find((s) => s.kind === "cohort");
@@ -706,6 +743,7 @@ export class Semar {
           } else throw Error("Transición sin autoridad");
           if (digest(expected) !== digest(next) || s.reserveDelta)
             throw Error("Cambio de agente fuera de política");
+          delta += next.balance - previous.balance;
           prior.agents.set(next.id, next);
         }
         if (s.submission) {
@@ -824,9 +862,14 @@ export class Semar {
         }
       }
     }
-    const balances =
-      (state.population - state.agents.size) * STIPEND +
-      [...state.agents.values()].reduce((n, a) => n + a.balance, 0);
+    const balances = state.population * STIPEND + delta;
+    if (!this.#verified.has(state)) {
+      const materialized =
+        (state.population - state.agents.size) * STIPEND +
+        [...state.agents.values()].reduce((n, a) => n + a.balance, 0);
+      if (materialized !== balances)
+        throw Error("Saldos por identidad inconsistentes");
+    }
     if (
       state.population &&
       ((state.expansion ? INITIAL : state.genesisSize) + admitted !==
@@ -835,6 +878,17 @@ export class Semar {
           state.genesisSize * STIPEND + initialReserve)
     )
       throw Error("Conservación fallida");
+    this.#verified.set(state, {
+      seq: state.events.length,
+      admitted,
+      deliveries,
+      issued,
+      initialReserve,
+      chartered,
+      delta,
+      prior,
+      seals,
+    });
     return {
       status: "VERIFIED",
       deliveries,

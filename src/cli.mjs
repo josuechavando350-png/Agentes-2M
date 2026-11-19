@@ -1,3 +1,6 @@
+import { join } from "node:path";
+import { materialize, openPacked } from "./packed.mjs";
+import { serve } from "./serve.mjs";
 import { importSources } from "./sources.mjs";
 import { gunzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
@@ -15,11 +18,26 @@ import { Semar } from "./semar.mjs";
 
 const [action = "status", ...args] = process.argv.slice(2);
 const store = new Semar(
-  action === "demo" ? ":memory:" : (process.env.SEMAR_DB ?? "semar.sqlite"),
+  ["demo", "packed"].includes(action)
+    ? ":memory:"
+    : (process.env.SEMAR_DB ?? "semar.sqlite"),
 );
 const show = (x) => console.log(JSON.stringify(x, null, 2));
 try {
   switch (action) {
+    case "restore-state": {
+      if (!args[0])
+        throw Error("Indica el directorio escuela de la rama estado-semar");
+      const meta = JSON.parse(
+        readFileSync(join(args[0], "avance.json"), "utf8"),
+      );
+      const journal = gunzipSync(
+        readFileSync(join(args[0], "bitacora.json.gz")),
+        { maxOutputLength: 64_000_000 },
+      );
+      show(store.restore(JSON.parse(journal), meta.audit.tip));
+      break;
+    }
     case "resume": {
       const evidence = new URL("../evidence/", import.meta.url);
       const { audit } = JSON.parse(
@@ -110,6 +128,31 @@ try {
     case "sources":
       show(await importSources(store, args[0]));
       break;
+    case "packed": {
+      const pack = openPacked(args[0]);
+      try {
+        show({
+          checkpoint: pack.checkpoint,
+          agent: pack.agent(Number(args[1])),
+        });
+      } finally {
+        pack.close();
+      }
+      break;
+    }
+    case "materialize":
+      if (!args[0]) throw Error("Indica el archivo de salida .gz");
+      show(
+        await materialize(
+          store.layout(),
+          args[0],
+          args[1] === undefined ? undefined : Number(args[1]),
+        ),
+      );
+      break;
+    case "serve":
+      await serve(store);
+      break;
     case "status":
       show(store.status());
       break;
@@ -164,7 +207,7 @@ try {
     }
     default:
       throw Error(
-        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, aware, sources o demo",
+        "Usa init, resume, upgrade, status, academy, census, agent, request, feed, audit, mission, aware, sources, restore-state, materialize, packed, serve o demo",
       );
   }
 } catch (error) {

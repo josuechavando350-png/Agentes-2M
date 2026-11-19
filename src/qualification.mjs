@@ -28,6 +28,22 @@ function cases(i) {
     }),
   );
 }
+export function qualificationAnswers() {
+  const methods = [...new Set(METHODS)],
+    answers = methods.map(() => []);
+  for (let i = 0; i < CASE_COUNT; i++) {
+    const tasks = cases(i);
+    for (const [j, op] of methods.entries()) {
+      const v = tasks.get(op).expected;
+      answers[j].push(
+        op === "inference"
+          ? ["UNKNOWN", "SUPPORTED", "REFUTED", "CONFLICTED"].indexOf(v)
+          : 2 * v,
+      );
+    }
+  }
+  return answers;
+}
 export function qualification() {
   const bank = Array.from({ length: CASE_COUNT }, (_, i) => cases(i));
   const counts = Object.fromEntries([...new Set(METHODS)].map((op) => [op, 0]));

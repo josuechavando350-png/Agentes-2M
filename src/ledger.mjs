@@ -20,9 +20,13 @@ let pending = Promise.resolve();
 const ZERO = "0".repeat(64);
 export class Ledger {
   #db;
+  #cache;
+  #dataVersion;
+  #readVersion;
   constructor(path, clock = Date.now) {
     this.clock = clock;
     this.#db = new DatabaseSync(path);
+    this.#readVersion = this.#db.prepare("PRAGMA data_version");
     this.#db
       .exec(`PRAGMA busy_timeout=10000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
       CREATE TABLE IF NOT EXISTS journal(seq INTEGER PRIMARY KEY, key TEXT UNIQUE NOT NULL, body TEXT NOT NULL, hash TEXT NOT NULL);
@@ -32,7 +36,11 @@ export class Ledger {
   close() {
     this.#db.close();
   }
-  read() {
+  read(force = false) {
+    const version = this.#readVersion.get().data_version;
+    if (!force && this.#cache && version === this.#dataVersion)
+      return this.#cache;
+    this.#cache = undefined;
     const state = {
       population: 0,
       treasury: 0,
@@ -49,24 +57,10 @@ export class Ledger {
     for (const row of this.#db
       .prepare("SELECT * FROM journal ORDER BY seq")
       .iterate()) {
-      const e = JSON.parse(row.body);
-      if (
-        row.seq !== state.events.length + 1 ||
-        e.seq !== row.seq ||
-        e.key !== row.key ||
-        e.prev !== state.tip ||
-        digest(e) !== row.hash ||
-        e.route?.supreme !== (state.gov ? ABSOLUTE : "L1") ||
-        e.route?.readers?.join() !==
-          (state.gov ? [...LEADERS, ABSOLUTE] : LEADERS).join() ||
-        (state.gov && e.at < (state.events.at(-1)?.at ?? 0))
-      )
-        throw Error("Bitácora alterada");
-      state.tip = row.hash;
-      state.keys.set(row.key, e);
-      state.events.push(e);
-      for (const step of e.steps) applyStep(state, step, e);
+      appendRow(state, row);
     }
+    this.#cache = state;
+    this.#dataVersion = version;
     return state;
   }
   restore(events, tip, verifyAudit) {
@@ -83,6 +77,7 @@ export class Ledger {
       this.#db.exec("COMMIT");
       return audit;
     } catch (error) {
+      this.#cache = undefined;
       this.#db.exec("ROLLBACK");
       throw error;
     }
@@ -97,9 +92,10 @@ export class Ledger {
       try {
         const state = this.read(),
           old = state.keys.get(key);
+        verifyAudit(state);
         if (old && old.input === fingerprint) {
           this.#db.exec("COMMIT");
-          return old.result;
+          return structuredClone(old.result);
         }
         const now = Math.max(this.clock(), state.events.at(-1)?.at ?? 0);
         let action;
@@ -143,14 +139,23 @@ export class Ledger {
             steps,
             result,
           };
+          const row = {
+            seq: entry.seq,
+            key: entryKey,
+            body: JSON.stringify(entry),
+            hash: digest(entry),
+          };
           this.#db
             .prepare("INSERT INTO journal VALUES(?,?,?,?)")
-            .run(entry.seq, entryKey, JSON.stringify(entry), digest(entry));
-          verifyAudit();
+            .run(row.seq, row.key, row.body, row.hash);
+          appendRow(state, row);
+          verifyAudit(state);
+          this.#cache = state;
         }
         this.#db.exec("COMMIT");
         output = result;
       } catch (error) {
+        this.#cache = undefined;
         this.#db.exec("ROLLBACK");
         throw error;
       }
@@ -161,6 +166,25 @@ export class Ledger {
     pending = job.catch(() => {});
     return job;
   }
+}
+function appendRow(state, row) {
+  const e = JSON.parse(row.body);
+  if (
+    row.seq !== state.events.length + 1 ||
+    e.seq !== row.seq ||
+    e.key !== row.key ||
+    e.prev !== state.tip ||
+    digest(e) !== row.hash ||
+    e.route?.supreme !== (state.gov ? ABSOLUTE : "L1") ||
+    e.route?.readers?.join() !==
+      (state.gov ? [...LEADERS, ABSOLUTE] : LEADERS).join() ||
+    (state.gov && e.at < (state.events.at(-1)?.at ?? 0))
+  )
+    throw Error("Bitácora alterada");
+  state.tip = row.hash;
+  state.keys.set(row.key, e);
+  state.events.push(e);
+  for (const step of e.steps) applyStep(state, step, e);
 }
 function applyStep(state, step, e) {
   switch (step.kind) {

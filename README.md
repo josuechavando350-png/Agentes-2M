@@ -2,6 +2,31 @@
 
 Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón base contiene 100,000,000 de fundadores lógicos, diez millones por líder. Las réplicas certificadas se cuentan aparte. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
 
+## Acciones en C++ y padrón materializado
+
+El proceso residente de C++17 ejecuta las ocho operaciones numéricas y la inferencia de hechos, negaciones y reglas. El servicio local verifica cada respuesta con el Oráculo independiente, conserva las cinco capacidades de Nexus en las entregas, descuenta el crédito y responde después del commit de SQLite en disco. Las operaciones de aprendizaje y los documentos comerciales conservan sus caminos especializados. Los tiempos de lectura de fuentes externas dependen del proveedor.
+
+Para cargar el último estado público en una base vacía, usa `node src/cli.mjs restore-state /ruta/al/checkout/estado-semar/escuela`. Para sostener baja latencia, ejecuta una instancia de larga duración sobre tu base inicializada. Cada línea JSON contiene una clave idempotente y un comando. Con el ID 1 de una base nueva, una solicitud válida es:
+
+```sh
+printf '%s\n' '{"key":"trabajo-uno","command":{"type":"work","id":1,"generation":1,"version":1,"op":"sum","data":[8,-3,2]}}' | node src/cli.mjs serve
+```
+
+El ejemplo cierra la entrada tras una solicitud. Una aplicación puede mantener abiertos stdin y stdout para reutilizar el proceso y la auditoría del prefijo ya confirmado. Los escritores se serializan en SQLite. Un commit de otra conexión invalida el estado en memoria. Cada evento nuevo se verifica antes de responder. El comando `audit` reconstruye todo el historial de forma independiente.
+
+La escuela publica una fila binaria de ocho bytes por cada ID, incluidos los retirados y las réplicas. La cabecera, una línea JSON UTF-8, lleva el checkpoint y un catálogo de perfiles con generación, versión, habilidades y programas. La fila del ID `n` empieza a `headerBytes + 8*(n-1)`. Contiene sector (1 byte), saldo de simulación (1), máscara de habilidades (2) e índice en el catálogo (4), en orden little-endian. Los perfiles idénticos comparten metadatos. El ejecutor examina cada identidad viva con su especialidad, procesa bloques en paralelo y escribe las filas en orden. Una segunda implementación descomprime el archivo y compara todos los bytes con el estado del libro. El archivo representa el instante de su checkpoint. La bitácora sigue registrando el trabajo posterior.
+
+[Descargar padrón gzip](https://github.com/josuechavando350-png/Agentes-2M/raw/refs/heads/estado-semar/escuela/padron-100m.bin.gz) · [Informe de rendimiento y huella](https://github.com/josuechavando350-png/Agentes-2M/blob/estado-semar/escuela/latencia.json)
+
+```sh
+gzip -dc padron-100m.bin.gz > padron.bin
+node src/cli.mjs packed padron.bin 100000000
+node src/cli.mjs materialize mi-padron.bin.gz 4
+npm run bench -- /ruta/al/checkout/estado-semar/escuela
+```
+
+El banco trabaja en una copia aislada del checkpoint. Mide el arranque frío, la latencia ida y vuelta en milisegundos desde un cliente separado hasta el commit, percentiles 50/95/99, máximo y acciones por segundo. Compara sumas e inferencia, y repite inferencia con ocho solicitudes pendientes. El pulso local mide una decisión sobre documentos ya admitidos y registra si encontró trabajo. El informe incluye CPU, concurrencia, costos de materialización y verificación. En GitHub la escuela actualiza la medición al publicar este motor y en el ciclo diario. Los pulsos de investigación siguen su propio horario.
+
 ## Ampliación a cien millones
 
 La escuela existente añadió 90,000,000 de fundadores en un rango posterior a las identidades ya emitidas. Cada fundador recibe diez créditos simulados de la reserva de incubación. El libro conserva los IDs, saldos, exámenes, generaciones retiradas y reglas aprendidas en las rondas anteriores.
@@ -58,7 +83,7 @@ Diez rondas ejecutadas, 30 entregas aprobadas y 6,660 certificados de réplica. 
 
 ## Ejecutar
 
-Se necesitan Linux o macOS, Node 24.12 o posterior de la serie 24, npm, Git y tar. La instalación obtiene una revisión fija de Nexus y construye los módulos localmente. La ejecución posterior funciona sin red. Desde la raíz del repositorio:
+Se necesitan Linux o macOS, Node 24.12 o posterior de la serie 24, npm, Git, tar, un compilador C++17 y las cabeceras de zlib. La instalación obtiene una revisión fija de Nexus y construye los módulos localmente. La ejecución posterior funciona sin red. Desde la raíz del repositorio:
 
 ```sh
 npm ci
