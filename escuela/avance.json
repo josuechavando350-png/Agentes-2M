@@ -1,10 +1,10 @@
 {
-  "cycle": 4,
-  "parentTip": "e1f83c01dc2eeae91e0b1182809628824ad4eb8b78002aa84610c2635968ae1f",
+  "cycle": 5,
+  "parentTip": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba",
   "result": {
-    "cycle": 4,
+    "cycle": 5,
     "status": "COMPLETED",
-    "id": "0f9a337a6d70248d7b71cb1a7300b87c4090f550c52047b30ba0382e76ce8b80",
+    "id": "a230706741e235e46bfe2ca9a2b6396c2641820e38c3f5da5f786c4d28ce253e",
     "exam": {
       "training": 6,
       "heldOut": 2,
@@ -14,23 +14,31 @@
       "baselineCorrect": 6,
       "nodes": 5
     },
-    "first": 100015985,
-    "last": 100016650,
+    "first": 100017317,
+    "last": 100017982,
     "replicas": 666,
     "childValue": "UNKNOWN"
   },
   "status": {
-    "population": 100016650,
+    "population": 100017982,
     "founders": 100000000,
     "foundersPerSector": 10000000,
-    "live": 100016650,
+    "live": 100017982,
     "dead": 0,
-    "treasury": 9998999833500,
-    "spent": 55,
+    "treasury": 9998999820180,
+    "spent": 63,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 69,
-    "tip": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba",
+    "events": 82,
+    "tip": "0c0828ca575c998eb69f171995ff79be8321b25874acbf84cecf17bed26cc027",
+    "absolute": {
+      "name": "Diablo 666",
+      "holder": {
+        "id": 1007968,
+        "generation": 1,
+        "policy": "indexed"
+      }
+    },
     "leaders": [
       {
         "id": "L1",
@@ -40,56 +48,57 @@
       {
         "id": "L2",
         "sector": "Salud",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L3",
         "sector": "Educación",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L4",
         "sector": "Ciencia",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L5",
         "sector": "Industria",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L6",
         "sector": "Energía",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L7",
         "sector": "Logística",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L8",
         "sector": "Finanzas",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L9",
         "sector": "Infraestructura",
-        "supreme": false
+        "supreme": true
       },
       {
         "id": "L10",
         "sector": "Tecnología",
-        "supreme": false
+        "supreme": true
       }
     ]
   },
   "audit": {
     "status": "VERIFIED",
-    "deliveries": 51,
-    "replicaCertificates": 16650,
-    "registeredReplicas": 16650,
-    "events": 69,
-    "tip": "19fd60ebf9cb8fb9963ddfa43428cb9adcd57e837a1843e175a557c54995c6ba"
+    "deliveries": 54,
+    "blindPromotions": 2,
+    "replicaCertificates": 17982,
+    "registeredReplicas": 17982,
+    "events": 82,
+    "tip": "0c0828ca575c998eb69f171995ff79be8321b25874acbf84cecf17bed26cc027"
   }
 }

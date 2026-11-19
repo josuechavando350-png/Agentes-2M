@@ -1,0 +1,251 @@
+{
+  "feed": {
+    "source": "Postor Abierto",
+    "documents": 5
+  },
+  "latest": "RESEARCHED",
+  "command": {
+    "absolute": {
+      "name": "Diablo 666",
+      "holder": {
+        "id": 1007968,
+        "generation": 1,
+        "policy": "indexed"
+      },
+      "ranking": [
+        {
+          "id": 1007968,
+          "generation": 1,
+          "policy": "indexed"
+        },
+        {
+          "id": 7968,
+          "generation": 1,
+          "policy": "crosscheck"
+        }
+      ],
+      "lastExam": {
+        "seed": "1c0742622a623bd425070515d9828c8f35026335d941484a",
+        "entries": [
+          {
+            "id": 666,
+            "policy": "first",
+            "correct": 12,
+            "total": 16,
+            "severe": 4,
+            "cost": 64,
+            "elapsedUs": 925
+          },
+          {
+            "id": 7968,
+            "policy": "crosscheck",
+            "correct": 16,
+            "total": 16,
+            "severe": 0,
+            "cost": 104,
+            "elapsedUs": 643
+          },
+          {
+            "id": 1007968,
+            "policy": "indexed",
+            "correct": 16,
+            "total": 16,
+            "severe": 0,
+            "cost": 52,
+            "elapsedUs": 795
+          }
+        ]
+      }
+    },
+    "supremeLeaders": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "L7",
+      "L8",
+      "L9",
+      "L10"
+    ],
+    "mission": {
+      "id": "semana-inaugural",
+      "start": 1795063680215,
+      "deadline": 1795668480215,
+      "phase": "DISCOVERY",
+      "sealed": false,
+      "budget": 168,
+      "spent": 4,
+      "documents": 5,
+      "pilots": [
+        {
+          "subject": "mx-21904339beeb2287248f",
+          "decision": "SEEK_EVIDENCE",
+          "at": 1795063681803,
+          "cost": 4
+        }
+      ],
+      "portfolio": {
+        "opened": 1795063681803,
+        "arms": [
+          {
+            "subject": "mx-21904339beeb2287248f",
+            "allocation": 4,
+            "spent": 4
+          },
+          {
+            "subject": "mx-4ee43bc0520eedd7c828",
+            "allocation": 4,
+            "spent": 0
+          }
+        ],
+        "winner": null,
+        "reserve": 160
+      },
+      "findings": [
+        {
+          "subject": "mx-21904339beeb2287248f",
+          "sector": 2,
+          "revision": "a21a124d0bbcbba9bd016ff0b84901441da91ac1a6d6655dd527bf34a84338a1",
+          "phase": "DISCOVERY",
+          "policy": "indexed",
+          "crew": [
+            1000720,
+            2000752,
+            3000784
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL",
+              "refs": [
+                {
+                  "document": "mx-21904339beeb2287248f",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-83-2026",
+                  "sha256": "373d843111b034ff42f39b4772e65fc8df3a5244895ae50f142d8ca8cc2173b3",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "018TON - CENTRO NACIONAL DE CONTROL DEL GAS NATURAL"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "MANTENIMIENTO Y REHABILITACIÓN DE LOS SISTEMAS DE TRANSPORTE DE GAS REYNOSA",
+              "refs": [
+                {
+                  "document": "mx-21904339beeb2287248f",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-83-2026",
+                  "sha256": "373d843111b034ff42f39b4772e65fc8df3a5244895ae50f142d8ca8cc2173b3",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "MANTENIMIENTO Y REHABILITACIÓN DE LOS SISTEMAS DE TRANSPORTE DE GAS REYNOSA"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "LICITACIÓN PÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-21904339beeb2287248f",
+                  "source": "https://postor.com.mx/licitacion/lo-18-ton-018ton999-n-83-2026",
+                  "sha256": "373d843111b034ff42f39b4772e65fc8df3a5244895ae50f142d8ca8cc2173b3",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "LICITACIÓN PÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795063681803,
+          "at": 1795063681803,
+          "chief": 1007968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-21904339beeb2287248f",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-4ee43bc0520eedd7c828",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
+        }
+      ],
+      "finance": {
+        "currency": "MXN",
+        "unit": "centavos",
+        "estimate": 0,
+        "quote": 0,
+        "order": 0,
+        "paid": 0,
+        "expense": 0,
+        "net": 0
+      },
+      "close": null
+    }
+  },
+  "checkpoint": "0c0828ca575c998eb69f171995ff79be8321b25874acbf84cecf17bed26cc027"
+}
