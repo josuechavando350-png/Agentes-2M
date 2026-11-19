@@ -18,6 +18,8 @@ try {
       "native/main.cpp",
       "native/team.cpp",
       "native/snapshot.cpp",
+      "native/population.cpp",
+      "-lcrypto",
       "-lz",
       "-o",
       join(tmp, "semar-native"),

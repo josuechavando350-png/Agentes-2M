@@ -833,12 +833,13 @@ export function decide(state, c, at, seal, protocol = 1) {
   if (!m || phase(m, at) === "CLOSED")
     throw Error("Misión cerrada o inexistente");
   if (c.type === "admit_source") {
-    strict(
-      c,
-      Object.hasOwn(c, "previous")
-        ? ["type", "document", "previous"]
-        : ["type", "document"],
-    );
+    const keys = ["type", "document"];
+    if (Object.hasOwn(c, "previous")) keys.push("previous");
+    if (Object.hasOwn(c, "mission")) {
+      keys.push("mission");
+      if (c.mission !== m.id) throw Error("Misión distinta");
+    }
+    strict(c, keys);
     const doc = freezeDocument(c.document);
     const old = m.docs.findIndex((d) => d.id === doc.id);
     const previous = old < 0 ? 0 : m.docs[old].revision;

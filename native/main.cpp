@@ -6,6 +6,7 @@
 #include <vector>
 
 std::string team_scan(std::istream& input);
+int population();
 int snapshot(const char* path, unsigned threads);
 
 namespace {
@@ -77,9 +78,10 @@ int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     try {
+        if (argc == 2 && std::string(argv[1]) == "population") return population();
         if (argc == 2 && std::string(argv[1]) == "serve") { serve(); return 0; }
         if (argc == 4 && std::string(argv[1]) == "snapshot")
             return snapshot(argv[2], static_cast<unsigned>(std::stoul(argv[3])));
-        throw std::runtime_error("Use serve o snapshot ARCHIVO HILOS");
+        throw std::runtime_error("Use serve, population o snapshot ARCHIVO HILOS");
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }

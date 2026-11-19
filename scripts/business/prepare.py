@@ -23,7 +23,7 @@ def fingerprint(value):
     return hashlib.sha256(str(value).encode()).hexdigest()
 
 
-def prepare(archive, destination, reserve=False):
+def prepare(archive, destination, reserve=False, population=False):
     raw = archive.read_bytes()
     if hashlib.sha256(raw).hexdigest() != ARCHIVE:
         raise ValueError("La huella del archivo de UCI no coincide")
@@ -45,7 +45,9 @@ def prepare(archive, destination, reserve=False):
             wb.close()
     destination.mkdir(parents=True, exist_ok=True)
     used = set()
-    splits = SPLITS + ([("reserve", date(2011, 11, 9), {0, 1, 2, 3}, 480)] if reserve else [])
+    splits = SPLITS + ([("reserve", date(2011, 11, 9), {0, 1, 2, 3}, 480)] if reserve or population else [])
+    if population:
+        splits.append(("population", date(2011, 11, 9), {0, 1, 2, 3}, 200))
     for split, cutoff, buckets, limit in splits:
         past = []
         outcomes = {}
@@ -71,7 +73,7 @@ def prepare(archive, destination, reserve=False):
                 "last_pence": last[2],
             }
             cid = "u-" + hashed[:18]
-            if split == "reserve" and cid in used:
+            if split in ("reserve", "population") and cid in used:
                 continue
             refs = [{"invoice":r[0],"firstRow":r[4],"day":r[1].isoformat()} for r in sorted(history)]
             past.append({"id":cid,"cutoff":cutoff.isoformat(),"features":features,"references":refs})
@@ -91,5 +93,6 @@ if __name__=="__main__":
     parser.add_argument("archive",type=Path)
     parser.add_argument("destination",type=Path)
     parser.add_argument("--reserve", action="store_true")
+    parser.add_argument("--population", action="store_true")
     args=parser.parse_args()
-    prepare(args.archive,args.destination,args.reserve)
+    prepare(args.archive,args.destination,args.reserve,args.population)

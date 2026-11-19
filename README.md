@@ -249,3 +249,24 @@ Después de la ventana acordada, `trial_observed` requiere cierre firmado por co
 El piloto de conciliación admite tres operaciones sobre documentos autorizados: consulta de campo, diferencia y producto. `delivery_spec` fija fuentes, partidas y huella de un examen reservado. Puede recibir la receta o inferirla a partir de 2 a 16 ejemplos resueltos. Si varias operaciones explican los ejemplos, pide más evidencia antes de construir. `delivery_build` produce el entregable con las referencias de cada fila. `delivery_accept` abre el examen sobre partidas nuevas y registra la aceptación del comprador atestiguada por tesorería. Cada partida de la entrega debe quedar respaldada. `pilot-product MISIÓN ID` devuelve el producto, su huella y el dictamen disponible. Para reconocer a quien frenó un gasto, `risk_pledge` fija antes el desembolso autorizado. Una refutación documental seguida de cancelación firmada permite a `truth_reward` transferir un crédito interno del patrocinador al auditor. El importe cancelado queda registrado aparte de cualquier dinero cobrado.
 
 Los comandos de escritura utilizan el mismo `request CLAVE` y la misma firma canónica Ed25519 de tesorería descritos arriba. Los ejemplos ejecutables de altas, cierres, correcciones, entrega y cancelación están en [las pruebas del laboratorio](test/field-lab.test.mjs). El registro publicado del examen está en [el dictamen histórico](evidence/metodos-negocio.json).
+
+## Investigación de un nicho con cien millones de fundadores
+
+Con un padrón restaurado, `population-rank` asigna una comparación a cada identidad participante. Todas trabajan sobre la misma pregunta de recompra. Cada líder tiene a su cargo una de las diez señales del historial, como antigüedad de la última compra, frecuencia, devoluciones o concentración de pedidos. Para cada cuenta y antecedente, su sector ensaya cien reglas de distancia que dan pesos distintos a esas señales. El antecedente más parecido de cada regla emite un voto según lo que efectivamente sucedió en sus 30 días posteriores. Los líderes combinan los votos para ordenar las cuentas.
+
+El reparto completo usa **200 cuentas × 500 antecedentes × 1,000 reglas**, con diez millones de comparaciones por sector. El ejecutor C++17 usa hilos locales y OpenSSL libcrypto para sellar los resultados. Emplea los identificadores físicos de los fundadores del checkpoint, incluso cuando entre ellos hay intervalos ocupados por réplicas. Rechaza un lote que requiera un fundador retirado. El saldo y los comprobantes financieros del checkpoint se conservan durante esta lectura analítica. Las operaciones individuales del lote quedan registradas en el informe de participación. El tiempo de cómputo se mide por separado.
+
+El archivo de entrada contiene `niche` como identificador, `historical` y `queries` como listas de expedientes fechados del mismo nicho, y `outcomes` como diccionario de identificadores históricos a 0 o 1. Se usa el esquema de diez señales de `account-rank`. Ningún comprador puede aparecer dos veces. Los 30 días de cada antecedente deben haber transcurrido antes del corte de consulta. Se pueden procesar lotes menores que el padrón completo. El número exacto de participantes es el producto de ambos tamaños por mil.
+
+```sh
+node src/cli.mjs population-rank entrada.json 4 > participacion.json
+node src/cli.mjs population-audit entrada.json participacion.json
+node src/cli.mjs population-receipt entrada.json participacion.json 1
+node src/cli.mjs population-submit MI_MISION entrada.json participacion.json
+```
+
+El recibo identifica el comprador, el antecedente, la regla, la distancia y el lote sellado. El auditor independiente reproduce el trabajo completo con diez responsables, uno por sector. Para registrar el resultado en una misión abierta del mismo checkpoint, sustituye `MI_MISION` por su identificador. El resumen entra como expediente idempotente y aparece en el canal de los diez líderes y de Diablo 666. El método que usa un solo antecedente por regla también se contrasta con la política de recompra vigente.
+
+La primera prueba utiliza *Online Retail* de Daqing Chen, UCI, [DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33), CC BY 4.0. Se eligieron por identificador 500 compradores del entrenamiento anterior y 200 compradores distintos de todas las reservas anteriores. Los pronósticos se congelaron antes de abrir los desenlaces del nuevo grupo. Las 40 primeras cuentas de cada método produjeron 17 aciertos para diez reglas y diez investigadores, 20 para cien reglas, 20 para mil reglas y 24 para la política vigente. El sistema mantuvo la política vigente. La evidencia cubre la priorización de ese comercio histórico.
+
+[Dictamen y responsables](evidence/participacion-100m.json) · [Recibos y mediciones](https://github.com/josuechavando350-png/Agentes-2M/tree/evidencia-poblacion) · [Reproducción pública](https://github.com/josuechavando350-png/Agentes-2M/actions/workflows/poblacion.yml)

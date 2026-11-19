@@ -56,12 +56,7 @@ export function fitAccounts(rows, labels, dimensions) {
   }
   return { dimensions, intercept, mean, scale, weights };
 }
-export function accountForecast(row, model, actors) {
-  if (
-    ![1, 10].includes(actors.length) ||
-    new Set(actors).size !== actors.length
-  )
-    throw Error("Equipo inválido");
+export function accountVector(row) {
   strict(row, ["id", "cutoff", "features", "references"]);
   token(row.id);
   const date = (value) =>
@@ -88,7 +83,15 @@ export function accountForecast(row, model, actors) {
       throw Error("Referencia fuera del corte");
     integer(ref.firstRow, 2, Number.MAX_SAFE_INTEGER, "fila fuente");
   }
-  const x = vector(row);
+  return vector(row);
+}
+export function accountForecast(row, model, actors) {
+  if (
+    ![1, 10].includes(actors.length) ||
+    new Set(actors).size !== actors.length
+  )
+    throw Error("Equipo inválido");
+  const x = accountVector(row);
   if (
     ![1, 10].includes(model.dimensions) ||
     ![model.mean, model.scale, model.weights].every(

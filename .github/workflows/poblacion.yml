@@ -1,0 +1,110 @@
+name: Investigación con cien millones de fundadores
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/poblacion.yml'
+      - 'scripts/population/**'
+      - 'scripts/business/prepare.py'
+      - 'native/population.cpp'
+      - 'src/population-research.mjs'
+      - 'src/account-market.mjs'
+      - 'evidence/participacion-100m.json'
+permissions: {contents: read}
+concurrency:
+  group: participacion-fundadores
+  cancel-in-progress: false
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: |
+          python -m pip install openpyxl==3.1.5
+          npm ci && npm run setup
+          curl -fsSL --retry 3 --max-time 90 'https://archive.ics.uci.edu/static/public/352/online+retail.zip' -o /tmp/uci.zip
+          python scripts/business/prepare.py /tmp/uci.zip datos --population
+          node scripts/population/exam.mjs packet datos
+      - uses: actions/upload-artifact@v4
+        with: {name: entrada, path: datos/packet.json, retention-days: 7}
+      - uses: actions/upload-artifact@v4
+        with: {name: desenlaces-reservados, path: datos/population-outcomes.json, retention-days: 7}
+  investigar:
+    needs: preparar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: estado, ref: 23df7aa50d30be6f75d5d3b9c778738e995ad1cb, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: titular, ref: 4afdef2a7cafecd5a570f13d80df2082fc4571d3, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: npm ci && npm run setup
+      - uses: actions/download-artifact@v4
+        with: {name: entrada, path: datos}
+      - run: node scripts/population/exam.mjs run datos estado/escuela titular
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pronosticos-fijos
+          path: |
+            datos/participacion.json
+            datos/sealed.json
+          retention-days: 30
+  calificar:
+    needs: investigar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: npm ci && npm run setup
+      - uses: actions/download-artifact@v4
+        with: {name: pronosticos-fijos, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: desenlaces-reservados, path: datos}
+      - run: |
+          node scripts/population/exam.mjs judge datos
+          node -e "require('node:assert/strict').deepEqual(require('./datos/dictamen.json'),require('./evidence/participacion-100m.json'))"
+      - uses: actions/upload-artifact@v4
+        with: {name: dictamen-fundadores, path: datos/dictamen.json, retention-days: 30}
+  publicar:
+    if: github.ref == 'refs/heads/main'
+    needs: calificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {contents: write}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: pronosticos-fijos, path: /tmp/poblacion}
+      - uses: actions/download-artifact@v4
+        with: {name: dictamen-fundadores, path: /tmp/poblacion}
+      - run: |
+          set -eu
+          ref=refs/heads/evidencia-poblacion
+          if test -n "$(git ls-remote --heads origin "$ref")"; then
+            git fetch origin "$ref"
+            git switch -c evidencia-poblacion FETCH_HEAD
+          else
+            git switch --orphan evidencia-poblacion
+          fi
+          cp /tmp/poblacion/*.json .
+          git add -- participacion.json sealed.json dictamen.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'SEMAR Escuela'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Registrar comparaciones por fundador y evaluación reservada'
+            git push origin "HEAD:$ref"
+          fi

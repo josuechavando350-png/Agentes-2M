@@ -1,0 +1,185 @@
+{
+  "schema": "SEMAR-ANALOG-1",
+  "source": "Daqing Chen. Online Retail, UCI. DOI 10.24432/C5BW33. CC BY 4.0",
+  "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+  "input": "92357130f8096dc5c7eed1aaef811c7bd4431b0ca11e14012b82e210c7bda778",
+  "commitment": "dab3ee6b929c3ad4544a6bc83daab8e9edb0553463be6a852afd6b2e1a8c4829",
+  "training": 500,
+  "queries": 200,
+  "participants": 100000000,
+  "leaders": [
+    {
+      "leader": "L1",
+      "sector": "Coordinación",
+      "signal": "recency",
+      "participants": 10000000
+    },
+    {
+      "leader": "L2",
+      "sector": "Salud",
+      "signal": "orders",
+      "participants": 10000000
+    },
+    {
+      "leader": "L3",
+      "sector": "Educación",
+      "signal": "gross_pence",
+      "participants": 10000000
+    },
+    {
+      "leader": "L4",
+      "sector": "Ciencia",
+      "signal": "returns_permille",
+      "participants": 10000000
+    },
+    {
+      "leader": "L5",
+      "sector": "Industria",
+      "signal": "recent_orders",
+      "participants": 10000000
+    },
+    {
+      "leader": "L6",
+      "sector": "Energía",
+      "signal": "active_weeks",
+      "participants": 10000000
+    },
+    {
+      "leader": "L7",
+      "sector": "Logística",
+      "signal": "sku_count",
+      "participants": 10000000
+    },
+    {
+      "leader": "L8",
+      "sector": "Finanzas",
+      "signal": "largest_share",
+      "participants": 10000000
+    },
+    {
+      "leader": "L9",
+      "sector": "Infraestructura",
+      "signal": "gap_days",
+      "participants": 10000000
+    },
+    {
+      "leader": "L10",
+      "sector": "Tecnología",
+      "signal": "last_pence",
+      "participants": 10000000
+    }
+  ],
+  "independentlyRecomputed": 2000,
+  "smallTeam": {
+    "actors": [
+      1,
+      1000001,
+      2000001,
+      3000001,
+      4000001,
+      5000001,
+      6000001,
+      7000001,
+      8000001,
+      9000001
+    ],
+    "comparisons": 1000000
+  },
+  "sameWorkWithTen": [
+    {
+      "id": 1,
+      "leader": "L1",
+      "comparisons": 10000000
+    },
+    {
+      "id": 1000001,
+      "leader": "L2",
+      "comparisons": 10000000
+    },
+    {
+      "id": 2000001,
+      "leader": "L3",
+      "comparisons": 10000000
+    },
+    {
+      "id": 3000001,
+      "leader": "L4",
+      "comparisons": 10000000
+    },
+    {
+      "id": 4000001,
+      "leader": "L5",
+      "comparisons": 10000000
+    },
+    {
+      "id": 5000001,
+      "leader": "L6",
+      "comparisons": 10000000
+    },
+    {
+      "id": 6000001,
+      "leader": "L7",
+      "comparisons": 10000000
+    },
+    {
+      "id": 7000001,
+      "leader": "L8",
+      "comparisons": 10000000
+    },
+    {
+      "id": 8000001,
+      "leader": "L9",
+      "comparisons": 10000000
+    },
+    {
+      "id": 9000001,
+      "leader": "L10",
+      "comparisons": 10000000
+    }
+  ],
+  "scope": "positive-net-invoicing-next-30-days",
+  "scores": {
+    "incumbent": {
+      "cases": 200,
+      "observed": 73,
+      "pilots": 40,
+      "pilotHits": 24,
+      "wastedPilots": 16,
+      "missedAfterAbandon": 16,
+      "brier": 0.21787769817241753
+    },
+    "ten": {
+      "cases": 200,
+      "observed": 73,
+      "pilots": 40,
+      "pilotHits": 17,
+      "wastedPilots": 23,
+      "missedAfterAbandon": 26,
+      "brier": 0.31744999999999984
+    },
+    "hundred": {
+      "cases": 200,
+      "observed": 73,
+      "pilots": 40,
+      "pilotHits": 20,
+      "wastedPilots": 20,
+      "missedAfterAbandon": 24,
+      "brier": 0.29015299999999994
+    },
+    "thousand": {
+      "cases": 200,
+      "observed": 73,
+      "pilots": 40,
+      "pilotHits": 20,
+      "wastedPilots": 20,
+      "missedAfterAbandon": 24,
+      "brier": 0.2902665050000001
+    }
+  },
+  "decision": {
+    "selected": "incumbent",
+    "comparisonsOfSelectedFamily": null,
+    "status": "KEEP_INCUMBENT"
+  },
+  "paidEvidence": null
+}

@@ -1,3 +1,8 @@
+import {
+  populationResearch,
+  verifyPopulation,
+  submitPopulation,
+} from "./population-research.mjs";
 import { activeProgram } from "./market-methods.mjs";
 import { admittedModel, allocate, accountForecast } from "./account-market.mjs";
 import { digest } from "./policy.mjs";
@@ -134,6 +139,44 @@ try {
     case "aware":
       show(store.awareness(Number(args[0])));
       break;
+    case "population-submit": {
+      const [mission, input, result] = args;
+      show(
+        await submitPopulation(
+          store,
+          mission,
+          JSON.parse(readFileSync(input, "utf8")),
+          JSON.parse(readFileSync(result, "utf8")),
+        ),
+      );
+      break;
+    }
+    case "population-rank":
+    case "population-audit":
+    case "population-receipt": {
+      const packet = JSON.parse(readFileSync(args[0], "utf8")),
+        layout = store.layout();
+      if (action === "population-rank")
+        show(
+          populationResearch(
+            layout,
+            packet,
+            args[1] === undefined ? undefined : Number(args[1]),
+          ),
+        );
+      else {
+        const report = JSON.parse(readFileSync(args[1], "utf8"));
+        show(
+          verifyPopulation(
+            layout,
+            packet,
+            report,
+            action === "population-receipt" ? Number(args[2]) : undefined,
+          ),
+        );
+      }
+      break;
+    }
     case "method-rank":
     case "account-rank": {
       const [report, policy, rows] = args
