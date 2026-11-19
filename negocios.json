@@ -1,0 +1,1772 @@
+{
+  "source": {
+    "author": "Daqing Chen",
+    "dataset": "Online Retail, UCI",
+    "doi": "10.24432/C5BW33",
+    "license": "CC BY 4.0",
+    "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+    "sha256Zip": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b"
+  },
+  "scope": "positive-net-invoicing-next-30-days",
+  "code": "df505421ad16dba59c8f770f84f4a8c0e827bb85",
+  "exam": "37040931e4a18011eb375aec0a147f9b9674cf4d1b499ebe021084b78f8f9519",
+  "decisionCommitment": "f305059f2d741f659b38298f9bb701a22b813287d7caec1d02e75bdc1dbab256",
+  "predictionsHash": "56b803e3a31230fbb5447a125d4334e0723832fc423e99fddc55f186ff5bb2ec",
+  "cutoff": "2011-10-01",
+  "trainCases": 896,
+  "validation": {
+    "baseline": {
+      "cases": 400,
+      "observed": 109,
+      "pilots": 80,
+      "pilotHits": 29,
+      "wastedPilots": 51,
+      "missedAfterAbandon": 35,
+      "brier": 0.19657375136273658
+    },
+    "challenger": {
+      "cases": 400,
+      "observed": 109,
+      "pilots": 80,
+      "pilotHits": 51,
+      "wastedPilots": 29,
+      "missedAfterAbandon": 22,
+      "brier": 0.15696272899828226
+    }
+  },
+  "validationSelected": "challenger",
+  "modelHashes": {
+    "baseline": "aeeb791b612d9c700ab10057581e5d14626b38f24ca61cfb7b779df2427601ca",
+    "challenger": "5251466737f8309d64fb8b01206e4afdd2ab60761bf4044597a000562f43c205"
+  },
+  "summary": {
+    "solo": {
+      "cases": 240,
+      "observed": 79,
+      "pilots": 48,
+      "pilotHits": 29,
+      "wastedPilots": 19,
+      "missedAfterAbandon": 16,
+      "brier": 0.19241001331588667,
+      "creditCeiling": 2400,
+      "creditsSpent": 240,
+      "reads": 2400,
+      "elapsedMs": 367.80492200000003,
+      "checkpoint": "98e168c95f74627524d36add10df8b6552e8578a365f3f83ffa30fe9d603468a"
+    },
+    "ten": {
+      "cases": 240,
+      "observed": 79,
+      "pilots": 48,
+      "pilotHits": 29,
+      "wastedPilots": 19,
+      "missedAfterAbandon": 16,
+      "brier": 0.19241001331588667,
+      "creditCeiling": 2400,
+      "creditsSpent": 2400,
+      "reads": 2400,
+      "elapsedMs": 788.7000370000001,
+      "checkpoint": "5b202a8176055c39aff265da8b5e54ed4a94a5917a5bd2770668677145ed0179"
+    },
+    "incumbent": {
+      "cases": 240,
+      "observed": 79,
+      "pilots": 48,
+      "pilotHits": 12,
+      "wastedPilots": 36,
+      "missedAfterAbandon": 35,
+      "brier": 0.2258957454793827,
+      "creditCeiling": 2400,
+      "creditsSpent": 240,
+      "reads": 2400,
+      "elapsedMs": 305.34372499999995,
+      "checkpoint": "4b457b43322aa4d7b569576b0b600d7394c6379cbec06e3deb9ef0584bf9fcb7"
+    }
+  },
+  "human": null,
+  "disagreements": 0,
+  "promoted": true,
+  "cashEvidence": null,
+  "cases": [
+    {
+      "id": "u-508d9a13b72dfe9d05",
+      "source": "25e2907b2b62dfb37891dff99922e4a22d28f4be269e4f52c27e3cd78eb7cb82",
+      "probability": 0.9363764725026434,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-04304e0ba41f056416",
+      "source": "e3938ab810ce9710ec2c7eba16c1bda91bcb130a0abbe7c73ea4bf29a520267f",
+      "probability": 0.9256242969690847,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-00951ebb71041d11ff",
+      "source": "c590c4fefa10937d95a530ff1a4d76a070c73fe83971b4070786e805f5c2eb6f",
+      "probability": 0.8767083654078734,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2e4981dfa440c1d611",
+      "source": "8dca4eede70c6d295efb88cbb5deb55551285f4a4165f76a5802a812f8f84ff3",
+      "probability": 0.8300798940076047,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-1c32ef13d56867b54b",
+      "source": "e3541cb04ee3479c74e9eca8b025159e35932b4f91a4d0108e9399a696bc1bd8",
+      "probability": 0.828161368847256,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7b6e63dbc6a60bb0e6",
+      "source": "2d085cc4eeeb31c5ec7f04af218532c2fcfb3efd0a24795115a51c68e9e3c07e",
+      "probability": 0.81178635865272,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-36a18c6f18a2232dbf",
+      "source": "7f1420e780ae3efc07dfadee4f31fe98d429b95780b2ceaec88db204c4f0d468",
+      "probability": 0.7962281492539891,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-606f845bd900193206",
+      "source": "1cbc9b4ade4c252f55230b103222bb6606ebb3ffa2b97834dc870dec745dc5c3",
+      "probability": 0.7486355943399208,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-512496f3d3eebd907f",
+      "source": "dbcb3c42475c66eadbc3a7cebcd50d9ab9c7c546b3771826683c41e5f0172a76",
+      "probability": 0.7271717377478645,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-79872d1f7f8825950b",
+      "source": "2330e517f1e38e498bb52cb4d7e45819dcea3dcd9745b50041bfd0f6f2ef80ee",
+      "probability": 0.718454789976223,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0c6cb807745802f501",
+      "source": "c8988a1fa64e5f15481c17f7a1341a1610a8017543e414e367fb5955e7b057d9",
+      "probability": 0.6952410316560561,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-16951cf7f4d0f2252b",
+      "source": "1280f2b23b78e46a376c0f852b5f44a9aaca9f1c50e5fcc6530d9cb643528d6c",
+      "probability": 0.6943758386685057,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-50663a07e5684e0ddf",
+      "source": "20a99f1be0cedd4e170d9042fb04e3867ef7a96041f6a27bbe00d79b68a8f4c6",
+      "probability": 0.6736731969412606,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-7b64deff2b375aad28",
+      "source": "d8d348b6699d7c92fe027f3d212abd9ebd6070f0233c8514aded43c05b2e3ea6",
+      "probability": 0.6652749388620898,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-42480dcf1be5057e32",
+      "source": "de63a3ed95b4d9d3c24323e6b0949938299072e16a08b9b26e6713c2889baf2f",
+      "probability": 0.6455099846211783,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-51b79e533e53134427",
+      "source": "7013591846f560af53db434cea6acb3f610b4b9fcc84f8d6d503301c514cce58",
+      "probability": 0.6296287910664331,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3e9c7d073729f2b50d",
+      "source": "e682e9457609354318fc53f375fa94c1555b56783f4e1550874c56874f52b83b",
+      "probability": 0.6198511445827454,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-18ed547bf34a829e61",
+      "source": "46bdf8c68ea29d0f3b835c653c37e55a9aac100991f30c0f34241c6350594b5c",
+      "probability": 0.6112828083699388,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-69d7bdcbf1dde624d5",
+      "source": "b13d1394e716fdda76fe10e141f2c306e46e2c4ef5688aae68b04214490dda61",
+      "probability": 0.6079339184040524,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-44f01a2b68c1f99c78",
+      "source": "027708e3f89d887e6055b6069bd5f0b34c0d2c20ce2be7423f8f475d9e73a0f2",
+      "probability": 0.6046266605221144,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4ba4358324fed27384",
+      "source": "e6d7dd96d24ed8fc27ab9d76ed1b54b60288e9d3349605125d0edce5ac573461",
+      "probability": 0.5761502746114895,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2956e86b11dab96381",
+      "source": "9e8e43dad2617b2443f0757993c6d0eb33b0fd283f2ac39042dd89631ee19b01",
+      "probability": 0.5737977411221526,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-310f113f6a0caaf22e",
+      "source": "681e02da57a77ccabc572938385b7d8e657bde7473e83d7f81046842fcc39f85",
+      "probability": 0.568020897335546,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-70e2acd72afd502a27",
+      "source": "6ceb5fa9a12570037bf4fd46809fcdbce82071eeda20a9f1805b20a370217a31",
+      "probability": 0.5567992890827753,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-331a360725137f9178",
+      "source": "cda406d9be433aa784c197a524b405e63f3ea8b83fc3d141b98ddb957d31e17d",
+      "probability": 0.5526198210115203,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-386c1243769b1ae658",
+      "source": "15ea801742bb22ef28f8e714b6c04294d7b5f6620e3d22551b4e39df4e331422",
+      "probability": 0.5518277909380417,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-6c88e8c340e0fe0596",
+      "source": "50273d11ee4961b5271b4625fb02e1633d693ceb6d85849a3a7591c355ba77a9",
+      "probability": 0.5506884140625049,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-453a49a770addf19cd",
+      "source": "e8609353b1136d529251d20a3087b0a059d5239e3e957c5f255f6edeb86aece0",
+      "probability": 0.5427496185181826,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5a97da9318e951a959",
+      "source": "da27abf9f35f63da56b50f3888b2f60fccd496fa2ed41c18309c99b835ef097a",
+      "probability": 0.5361100342019653,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-660cc2c3856402a175",
+      "source": "731ec01c4376b1f1bea159b67af61a344f287ff3722af2f669c6374547dad682",
+      "probability": 0.5173037089030348,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-27d5a0df1380dadd67",
+      "source": "63930bcbfc62a08485de944a108b5c0b3a7e3c775ba04674bf993fb291c6ab51",
+      "probability": 0.5122644209201132,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0e2327c7c650a7b779",
+      "source": "38d89de15312b601836f031f041811041a052f1be5d79cfb968ceba4663aad76",
+      "probability": 0.5102043127751716,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-6e4d435f3c40c5a2bd",
+      "source": "bbd2b2a41335585d2ce0ad42c2ccb712acf7326ff7ce2d8e94c0bd32eef59339",
+      "probability": 0.48820534495977636,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4f484bb39ce7724623",
+      "source": "f06814846829d98a5d2c716f054650effd5c48d45a228aa545ea5a1bfdccca49",
+      "probability": 0.4854882712823611,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-541bb3177ccb92585c",
+      "source": "3f06e4b3726d56e93bce68f40504f2f928dbf090a988d7929e4be5cdb62a1b06",
+      "probability": 0.4842253764068447,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-369ef387abebe17248",
+      "source": "76717abc6c63d19ab7ec3f20b72c09dea31f4cd8e672a0936c22305a7b00b080",
+      "probability": 0.4790775127561012,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5a87fc9376776338f8",
+      "source": "53f52bbf966f360091e5af4a48f6f45cc7f38832f113b8e824eaac24cdf01145",
+      "probability": 0.47899410148265786,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5c340cef804614e76c",
+      "source": "e961098ae89d2fdb95ded98e43327601feb1c2e412cc080ebce00bf1318e9084",
+      "probability": 0.4748471018481551,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-68ba5677a86cd3833c",
+      "source": "fae094d2e7b2fe01b9bbf29e9d793baeeb850865a247f2c5b1159e08f3e0b143",
+      "probability": 0.4705813617960996,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-60cf67835a8a2e420a",
+      "source": "1c73a6c4880040f9c38932009489a072379a1380ac3d3ef63ef3aee08097766b",
+      "probability": 0.4650994107082289,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-6022c21f3ed6217d3e",
+      "source": "cea3e3a09e865d98f653cd719177877986ba57034359054d38fb9afb70c008b4",
+      "probability": 0.46020385263613983,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0ba3b077135d67bb54",
+      "source": "5c8d639c9ad040c00e0159750f58d533bb2e7224587fb09030004056fa0730a5",
+      "probability": 0.4567950576202871,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2e50bfaf30cee83086",
+      "source": "0ce5f78247db09c92f162fa3cc440510c4358e5f14e8a36ba3f38f62d452faaf",
+      "probability": 0.4505121010417438,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-67763e4bebf1c43d40",
+      "source": "06f0512ebe2526e49e58263197fc9a8f3cc08118f487032e4a43eccf2a3ac5dc",
+      "probability": 0.45039514109242307,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-64b7dbffd3faab7f5d",
+      "source": "8feafe8e4587ca4a11847ef3e29cd9349fdf3c5002262324e39578914461954e",
+      "probability": 0.44857952826284436,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3d5043eb0e91c7a5ad",
+      "source": "24112d9f9e7d4dbcc665fa8192ac9f9a4cb954df895a3f2e1cadc6af65127976",
+      "probability": 0.44552570858973306,
+      "decision": "PILOT",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-69b2d5bbe57688eecf",
+      "source": "93bd3999d8ffda1b8f7fa6992c559b4bd287fac71011447d8265ec24475e3cd0",
+      "probability": 0.44536817072877727,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3e15c433eb7f41e348",
+      "source": "813e9b246d8d89d16129fe3de2d8649e38ee7421abd5701f245c83d78ca5b04a",
+      "probability": 0.4439285185465885,
+      "decision": "PILOT",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1567d0ff1afd0b134d",
+      "source": "c81f06f0fb0865b9658f83699fb3d7629accdfe7d762eed8bb389500afbd5132",
+      "probability": 0.4381660526648111,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-57f9c9637223ded2c1",
+      "source": "ae1bced386c243c87acedcb9e7232792cf724026e71539655d23302d687d07e2",
+      "probability": 0.4365831444032045,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7a353d9b4065ac1230",
+      "source": "e15553df8213fda02db478ec7e077c503290d3cd941d73df40636ccb1370718a",
+      "probability": 0.4335560393101778,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-7febca1b8bd3c8de9b",
+      "source": "b83474adc103b203d364055aab6330169a98e9b87866a50269ff663a28e30bf4",
+      "probability": 0.4159587356332563,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-534972ff128f99d1ee",
+      "source": "6a71e459234c225fb36bbb44bc7da866c8bab0e1ee0f89eea653325ee01e59f5",
+      "probability": 0.4083586504967954,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7b1be44b8a08b551a2",
+      "source": "446df81bc20e3203dd157085f3d1b39c702690212d5304d981a1afa43f2317c5",
+      "probability": 0.4080082939635866,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6b44692b375c4f2773",
+      "source": "3b3faf04227079665fa7a9a1717c22607defa935be1e9553424fba6ebcafaa3d",
+      "probability": 0.40239951212245845,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-09361e036f7f32e223",
+      "source": "36ab62454cd559c0601f5200ad0dbb8ba281c9649c35165bbbd6fc925edb1a7f",
+      "probability": 0.40185404096251875,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-19641a43fe5193b0da",
+      "source": "ecc87a735d4ee72c972bf06ccde1c2a0024fa0c3715f95fd1b8cbe6d4ab4d0eb",
+      "probability": 0.395103808727285,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-146b19ff97c53d864c",
+      "source": "1d98a7456d60dc7c677ed18d6a62bbbcc82b878ee427e071c35b24077a4407ab",
+      "probability": 0.3926357431939303,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-19931cbb943cb5e04c",
+      "source": "79e86fbaf773fa1d834781bdbee0af2fa01584a798bbb41a5deb85e1500d11ac",
+      "probability": 0.39142389955926593,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-64c6a6873a4f5828c5",
+      "source": "d5d05d594a3cb24f3b6dfbaee5064578e5898d9ab083e4206d0774a4a52483b2",
+      "probability": 0.3908315632303365,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-54995e8ffe958b91cc",
+      "source": "18581f7863123afd379adbedca12ed9f9631495546ebc2a9d34b5255449430f2",
+      "probability": 0.39022147885609315,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1c310ee3026a07bb4b",
+      "source": "cbe1a76be21aea33552fdf7ad2a8b81d183e4b61c4caa23cab51fec05d703373",
+      "probability": 0.38430674510982255,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4013e38370e262ed26",
+      "source": "61b762d2ec133e1455637916f682d88e21d941e86ece5442336bae03a8582d45",
+      "probability": 0.3806564427724583,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-637af71f5b4e80ef3a",
+      "source": "c67a9c9e55dcb79705fb3518aab7cbe5c5b1c0462bf3cfdff3d1e0b8c83ed4d4",
+      "probability": 0.3795469774438919,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1b514de307aec9ead3",
+      "source": "ba9a687847f315069a82dd9b457bc6e40092d0873ddd0f2140f11c0e5a035f84",
+      "probability": 0.3772367538663422,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-1e0df0dbabc1aedd29",
+      "source": "4499a4fa1fb60360b73086634c64a4da64aff4833a9338145176835579d511ef",
+      "probability": 0.3767282313379026,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-703805cfe457a17a68",
+      "source": "47a3f2be26e5cf7ae8027da8e1b812c230ec5af8f231bce8e5dc6236de216518",
+      "probability": 0.3753190469409358,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2b6230c70b1e6fc172",
+      "source": "eaed999a78c238fec21441da7c2a2711a3b57192a8aef840ac0f667664d2f9d8",
+      "probability": 0.3748282530336734,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-075dc2fb73d5b41c59",
+      "source": "59e78c5c3f107069591adc018e55718354e7c69d900ca5a9c0fa095d151558d0",
+      "probability": 0.37356351375601027,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0406fe8f9493c70ff4",
+      "source": "28f6f22f6ad8ab462f55e715c36f90ee2c6539d8502d5305ee60ec4ac7841df4",
+      "probability": 0.37296149163514686,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3be1f1e3b892e08353",
+      "source": "9c57696966f2b6d7854e0de6d7f74b5118f3f5329bce7f7c215028e0e834b50a",
+      "probability": 0.3680477494018148,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-37b9ad93bfd56d2307",
+      "source": "7a732fa40c93180baba8f6ca23c07a5828b01c8af06540c7e09187f9f188eb2f",
+      "probability": 0.36712001278809164,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-174993e76e9bb72173",
+      "source": "e972f645df218771c78301e97ba33a7d68f1eb85e7f3caa04612ef962c39a69c",
+      "probability": 0.3669137582558259,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3bdbcea34ba917e145",
+      "source": "5f645e475b689283aa6856814aa20156d437084b7f67bf5e5bf17c1b394bc0bc",
+      "probability": 0.35163023624142553,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-76e5da5f860ab23d4d",
+      "source": "230a8edbaa917bd75c26b788b5035a10175e39d7fae23322c56039316e9e9164",
+      "probability": 0.34803206787492447,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3a33d4eb0722008dc8",
+      "source": "6699f616d4f56a818d43e3efe7bdc6a3d33fa4ee0ca6fcab015e1254281d37e0",
+      "probability": 0.3430234965816455,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-604ee90be4eae50006",
+      "source": "af546cbafab748e79d8d09a228112c93fdf2bd37a8eb42c0001a2c4826440df7",
+      "probability": 0.34111001838761545,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6210283fdb96bf2562",
+      "source": "d71d6eb9de51a3dbb7f59df78b9a3f53e14efd9fcb94c9f5288d544e55dae1c2",
+      "probability": 0.34045575726649513,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-153652ff7112de1eb0",
+      "source": "f26153bc5127854a69592042ff9b5f359415eeafd959da196c81a1a97e24d793",
+      "probability": 0.33977572326090394,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4c204953493b9c9910",
+      "source": "46742ccc532139ce6fa52fdd20df60d16559a03cd51456f1fe2d93da7b6e3663",
+      "probability": 0.3378392174991671,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-28f69e33453904b376",
+      "source": "26f493c9d536bc9fd49471df1db249c81299bfeac509adf27a16d6309a55f308",
+      "probability": 0.336951449223823,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0fd11cfbef624afa01",
+      "source": "6d988957230a3982d8292a49db3fe76c9c2d42a7c837ad9696ef0351333f23bb",
+      "probability": 0.33653289759860594,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-41d6755bce9d6f9218",
+      "source": "82cfcf1ab8f1560f0117977c0aa4e04acb7195e9f46c5cfeb0ab742f427fd4e1",
+      "probability": 0.3333079855690318,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3cc0594f4c5de34498",
+      "source": "4021cc4be4411ec345570ca175d9a9be82e2127f0d11a9a5264a49f6ddb8e053",
+      "probability": 0.3284254652483791,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2adbeba7c9e23424ef",
+      "source": "4a22a0abd32ff1fdd50277c73e39280d57dd1bb0249b7abb074b98bb8c5baafa",
+      "probability": 0.3217011593347913,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-6c98998b28ace94507",
+      "source": "b9e07c9626f6f33560798c75a0fccd61dc42692fd40577b9bfc7ee3e71ef23dc",
+      "probability": 0.31497749013403276,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5b319247a0963aedef",
+      "source": "88bc75b846b7ab47fb761d12eca5a404951ffcf7400cb2995628fd0621b6bb75",
+      "probability": 0.31019125513817614,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-462d283be4309280b9",
+      "source": "9670cef1e8da5e39c6c7a86cdc49e8aa73025cdecb3306b0b6b821101b80f8a5",
+      "probability": 0.3026621018254355,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-79bece6bd1a34c0761",
+      "source": "85e69221a0dc4ffb00e2aff0bbc27b1bd91cd9a1395c8c828cb32736795ed133",
+      "probability": 0.2912259207569088,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0da8df2b8d0c62ef3f",
+      "source": "c9e9a0c52227affc23237b89cd01f4e98a67d1eb36ea287d14155d3f4e8be500",
+      "probability": 0.2904764827499649,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-10ba6f8fbba7b830b7",
+      "source": "60409e9444579fc6759aadfc6a3a64087d55ec54e1d69efa912fb4af269fef89",
+      "probability": 0.29013717035279046,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6c648f5f94ff59327f",
+      "source": "cfcbe803c39f694f6821b1616c44da31aeac89ae418284a5bff442c12b128550",
+      "probability": 0.2864367216912179,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0f00aa43104e53543d",
+      "source": "6780f8d3201bcb375b5a2e9e695e484ea36823db34edb2961aeb9fc1b1b4fa70",
+      "probability": 0.2766695837813327,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-57c10e470bbce22e91",
+      "source": "fcd9b1291c15b8ac950ed6097a569e26d795aad8428be929631ebfab9232c851",
+      "probability": 0.27535996196118234,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0f302dcfc0b83fd456",
+      "source": "7eb958102cf5f27915af66af7bda16f259b836b6c96650b2d736134420bba2b5",
+      "probability": 0.2718836940757571,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0912345b27e80a6ab6",
+      "source": "0f6176e456b6d89083c4b90178bf08244c1bc005c28a68e174968b27d1072829",
+      "probability": 0.26333779143696506,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-349371a333cb235d04",
+      "source": "b939080a75aa8b35c9d669348271677df15e87d332d1e83a7a18854716da81e1",
+      "probability": 0.2609868338284315,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5ec14abfbbe7a0487b",
+      "source": "30c6eca5496e8a5a57fb543311b61d3584a39b7167182e233d288cc77473f8ea",
+      "probability": 0.26016019027676157,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-793c1bef05cba275d3",
+      "source": "eb2b801f89f661abdd1147c26e82e321f77d723783e1996032fe5727cb86c7ad",
+      "probability": 0.2599030160768041,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-36b1c46378e391c60d",
+      "source": "aaae2c4425b4b26656e152452a5a45ba35168b50c53a82869eea6b4356028327",
+      "probability": 0.2595024922811956,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7ea2d487b9024aa8fd",
+      "source": "c48da36aad4db6a159e07b251ad4cbe2aba44b272c400b7e68e6395f8a3e49f3",
+      "probability": 0.2516343962084933,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-31ea3a0b0cf580cdfe",
+      "source": "12537fc5433470932e196be153592909e34f42de8d0ef819f1a756dda730f7c8",
+      "probability": 0.2515158751063319,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-39aec0838938bcea5b",
+      "source": "7051e584ec260f1503e872cbe14334ab6071282c2d4c8d696049b9dcab0bc1e9",
+      "probability": 0.25127578461828404,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-29032eff7add6bf3ef",
+      "source": "c47e361f7e53a1c0b1fc3f80c6b1c0321becd07a7951e6a0cc3fc6cdbc5e4039",
+      "probability": 0.24826881590752942,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-03e917a3584a24393c",
+      "source": "213bd7af293a2a4d3f3c69601ae42bd0cb38082e3de461393ccdf7c2d1b81977",
+      "probability": 0.24719989367313885,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3736491b8ce9982f66",
+      "source": "2e0e67f4774562f75a96e4f0e775c1a1a9a7a5faf75078b505adfa7c67326ea9",
+      "probability": 0.24409132227148245,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-367d5aef60e76ef64a",
+      "source": "f514467379e227ec086dda45742ce19997dd3e12cf9ea3270f15b771c5258fe0",
+      "probability": 0.24371692669658537,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-13025b5b78107d8ae4",
+      "source": "a070ee6184741ae60dcb9113b3d2e0b7696d1e51dd659d89812bfad2192b9003",
+      "probability": 0.2425395120779843,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-7976f6bfa83277d60f",
+      "source": "6c7ead79179c3d2b5b9bd731c9533263b2848aef8eab1e79c4a8be2efaf21972",
+      "probability": 0.24201903737377126,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0cc82daf621fbb29ce",
+      "source": "6e1d47c37d126ba0cd9afbebfebb8120c57ceb4c398a6ec2353f469c482edf23",
+      "probability": 0.2414077030960673,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-7d5d3eab9f20cfd69b",
+      "source": "20ae757151309c55ac7da63b5697a8912dc49a146c0e408dc57bfb5f781599d0",
+      "probability": 0.24118476414706874,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3490cd73b1ce401dab",
+      "source": "154bdc50033d5ebea78aef7cd6bcd2cfdd9aa9cb07c5ed0a6a430bddeb4e101d",
+      "probability": 0.24059283964802644,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-54c62fd36891463a50",
+      "source": "97e29ca18bb186fa2a6320dcf9358cf19e6a8f9465863613c7276fe7d9aeb528",
+      "probability": 0.23985040506516653,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-45dade6342773a4051",
+      "source": "c274292b114b35af2ddd731bf03e3424f43b987611d0398792a7de7df1ac4b4f",
+      "probability": 0.2372126710298242,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-5b1acb9720d55fa4d2",
+      "source": "edebad3652dc50ff6cd45a597c0cfffdae9dfcfee39dff4fa74172ec6dda9015",
+      "probability": 0.23640070655876486,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7e60452b0c6026db10",
+      "source": "6f8d4b7da6e8bb33ea25edd366a297a363e9edf8a3067e84e90da8b883e34408",
+      "probability": 0.23461165835241304,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-69c466eb217163b782",
+      "source": "d0711a6de87e7b1701c2500d83f706cee12d6add3c9383d6d0a35d0defb6f606",
+      "probability": 0.23313906129925852,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-39540aef2283b48b29",
+      "source": "c09e7f26a734c1519c7a03d8b96876b33a5393b48e1e8646a5a56423db3ef6e1",
+      "probability": 0.23024635151425005,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-526c7f1f65ca4cd070",
+      "source": "12a5aa5c1d634962d32fbdb1e513ef2d12c52321284dfda26d538c74052ef7a0",
+      "probability": 0.2280762621968779,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0aa540f3cddd48c528",
+      "source": "910ce42e2d3c8ed6e13e01ea8fe1019f30ecba811a902308fa8b0b4fc8787c32",
+      "probability": 0.22660324869026285,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3947fa1bc09ec98b12",
+      "source": "ac2881742da3171f85701b2fd9f5b0f26803ff0219b165258ff698175791af7c",
+      "probability": 0.22475734858614435,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6dba3a5f1c3145dde8",
+      "source": "4b45adf1c03483beb479368c74bac5391fe1a5fd24aadee218667633e05377bb",
+      "probability": 0.22436054029853347,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-36a53bdb0e5bd0e589",
+      "source": "eb83d928d5954a359c25c60ec1bac2983a883f81dc9a59bcd5fd0b1ab60aaecc",
+      "probability": 0.22121682379460536,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-63e26a17b99907d770",
+      "source": "d44a8ea4611b1ece50aeb13c6b6742a9a0ea022ee7170ba210f016d7ae6aadfa",
+      "probability": 0.2209325415714323,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-630b3e13852ec04dd5",
+      "source": "a4e4fbadfabdaa07c158dd5487742e3032b6b9fb636a62214128f53c2a1ba36e",
+      "probability": 0.2208858408101197,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3a0d2b83a73c5f8c56",
+      "source": "e2824deddc35c0ab6a5b78dba51bd3c6c4182dc4ec2e77c6ec4f131231d62cd4",
+      "probability": 0.22088192069379847,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3379ac274204d84355",
+      "source": "9a63ccdabb99752e710b2cd76d2dee50f5f11958e4e7e2d65db310e3ce602bad",
+      "probability": 0.21747370632146976,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-00e56d27199f98c969",
+      "source": "8ec66defdcef4bcd2996511664ce982d3ec0e003ba0068a92255e9b1be43c4ff",
+      "probability": 0.21683003207651785,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-66b69877a130b51f2c",
+      "source": "1fe879426ee7ae04823ead071cabdc1607b8e1129643ee2af929bbe9c5f5e3ba",
+      "probability": 0.21510902484429922,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2575013f3a0b45b306",
+      "source": "30c6b6ae23d8345aa02e53417cf949c562c2b15eee7342eebeb52a5e962cb070",
+      "probability": 0.214695727267314,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-73c04b6becee0ad72a",
+      "source": "78124447770d3d3482f9e97763d49b6b0fd18a21cf9a38cef17bb211e0e168f4",
+      "probability": 0.21385622613843713,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-5af8ea8bc47a6f919e",
+      "source": "32da9191e635e8bc376b87c8ba1899bbbed193f777e5aa86e5d9e91e36862a92",
+      "probability": 0.21330424675621149,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-17c1cc8fce484783fe",
+      "source": "0ae4f365c120cbf91c235ba92e38903cebc985d430c9edc8ce6b71ad82fdce56",
+      "probability": 0.21196423038034207,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-34f0b82fda48ffb808",
+      "source": "31e87499185adce8157b491c55e68da1eed8c0b7ef102e88992319e6f06ce534",
+      "probability": 0.20986550271951204,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5ec0afb78b4d6b68c4",
+      "source": "51f0a1dca023d3c600b619194bf633fb3cab5735cdf37c671bdd6b6dae38cdf4",
+      "probability": 0.20888954357212317,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-748d3dd3cde275dc90",
+      "source": "6b3cfcf18fa7605a8960a08c7c6d53db808a45dfa5ec7e876a2a83b29c44e258",
+      "probability": 0.20884827612939763,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-681bbc7f8ea58c8466",
+      "source": "487f4ce72bb1fe1d1fae060760101b29fd9465aeebcb5518df4577f5457df2bc",
+      "probability": 0.2087560934117588,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5704833b8c95f46b5f",
+      "source": "825f1ba7d843bd4cfbf7c29173af054d357e83d7337665ae86cc4960bf920a03",
+      "probability": 0.20734159160565002,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0c20aa43ecf70f2273",
+      "source": "b79753517239906cbf9198e1e47c8a4bdf69fd30f293a74c3c8b545feea105ff",
+      "probability": 0.2063815060461914,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3b917feb86103de835",
+      "source": "0786de6c71acc4525c722be4edea307b93e9d3f165d9ec9de3818edcd3ef5fa4",
+      "probability": 0.20591283790551881,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4e4dda6b8f573542e0",
+      "source": "ad5c339f551e1cc5baab704f8611abea62c85b2ea2851d42b1724fcf6072f359",
+      "probability": 0.20354519459222287,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-33a2ac2f36b488e5b9",
+      "source": "92f25f48d98ba49d7c9cc5df211277f78126664a6c51495d1d1ad2d274ac3245",
+      "probability": 0.20316864041514374,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-011ea3cf25ded958db",
+      "source": "eae3d239fedf941ae73efe453d596d656ec910e08c3e202791187b415ce285e7",
+      "probability": 0.20212656547311542,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-35a094ff35a303b7bb",
+      "source": "0a63e06bf557bc1ae663a38cf498c2c21ca67126ed9fa500de7eac2a8b06b3f8",
+      "probability": 0.20128054466337417,
+      "decision": "INVESTIGATE",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-65fdbb2f549149938f",
+      "source": "c662a2bcbd187067c1020bd9c1cc6bb6771753424c0519c70e755601ff548e3f",
+      "probability": 0.19654483691961774,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-47fd62cb43523e56ca",
+      "source": "1c8d2e0c3609d1b2849a9b01879a61fd971ca856de2acc014d5d4a4a11ebe234",
+      "probability": 0.19585675690982277,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-4d0a6eeb6ce168c3e0",
+      "source": "4c0eff6d2df90478fdfe767954e85dc23eac8035ece76acc4c207196c44f9682",
+      "probability": 0.19532821071820328,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-732201f7a2a78801c0",
+      "source": "3382805db48215d37170fca7684b7a7f3ff4741bc6d2cbe69cc7c102cd966b46",
+      "probability": 0.19504131693348079,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-495272b383f2bb9fb1",
+      "source": "664eccc467f050b85f25cfa610e3ad0661af4c62ba005249f873b0b59283a7dd",
+      "probability": 0.19465187218589836,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6329bb87367e57063c",
+      "source": "8310f012a3607a2ceb690ea22967d276c78577f4acd0a25b03e40b07d5370871",
+      "probability": 0.1926554333308845,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-3b9a1d7f651f1ce4da",
+      "source": "1fd40621456c2e84c793c07b8bb277aec3578b0872b7101a1a48e1c2257183d0",
+      "probability": 0.19201525956288729,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-32a4ca57a6ae192cc1",
+      "source": "8f4b40c8bc291a67411ffbf1afc564e1470deba42466f565da01a94f68f44358",
+      "probability": 0.191737628168623,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-703e87cf7b98ea9609",
+      "source": "379f5f5d8501f9ee1c7968a23ac36b05f32fb2bb589ed5fe607a34d0a5ee6040",
+      "probability": 0.19171817191700893,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-0912e79b24d103e880",
+      "source": "899a0ddbed55f2bbe7a4160e17a9f6bcabd0003f52610e9a0f619d20314d6eeb",
+      "probability": 0.18897882126525362,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-4a71f243347bb9ae14",
+      "source": "695f9f6ee7f5b35d58b5c6d6c50e6f7250a9bc7c5a52832b1e381465f9781f2d",
+      "probability": 0.18854563724444653,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-47a9477f08489869f5",
+      "source": "f589ce21b709547621b19c77060904811bd0971a0da1ee2ecba07293207e4202",
+      "probability": 0.1879079662689162,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0e0b711b65a8262aa1",
+      "source": "105b556e09383e36610922840a712c002494056b305377400dd097bb035757ac",
+      "probability": 0.18611614485244168,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-755f1ff7ced535596d",
+      "source": "a2a248a93a8afed26cfa402e7e5863b26273d3695bd202aac25a6f7dd9d87a6c",
+      "probability": 0.1857631216694801,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5d6b63b7681526fa46",
+      "source": "9f79e0e7d9af94218cbe527bd7269286c66fac7100690437099d5b7e067b40e1",
+      "probability": 0.1831997284255074,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-25aff3bb731136a532",
+      "source": "189ed452fc0d4999d9326bb8dce8fee20182ae74c667ca556f21c66893e2a8a2",
+      "probability": 0.18261200402471284,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-00b5b76f86167059fb",
+      "source": "d16e97d6c45fd2a2b33f505fb3b79723f06f31d5893c2b87aff1b145468886c3",
+      "probability": 0.1819249197201509,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-65032e6bcb1f42272b",
+      "source": "683b55704b1f55e5707269ac268a2ab0fbb90d2f1aa1131522b8d82ddc91caec",
+      "probability": 0.17971462952977565,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-284db1675149b786f4",
+      "source": "71cc0296d72b588ef25bb3974aca8dad0bdc987db019fafeece441adb0be17ec",
+      "probability": 0.17956393567289483,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6de6021b95955b8a57",
+      "source": "fba47950ddb623945e450000aa58d8a3078917114891e80767b7ee2e0d222cac",
+      "probability": 0.1790291370781722,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-493988cbdf40df174e",
+      "source": "3ee1277c4ef695ac6de602e4d7f5f29bb107260e46007c7529ffe2e6ff16bb3c",
+      "probability": 0.17722613407164353,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7ad4964f7b4500211b",
+      "source": "628d2393c5a93e4f39877f2c7a97cf6a3d691b998e53daf69274ee85a3ba633a",
+      "probability": 0.1760597867432153,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-54ad340f1ba007ea68",
+      "source": "325f34759a620eb0da9c668522bd215de810c693c8ba5c23eb847b7ebd0395f1",
+      "probability": 0.17576887822030865,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1fc9cdfba3dac44737",
+      "source": "c35cfd484f43d5a96af17788f4314c70f8d665bc856fef0fb56f83356ff9292f",
+      "probability": 0.1756029374006287,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2899fa63e54c75d7de",
+      "source": "1a33f44eebf310ebdd95f289774d22ba39f1575fb0d211d891022cabb1cb9b21",
+      "probability": 0.1744545315071815,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2c2d1de36a8eb45aa1",
+      "source": "6f94961f6ebdfef46ecda9c553e37ecdb87939fbfee6c0ba665ea44d924a4054",
+      "probability": 0.17376823812983005,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-650714eb07aafeeeba",
+      "source": "49b7718fa2717749674a4c7f49e6666113455709f0377d56281df65f6eb72676",
+      "probability": 0.17286865207824945,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0a5793cb01b445597a",
+      "source": "c059947f4edc6ec2c7da6a38e4652ada9546f484e626452611513ce089a6566d",
+      "probability": 0.17283162585987036,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-13b2f5afa8ac2ffc1d",
+      "source": "ba06ab14f3f2bac3952af15c217716262777b97b441598822fda87aa9f4b2bce",
+      "probability": 0.1716084076341192,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6f72ee1f110c5e74a0",
+      "source": "04fbbb07bdb9ccbc3aa797566884ddc115c5a6fb958af8d0b01d8f577a1ca267",
+      "probability": 0.1712022108207298,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6593b0ffd7451c23ee",
+      "source": "b519142ed8be2257197a084b6c20c9063a9d717e81d45543a31d1034e7b9f572",
+      "probability": 0.1708706542369137,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0cc79acfbbe51d9d12",
+      "source": "c6cba4e212d3bfdc49834c56501ed425871d2279a25a8ac94d9d4a744ccf9ca3",
+      "probability": 0.16939487697063968,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7b0a4947dd479d89db",
+      "source": "9d2d5c83b6b7994dc76dc4c0f17005687ddeba3af5088e076157875f49bec238",
+      "probability": 0.16914523272381296,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-06daf48388d236cf47",
+      "source": "b31e1d5d5d15ad101e0ba7ce9231e403ff621719510a1b4f8c09c15c8666dfac",
+      "probability": 0.16766162143772181,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1a4829cf26b5f03929",
+      "source": "3f34d3b667082181cd753b0f7b4addee9f3b420d3010a83909f2a0a52d7a6704",
+      "probability": 0.16706563530659888,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2cf20cf357548e0354",
+      "source": "cbe29a79f119de068989815f28717758b13cfd6560a18b728a6c44a303e8dea9",
+      "probability": 0.16485776413561845,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7e20da57e6d0f8d3b3",
+      "source": "d7bdab3eb213aaa245324a7a978db21cee55511462b85bc5b2c72ad73e8de62d",
+      "probability": 0.16397999745630598,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5f645877908680f98a",
+      "source": "997289f91f7fe8f31e6a0f58ea0c94f26305dbe8e98c26b1ba60eaa4d94f7567",
+      "probability": 0.16249486167539193,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-4236212b7fbbcb4e19",
+      "source": "7e05b5e4f8407e4fccd89ec9edcae3b06f4c3a4a8c026f19073eb1304354cdae",
+      "probability": 0.1613997260300627,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-30d9a20b7570566a53",
+      "source": "ef36a2b841af3056c183b410842507e8041b1a80a6410cbbfb00eb71a9d16c79",
+      "probability": 0.159855691082343,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-255d2a5fef10491f93",
+      "source": "1067d4c2663034daf1920e6d759b832d30b0e94fb970cd44bcf82c7a4eae832f",
+      "probability": 0.15805875475550865,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3c4fc7ebacae031829",
+      "source": "a0fa7fe49d19c7d6b822133d5afccda6feb3920a25745ac91569ace804ef43bc",
+      "probability": 0.15796079140605168,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-553e7f13b5816c2712",
+      "source": "959c30837a141e94d0b3b0c5587660220d20671b734a70fdc2511261b16f2561",
+      "probability": 0.155768860564736,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-06a58607ff4c339194",
+      "source": "392927cc8c1e318968d62f9fb75d2a2516cc54c66bbf9cb677a8e3704ae7ed53",
+      "probability": 0.15500347721134033,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2056384f9b6c4a118e",
+      "source": "7dcc80d14af2ae0d77311f361d95520ea5ed331d6967354150d33943921dbe4c",
+      "probability": 0.15490912334663065,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5630e4abf7e87c4cdf",
+      "source": "0d0e61d2257fcfb46b73f8414ba1d3fda7a391423ec6145dab7ec85cdacfdb39",
+      "probability": 0.15363632526836649,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2e9fa9a76c18cb6087",
+      "source": "b9c06eb7e071e58dfd7e6ab028cc7aceca01d026f7cc02782c4afd3db6b4ba48",
+      "probability": 0.15326911999426707,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0d514b2b1006fc1cf7",
+      "source": "c9e949b45108ce92ff6644fb590697643503a5daf979b7ac20c99dec2d92b7bb",
+      "probability": 0.15283999202760687,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-30109677049f5c5f5f",
+      "source": "b767f7ec994a20337eeefb6bc3be25086772bbcdec13efc8c1d14ef6d2c2a9e8",
+      "probability": 0.15147036991688856,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-5d58e72f4724a164c6",
+      "source": "bd213f62d72d2ef4912bc69a33309382495314c30167a9c700b94ac551cc4fc2",
+      "probability": 0.15128355001301838,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7df49c43fcaabd1948",
+      "source": "70acfaac9cb9821fcc622c4edb6aa634be46c304225d1ab755b35c90532ebffc",
+      "probability": 0.15084958422721187,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3b79482f00b24d4ddd",
+      "source": "f25c5d3bad7c88ad0203844ee9fdf9505dfad1cdf963a5bc17ef816794682879",
+      "probability": 0.15052170888950228,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6298783fa96ce97d1f",
+      "source": "ddf4ac5205c8287f266853dcd9ed30917cee01a8aa16c9bff535c85f01dfd4f5",
+      "probability": 0.14942851110920122,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-1ba4c10be4719b1dea",
+      "source": "8c7aa8bc4e0581037c4f1d34c054f6f91be631835760142e495292910741246a",
+      "probability": 0.14839188410040094,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-273ef9a7b9bd00fafa",
+      "source": "afd04a1a8f8462671852a2050a0a1b636f4cf1d16da17466d9bfa1eb27c5f529",
+      "probability": 0.14766837888448972,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-772f92e39227a4145a",
+      "source": "79637432fa967938272b7dba59dfe4c3e94b246baf6b495ccb61db490324aa7e",
+      "probability": 0.1476400586312666,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-080705cf6d6c507bef",
+      "source": "1bf34ccdb54d1c7cd9dd7801ea40f6c23314a0e8d5f8cee82d3cc7f3961f7ebe",
+      "probability": 0.14562488691269485,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3177cd4f2c21c43f89",
+      "source": "e1a2358c37b5f62585f73d9e514e177fb1124cdcc6a1b9f8778c6c3f999d8d30",
+      "probability": 0.14445314685660177,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-7a69256bdc289ed674",
+      "source": "95ffcbe163df06efafb45d8f2677002bd199d54655932c734538f03e039fef06",
+      "probability": 0.14294827052698497,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0b495fcf8bc28d4f72",
+      "source": "6a81cf053b1ffc051a3d897479626e6caa4cfef2f26eff3ef98c20fc3ef1556b",
+      "probability": 0.14257247337619613,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-597103f7160cb38bb1",
+      "source": "608e925c5094583c50361484a4e0316ad30f967980c5c22a6dac311f35495e7a",
+      "probability": 0.1420422868868635,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-75d6d86bbfcbee479d",
+      "source": "5c3f86365f0ab885fe01d9a04574a353821791348df0e557fc9fe85acbcf370d",
+      "probability": 0.13972724222712127,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-51b9a19b949899cd16",
+      "source": "2131b8a5c998d96fe31bbb7f8a27efb198c3d638d13991f7749910d5d2b48042",
+      "probability": 0.13845868984192558,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-44c55323c14e06a134",
+      "source": "8ce3598d181f2c9f9297d75448868b14ed595595f74513ba39362f46e481d521",
+      "probability": 0.13505965878069814,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-30bbbafb4511439f6c",
+      "source": "0ea085e3cecfa866ae98384047b1a5d529e62f7f417340d64cd748afd2a37d30",
+      "probability": 0.1347711265237819,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-273a476bcb0861f2ee",
+      "source": "dd7730d6ea62706f45535efed128652a3a442d74bef8db111c77c7f924e9dd8d",
+      "probability": 0.13390078290011304,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1811627b3bedd3d43c",
+      "source": "e724950181495dfb88886505133c9bcf7e8f7cf30cad6f765a2d07fc28e6f66b",
+      "probability": 0.13220804631344066,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0125af8ba70566cea6",
+      "source": "c10f326bea2b8f02e4cc3d1910bafe2293c9f525ea4792cb82389cae1a76a036",
+      "probability": 0.12988779237968925,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1cb4a4838d2375793c",
+      "source": "1c629b5c39522638f5e99273c0f798060dc7fe3e41bac49d737d04846ca4f915",
+      "probability": 0.12814607306708478,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-2f86981b3f12216567",
+      "source": "76fdef08677a5897b0dee64e85f403ff193ce4307038a3ce3d975e7f5b7210f0",
+      "probability": 0.12790008187464344,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3c25d77b70dc9519b4",
+      "source": "e9e8efe7f16faa6d9387ed666a6088a7abe0300b8ff040005dc6d887b5e07ac4",
+      "probability": 0.12786309611914198,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-190799e3ba6b354285",
+      "source": "8937189272fec0f1722270c1911e41a1d84a8234298750914f16dae8b431c131",
+      "probability": 0.1249961431819932,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-70dbcb1b4698dabb15",
+      "source": "ce12016eece906670cae9bd0df21c38718e521004d97d623aac1d26157d38fe4",
+      "probability": 0.12352079224519415,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-130a29139b65a4bdd0",
+      "source": "d74fa4652af958ce3420c4f3687fb8559349d7464b1eaac55f6c919021d29fca",
+      "probability": 0.1230588848056141,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2fd0200fe70256c640",
+      "source": "92a573e8392e8398a7339d6c39f7c0cd6d76aa292c19cd02b602250148446e6b",
+      "probability": 0.12102711383996594,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-4715b4db56e6d45cc3",
+      "source": "f87c68148c3227228bca5bd0f6da8bb828597d3c5b0f7ca9885d4ca5e157060c",
+      "probability": 0.11991612876454301,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-059eb1eb42eb2989e0",
+      "source": "36106ec529301d5acb4a12729959465a349bffd937d3caf4f6154e9b0610f5f1",
+      "probability": 0.11692695334672323,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-18e4aa8f4f8607558f",
+      "source": "3d6c711d7dea3d34a61462452ab78a57c17e4ed0f02d52595255bca987217f57",
+      "probability": 0.11538141537521727,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2781c3bf487d97e897",
+      "source": "19c9b949f021ad3c185043102f35455c11e2fdefa621a396d34180bae692197d",
+      "probability": 0.112642959288129,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0eef8e23bedf1e3390",
+      "source": "4f26aadb8e7060b77332da807dd285ec1a9bd8018d7e43f2e37eb6b41c5e8083",
+      "probability": 0.11257934709342265,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-3d82c1039049583133",
+      "source": "e68c8989a74de06a78e9764bd8653bdc0bbcdd57fdac87ee85915634f38fbe2b",
+      "probability": 0.11245082739781251,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-27d092db084666dad1",
+      "source": "5a3e0bc10ffe94b025a6dc3502dd94ef0166dc2b16a8aa4b54cde7006e3365e0",
+      "probability": 0.11228030888427273,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-0e46b1f7699036e7fa",
+      "source": "8c728a084c6e78dfc58e354b720e824b52fccc17791c10472c369cb6a9106782",
+      "probability": 0.11032392678938406,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-349c26c37485b7e0f4",
+      "source": "79a3d759bd684b56b863350f0f0c221bfce5dc56551e4195b5ff91dc6e506d55",
+      "probability": 0.1103011818874303,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2ff81d0701717c5a4a",
+      "source": "df181712bf8311efa6645f80f2ec97a6ac8bcfbebe02d4d2a01a45fa0de79149",
+      "probability": 0.10991071453682465,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-56a597d3102393209b",
+      "source": "2b22d6e715b494c21d3ab73b6fdddefe5db111c9155b216670b7255e0e834187",
+      "probability": 0.10880205059663328,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-2756733b82508a931e",
+      "source": "54ed03fd773f2d998c75f07ecfea7e4f39759cf9ebafb628b3ac3d3facb42387",
+      "probability": 0.10653168365951368,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-252ffb530973f3fd1f",
+      "source": "557c00a3b45e61ce86fbbafb4d749e155da71265fdf47ae8b8fb22f91d0d0ef5",
+      "probability": 0.1059430901251033,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-67c7cfb70395ec1ebf",
+      "source": "492eb6ba3face43f15b3e5fb58d5dbec4c8061b208cefad5f0bbb89690a0d56e",
+      "probability": 0.0974426543662629,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-1886ae7fff428d0049",
+      "source": "cccd89e892e39946daef27585b397b286f0385b28d8d37814b58b58a4b0d4916",
+      "probability": 0.09472107674269135,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-233e036f3e0234e141",
+      "source": "05503009d9f67b50ceb72a8f5af48244a1dedd6c3416005f7c965db5915892d3",
+      "probability": 0.09153473637873467,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-33027b6f0bf245c364",
+      "source": "21de9d40269e0ff5910b905d7013147ff5d0aed1ec3b0ddf42b06ba0e752bdbb",
+      "probability": 0.09026387671676044,
+      "decision": "ABANDON",
+      "observedNetInvoice": 1
+    },
+    {
+      "id": "u-18fb1ff7920f3c285d",
+      "source": "f5749797dbcc8d150810738b24b8482f0aea4a119c0b77b78e7ecaae2febaf41",
+      "probability": 0.08863102218082033,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-401051572d2c023a4d",
+      "source": "0b6e9e10d7bd54790920a2c3911f569c80952788002d3506c866656c0b706d9c",
+      "probability": 0.08701473927425772,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-6222dfb336357f0c3e",
+      "source": "2ce0ce21569698cc24b988a9d697c2837ca71afa81235810a111e48d4db9d84b",
+      "probability": 0.08386261052734618,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    },
+    {
+      "id": "u-47bbfbb383f6a54dd6",
+      "source": "e3b3f9a887ac1fb8ef578d3d319772f65073b8a909519d0859ea44438abee48a",
+      "probability": 0.05207882505154387,
+      "decision": "ABANDON",
+      "observedNetInvoice": 0
+    }
+  ]
+}
