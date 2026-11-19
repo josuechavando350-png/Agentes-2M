@@ -223,6 +223,7 @@ export function getAgent(state, id) {
     generation: 1,
     version: band.version,
     skills: [...band.skills],
+    ...(band.programs ? { programs: structuredClone(band.programs) } : {}),
     balance: STIPEND,
     status: "LIVE",
     publicKey: null,

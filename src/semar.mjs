@@ -19,6 +19,7 @@ import {
 } from "./policy.mjs";
 import { getAgent, statusOf, Ledger } from "./ledger.mjs";
 import { infer, verifyDerivation, examCase } from "./inference.mjs";
+import { experiment, runTree, scenario, policyManifest } from "./induction.mjs";
 import { census } from "./census.mjs";
 import { deliberate } from "./nexus.mjs";
 
@@ -93,6 +94,7 @@ function cohortProposal(state, a, op, peer, key) {
     exam,
     source: peer.key,
     parent: a.id,
+    ...(a.programs ? { programs: a.programs } : {}),
     gates: ["SALUD:aptitud", "SEMAR:infantería-integridad", "SEMAR:oráculo"],
   };
   return { band };
@@ -228,6 +230,98 @@ export class Semar {
           delete c.query;
         }
         const a = live(state, c.id, c.generation, c.version);
+        if (c.type === "synthesize") {
+          strict(c, [
+            "type",
+            "id",
+            "generation",
+            "version",
+            "from",
+            "features",
+          ]);
+          const sample = state.keys
+            .get(c.from)
+            ?.steps.find((s) => s.kind === "lesson" && s.op === "inference");
+          if (
+            !sample ||
+            sample.agentId === a.id ||
+            !a.skills.includes("inference")
+          )
+            throw Error(
+              "Se requiere inferencia y evidencia auditada de otro agente",
+            );
+          const steps = [],
+            death = debit(a, steps);
+          if (death) return pack(a.sector, steps, death);
+          const trial = experiment(sample.data, c.features);
+          if (!trial.accepted)
+            return pack(a.sector, steps, {
+              status: "REJECTED_HYPOTHESIS",
+              id: a.id,
+              exam: trial.exam,
+            });
+          if (a.programs?.some((p) => p.id === trial.policy.id))
+            return pack(a.sector, steps, { status: "KNOWN", id: a.id });
+          const { count, standby } = birthCounts(state.population);
+          if (!count || state.treasury < count * STIPEND)
+            return pack(a.sector, steps, {
+              status: count ? "RESERVE_TOO_LOW" : "CAP_REACHED",
+              id: a.id,
+            });
+          const program = { ...trial.policy, source: c.from };
+          a.programs = [...(a.programs ?? []), program];
+          a.version++;
+          const seed = digest({
+            key,
+            tip: state.tip,
+            program: program.id,
+            version: a.version,
+          });
+          const band = {
+            kind: "cohort",
+            sector: a.sector,
+            parent: a.id,
+            skills: a.skills,
+            version: a.version,
+            lo: state.population + 1,
+            hi: state.population + count,
+            standby,
+            seed,
+            program,
+            programs: a.programs,
+            source: c.from,
+            exam: trial.exam,
+            certificates: policyManifest(program, seed),
+          };
+          steps.push(member({ ...a }), band);
+          return pack(a.sector, steps, {
+            status: "EVOLVED",
+            id: a.id,
+            version: a.version,
+            program: program.id,
+            exam: trial.exam,
+            replicas: BATCH,
+            first: band.lo,
+            last: band.hi,
+          });
+        }
+        let predictor, mask;
+        if (c.type === "predict") {
+          strict(c, ["type", "id", "generation", "version", "program", "mask"]);
+          predictor = a.programs?.find((p) => p.id === c.program);
+          if (!predictor)
+            throw Error("Programa no acreditado para esta identidad");
+          const sample = state.keys
+            .get(predictor.source)
+            .steps.find((s) => s.kind === "lesson" && s.op === "inference");
+          mask = c.mask;
+          priorCase = predictor.source;
+          c.type = "work";
+          c.op = "inference";
+          c.data = scenario(sample.data, predictor.vars, mask);
+          delete c.program;
+          delete c.mask;
+        }
         if (c.type === "register") {
           strict(c, ["type", "id", "generation", "version", "publicKey"]);
           const keyObj = createPublicKey(c.publicKey);
@@ -303,7 +397,11 @@ export class Semar {
           steps.push({ kind: "notice", submission });
         }
         const expected = oracle(c.op, c.data);
-        const value = c.type === "submit" ? c.value : compute(c.op, c.data);
+        const value = predictor
+          ? runTree(predictor.tree, mask)
+          : c.type === "submit"
+            ? c.value
+            : compute(c.op, c.data);
         if (value !== expected) {
           const old = a.generation;
           const replacement = { ...a, generation: old + 1, publicKey: null };
@@ -363,6 +461,7 @@ export class Semar {
           ...(derivation
             ? { proof: derivation.proof, caseSource: priorCase ?? key }
             : {}),
+          ...(predictor ? { program: predictor.id, mask } : {}),
           peer: peer?.key ?? null,
           ...(mutation
             ? { replicas: BATCH, first: mutation.lo, last: mutation.hi }
@@ -424,10 +523,22 @@ export class Semar {
             expected.generation++;
             expected.publicKey = null;
           } else if (cohort?.parent === next.id) {
-            const skill = state.keys.get(cohort.source)?.result.op;
-            if (!skill || previous.skills.includes(skill))
-              throw Error("Mejora sin novedad");
-            expected.skills = [...previous.skills, skill].sort();
+            if (cohort.program) {
+              if (
+                previous.programs?.some((p) => p.id === cohort.program.id) ||
+                !previous.skills.includes("inference")
+              )
+                throw Error("Programa duplicado o sin base");
+              expected.programs = [
+                ...(previous.programs ?? []),
+                cohort.program,
+              ];
+            } else {
+              const skill = state.keys.get(cohort.source)?.result.op;
+              if (!skill || previous.skills.includes(skill))
+                throw Error("Mejora sin novedad");
+              expected.skills = [...previous.skills, skill].sort();
+            }
             expected.version++;
           } else throw Error("Transición sin autoridad");
           if (digest(expected) !== digest(next) || s.reserveDelta)
@@ -462,6 +573,20 @@ export class Semar {
               "PLANNER,CRITIC,VERIFIER"
           )
             throw Error("Entrega de origen inválido");
+          if (e.result.program) {
+            const p = teacher.programs?.find((r) => r.id === e.result.program);
+            const origin = state.keys
+              .get(p?.source)
+              ?.steps.find((x) => x.kind === "lesson" && x.op === "inference");
+            if (
+              !p ||
+              !origin ||
+              runTree(p.tree, e.result.mask) !== s.value ||
+              digest(scenario(origin.data, p.vars, e.result.mask)) !==
+                digest(s.data)
+            )
+              throw Error("Inferencia sin programa certificado");
+          }
           deliveries++;
         }
         if (s.kind === "cohort") {
@@ -474,18 +599,36 @@ export class Semar {
             !s.skills.includes(source.result.op)
           )
             throw Error("Linaje inválido");
-          const before = s.skills.filter((x) => x !== source.result.op);
-          if (digest(healthExam(before, s.skills, s.seed)) !== digest(s.exam))
-            throw Error("Examen alterado");
-          const manifest = Array.from({ length: BATCH }, (_, i) =>
-            fitnessCertificate(s.seed, s.skills, i),
-          );
-          if (digest(manifest) !== s.certificates)
-            throw Error("Certificación de cohorte inválida");
+          if (s.program) {
+            const lesson = source.steps.find(
+              (x) => x.kind === "lesson" && x.op === "inference",
+            );
+            if (!lesson || s.program.source !== s.source)
+              throw Error("Fuente de síntesis inválida");
+            const trial = experiment(lesson.data, s.program.vars);
+            if (
+              !trial.accepted ||
+              digest({ ...trial.policy, source: s.source }) !==
+                digest(s.program) ||
+              digest(trial.exam) !== digest(s.exam) ||
+              policyManifest(s.program, s.seed) !== s.certificates
+            )
+              throw Error("Programa rechazado en auditoría");
+          } else {
+            const before = s.skills.filter((x) => x !== source.result.op);
+            if (digest(healthExam(before, s.skills, s.seed)) !== digest(s.exam))
+              throw Error("Examen alterado");
+            const manifest = Array.from({ length: BATCH }, (_, i) =>
+              fitnessCertificate(s.seed, s.skills, i),
+            );
+            if (digest(manifest) !== s.certificates)
+              throw Error("Certificación de cohorte inválida");
+          }
           const parent = getAgent(prior, s.parent);
           if (
             parent.sector !== s.sector ||
             parent.version !== s.version ||
+            digest(parent.programs ?? []) !== digest(s.programs ?? []) ||
             digest(parent.skills) !== digest(s.skills)
           )
             throw Error("Cohorte sin progenitor aprobado");

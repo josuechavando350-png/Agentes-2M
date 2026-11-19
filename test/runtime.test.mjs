@@ -408,3 +408,65 @@ test("portable checkpoint restores atomically, rejects truncation and preserves 
   assert.deepEqual(copy.agent(1), s.agent(1));
   assert.throws(() => copy.restore(events, tip), /vacía/);
 });
+
+test("synthesized decisions inherit evidence, are applied by a child and survive restoration", async (t) => {
+  const { researchRound } = await import("../src/research.mjs");
+  const { s } = await fixture(t);
+  const trial = await researchRound(s, 1);
+  assert.equal(trial.status, "COMPLETED");
+  assert.deepEqual(
+    [
+      trial.exam.training,
+      trial.exam.heldOut,
+      trial.exam.heldOutCorrect,
+      trial.exam.correct,
+      trial.exam.total,
+    ],
+    [6, 2, 2, 8, 8],
+  );
+  assert.ok(trial.exam.baselineCorrect < trial.exam.correct);
+  assert.equal(trial.replicas, 666);
+  const child = s.agent(trial.first);
+  assert.equal(child.programs[0].id, trial.id);
+  const state = s.checkpoint(),
+    restored = new Semar(":memory:");
+  t.after(() => restored.close());
+  restored.restore(state.events, state.tip);
+  for (const [mask, expected] of [
+    [0, "UNKNOWN"],
+    [4, "SUPPORTED"],
+  ]) {
+    const p = await restored.command("predict-" + mask, {
+      type: "predict",
+      id: child.id,
+      generation: 1,
+      version: child.version,
+      program: trial.id,
+      mask,
+    });
+    assert.equal(p.value, expected);
+    assert.equal(p.program, trial.id);
+  }
+  assert.equal(restored.audit().replicaCertificates, 666);
+});
+test("a hypothesis fitting every training example is rejected if the unseen outcomes disagree", async (t) => {
+  const { s } = await fixture(t);
+  const book = {
+    facts: [],
+    rules: [{ if: ["a", "b"], then: "listo", source: "criterio" }],
+    query: "listo",
+  };
+  await s.command("caso", work(6_000_001, "inference", book));
+  const receipt = await s.command("candidata", {
+    type: "synthesize",
+    id: 6_000_002,
+    generation: 1,
+    version: 1,
+    from: "caso",
+    features: ["a", "b", "c"],
+  });
+  assert.equal(receipt.status, "REJECTED_HYPOTHESIS");
+  assert.equal(receipt.exam.heldOutCorrect, 0);
+  assert.equal(s.status().population, INITIAL);
+  assert.equal(s.audit().replicaCertificates, 0);
+});
