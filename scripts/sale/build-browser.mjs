@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { build } from "esbuild";
+import { build, transform } from "esbuild";
 
 export async function browserDelivery(root, directory) {
   const source = join(root, "src/sale/browser");
@@ -26,13 +26,21 @@ export async function browserDelivery(root, directory) {
   };
   const template = readFileSync(join(source, "auditor.html"), "utf8"),
     [worker, ui] = await Promise.all([bundle("worker"), bundle("ui")]);
+  const style = await transform(
+    readFileSync(join(source, "auditor.css"), "utf8"),
+    { loader: "css", minify: true },
+  );
   const values = {
+    __STYLE__: style.code,
     __INITIAL__: JSON.stringify(example).replaceAll("<", "\\u003c"),
     __WORKER__: worker,
     __UI__: ui,
   };
   writeFileSync(
     join(directory, "auditor.html"),
-    template.replace(/__INITIAL__|__WORKER__|__UI__/g, (k) => values[k]),
+    template.replace(
+      /__INITIAL__|__WORKER__|__UI__|__STYLE__/g,
+      (k) => values[k],
+    ),
   );
 }

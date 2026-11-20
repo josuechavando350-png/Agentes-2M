@@ -121,6 +121,8 @@ node src/cli.mjs sale-stream modelo-local.json SELLO_MODELO < nuevos-clientes.js
 node scripts/sale/participants.mjs DIRECTORIO_ENSAYO DIRECTORIO_PADRON evidence/sale-hillstrom.json 100000000
 ```
 
+En otra prueba llegaron lotes de 1, 32, 256 y 4,096 consultas a un único proceso local. Cada versión pasó trece veces por los mismos 24,000 casos, incluidos 80 registros inválidos y 43 fuera del dominio. Se verificaron 2,496,000 respuestas entre ambas versiones. En la edición con escrituras agrupadas, la mediana de los p95 fue 0.136 ms para consultas individuales, 0.650 ms para lotes de 32, 2.903 ms para lotes de 256 y 26.601 ms para lotes de 4,096. En la versión anterior fue 0.147, 0.610, 3.932 y 34.492 ms, respectivamente. Los tiempos incluyen la cola y la lectura por el cliente. [Resultados por tamaño de lote y repetición](../evidence/sale-pressure.json)
+
 ## Fuentes y compromisos anteriores al examen
 
 Hillstrom es un ensayo histórico con tres tratamientos de correo equiprobables. SEMAR usó los atributos previos al contacto. Los costos de contacto declarados en este examen son cero; el margen del comercio depende de costos ausentes en la fuente. Las diferencias por cliente usan la probabilidad conocida de asignación, ajuste de respuesta entrenado en otros clientes y contrastes pareados. Los límites de selección entre escalas usan un multiplicador 2.74. [Descripción del autor](https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html) · [Decisiones selladas](https://github.com/josuechavando350-png/Agentes-2M/blob/667e737175d07cd90ce0d1ca6624be60bf9203d8/evidence/sale-seal.json)

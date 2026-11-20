@@ -1,9 +1,16 @@
+import { suggestProfile } from "./profile.mjs";
 import { importCreditCsv, registerCsv } from "../credit-csv.mjs";
 import { traceCredits, verifyCredits, creditRegister } from "../credits.mjs";
 let packet, solved, register;
 self.onmessage = async ({ data }) => {
   try {
-    if (data.type === "audit") {
+    if (data.type === "inspect") {
+      const suggestion = suggestProfile(
+        new Uint8Array(data.buffer),
+        data.profile,
+      );
+      self.postMessage({ type: "inspect", ...suggestion });
+    } else if (data.type === "audit") {
       packet = solved = register = null;
       const bytes = new Uint8Array(data.buffer),
         next = importCreditCsv(bytes, data.profile);

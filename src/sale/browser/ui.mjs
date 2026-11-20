@@ -1,3 +1,4 @@
+import { columnNames } from "./profile.mjs";
 const byId = (id) => document.getElementById(id);
 const initial = JSON.parse(byId("initial").textContent);
 const workerUrl = URL.createObjectURL(
@@ -8,9 +9,63 @@ let source = null,
   worker = null,
   currentPage = 0,
   currency = "",
-  generation = 0;
+  generation = 0,
+  manualProfile = false;
 const input = byId("input"),
   settings = byId("settings");
+const profileControls = new Map();
+function field(name, title, choices, header = false) {
+  const label = document.createElement("label"),
+    input = document.createElement(choices ? "select" : "input");
+  label.textContent = title;
+  input.id = "field-" + name;
+  if (choices)
+    for (const [value, text] of choices) {
+      const option = new Option(text, value);
+      input.add(option);
+    }
+  if (header) input.setAttribute("list", "headers");
+  input.required = true;
+  label.append(input);
+  byId("controls").append(label);
+  profileControls.set(name, input);
+  input.oninput = () => {
+    manualProfile = true;
+    reset();
+    const values = { fields: {} };
+    for (const [k, c] of profileControls) {
+      if (k.startsWith("col-")) values.fields[k.slice(4)] = c.value;
+      else values[k] = k === "maxAgeDays" ? Number(c.value) : c.value;
+    }
+    byId("config").value = JSON.stringify(values, null, 2);
+  };
+  return input;
+}
+field("currency", "Moneda (ISO)");
+field("maxAgeDays", "Plazo de conciliación (días)").type = "number";
+field("from", "Inicio del periodo (UTC)");
+field("until", "Fin del periodo (UTC)");
+field("delimiter", "Separador de columnas", [
+  [",", "Coma"],
+  [";", "Punto y coma"],
+  ["\t", "Tabulación"],
+]);
+field("decimal", "Separador decimal", [
+  ["", "Elegir"],
+  [".", "Punto"],
+  [",", "Coma"],
+]);
+for (const [k, [label]] of Object.entries(columnNames))
+  field("col-" + k, label, null, true);
+function showProfile(profile, names) {
+  byId("config").value = JSON.stringify(profile, null, 2);
+  for (const [k, c] of profileControls)
+    c.value =
+      (k.startsWith("col-") ? profile.fields?.[k.slice(4)] : profile[k]) ?? "";
+  if (names)
+    byId("headers").replaceChildren(...names.map((n) => new Option(n, n)));
+}
+showProfile(initial.profile, Object.values(initial.profile.fields));
 function message(id, value, failed = false) {
   const target = byId(id);
   target.textContent = value;
@@ -22,6 +77,7 @@ function reset() {
   worker = null;
   byId("results").hidden = true;
   byId("run").disabled = !source;
+  byId("inspect").disabled = !source;
   byId("check").value = "";
   byId("filter").value = "";
   currentPage = 0;
@@ -45,11 +101,20 @@ function page(number) {
 function receive({ data }) {
   if (data.type === "error") {
     message(
-      data.operation === "audit" ? "status" : "verification",
+      ["audit", "inspect"].includes(data.operation) ? "status" : "verification",
       data.error,
       true,
     );
-    if (data.operation === "audit") byId("run").disabled = !source;
+    if (["audit", "inspect"].includes(data.operation))
+      byId("run").disabled = !source;
+  } else if (data.type === "inspect") {
+    showProfile(data.profile, data.names);
+    byId("options").open = true;
+    byId("run").disabled = false;
+    message(
+      "status",
+      "Se sugirió el periodo entre la primera y la última fila fechada. Revisa las columnas y ajusta las fechas al periodo que cubre tu exportación.",
+    );
   } else if (data.type === "audit") {
     const r = data.summary;
     currency = r.currency;
@@ -116,15 +181,23 @@ function receive({ data }) {
     setTimeout(() => URL.revokeObjectURL(url), 10000);
   }
 }
-async function audit() {
+async function processSource(operation) {
   reset();
   const version = generation;
   try {
-    const profile = JSON.parse(byId("config").value);
+    const profile =
+      operation === "inspect"
+        ? initial.profile
+        : JSON.parse(byId("config").value);
     if (!source || source.size > 160000000)
       throw Error("Selecciona un CSV de hasta 160 MB");
     byId("run").disabled = true;
-    message("status", "Conciliando partidas…");
+    message(
+      "status",
+      operation === "inspect"
+        ? "Leyendo las columnas del archivo…"
+        : "Conciliando partidas…",
+    );
     const buffer = await source.arrayBuffer();
     if (version !== generation) return;
     worker = new Worker(workerUrl);
@@ -137,7 +210,7 @@ async function audit() {
         true,
       );
     };
-    worker.postMessage({ type: "audit", buffer, profile }, [buffer]);
+    worker.postMessage({ type: operation, buffer, profile }, [buffer]);
   } catch (e) {
     if (version === generation) {
       byId("run").disabled = !source;
@@ -149,6 +222,11 @@ input.onchange = () => {
   source = input.files[0] ?? null;
   byId("filename").textContent = source?.name ?? "Ningún archivo seleccionado";
   reset();
+  if (source && !manualProfile) processSource("inspect");
+};
+byId("inspect").onclick = () => {
+  manualProfile = false;
+  processSource("inspect");
 };
 settings.onchange = async () => {
   const file = settings.files[0];
@@ -158,8 +236,10 @@ settings.onchange = async () => {
   try {
     if (file.size > 200000) throw Error("Configuración demasiado grande");
     const value = JSON.parse(await file.text());
-    if (version === generation)
-      byId("config").value = JSON.stringify(value, null, 2);
+    if (version === generation) {
+      manualProfile = true;
+      showProfile(value);
+    }
   } catch (e) {
     if (version === generation) {
       byId("config").value = "";
@@ -168,15 +248,25 @@ settings.onchange = async () => {
   }
   settings.value = "";
 };
-byId("config").oninput = reset;
+byId("config").oninput = () => {
+  manualProfile = true;
+  reset();
+  try {
+    const p = JSON.parse(byId("config").value);
+    for (const [k, c] of profileControls)
+      c.value = (k.startsWith("col-") ? p.fields?.[k.slice(4)] : p[k]) ?? "";
+  } catch {}
+};
 byId("example").onclick = () => {
   input.value = "";
   source = new Blob([initial.csv]);
   byId("filename").textContent = "ejemplo-turno.csv · ejemplo de la entrega";
-  byId("config").value = JSON.stringify(initial.profile, null, 2);
-  audit();
+  manualProfile = false;
+  showProfile(initial.profile, Object.values(initial.profile.fields));
+  byId("options").open = false;
+  processSource("audit");
 };
-byId("run").onclick = audit;
+byId("run").onclick = () => processSource("audit");
 byId("filter").oninput = () => page(0);
 byId("prev").onclick = () => page(currentPage - 1);
 byId("next").onclick = () => page(currentPage + 1);

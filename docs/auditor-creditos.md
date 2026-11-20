@@ -4,7 +4,7 @@ Esta herramienta concilia cantidades de una nota de crédito con unidades vendid
 
 ## Abrir el auditor en el navegador
 
-Descomprime el ZIP y abre **auditor.html** en un navegador moderno. `Cargar ejemplo` procesa tres notas y muestra los importes respaldados y por documentar. Para tus archivos, elige el CSV, abre **Columnas, moneda y periodo** y carga el JSON correspondiente o edita sus valores. Pulsa **Conciliar archivo**. El resultado permite buscar una factura, descargar la hoja CSV y comprobar un certificado recibido. El archivo HTML contiene el programa completo y trabaja localmente. La versión de terminal añade la planificación del turno y la extensión con documentos anteriores.
+Descomprime el ZIP y abre **auditor.html** en un navegador moderno. `Cargar ejemplo` procesa tres notas y muestra los importes respaldados y por documentar. Para tus archivos, elige el CSV. El auditor reconoce encabezados habituales y presenta la moneda, el plazo y las columnas en un formulario. El periodo sugerido abarca solo las fechas observadas en las filas. Ajusta los límites al periodo cubierto por tu exportación. También puedes cargar una configuración JSON existente. Pulsa **Conciliar archivo**. El resultado permite buscar una factura, descargar la hoja CSV y comprobar un certificado recibido. El archivo HTML contiene el programa completo y trabaja localmente. La versión de terminal añade la planificación del turno y la extensión con documentos anteriores.
 
 ## Ejecutar con Node 24
 

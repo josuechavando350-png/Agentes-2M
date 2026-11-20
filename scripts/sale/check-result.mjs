@@ -3,7 +3,15 @@ import { readFileSync } from "node:fs";
 const [kind, actualPath, expectedPath] = process.argv.slice(2);
 const read = (f) => JSON.parse(readFileSync(f));
 function normalize(value) {
-  if (kind === "hillstrom") {
+  if (kind === "pressure") {
+    return {
+      seal: value.seal,
+      orderedCases: value.orderedCases,
+      rows: value.distinctCases ?? value.distinctTestPositions,
+      counts: value.expectedStatusCounts,
+      workloads: (value.results ?? value.configurations).map((r) => r.burst),
+    };
+  } else if (kind === "hillstrom") {
     delete value.hardware;
     for (const worker of value.workers) {
       delete worker.populationMs;

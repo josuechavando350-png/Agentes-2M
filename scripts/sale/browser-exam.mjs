@@ -184,9 +184,36 @@ try {
     "document.getElementById('config')?.value.includes('Moneda')",
     "carga del formulario",
   );
+  await file("#input", join(folder, "ejemplo-turno.csv"));
+  await truth(
+    "document.querySelector('#options').open && document.querySelector('#status').textContent.includes('Se sugirió')",
+    "reconocimiento de columnas",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('#field-currency').value"),
+    "MXN",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('#field-col-currency').value"),
+    "Moneda",
+  );
+  await evaluate(
+    "document.querySelector('#field-maxAgeDays').value='15';document.querySelector('#field-maxAgeDays').dispatchEvent(new Event('input'))",
+  );
+  const visual = await evaluate(
+    "JSON.parse(document.querySelector('#config').value)",
+  );
+  assert.equal(visual.maxAgeDays, 15);
+  assert.equal(visual.currency, "MXN");
+  assert.equal(visual.fields.currency, "Moneda");
+  await click("#run");
+  await truth(
+    "document.querySelector('#rows').children.length===3 && !document.querySelector('#results').hidden",
+    "archivo sin configuración JSON",
+  );
   await click("#example");
   await truth(
-    "document.querySelector('#rows').children.length===3",
+    "document.querySelector('#rows').children.length===3 && !document.querySelector('#results').hidden",
     "conciliación del ejemplo",
   );
   assert.equal(
@@ -309,6 +336,7 @@ try {
         status: "PASSED",
         delivery: "LOCAL_HTML_FILE",
         exampleNotes: 3,
+        importedCsvThroughForm: true,
         matchedCsvAndCertificate: true,
         alteredCertificateRejected: true,
         mobileWidth: 390,

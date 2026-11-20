@@ -18,6 +18,7 @@ export async function saleScorecard(books) {
     prices = read("sale-iowa"),
     participation = read("sale-participation"),
     times = read("sale-throughput-packed"),
+    bursts = read("sale-pressure"),
     queue = read("sale-queue"),
     prospects = read("sale-prospects"),
     prospectSeal = read("sale-prospect-seal");
@@ -27,6 +28,7 @@ export async function saleScorecard(books) {
     hill.seal === frozen.seal &&
       prices.seal === priceSeal.seal &&
       prospects.seal === prospectSeal.seal &&
+      bursts.seal === program.modelSeal &&
       program.trainingRecipe === frozen.policy &&
       participation.recipe === frozen.policy,
     "Los exámenes no corresponden a los compromisos declarados",
@@ -126,6 +128,11 @@ export async function saleScorecard(books) {
           p95: t.p95Ms,
         })),
       warmSingleRequestP95Ms: program.warmStreamMilliseconds.p95,
+      burstP95Ms: bursts.results.map((r) => ({
+        simultaneous: r.burst,
+        medianAcrossTrials: r.current.medianOfP95Ms,
+      })),
+      repliesVerifiedInLoadTest: bursts.repliesVerified,
     },
   };
 }

@@ -55,6 +55,23 @@ test("La inferencia considera solo soportes justificables y se abstiene fuera de
     "EXACT_CELL",
   );
 });
+test("Un lector que se desconecta durante la contrapresión termina el trabajo", async () => {
+  const model = build({ type: "tree", rule: constants[0] }, "policy-inputs");
+  const sink = new Writable({
+    highWaterMark: 1,
+    write() {
+      this.destroy();
+    },
+  });
+  const input = Readable.from([
+    JSON.stringify({ id: "nuevo", x: [1, 1] }) + "\n",
+  ]);
+  await assert.rejects(
+    serveLines(openServing(model, model.seal), input, sink),
+    { name: "AbortError" },
+  );
+  assert.equal(sink.listenerCount("drain"), 0);
+});
 test("El flujo local impone límites por línea y continúa con la siguiente petición", async () => {
   const c = build({ type: "tree", rule: constants[1] }, "policy-inputs"),
     e = openServing(c, c.seal),

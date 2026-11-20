@@ -63,6 +63,8 @@ jobs:
           node src/cli.mjs sale-compile /tmp/ensayo/frozen.json /tmp/ensayo/packet.json "$(node -p "require('./evidence/sale-seal.json').policy")" 8 > /tmp/modelo.json
           python3 scripts/factory/offline.py node scripts/sale/serve-exam.mjs /tmp/ensayo /tmp/modelo.json > consultas.json
           node scripts/sale/check-result.mjs serving consultas.json evidence/sale-serving.json
+          python3 scripts/factory/offline.py node scripts/sale/pressure-exam.mjs /tmp/ensayo /tmp/modelo.json > rafagas.json
+          node scripts/sale/check-result.mjs pressure rafagas.json evidence/sale-pressure.json
       - uses: actions/upload-artifact@v4
         with: {name: examen-campana, path: campana.json, retention-days: 30}
   facturas:

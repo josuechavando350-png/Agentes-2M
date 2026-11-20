@@ -179,21 +179,40 @@ export function openServing(compiled, expectedSeal) {
     },
   };
 }
+async function waitForOutput(output) {
+  const closed = new AbortController();
+  const stop = () => closed.abort();
+  output.once("close", stop);
+  try {
+    if (output.destroyed) stop();
+    await once(output, "drain", { signal: closed.signal });
+  } finally {
+    output.off("close", stop);
+  }
+}
+
 export async function serveLines(engine, input, output, maxBytes = 65536) {
   num(maxBytes, 32, 1e6);
   let pieces = [],
     length = 0,
     overflow = false,
-    seq = 0;
-  async function finish() {
+    seq = 0,
+    outgoing = "";
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  function flush() {
+    if (!outgoing) return true;
+    const writable = output.write(outgoing);
+    outgoing = "";
+    return writable;
+  }
+  function finish() {
     seq++;
     let json;
     try {
       check(!overflow, "La solicitud supera el tamaño admitido");
-      const line = Buffer.concat(pieces, length);
-      const request = JSON.parse(
-        new TextDecoder("utf-8", { fatal: true }).decode(line),
-      );
+      const line =
+        pieces.length === 1 ? pieces[0] : Buffer.concat(pieces, length);
+      const request = JSON.parse(decoder.decode(line));
       json = { seq, seal: engine.seal, ...engine.score(request) };
     } catch (e) {
       json = {
@@ -203,7 +222,7 @@ export async function serveLines(engine, input, output, maxBytes = 65536) {
         error: e.message,
       };
     }
-    if (!output.write(JSON.stringify(json) + "\n")) await once(output, "drain");
+    outgoing += JSON.stringify(json) + "\n";
     pieces = [];
     length = 0;
     overflow = false;
@@ -226,9 +245,15 @@ export async function serveLines(engine, input, output, maxBytes = 65536) {
         }
       }
       if (newline === -1) break;
-      await finish();
+      finish();
+      if (outgoing.length >= 16384 && !flush()) await waitForOutput(output);
       pos = end + 1;
     }
+    // Flush even a single complete request at the end of the ready input chunk.
+    if (!flush()) await waitForOutput(output);
   }
-  if (length || overflow) await finish();
+  if (length || overflow) {
+    finish();
+    if (!flush()) await waitForOutput(output);
+  }
 }
