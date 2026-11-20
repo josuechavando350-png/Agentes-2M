@@ -10,6 +10,7 @@ export async function saleScorecard(books) {
       ),
     );
   const factory = read("factory-exam"),
+    endurance = read("sale-endurance"),
     credit = read("sale-retail"),
     full = read("sale-full-file"),
     browser = read("sale-browser"),
@@ -82,6 +83,8 @@ export async function saleScorecard(books) {
       creditNotesChecked: notes.checkedWithThreeIndependentRanks,
       coverageGapUnits: window.mathematicalGapUnits,
       historicalNotesReexamined: history.examinedNotes,
+      enduranceSeconds: endurance.factory.elapsedSeconds,
+      fullExportsDuringEndurance: endurance.factory.fullExports,
       historicalMonthsWithBothEndpointsVerified: history.periods.filter(
         (p) => p.lowerAndUpperAttainedIndependently,
       ).length,
@@ -149,6 +152,8 @@ export async function saleScorecard(books) {
         medianAcrossTrials: r.current.medianOfP95Ms,
       })),
       repliesVerifiedInLoadTest: bursts.repliesVerified,
+      censusRoundsDuringEndurance: endurance.population.rounds,
+      sectorContributionsIndependentlyChecked: endurance.population.independentlyHashedContributions,
     },
   };
 }

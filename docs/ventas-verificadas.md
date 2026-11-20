@@ -6,7 +6,7 @@ La primera entrega utilizable por un comprador es un auditor local de notas de c
 
 | Pregunta | Prueba | Resultado |
 | --- | --- | --- |
-| ¿Entrega una herramienta utilizable? | Producto con importación de CSV, exportación, verificador y búsqueda por factura. Examen de UCI Online Retail con 541,909 filas de origen y 24,329 filas admitidas. | En 90 días de búsqueda, 34,577 unidades canceladas quedaron sin respaldo observable, por GBP 59,672.75. La consulta simple reutilizaba 654 unidades. |
+| ¿Entrega una herramienta utilizable? | Producto con importación de CSV, exportación, verificador y búsqueda por factura. Examen de UCI Online Retail con 541,909 filas de origen, 404,876 admitidas y 24,329 en grupos con cancelaciones. | En 90 días de búsqueda, 34,577 unidades canceladas quedaron sin respaldo observable, por GBP 59,672.75. La consulta simple reutilizaba 654 unidades. |
 | ¿Distingue un hallazgo individual de una diferencia compartida? | 8,539 notas contrastadas con tres cálculos de flujo por nota. | GBP 44,863.00 correspondían a diferencias individualmente inevitables con ventana completa. GBP 14,140.56 correspondían a notas cercanas al inicio del archivo y GBP 669.19 a diferencias compartidas por notas. |
 | ¿Corrige aparentes discrepancias cuando llega el historial? | 7,864 notas de UCI en doce cortes mensuales. Se volvió a calcular el respaldo de cada mes usando los meses anteriores y dos asignaciones independientes. | Solo en enero de 2011, el respaldo de las notas pasó de GBP 83,824.16 a un intervalo entre GBP 87,478.32 y GBP 87,502.72. La diferencia identificada se explica con documentos previos. |
 | ¿Investiga una discrepancia nueva mejor que la regla existente? | Dos periodos reservados de Iowa, 200 facturas por periodo. Se sellaron las decisiones antes de abrir los importes. | 397 aciertos sobre 400 frente a 398 del precio declarado. Se mantuvo el método anterior. En 13 de 16 errores ya conocidos, al menos una explicación rival reconstruyó el importe histórico. La factura original sigue siendo necesaria para confirmar la causa. |
@@ -126,6 +126,14 @@ node scripts/sale/participants.mjs DIRECTORIO_ENSAYO DIRECTORIO_PADRON evidence/
 ```
 
 En otra prueba llegaron lotes de 1, 32, 256 y 4,096 consultas a un único proceso local. Cada versión pasó trece veces por los mismos 24,000 casos, incluidos 80 registros inválidos y 43 fuera del dominio. Se verificaron 2,496,000 respuestas entre ambas versiones. En la edición con escrituras agrupadas, la mediana de los p95 fue 0.136 ms para consultas individuales, 0.650 ms para lotes de 32, 2.903 ms para lotes de 256 y 26.601 ms para lotes de 4,096. En la versión anterior fue 0.147, 0.610, 3.932 y 34.492 ms, respectivamente. Los tiempos incluyen la cola y la lectura por el cliente. [Resultados por tamaño de lote y repetición](../evidence/sale-pressure.json)
+
+## Pruebas de duración
+
+La fábrica terminó 171,705 rondas en dos horas con la misma semilla que había detectado una duplicación de datos tras completar 9,835 rondas. La repetición examinó 6,181,380 expedientes generados, 4,120,920 resultados de reposición y 171,705 claves alteradas. También exportó y auditó 115 herramientas completas.
+
+Durante 65 minutos, el programa C++ volvió a recorrer el mismo padrón de 100 millones en 119 rondas. El verificador independiente cotejó 1,190,000 puntajes y volvió a calcular la huella de 1,190,000,000 contribuciones. Se conservaron 24 ejecuciones con los datos históricos y 95 con cambios de entrada.
+
+La primera prueba contable de 75 minutos abrió 2,798 libros. La segunda, de 35 minutos sobre una versión publicada congelada, abrió 1,259. Cada libro enfrentó cuatro escritores concurrentes, una interrupción antes de confirmar y un reembolso excesivo. Las cifras describen expedientes y transacciones generados para probar el programa. [Duraciones, semilla, errores y contadores](../evidence/sale-endurance.json) · [Verificador de las mediciones](../scripts/sale/endurance-result.mjs)
 
 ## Fuentes y compromisos anteriores al examen
 

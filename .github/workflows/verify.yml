@@ -16,6 +16,7 @@ jobs:
       - run: npm test
       - run: npm run demo
       - run: node scripts/check-evidence.mjs
+      - run: node scripts/sale/endurance-result.mjs verify evidence/sale-endurance.json
       - name: Examinar decisiones concurrentes con una semilla nueva
         run: node scripts/global/exam.mjs > examen-global.json
       - uses: actions/upload-artifact@v4
