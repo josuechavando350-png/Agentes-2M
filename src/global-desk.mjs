@@ -9,18 +9,12 @@ import {
   inquirySnapshot,
   inquiryExecution,
 } from "./sale/inquiry-job.mjs";
-import {
-  pilotAssignment,
-  commercialReadiness,
-  customerQuote,
-} from "./sale/field.mjs";
+import { commercialReadiness, customerQuote } from "./sale/field.mjs";
 import {
   salesState,
   saleEvent,
-  planSale,
   applySale,
   salesReport,
-  commercialScope,
   validateCommercialAuthority,
   remainingBudget,
   freeBudget,
@@ -35,7 +29,7 @@ import {
 import { runtimeStamp } from "./factory/export.mjs";
 import { factoryExecution, factoryGoal } from "./factory/mission.mjs";
 import { DatabaseSync } from "node:sqlite";
-import { saleReplayInput, evaluateSale } from "./sale/replay.mjs";
+import { saleReplayInput, planCommercialRecord } from "./sale/replay.mjs";
 import {
   engine,
   saveRuntime,
@@ -619,21 +613,14 @@ export class GlobalDesk {
           !isCurrent(s, byKey(s, d.job), at, this.store)
         )
           throw Error("El expediente del producto debe actualizarse");
-        const data = planSale(
+        const trials = d.pilot ? this.store.fieldTrials() : [];
+        const data = planCommercialRecord(
           s,
           r,
           at,
           this.store.settlementAuthority(),
-          r.kind === "sale-activity" ? this.store.fieldTrials() : [],
+          trials,
         );
-        if (r.kind === "sale-offer")
-          data.assignment = pilotAssignment(
-            this.store.fieldTrials(),
-            d.buyer,
-            commercialScope(s.jobs.get(d.job)),
-            d.pilot,
-            at,
-          );
         return { ...event(data), saleRuntime: engine };
       }
       const reserve = (
@@ -1306,23 +1293,20 @@ export class GlobalDesk {
           if (!runtime) throw Error("Falta el programa archivado de venta");
           const key = digest(runtime),
             job = { runtime, snapshot: { engine: key } };
-          const input = saleReplayInput(
-            s,
-            r,
-            e.at,
-            authority,
-            ["sale-offer", "sale-activity"].includes(r.kind)
-              ? this.store.fieldTrials()
-              : [],
-          );
+          const trials = r.data.pilot ? this.store.fieldTrials() : [];
           let planned;
           if (key === digest(engine)) {
             if (!saleArchives.has(key)) {
               runtimeContents(this.db, job);
               saleArchives.add(key);
             }
-            planned = evaluateSale(input);
-          } else planned = archivedExecution(this.db, job, input);
+            planned = planCommercialRecord(s, r, e.at, authority, trials);
+          } else
+            planned = archivedExecution(
+              this.db,
+              job,
+              saleReplayInput(s, r, e.at, authority, trials),
+            );
           if (r.kind !== e.kind || digest(planned) !== digest(e.data))
             throw Error("Operación comercial alterada");
         }

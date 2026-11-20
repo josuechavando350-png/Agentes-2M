@@ -1,0 +1,10 @@
+{
+  "status": "PASSED",
+  "historicalEvents": 13,
+  "eventsAfterUpgrade": 15,
+  "oldTipVerified": true,
+  "priorCents": 27,
+  "correctedCents": 22,
+  "mode": "DEMONSTRATION",
+  "realOwnReceipts": null
+}

@@ -382,6 +382,7 @@ test("Libros repetidos, extractos solapados y firmas sin grupo independiente imp
     buyers: { c: { group: "g-" + i, signer: "k-" + i } },
     windows: [{ source: "bank", from: i * 1e9, until: (i + 1) * 1e9 }],
     receipts: ["ref-" + i],
+    originalsUsed: ["extracto/" + i],
     report: {
       scopes: [{ scope: "credito", netLowerCents: 33 }],
       campaignNetCents: 33,
@@ -405,6 +406,10 @@ test("Libros repetidos, extractos solapados y firmas sin grupo independiente imp
           until: (i + 1) * 1e9,
           control: "control",
           candidate: "nueva",
+          cohort: [
+            { group: "g-" + i, signer: "k-" + i },
+            { group: "control-" + i, signer: "otro-" + i },
+          ],
         },
       ],
     },
@@ -418,6 +423,16 @@ test("Libros repetidos, extractos solapados y firmas sin grupo independiente imp
   assert.throws(() => combineWeeks([a, a]));
   assert.throws(() => combineWeeks([a, { ...b, receipts: a.receipts }]));
   assert.throws(() => combineWeeks([a, { ...b, windows: a.windows }]));
+  assert.throws(
+    () => combineWeeks([a, { ...b, originalsUsed: a.originalsUsed }]),
+    /Original/,
+  );
+  for (const field of ["group", "signer"]) {
+    const reused = structuredClone(b);
+    reused.report.randomizedTrials[0].cohort[1][field] =
+      a.report.randomizedTrials[0].cohort[1][field];
+    assert.equal(combineWeeks([a, reused]).repeatedEffect, false);
+  }
   b.buyers.c.signer = a.buyers.c.signer;
   assert.equal(combineWeeks([a, b]).repeated, false);
 });

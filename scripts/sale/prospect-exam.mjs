@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import assert from "node:assert/strict";
 import { hash } from "../../src/factory/reader.mjs";
 import { prepareProspects, gradeProspects } from "../../src/sale/prospects.mjs";
 const [stage, dir, commit] = process.argv.slice(2),
@@ -32,17 +33,29 @@ if (stage === "freeze") {
       2,
     ),
   );
-} else if (stage === "grade")
+} else if (stage === "grade") {
+  const frozen = read(path),
+    published = read(commit);
+  for (const name of [
+    "acceptance",
+    "features",
+    "support",
+    "modelsExamined",
+    "seal",
+  ])
+    assert.deepEqual(frozen[name], published[name], name);
+  assert.equal(frozen.recipe.source, published.source);
+  assert.equal(hash(frozen.recipe), published.recipe);
   console.log(
     JSON.stringify(
       gradeProspects(
-        read(path),
+        frozen,
         packet.holdout,
         read(join(dir, "answers.json")),
-        read(commit).seal,
+        published.seal,
       ),
       null,
       2,
     ),
   );
-else throw Error("Usa freeze DIRECTORIO o grade DIRECTORIO COMPROMISO");
+} else throw Error("Usa freeze DIRECTORIO o grade DIRECTORIO COMPROMISO");

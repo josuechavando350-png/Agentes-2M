@@ -123,11 +123,24 @@ try {
     completeLookback: false,
   };
   writeFileSync(join(tmp, "turno.json"), JSON.stringify(shift, null, 2) + "\n");
-  const queue = call("queue", "importado.json", "turno.json", "cola.json");
+  const turnCsv =
+    csv +
+    "credito-c,segunda-empresa,servicio-ejemplo,50.00,-3,2026-01-30T00:00:00.000Z,NOTA-C,MXN\r\n";
+  writeFileSync(join(tmp, "ejemplo-turno.csv"), turnCsv);
+  call("import", "ejemplo-turno.csv", "columnas.json", "expediente-turno.json");
+  const queue = call(
+    "queue",
+    "expediente-turno.json",
+    "turno.json",
+    "cola.json",
+  );
+  assert.equal(queue.reviewCents, 15000);
+  assert.equal(queue.documents, 1);
+  assert.equal(queue.minutes, 9);
   assert.equal(queue.status, "OPTIMAL_IN_SCOPE");
   assert.deepEqual(
     queue,
-    call("queue-check", "importado.json", "turno.json", "cola.json"),
+    call("queue-check", "expediente-turno.json", "turno.json", "cola.json"),
   );
   const names = [
     "review-queue.mjs",
@@ -138,6 +151,8 @@ try {
     "credit-csv.mjs",
     "ejemplo.json",
     "ejemplo.csv",
+    "ejemplo-turno.csv",
+    "expediente-turno.json",
     "columnas.json",
     "importado.json",
     "revision.csv",

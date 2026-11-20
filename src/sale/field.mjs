@@ -22,6 +22,13 @@ export function pilotAssignment(trials, subject, scope, id, at) {
     until: trial.until,
   });
 }
+export function independentCohorts(a, b) {
+  if (!a.cohort?.length || !b.cohort?.length) return false;
+  const groups = new Set(a.cohort.map((u) => u.group));
+  const signers = new Set(a.cohort.map((u) => u.signer));
+  return b.cohort.every((u) => !groups.has(u.group) && !signers.has(u.signer));
+}
+
 // Compare each randomized unit's accounting close with independent bank entries through the trial window.
 export function commercialReadiness(s, trials, mode = "LIVE") {
   const report = salesReport(s, mode),
@@ -177,6 +184,10 @@ export function commercialReadiness(s, trials, mode = "LIVE") {
         until: t.until,
         scope: t.scope,
         units: t.units.length,
+        cohort: t.units.flatMap((u) => {
+          const buyer = b.clients.get(u.subject);
+          return buyer ? [{ group: buyer.group, signer: hash(buyer.key) }] : [];
+        }),
         matched,
         issues,
         marginTest,
@@ -208,6 +219,9 @@ export function commercialReadiness(s, trials, mode = "LIVE") {
           (b) =>
             b.status === "BANK_MATCHED_INCREMENTAL_MARGIN" &&
             b.scope === a.scope &&
+            b.candidate === a.candidate &&
+            b.control === a.control &&
+            independentCohorts(a, b) &&
             (a.until <= b.from || b.until <= a.from),
         ),
   );

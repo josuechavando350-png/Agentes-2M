@@ -35,6 +35,14 @@ jobs:
             entrega-fabrica/
             examen-fabrica.json
           retention-days: 30
+      - uses: actions/checkout@v4
+        with: {path: version-anterior, ref: 9d86438df8cbb2c4d9c8d3ee1719617cd205d680, persist-credentials: false}
+      - name: Conciliar un reembolso posterior en una base creada por la versión publicada
+        run: |
+          mkdir -p version-anterior/.cache
+          cp .cache/nexus.mjs .cache/semar-native version-anterior/.cache/
+          python3 scripts/factory/offline.py node scripts/sale/upgrade-exam.mjs verify version-anterior > actualizacion-libro.json
+          diff evidence/sale-upgrade.json actualizacion-libro.json
       - name: Empaquetar el auditor del comprador y probar pedidos, cobros y reembolsos
         run: |
           python3 scripts/factory/offline.py node scripts/sale/package.mjs entrega-ventas
@@ -54,5 +62,6 @@ jobs:
             demostracion-ventas.json
             concurrencia-ventas.json
             aceptacion-de-campo.json
+            actualizacion-libro.json
             dictamen-de-ventas.json
           retention-days: 30

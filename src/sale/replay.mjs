@@ -45,8 +45,16 @@ export function evaluateSale(input) {
       k === "references" ? new Set(v) : new Map(v),
     ]),
   );
-  const s = { ...state, sales, jobs: new Map(state.jobs) },
-    d = planSale(s, record, at, treasury, trials);
+  return planCommercialRecord(
+    { ...state, sales, jobs: new Map(state.jobs) },
+    record,
+    at,
+    treasury,
+    trials,
+  );
+}
+export function planCommercialRecord(s, record, at, treasury, trials) {
+  const d = planSale(s, record, at, treasury, trials);
   if (record.kind === "sale-offer")
     d.assignment = pilotAssignment(
       trials,

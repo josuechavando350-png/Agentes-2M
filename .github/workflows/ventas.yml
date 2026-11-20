@@ -10,9 +10,32 @@ on:
       - 'native/offers.cpp'
       - 'evidence/sale-seal.json'
       - 'evidence/sale-diagnostic-seal.json'
+      - 'evidence/sale-prospect-seal.json'
+      - 'evidence/sale-prospects.json'
 permissions:
   contents: read
 jobs:
+  prospectos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: preregistro, ref: 65b7d75ddf25e9ba60fc4881c04411f33895744b, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: |
+          curl -fsSL --retry 3 --max-time 120 'https://archive.ics.uci.edu/static/public/222/bank+marketing.zip' -o /tmp/prospectos.zip
+          python3 scripts/sale/prospects.py /tmp/prospectos.zip /tmp/prospectos
+          mv /tmp/prospectos/answers.json /tmp/respuestas.json
+          node scripts/sale/prospect-exam.mjs freeze /tmp/prospectos > /tmp/sello.json
+          diff preregistro/evidence/sale-prospect-seal.json /tmp/sello.json
+          mv /tmp/respuestas.json /tmp/prospectos/answers.json
+          node scripts/sale/prospect-exam.mjs grade /tmp/prospectos preregistro/evidence/sale-prospect-seal.json > prospectos.json
+          diff evidence/sale-prospects.json prospectos.json
+      - uses: actions/upload-artifact@v4
+        with: {name: examen-prospectos, path: prospectos.json, retention-days: 30}
   campana:
     runs-on: ubuntu-latest
     timeout-minutes: 12

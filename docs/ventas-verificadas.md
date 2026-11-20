@@ -11,6 +11,7 @@ La primera entrega utilizable por un comprador es un auditor local de notas de c
 | ¿Investiga una discrepancia nueva mejor que la regla existente? | Dos periodos reservados de Iowa, 200 facturas por periodo. Se sellaron las decisiones antes de abrir los importes. | 397 aciertos sobre 400 frente a 398 del precio declarado. Se mantuvo el método anterior. En 13 de 16 errores ya conocidos, al menos una explicación rival reconstruyó el importe histórico. La factura original sigue siendo necesaria para confirmar la causa. |
 | ¿Cien millones compran más información? | Historial aleatorizado Hillstrom. 16,000 clientes para ajustar, 10,000 para buscar, 14,000 para seleccionar y 24,000 para examinar una sola vez. | Los 100 millones de contribuciones reprodujeron todos los puntajes de un cálculo exacto de un trabajador. Diez mil reglas produjeron 9,005 series distintas de decisiones en los clientes de búsqueda. Se conservó la oferta uniforme. |
 | ¿Mejoró el resultado comercial de esa campaña? | Diferencias de gasto por cliente en el grupo de examen. | Oferta seleccionada frente a ausencia de contacto, +USD 0.40 por cliente, intervalo aproximado del 95 % desde −USD 0.07 hasta +USD 0.87. Frente al método simple, diferencia cero. |
+| ¿Identifica más suscripciones con una lista limitada? | UCI Bank Marketing, 9,188 contactos posteriores reservados y 1,837 plazas. | La regla elegida identificó 527 suscripciones, las mismas que el mejor control sencillo. El sorteo uniforme por bloques esperaba 517.49. |
 | ¿Generó ventas propias? | El libro distingue propuesta, pedido, recuperación confirmada, comisión devengada, dinero recibido, devoluciones y margen. | La entrega incluye una demostración contable y exámenes con datos públicos. La medición de ingresos propios necesita un piloto con cliente, costos y extracto verificables. |
 
 [Resultados de conciliación](../evidence/sale-retail.json) · [Registro de partidas](../evidence/sale-register.json) · [Iowa](../evidence/sale-iowa.json) · [Campaña](../evidence/sale-hillstrom.json) · [Tiempos de ejecución](../evidence/sale-throughput.json)
@@ -75,6 +76,21 @@ node src/cli.mjs sale-scorecard libros.json
 ```
 
 En `libros.json`, `originals` relaciona cada ruta de base con su perfil de comprobantes. Se puede probar todo el recorrido con firmas y archivos temporales usando `node scripts/sale/field-acceptance.mjs`. Ese examen cubre dos mandatos, doce pares aleatorizados y los veinticuatro cierres de comprador. [Cálculo de potencia y contraste de margen](../src/sale/experiment.mjs) · [Examen de integración](../scripts/sale/field-acceptance.mjs)
+
+La comprobación de réplica contrasta todos los grupos empresariales y todos los firmantes inscritos en ambos ensayos, incluidos los compradores del grupo de control. Un mismo extracto con movimientos o una misma prueba de recuperación en dos semanas impide sumar los cierres. Las distribuciones internas de un abono se conservan ligadas al movimiento original.
+
+## Priorizar prospectos autorizados
+
+El entrenamiento usa cuatro periodos sucesivos del archivo de UCI Bank Marketing. El primero ajusta modelos, el segundo elige entre 37 tablas sencillas y tres conjuntos de árboles, el tercero calibra las probabilidades y el cuarto queda reservado para la calificación. Se usan atributos del contexto de contacto disponibles antes de conocer el desenlace. El producto admite una lista proporcionada por su titular y un cupo de revisión.
+
+```sh
+python3 scripts/sale/prospects.py bank-marketing.zip ensayo-prospectos
+node scripts/sale/prospect-exam.mjs freeze ensayo-prospectos > compromiso.json
+node scripts/sale/prospect-exam.mjs grade ensayo-prospectos evidence/sale-prospect-seal.json
+node src/cli.mjs sale-prospects ensayo-prospectos/frozen.json autorizados.json HUELLA_RECETA 20
+```
+
+El último comando recibe filas con `id` y `x` en el orden de la receta. La predicción refiere a un resultado histórico condicional al contacto. Entre las 1,837 plazas reservadas, la tabla de día de la semana y la política seleccionada incluyeron los mismos 527 contratos. Como análisis secundario se calculó la distribución de una lista uniforme con el mismo cupo por bloque, con esperanza de 517.49 y un intervalo central del 95 % de 487 a 548. El archivo carece de grupo sin contacto y de identificadores estables de personas. El efecto sobre ventas propias requiere observación prospectiva. [Datos y licencia de UCI](https://doi.org/10.24432/C5K306) · [Compromiso anterior al examen](https://github.com/josuechavando350-png/Agentes-2M/blob/65b7d75ddf25e9ba60fc4881c04411f33895744b/evidence/sale-prospect-seal.json) · [Resultados](../evidence/sale-prospects.json)
 
 ## Cómo operan los 100 millones
 

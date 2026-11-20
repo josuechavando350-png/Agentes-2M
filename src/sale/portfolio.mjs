@@ -1,5 +1,6 @@
 import { commercialScope } from "./book.mjs";
 import { checkOriginals } from "./originals.mjs";
+import { independentCohorts } from "./field.mjs";
 import { existsSync } from "node:fs";
 import { createPublicKey } from "node:crypto";
 import { hash, check, list, unique } from "../factory/reader.mjs";
@@ -31,8 +32,21 @@ export async function verifiedWeek(path, mode, originals) {
     const buyers = [...s.sales.clients.values()].filter((c) => c.mode === mode);
     const source = new Map(accounts.map((a) => [a.id, identity(a.key)]));
     const receipts = [...s.sales.ledger.values()]
-      .filter((l) => source.has(l.account))
+      .filter((l) => source.has(l.account) && !l.bankOrigin)
       .map((l) => hash([source.get(l.account), l.id]));
+    const originalsUsed = new Set();
+    for (const o of s.sales.offers.values())
+      if (o.mode === mode && o.delivery)
+        originalsUsed.add("recuperacion/" + o.delivery.source);
+    for (const row of desk.db
+      .prepare(
+        "SELECT body FROM global_events WHERE json_extract(body, '$.kind')='sale-bank'",
+      )
+      .iterate()) {
+      const { data } = JSON.parse(row.body);
+      if (source.has(data.account) && data.lines.length)
+        originalsUsed.add("extracto/" + data.source);
+    }
     const documentation = originals
       ? await checkOriginals(desk, mode, originals)
       : null;
@@ -60,6 +74,7 @@ export async function verifiedWeek(path, mode, originals) {
         until: a.until,
       })),
       receipts,
+      originalsUsed: [...originalsUsed],
       programs: Object.fromEntries(
         report.deals.map((d) => [d.job, commercialScope(s.jobs.get(d.job))]),
       ),
@@ -78,7 +93,8 @@ export function combineWeeks(weeks) {
     paid = [],
     trials = [],
     windows = new Map();
-  const allReceipts = new Set();
+  const allReceipts = new Set(),
+    allOriginals = new Set();
   let net = 0,
     complete = true,
     collected = 0;
@@ -92,6 +108,10 @@ export function combineWeeks(weeks) {
     for (const h of w.receipts) {
       check(!allReceipts.has(h), "Comprobante bancario repetido entre semanas");
       allReceipts.add(h);
+    }
+    for (const id of w.originalsUsed) {
+      check(!allOriginals.has(id), "Original económico repetido entre semanas");
+      allOriginals.add(id);
     }
     for (const x of w.windows) {
       const spans = windows.get(x.source) ?? [];
@@ -157,6 +177,7 @@ export function combineWeeks(weeks) {
       return (
         a &&
         b &&
+        independentCohorts(a, b) &&
         a.candidate === b.candidate &&
         a.control === b.control &&
         (a.until <= b.from || b.until <= a.from)

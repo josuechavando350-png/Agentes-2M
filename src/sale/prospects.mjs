@@ -318,9 +318,59 @@ export function prepareProspects(packet) {
       "Cuatro tramos cronológicos. Igual o mayor número de contratos observados a capacidad fija en cada tramo y mejora estricta total frente al control simple seleccionado. Medición histórica.",
   };
 }
+function combinations(n, k) {
+  if (k < 0 || k > n) return 0n;
+  let c = 1n;
+  for (let i = 0; i < Math.min(k, n - k); i++)
+    c = (c * BigInt(n - i)) / BigInt(i + 1);
+  return c;
+}
+// Null comparator for a capacity-limited historical list. Each time block draws without replacement.
+export function uniformQueueDistribution(labels, hits) {
+  let mass = [1],
+    expected = 0;
+  for (let i = 0; i < labels.length; i += 100) {
+    const group = labels.slice(i, i + 100),
+      n = group.length,
+      a = group.reduce((s, v) => s + num(v, 0, 1), 0),
+      k = Math.floor(n / 5);
+    const den = combinations(n, k),
+      prob = Array.from(
+        { length: k + 1 },
+        (_, h) =>
+          Number(combinations(a, h) * combinations(n - a, k - h)) / Number(den),
+      );
+    const next = Array(mass.length + k).fill(0);
+    for (let j = 0; j < mass.length; j++)
+      for (let h = 0; h <= k; h++) next[j + h] += mass[j] * prob[h];
+    mass = next;
+    expected += (a * k) / n;
+  }
+  const total = mass.reduce((s, v) => s + v, 0);
+  check(Math.abs(total - 1) < 1e-8, "Masa probabilística inconsistente");
+  const q = (p) => {
+    let sum = 0;
+    for (let i = 0; i < mass.length; i++) {
+      sum += mass[i] / total;
+      if (sum >= p) return i;
+    }
+    return mass.length - 1;
+  };
+  return {
+    expectedHits: expected,
+    central95: [q(0.025), q(0.975)],
+    probabilityAtLeastObserved: Math.min(
+      1,
+      mass.slice(hits).reduce((s, v) => s + v, 0) / total,
+    ),
+    interpretation:
+      "Distribución de selección uniforme con igual cupo en cada bloque. Contraste secundario de priorización histórica.",
+  };
+}
 export function gradeProspects(frozen, rows, answers, expectedSeal) {
   check(
-    hash([frozen.recipe, frozen.features, frozen.targets]) === expectedSeal &&
+    frozen.support.holdout === rows.length &&
+      hash([frozen.recipe, frozen.features, frozen.targets]) === expectedSeal &&
       frozen.seal === expectedSeal &&
       frozen.features === hash(rows),
     "Examen o decisiones distintos de su compromiso",
@@ -375,6 +425,10 @@ export function gradeProspects(frozen, rows, answers, expectedSeal) {
     periods,
     totals,
     additionalRecordedSubscriptionsVsSimple: gain,
+    uniformSelection: uniformQueueDistribution(
+      rows.map((r) => truth.get(r.id).accepted),
+      totals.selected.hits,
+    ),
     comparisonPassed:
       gain > 0 && periods.every((p) => p.selected.hits >= p.simple.hits),
     receipts: null,

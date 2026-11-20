@@ -4,7 +4,7 @@ Motor local de agentes lógicos con presupuesto individual, aprendizaje entre se
 
 ## Investigación y venta
 
-El auditor de notas de crédito acepta un CSV, entrega las partidas a revisar y genera un certificado que el comprador puede comprobar en su equipo. El libro comercial conserva la autorización del cliente, el pedido, la entrega, los gastos y la conciliación bancaria. La búsqueda de ofertas compara los resultados del padrón de 100 millones con una ruta exacta de un trabajador. [Producto, exámenes y resultados comerciales](docs/ventas-verificadas.md)
+El auditor de notas de crédito acepta un CSV, entrega las partidas a revisar y genera un certificado que el comprador puede comprobar en su equipo. El libro comercial conserva la autorización del cliente, el pedido, la entrega, los gastos y la conciliación bancaria. Una prueba temporal de prospección compara la lista elegida con reglas sencillas a igual capacidad. La búsqueda de ofertas compara los resultados del padrón de 100 millones con una ruta exacta de un trabajador. [Producto, exámenes y resultados comerciales](docs/ventas-verificadas.md)
 
 ## Fábrica local de herramientas
 

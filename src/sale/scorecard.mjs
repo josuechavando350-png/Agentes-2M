@@ -17,12 +17,15 @@ export async function saleScorecard(books) {
     prices = read("sale-iowa"),
     participation = read("sale-participation"),
     times = read("sale-throughput-packed"),
-    queue = read("sale-queue");
+    queue = read("sale-queue"),
+    prospects = read("sale-prospects"),
+    prospectSeal = read("sale-prospect-seal");
   const frozen = read("sale-seal"),
     priceSeal = read("sale-diagnostic-seal");
   check(
     hill.seal === frozen.seal &&
       prices.seal === priceSeal.seal &&
+      prospects.seal === prospectSeal.seal &&
       program.trainingRecipe === frozen.policy &&
       participation.recipe === frozen.policy,
     "Los exámenes no corresponden a los compromisos declarados",
@@ -66,13 +69,22 @@ export async function saleScorecard(books) {
     research: {
       status:
         prices.verdict === "KEEP_LISTED_PRICE" &&
-        hill.relativeToSimple === "KEEP_SIMPLE"
+        hill.relativeToSimple === "KEEP_SIMPLE" &&
+        !prospects.comparisonPassed
           ? "KEEP_EXISTING_METHODS_IN_THESE_EXAMS"
           : "REVIEW_EXAMINED_SCOPE",
       iowa: {
         correct: periodTotal("exact"),
         referenceCorrect: periodTotal("baseline"),
         cases: periodTotal("cases"),
+      },
+      prospecting: {
+        records: prospects.support.holdout,
+        capacity: prospects.totals.selected.selected,
+        observedSubscriptions: prospects.totals.selected.hits,
+        expectedByUniformSelection: prospects.uniformSelection.expectedHits,
+        incrementalVsSimple: prospects.additionalRecordedSubscriptionsVsSimple,
+        causalSales: prospects.counterfactualSales,
       },
       campaign: {
         heldOut: hill.support.holdout,

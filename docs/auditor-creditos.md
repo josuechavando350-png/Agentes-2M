@@ -34,6 +34,8 @@ node credit-cli.mjs queue expediente-nuevo.json turno.json plan-nuevo.json
 node credit-cli.mjs queue-check expediente-nuevo.json turno.json plan-nuevo.json
 ```
 
+La entrega incluye un segundo ejemplo, `ejemplo-turno.csv`. Una segunda empresa canceló tres unidades de MXN 50 sin una venta observable. Con el turno incluido, la factura NOTA-C permite revisar MXN 150 en nueve minutos. El resultado se reproduce con `node credit-cli.mjs queue-check expediente-turno.json turno.json cola.json`.
+
 El plan muestra las facturas, las filas originales, los minutos y el volumen documental. Con datos históricos y un turno hipotético de una hora, seis facturas concentraban GBP 27,038.58 por revisar. Solicitar primero las facturas de mayor valor nominal cubría GBP 26,167.90 con los mismos límites. La recuperación requiere originales y confirmación del comprador.
 
 ## Formato de entrada

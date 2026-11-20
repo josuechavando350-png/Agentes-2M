@@ -1,0 +1,196 @@
+{
+  "mode": "HISTORICAL_CONTACT_PRIORITIZATION",
+  "source": "e0bf5f5de5b846e2f18e9d90606637267d46dfa260e0f17bb12e605db5efbeb4",
+  "seal": "35753edc037cf6c293bb1d11e2a64fba0a41d60f694b0d55a9fe2506b3ae52fc",
+  "support": {
+    "fit": 23000,
+    "select": 5000,
+    "calibrate": 4000,
+    "holdout": 9188
+  },
+  "modelsExamined": {
+    "simple": 37,
+    "candidates": 3
+  },
+  "methods": {
+    "selected": "tabla-dia-laboral",
+    "simple": "tabla-dia-laboral",
+    "reference": "uniforme"
+  },
+  "periods": [
+    {
+      "selected": {
+        "records": 2200,
+        "accepted": 142,
+        "selected": 440,
+        "hits": 25,
+        "precision": 0.056818181818181816,
+        "recall": 0.176056338028169,
+        "baseRate": 0.06454545454545454,
+        "brier": 0.06700453065439414
+      },
+      "simple": {
+        "records": 2200,
+        "accepted": 142,
+        "selected": 440,
+        "hits": 25,
+        "precision": 0.056818181818181816,
+        "recall": 0.176056338028169,
+        "baseRate": 0.06454545454545454,
+        "brier": 0.06700453065439414
+      },
+      "reference": {
+        "records": 2200,
+        "accepted": 142,
+        "selected": 440,
+        "hits": 27,
+        "precision": 0.06136363636363636,
+        "recall": 0.19014084507042253,
+        "baseRate": 0.06454545454545454,
+        "brier": 0.0669068817524406
+      }
+    },
+    {
+      "selected": {
+        "records": 2200,
+        "accepted": 298,
+        "selected": 440,
+        "hits": 48,
+        "precision": 0.10909090909090909,
+        "recall": 0.1610738255033557,
+        "baseRate": 0.13545454545454547,
+        "brier": 0.11718050993108182
+      },
+      "simple": {
+        "records": 2200,
+        "accepted": 298,
+        "selected": 440,
+        "hits": 48,
+        "precision": 0.10909090909090909,
+        "recall": 0.1610738255033557,
+        "baseRate": 0.13545454545454547,
+        "brier": 0.11718050993108182
+      },
+      "reference": {
+        "records": 2200,
+        "accepted": 298,
+        "selected": 440,
+        "hits": 42,
+        "precision": 0.09545454545454546,
+        "recall": 0.14093959731543623,
+        "baseRate": 0.13545454545454547,
+        "brier": 0.11720430739602834
+      }
+    },
+    {
+      "selected": {
+        "records": 2200,
+        "accepted": 820,
+        "selected": 440,
+        "hits": 161,
+        "precision": 0.3659090909090909,
+        "recall": 0.19634146341463415,
+        "baseRate": 0.37272727272727274,
+        "brier": 0.28527474059296354
+      },
+      "simple": {
+        "records": 2200,
+        "accepted": 820,
+        "selected": 440,
+        "hits": 161,
+        "precision": 0.3659090909090909,
+        "recall": 0.19634146341463415,
+        "baseRate": 0.37272727272727274,
+        "brier": 0.28527474059296354
+      },
+      "reference": {
+        "records": 2200,
+        "accepted": 820,
+        "selected": 440,
+        "hits": 144,
+        "precision": 0.32727272727272727,
+        "recall": 0.17560975609756097,
+        "baseRate": 0.37272727272727274,
+        "brier": 0.28550723166496805
+      }
+    },
+    {
+      "selected": {
+        "records": 2588,
+        "accepted": 1329,
+        "selected": 517,
+        "hits": 293,
+        "precision": 0.5667311411992263,
+        "recall": 0.22046651617757712,
+        "baseRate": 0.5135239567233385,
+        "brier": 0.3851789458368129
+      },
+      "simple": {
+        "records": 2588,
+        "accepted": 1329,
+        "selected": 517,
+        "hits": 293,
+        "precision": 0.5667311411992263,
+        "recall": 0.22046651617757712,
+        "baseRate": 0.5135239567233385,
+        "brier": 0.3851789458368129
+      },
+      "reference": {
+        "records": 2588,
+        "accepted": 1329,
+        "selected": 517,
+        "hits": 268,
+        "precision": 0.5183752417794971,
+        "recall": 0.2016553799849511,
+        "baseRate": 0.5135239567233385,
+        "brier": 0.3853775113902638
+      }
+    }
+  ],
+  "totals": {
+    "selected": {
+      "records": 9188,
+      "accepted": 2589,
+      "selected": 1837,
+      "hits": 527,
+      "precision": 0.2868807838867719,
+      "recall": 0.20355349555813054,
+      "baseRate": 0.28178058336961254,
+      "brier": 0.2209027677860615
+    },
+    "simple": {
+      "records": 9188,
+      "accepted": 2589,
+      "selected": 1837,
+      "hits": 527,
+      "precision": 0.2868807838867719,
+      "recall": 0.20355349555813054,
+      "baseRate": 0.28178058336961254,
+      "brier": 0.2209027677860615
+    },
+    "reference": {
+      "records": 9188,
+      "accepted": 2589,
+      "selected": 1837,
+      "hits": 481,
+      "precision": 0.2618399564507349,
+      "recall": 0.1857860177674778,
+      "baseRate": 0.28178058336961254,
+      "brier": 0.22099668320282598
+    }
+  },
+  "additionalRecordedSubscriptionsVsSimple": 0,
+  "uniformSelection": {
+    "expectedHits": 517.4931818181817,
+    "central95": [
+      487,
+      548
+    ],
+    "probabilityAtLeastObserved": 0.2814422158389672,
+    "interpretation": "Distribución de selección uniforme con igual cupo en cada bloque. Contraste secundario de priorización histórica."
+  },
+  "comparisonPassed": false,
+  "receipts": null,
+  "counterfactualSales": null,
+  "limits": "Contactos ya realizados por la entidad. El archivo no identifica de manera única a cada cliente ni mide qué habría sucedido sin contacto."
+}
