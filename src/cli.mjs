@@ -100,10 +100,11 @@ try {
               next: j.output?.decision.next ?? null,
             })),
           );
-        } else if (action === "global-regressions")
-          show(await desk.regressions());
-        else if (action === "global-work")
-          show((await desk.work(args[0])).decision);
+        } else if (action === "global-regressions") {
+          const report = await desk.regressions();
+          show(report);
+          if (report.failures) process.exitCode = 1;
+        } else if (action === "global-work") show(await desk.delivery(args[0]));
         else if (action === "global-replay") show(await desk.replay(args[0]));
         else if (action === "global-report") {
           const state = desk.read(),
@@ -126,13 +127,7 @@ try {
           const event = desk.command(envelope);
           if (action === "global-run") {
             if (event.kind === "clarify") show(event.data);
-            else
-              show({
-                ...(await desk.work(event.key)).decision,
-                ...(event.data.planning
-                  ? { planning: event.data.planning }
-                  : {}),
-              });
+            else show(await desk.delivery(event.key));
           } else
             show({
               id: event.key,

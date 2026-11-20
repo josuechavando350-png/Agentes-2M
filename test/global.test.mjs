@@ -320,7 +320,20 @@ test("a synthesized recipe is sealed before scoring, beats its control, and expi
     replica: cohort.last,
   });
   assert.equal(clone.data.snapshot.worker.id, cohort.last);
-  assert.equal((await e.desk.work("hija")).decision.value, 39);
+  const delivered = await e.desk.work("hija");
+  assert.equal(delivered.decision.value, 39);
+  e.command("feedback", "correccion-cliente", {
+    job: "hija",
+    resultHash: digest(delivered),
+    action: "ADVANCE",
+    reference: "acta-correctiva",
+    until: e.now + 60000,
+  });
+  assert.equal((await e.desk.delivery("hija")).action, "REVIEW_REQUIRED");
+  assert.throws(
+    () => e.command("reserve-method", "regresion", spec),
+    /admitida/,
+  );
   e.command("source", "revision", { ...d, previous: admitted.version });
   assert.throws(() => e.command("reserve-method", "otra", spec), /admitida/);
 });
@@ -413,6 +426,7 @@ test("Diablo compiles a portfolio brief, revisits a better new subject and reque
     reason: "documento retirado",
   });
   assert.equal(correction.kind, "withdraw");
+  assert.equal((await e.desk.delivery("actualizar")).action, "REVIEW_REQUIRED");
   const unknown = e.command("reserve-brief", "aclarar", {
     brief: { ...brief, question: "Diseña un avión" },
     cap: 3,

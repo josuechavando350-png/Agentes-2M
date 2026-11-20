@@ -12,6 +12,7 @@ import {
   validateGoal,
   stamp,
   executeMission,
+  assessMission,
 } from "./global-analysis.mjs";
 
 const WEEK = 168 * 3600000;
@@ -252,8 +253,51 @@ function portfolioSources(s, brief) {
     .filter((v) => v.scope === brief.scope)
     .sort((a, b) => a.document.id.localeCompare(b.document.id));
 }
+function methodFailures(s, proposal) {
+  const failures = [];
+  for (const feedback of s.feedback.values()) {
+    const j = byKey(s, feedback.job),
+      g = j.snapshot.goal;
+    if (
+      g.scope !== proposal.scope ||
+      g.op !== proposal.candidate.op ||
+      digest(g.operands.map((o) => o.field)) !==
+        digest(proposal.candidate.fields) ||
+      g.operands.some(
+        (o) =>
+          digest({ unit: o.unit, stage: o.stage }) !==
+          digest(proposal.schema[o.field]),
+      )
+    )
+      continue;
+    if (assessMission(j.snapshot).action !== feedback.action)
+      failures.push(j.id);
+  }
+  return failures;
+}
+function methodExam(s, c, d) {
+  const score = examine(c, d),
+    failures = methodFailures(s, c);
+  return {
+    ...score,
+    admitted: score.admitted && failures.length === 0,
+    regressions: failures,
+  };
+}
 function isCurrent(s, j, at, store) {
   const p = j.snapshot.portfolio;
+  const method = j.method ? s.methods.get(j.method)?.candidate : null;
+  if (
+    j.method &&
+    (!method ||
+      methodFailures(s, method).length > 0 ||
+      method.until <= at ||
+      method.basis.some(
+        ([id, v]) =>
+          s.docs.get(id)?.version !== v || s.docs.get(id).until <= at,
+      ))
+  )
+    return false;
   return (
     (!p ||
       stamp(portfolioSources(s, p.brief), at) ===
@@ -475,6 +519,7 @@ export class GlobalDesk {
             (j.method ?? null) === method &&
             (replica === null || j.snapshot.worker.id === replica) &&
             digest(j.snapshot.portfolio ?? null) === digest(portfolio) &&
+            isCurrent(s, j, at, this.store) &&
             j.snapshot.engine === hash &&
             digest(j.snapshot.goal) === digest(goal) &&
             digest(j.snapshot.field) === digest(field) &&
@@ -565,7 +610,7 @@ export class GlobalDesk {
           return event(candidate([...s.docs.values()], d, at));
         const m = unknown(s.methods.get(d.proposal), "Propuesta desconocida");
         if (m.exam || m.candidate.until <= at) throw Error("Examen cerrado");
-        return event(examine(m.candidate, d));
+        return event(methodExam(s, m.candidate, d));
       }
       if (r.kind === "deploy") {
         strict(d, [
@@ -590,6 +635,7 @@ export class GlobalDesk {
         const payer = this.store.agent(d.sponsor);
         if (
           !m.exam?.admitted ||
+          methodFailures(s, c).length > 0 ||
           m.deployment ||
           payer.generation !== d.generation ||
           payer.status !== "LIVE" ||
@@ -639,6 +685,7 @@ export class GlobalDesk {
         validateGoal(d.goal);
         if (
           !m.exam?.admitted ||
+          methodFailures(s, c).length > 0 ||
           c.scope !== d.goal.scope ||
           at >= c.until ||
           c.testSubjects.includes(d.goal.subject) ||
@@ -747,6 +794,35 @@ export class GlobalDesk {
       return { kind: "work", data: { job, output, resultHash } };
     });
     return output;
+  }
+  async delivery(id) {
+    await this.work(id);
+    const s = this.#state(),
+      j = byKey(s, id),
+      at = Math.max(s.at, this.clock());
+    const decision = structuredClone(j.output.decision);
+    const funding =
+      s.spent === s.open.budgetCents
+        ? "DEAD"
+        : expires(s, at)
+          ? "EXPIRED"
+          : "ACTIVE";
+    if (!isCurrent(s, j, at, this.store))
+      return {
+        job: j.id,
+        action: "REVIEW_REQUIRED",
+        previousAction: decision.action,
+        resultHash: j.resultHash,
+        funding,
+        next: { action: j.method ? "REVALIDATE_METHOD" : "REFRESH", job: j.id },
+      };
+    return {
+      ...decision,
+      job: j.id,
+      freshness: "CURRENT",
+      resultHash: j.resultHash,
+      funding,
+    };
   }
   async replay(id) {
     const j = byKey(this.#state(), id);
@@ -861,7 +937,13 @@ export class GlobalDesk {
             s.methods.get(r.data.proposal),
             "Propuesta ausente",
           );
-          if (digest(examine(m.candidate, r.data)) !== digest(e.data))
+          if (
+            digest(
+              Object.hasOwn(e.data, "regressions")
+                ? methodExam(s, m.candidate, r.data)
+                : examine(m.candidate, r.data),
+            ) !== digest(e.data)
+          )
             throw Error("Examen alterado");
         }
         if (
