@@ -13,7 +13,9 @@
     "build:native": "node scripts/build-native.mjs",
     "test": "node --test test/*.test.mjs",
     "demo": "node src/cli.mjs demo",
-    "semar": "node src/cli.mjs"
+    "semar": "node src/cli.mjs",
+    "global:demo": "node src/cli.mjs global-demo",
+    "global:exam": "node scripts/global/exam.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12"

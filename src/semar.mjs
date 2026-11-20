@@ -191,7 +191,7 @@ export class Semar {
     return structuredClone(this.#journal.read().keys.get(key)?.result ?? null);
   }
   status() {
-    return structuredClone(statusOf(this.#journal.read()));
+    return structuredClone(statusOf(this.#journal.operatingState()));
   }
   founderId(sector, ordinal) {
     return founderId(this.#journal.read(), sector, ordinal);
@@ -199,13 +199,22 @@ export class Semar {
   layout() {
     const s = this.#journal.read(true);
     this.#verify(s);
-    return rosterLayout(s);
+    const projected = this.#journal.operatingState();
+    if (projected.financialHalt) throw Error("Presupuesto global agotado");
+    return rosterLayout(projected);
   }
   census(first, last, options) {
-    return census(this.#journal.read(), first, last, options);
+    return census(this.#journal.operatingState(), first, last, options);
   }
   agent(id) {
-    return getAgent(this.#journal.read(), id);
+    const a = getAgent(this.#journal.read(), id);
+    const retired = this.#journal
+      .retirements()
+      .some(
+        (d) =>
+          d.actor === 0 || (d.actor === id && d.generation === a.generation),
+      );
+    return retired ? { ...a, status: "DEAD", balance: 0, publicKey: null } : a;
   }
   settlementAuthority() {
     return this.#journal.read().gov?.key ?? null;
@@ -252,7 +261,7 @@ export class Semar {
     return doc ? { sha256: doc.sha256, revision: doc.revision } : null;
   }
   awareness(id) {
-    const s = this.#journal.read();
+    const s = this.#journal.operatingState();
     return structuredClone(
       awareness(s, id, Math.max(this.clock(), s.events.at(-1)?.at ?? 0)),
     );

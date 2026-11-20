@@ -10,6 +10,12 @@ on:
       - 'src/decision-book.mjs'
       - 'src/commercial-decision.mjs'
       - 'evidence/decision-*.json'
+      - 'evidence/global-scale.json'
+      - 'src/global-scale.mjs'
+      - 'src/population-research.mjs'
+      - 'scripts/global/scale-exam.mjs'
+      - 'native/population.cpp'
+      - 'native/main.cpp'
 permissions: {contents: read}
 jobs:
   preparar:
@@ -98,3 +104,26 @@ jobs:
           cmp datos/result.json evidence/decision-iowa.json
       - uses: actions/upload-artifact@v4
         with: {name: examen-calificado, path: datos/result.json, retention-days: 30}
+  escalas:
+    needs: preparar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: estado, ref: 23df7aa50d30be6f75d5d3b9c778738e995ad1cb, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: aprendizaje-uci, path: dev}
+      - uses: actions/download-artifact@v4
+        with: {name: cuentas-iowa, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: desenlaces-iowa, path: datos}
+      - run: |
+          npm ci && npm run setup
+          node scripts/global/scale-exam.mjs datos dev estado/escuela /tmp/escalas.json tiempos.json
+          cmp /tmp/escalas.json evidence/global-scale.json
+      - uses: actions/upload-artifact@v4
+        with: {name: tiempos-escalas, path: tiempos.json, retention-days: 30}

@@ -16,3 +16,7 @@ jobs:
       - run: npm test
       - run: npm run demo
       - run: node scripts/check-evidence.mjs
+      - name: Examinar decisiones concurrentes con una semilla nueva
+        run: node scripts/global/exam.mjs > examen-global.json
+      - uses: actions/upload-artifact@v4
+        with: {name: examen-global, path: examen-global.json, retention-days: 30}

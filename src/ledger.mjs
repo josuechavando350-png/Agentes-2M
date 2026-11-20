@@ -29,6 +29,9 @@ export class Ledger {
     this.#readVersion = this.#db.prepare("PRAGMA data_version");
     this.#db
       .exec(`PRAGMA busy_timeout=10000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
+      CREATE TABLE IF NOT EXISTS global_retired(actor INTEGER NOT NULL,generation INTEGER NOT NULL,PRIMARY KEY(actor,generation));
+      CREATE TRIGGER IF NOT EXISTS global_retired_keep BEFORE DELETE ON global_retired BEGIN SELECT RAISE(ABORT,'immutable'); END;
+      CREATE TRIGGER IF NOT EXISTS global_retired_lock BEFORE UPDATE ON global_retired BEGIN SELECT RAISE(ABORT,'immutable'); END;
       CREATE TABLE IF NOT EXISTS journal(seq INTEGER PRIMARY KEY, key TEXT UNIQUE NOT NULL, body TEXT NOT NULL, hash TEXT NOT NULL);
       CREATE TRIGGER IF NOT EXISTS immutable_update BEFORE UPDATE ON journal BEGIN SELECT RAISE(ABORT,'immutable'); END;
       CREATE TRIGGER IF NOT EXISTS immutable_delete BEFORE DELETE ON journal BEGIN SELECT RAISE(ABORT,'immutable'); END;`);
@@ -82,6 +85,36 @@ export class Ledger {
       throw error;
     }
   }
+  retirements() {
+    return this.#db
+      .prepare(
+        "SELECT actor,generation FROM global_retired ORDER BY actor,generation",
+      )
+      .all();
+  }
+  operatingState() {
+    const state = this.read(),
+      deaths = this.retirements();
+    if (!deaths.length) return state;
+    const all = deaths[0].actor === 0;
+    const agents = new Map(state.agents);
+    let dead = state.dead;
+    for (const d of deaths) {
+      if (!d.actor) continue;
+      const a = getAgent(state, d.actor);
+      if (a.generation === d.generation && a.status === "LIVE") {
+        agents.set(a.id, { ...a, status: "DEAD", balance: 0, publicKey: null });
+        dead++;
+      }
+    }
+    return {
+      ...state,
+      agents,
+      financialHalt: all,
+      dead: all ? state.population : dead,
+      tip: digest([state.tip, deaths]),
+    };
+  }
   dispatch(key, command, build, verifyAudit) {
     if (typeof key !== "string" || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(key))
       throw Error("Clave inválida");
@@ -101,7 +134,30 @@ export class Ledger {
         let action;
         try {
           if (old) throw Error("Clave repetida para otra solicitud");
+          const deaths = this.retirements();
+          const closed = deaths.some((d) => d.actor === 0);
+          const retired = (id, generation) =>
+            deaths.some((d) => d.actor === id && d.generation === generation);
+          const accounting = [
+            "commerce",
+            "business_settlement",
+            "trial_observed",
+            "pilot_feedback",
+          ].includes(command.type);
+          if (closed && !accounting) throw Error("Presupuesto global agotado");
+          if (
+            Number.isSafeInteger(command.id) &&
+            retired(command.id, getAgent(state, command.id).generation)
+          )
+            throw Error("Identidad retirada por saldo cero");
           action = await build(state, now);
+          if (
+            action.steps.some(
+              (s) =>
+                s.kind === "agent" && retired(s.agent.id, s.agent.generation),
+            )
+          )
+            throw Error("El equipo contiene una identidad retirada");
         } catch (error) {
           failure = error;
           const reason = String(error.message).slice(0, 360);
@@ -344,6 +400,12 @@ const skillsBySector = SECTORS.map((_, i) =>
   Object.freeze(initialSkills(i + 1)),
 );
 export function getAgent(state, id) {
+  const agent = agentRecord(state, id);
+  if (state.financialHalt)
+    return { ...agent, status: "DEAD", balance: 0, publicKey: null };
+  return agent;
+}
+function agentRecord(state, id) {
   integer(id, 1, state.population, "identidad");
   const current = state.agents.get(id);
   if (current) return structuredClone(current);

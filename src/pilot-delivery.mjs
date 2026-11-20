@@ -26,7 +26,7 @@ function recipe(spec) {
   spec.fields.forEach(token);
   return { version: 1, op: spec.op, fields: spec.fields };
 }
-function inferRecipe(spec, docs, targets) {
+export function inferRecipe(spec, docs, targets) {
   strict(spec, ["examples"]);
   if (
     !Array.isArray(spec.examples) ||

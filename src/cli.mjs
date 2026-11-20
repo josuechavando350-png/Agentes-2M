@@ -34,13 +34,152 @@ import { Semar } from "./semar.mjs";
 
 const [action = "status", ...args] = process.argv.slice(2);
 const store = new Semar(
-  ["demo", "packed", "batch-scan"].includes(action)
+  ["demo", "global-demo", "packed", "batch-scan"].includes(action)
     ? ":memory:"
     : (process.env.SEMAR_DB ?? "semar.sqlite"),
 );
 const show = (x) => console.log(JSON.stringify(x, null, 2));
 try {
   switch (action) {
+    case "global-command":
+    case "global-run":
+    case "global-audit":
+    case "global-work":
+    case "global-replay":
+    case "global-status":
+    case "global-regressions":
+    case "global-aware":
+    case "global-feed":
+    case "global-report": {
+      const { GlobalDesk } = await import("./global-desk.mjs");
+      const desk = new GlobalDesk(
+        process.env.SEMAR_DB ?? "semar.sqlite",
+        store,
+      );
+      try {
+        if (action === "global-status") show(desk.view());
+        else if (action === "global-audit") show(await desk.audit());
+        else if (action === "global-aware") {
+          const view = desk.view(),
+            actor = store.agent(Number(args[0]));
+          const wallet = view.workers?.find(
+            (w) => w.id === actor.id && w.generation === actor.generation,
+          );
+          show({
+            id: actor.id,
+            generation: actor.generation,
+            alive: actor.status === "LIVE",
+            authorized:
+              !!wallet && view.status === "ACTIVE" && wallet.status === "LIVE",
+            remainingMs: Math.max(0, (view.until ?? 0) - Date.now()),
+            currency: view.currency ?? null,
+            globalFreeCents: view.freeCents ?? 0,
+            actorFreeCents: wallet
+              ? wallet.limit - wallet.spent - wallet.held
+              : 0,
+            operations: wallet?.ops ?? [],
+            zero: "DEAD_ZERO",
+          });
+        } else if (action === "global-feed") {
+          if (
+            ![
+              "diablo-666",
+              ...Array.from({ length: 10 }, (_, i) => "L" + (i + 1)),
+            ].includes(args[0])
+          )
+            throw Error("Líder desconocido");
+          const state = desk.read();
+          show(
+            [...state.jobs.values()].map((j) => ({
+              job: j.id,
+              scope: j.snapshot.goal.scope,
+              status: j.status,
+              sectors: j.snapshot.team.map((a) => "L" + a.sector),
+              decision: j.output?.decision.action ?? null,
+              tasks: j.output?.decision.plan ?? [],
+              next: j.output?.decision.next ?? null,
+            })),
+          );
+        } else if (action === "global-regressions")
+          show(await desk.regressions());
+        else if (action === "global-work")
+          show((await desk.work(args[0])).decision);
+        else if (action === "global-replay") show(await desk.replay(args[0]));
+        else if (action === "global-report") {
+          const state = desk.read(),
+            j = state.jobs.get(state.aliases.get(args[0]) ?? args[0]);
+          if (!j) throw Error("Trabajo desconocido");
+          show({
+            ...j,
+            runtime: j.runtime,
+            live: desk.view().jobs.find((v) => v.id === j.id),
+          });
+        } else {
+          const envelope = JSON.parse(readFileSync(args[0] ?? 0, "utf8"));
+          if (
+            action === "global-run" &&
+            !["reserve", "reserve-brief", "reserve-method", "refresh"].includes(
+              envelope.record?.kind,
+            )
+          )
+            throw Error("Se requiere una reserva firmada");
+          const event = desk.command(envelope);
+          if (action === "global-run") {
+            if (event.kind === "clarify") show(event.data);
+            else
+              show({
+                ...(await desk.work(event.key)).decision,
+                ...(event.data.planning
+                  ? { planning: event.data.planning }
+                  : {}),
+              });
+          } else
+            show({
+              id: event.key,
+              kind: event.kind,
+              hash: digest(event),
+              data: event.data,
+            });
+        }
+      } finally {
+        desk.close();
+      }
+      break;
+    }
+    case "global-rank": {
+      const { routedRank } = await import("./global-scale.mjs");
+      const report = JSON.parse(
+        readFileSync(new URL("../evidence/global-scale.json", import.meta.url)),
+      );
+      show(
+        routedRank(
+          store.layout(),
+          JSON.parse(readFileSync(args[0], "utf8")),
+          report,
+          Number(args[1] ?? 100000000),
+        ),
+      );
+      break;
+    }
+    case "global-scale": {
+      const { scaleExam } = await import("./global-scale.mjs");
+      const read = (p) => JSON.parse(readFileSync(p, "utf8"));
+      show(
+        scaleExam(
+          store.layout(),
+          read(args[0]),
+          read(args[1]),
+          args[2] ? Number(args[2]) : undefined,
+          args[3] ? Number(args[3]) : null,
+        ),
+      );
+      break;
+    }
+    case "global-demo": {
+      const { globalDemo } = await import("../scripts/global/demo.mjs");
+      show(await globalDemo());
+      break;
+    }
     case "restore-state": {
       if (!args[0])
         throw Error("Indica el directorio escuela de la rama estado-semar");

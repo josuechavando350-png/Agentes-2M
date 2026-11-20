@@ -1,0 +1,28 @@
+{
+  "scope": "generated documentary decisions",
+  "seed": "fbe8a8f9925d99198496b686716c8420f8173ec81b71444e0e60bc77d3a78129",
+  "engine": "366dd9763c370606529fbe303530a6c7bd5ce65cf43b222b0c4d2037c286ffc9",
+  "cases": 108,
+  "answerable": 24,
+  "answered": 24,
+  "correct": 108,
+  "severe": 0,
+  "missingCorrect": 84,
+  "invalidCitationSets": 0,
+  "coverage": 0.2222222222222222,
+  "answerableCoverage": 1,
+  "rowsRead": 672,
+  "observedCashCost": null,
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "available": 9,
+    "workers": 4
+  },
+  "latencyMs": {
+    "p50": 7.94380000000001,
+    "p95": 92.39713,
+    "p99": 357.2951029999999,
+    "boundary": "signed request through reservation, execution and durable decision commit under concurrent load"
+  },
+  "passed": true
+}

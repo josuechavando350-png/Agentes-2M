@@ -1,0 +1,325 @@
+{
+  "scope": "Iowa, four historical 200-store cohorts, previously opened",
+  "cohorts": [
+    {
+      "id": "ia-260-2018",
+      "niche": "iowa-wholesale",
+      "references": 500,
+      "cases": 200,
+      "maturedAt": "2018-05-01",
+      "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+      "input": "c3aa686af53d4027c3dc4c8dfaafb1b5b0e571e63f7f4e776a6dccd8da378419",
+      "outcomes": "5dfc95c628b4dfb03a502c1d33b7fa1ec5df8a6e2698c383efc5067214684112",
+      "machineCentsPerHour": null,
+      "arms": [
+        {
+          "name": "recency",
+          "participants": 1,
+          "comparisons": 200,
+          "predictions": "069e4078997c1454ecafb1e0e626fac8c3c5b5a7a68532bc60192c0af68558a7",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 185,
+            "pilots": 40,
+            "pilotHits": 39,
+            "wastedPilots": 1,
+            "missedAfterAbandon": 68,
+            "brier": 0.33873341630867027
+          }
+        },
+        {
+          "name": "rules-1",
+          "participants": 1000000,
+          "comparisons": 1000000,
+          "commitment": "0550b4843f472093f38969994576207001b7cf172093cc7830d0582887fba704",
+          "predictions": "3ac70d578a23af8817cbf20bb48e461ddc1ae6dd807f9de9594362e769ac4e3a",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 185,
+            "pilots": 40,
+            "pilotHits": 38,
+            "wastedPilots": 2,
+            "missedAfterAbandon": 69,
+            "brier": 0.11534999999999997
+          }
+        },
+        {
+          "name": "rules-10",
+          "participants": 10000000,
+          "comparisons": 10000000,
+          "commitment": "ce6f1cf7e10ae9adc03619003bbc0e05b6801644b651b370bb2716f2443105d8",
+          "predictions": "09c83a1eaf23a3928edbcf0426916c6e298daae538337e7f2928080f2ac4fec9",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 185,
+            "pilots": 40,
+            "pilotHits": 38,
+            "wastedPilots": 2,
+            "missedAfterAbandon": 69,
+            "brier": 0.10633450000000004
+          }
+        },
+        {
+          "name": "rules-100",
+          "participants": 100000000,
+          "comparisons": 100000000,
+          "commitment": "6c94f2bbd73d70d947420e401f9aaf07916475e737db18bb3d9595c1fda2e949",
+          "predictions": "f23c0afb037853cbb0b0cde55700d02ff2f44f99805e05f35db164064188deff",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 185,
+            "pilots": 40,
+            "pilotHits": 38,
+            "wastedPilots": 2,
+            "missedAfterAbandon": 68,
+            "brier": 0.10352061500000001
+          }
+        }
+      ]
+    },
+    {
+      "id": "ia-421-2018",
+      "niche": "iowa-wholesale",
+      "references": 500,
+      "cases": 200,
+      "maturedAt": "2018-05-01",
+      "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+      "input": "7c51a2a67a295b54f734d84c056897425f7b8979e06fb4d94ac679c529458293",
+      "outcomes": "67803f007b39bafe45901a727af77aa1160262dccb32e80b4d4d3fecf9403f56",
+      "machineCentsPerHour": null,
+      "arms": [
+        {
+          "name": "recency",
+          "participants": 1,
+          "comparisons": 200,
+          "predictions": "003c73e0e2b85a83837d8d4f0db38a537fb317826b11119f44753e1e331c669a",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 182,
+            "pilots": 40,
+            "pilotHits": 39,
+            "wastedPilots": 1,
+            "missedAfterAbandon": 64,
+            "brier": 0.3309519709885408
+          }
+        },
+        {
+          "name": "rules-1",
+          "participants": 1000000,
+          "comparisons": 1000000,
+          "commitment": "c28577989a5e64a02606def8c7d36f7c6653a6704c949465f9fe7d88e1d87757",
+          "predictions": "d44c6a70ff5a1e5afeab80778bfde8a30ad893631057baffe2a7b566b7c1af78",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 182,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 67,
+            "brier": 0.14864999999999995
+          }
+        },
+        {
+          "name": "rules-10",
+          "participants": 10000000,
+          "comparisons": 10000000,
+          "commitment": "c633471ebbdaa984dc0a7542bd5e255432ace69a35aec6e77a3f8c15cfc09ff5",
+          "predictions": "2d389a3ac3f1f62e5e72dbc0ae28cdbf7e6eedb635ffe018355269c006377bd1",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 182,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 63,
+            "brier": 0.1310785
+          }
+        },
+        {
+          "name": "rules-100",
+          "participants": 100000000,
+          "comparisons": 100000000,
+          "commitment": "f19ced68e7c1a4d7392c911b2997bc0de3ee81bf98baa516ab97fd0cd96824b9",
+          "predictions": "d0bfa86b7dcdfba3f75592841e599780335e609ee3df1412cda89e656323a482",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 182,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 63,
+            "brier": 0.126940825
+          }
+        }
+      ]
+    },
+    {
+      "id": "ia-260-2019",
+      "niche": "iowa-wholesale",
+      "references": 500,
+      "cases": 200,
+      "maturedAt": "2019-05-01",
+      "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+      "input": "4be9ad8499c7f3ba5079e003ab0316ed8f8775ba06260cbf9cb52d8b250eb7ac",
+      "outcomes": "7da71a790d21ce94ec5e84aaf0bcf9cc858ba0b008453613f345f3e73902320c",
+      "machineCentsPerHour": null,
+      "arms": [
+        {
+          "name": "recency",
+          "participants": 1,
+          "comparisons": 200,
+          "predictions": "3d28dddaaa59b7befe3420d2e04275428bfa00bb80638d51bc73428316aaba7d",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 177,
+            "pilots": 40,
+            "pilotHits": 39,
+            "wastedPilots": 1,
+            "missedAfterAbandon": 64,
+            "brier": 0.3479541095413029
+          }
+        },
+        {
+          "name": "rules-1",
+          "participants": 1000000,
+          "comparisons": 1000000,
+          "commitment": "4c22e79b107cc9b99f650d4e2d0a9f91d81baea0b3a9511ed731aaa1584c6957",
+          "predictions": "3dc883a07cd476a4165bb1bcf2edb7cde92cead8be2702278acd31b2e9733f10",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 177,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 63,
+            "brier": 0.1351999999999999
+          }
+        },
+        {
+          "name": "rules-10",
+          "participants": 10000000,
+          "comparisons": 10000000,
+          "commitment": "1df394c1e71653f7bd58188b227e9a29b5e58b4ed79217d24fc6979914628e06",
+          "predictions": "0074985852fa47eae24e8d862360ba943fa47f2f76d9e9decf3c8dbd7f4e09f0",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 177,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 60,
+            "brier": 0.1205675
+          }
+        },
+        {
+          "name": "rules-100",
+          "participants": 100000000,
+          "comparisons": 100000000,
+          "commitment": "bec06d947620d7b07cd502bd4a022a23ea3829e45a281f448210baf13fb029d3",
+          "predictions": "e05ec0f9bc03e3e35e69b0ba093e88ce7d475fa66370c593a34bae26a05ad394",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 177,
+            "pilots": 40,
+            "pilotHits": 40,
+            "wastedPilots": 0,
+            "missedAfterAbandon": 61,
+            "brier": 0.11935569500000001
+          }
+        }
+      ]
+    },
+    {
+      "id": "ia-421-2019",
+      "niche": "iowa-wholesale",
+      "references": 500,
+      "cases": 200,
+      "maturedAt": "2019-05-01",
+      "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+      "input": "69bebe15f74863e8a71abd4c5a396fedfb0a078c16bef45c71f37f919ade8cd3",
+      "outcomes": "739c65175add953f6c4e3cfb85497bacc4e69e9473027f398d1f195a218babd5",
+      "machineCentsPerHour": null,
+      "arms": [
+        {
+          "name": "recency",
+          "participants": 1,
+          "comparisons": 200,
+          "predictions": "5560faa903efb571ca5af9713a13a025237a68e2733ccd413d496d83bcadf50e",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 179,
+            "pilots": 40,
+            "pilotHits": 37,
+            "wastedPilots": 3,
+            "missedAfterAbandon": 63,
+            "brier": 0.33907899457606355
+          }
+        },
+        {
+          "name": "rules-1",
+          "participants": 1000000,
+          "comparisons": 1000000,
+          "commitment": "0e76b84268090fa41c51b9170761c3d84076ab995d13fe16de50e3e2a905bb41",
+          "predictions": "cef9c1581ebcb05fa2591a737c0903dd91ddb6ffd243cf3ed6dd5e24bdb2bb65",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 179,
+            "pilots": 40,
+            "pilotHits": 36,
+            "wastedPilots": 4,
+            "missedAfterAbandon": 68,
+            "brier": 0.20019999999999988
+          }
+        },
+        {
+          "name": "rules-10",
+          "participants": 10000000,
+          "comparisons": 10000000,
+          "commitment": "2e85e7a03e473c7cd577fe2c0a13170320f2053deadc3110253bea5dbc1edad3",
+          "predictions": "99c013017b9b1fd886e1dd02e3a02b87de4e1b8c83b82291aa30f98ce160351e",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 179,
+            "pilots": 40,
+            "pilotHits": 37,
+            "wastedPilots": 3,
+            "missedAfterAbandon": 66,
+            "brier": 0.19049949999999996
+          }
+        },
+        {
+          "name": "rules-100",
+          "participants": 100000000,
+          "comparisons": 100000000,
+          "commitment": "dc91c05d4712e9adce2947801881f66ee81c699e7960fc07c7015a3fbeddb271",
+          "predictions": "3bb7745298a33294186d9164caadf4bb2504508d753f1adc76ede2f6b3b4bffd",
+          "estimatedComputeCents": null,
+          "scores": {
+            "cases": 200,
+            "observed": 179,
+            "pilots": 40,
+            "pilotHits": 37,
+            "wastedPilots": 3,
+            "missedAfterAbandon": 66,
+            "brier": 0.18650361999999995
+          }
+        }
+      ]
+    }
+  ]
+}

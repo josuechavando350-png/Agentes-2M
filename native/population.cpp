@@ -38,12 +38,12 @@ std::string sha256(const std::vector<unsigned char>& bytes) {
     return hex.str();
 }
 std::vector<Cell> sectorRun(int sector, const std::vector<Range>& runs, const std::vector<Row>& history,
-                            const std::vector<int>& outcomes, const std::vector<Row>& queries) {
+                            const std::vector<int>& outcomes, const std::vector<Row>& queries, int rules) {
     std::size_t ri = 0;
     std::uint64_t id = runs[0].first;
     std::vector<Cell> cells;
     std::vector<unsigned char> bytes;
-    bytes.reserve(history.size() * 1200);
+    bytes.reserve(history.size() * rules * 12);
     for (const Row& query : queries) {
         std::array<int,100> best, winners{};
         best.fill(std::numeric_limits<int>::max());
@@ -55,7 +55,8 @@ std::vector<Cell> sectorRun(int sector, const std::vector<Range>& runs, const st
                 total += delta[f];
             }
             const int base = total + 16 * delta[sector];
-            for (int rule = 0; rule < 100; ++rule) {
+            for (int j = 0; j < rules; ++j) {
+                const int rule = rules == 10 ? j * 11 : j;
                 const int distance = base + (rule / 10) * delta[(sector + 1) % 10] + (rule % 10) * delta[(sector + 3) % 10];
                 word(bytes,static_cast<unsigned>(id));
                 word(bytes,static_cast<unsigned>(id >> 32));
@@ -73,9 +74,9 @@ std::vector<Cell> sectorRun(int sector, const std::vector<Range>& runs, const st
     return cells;
 }
 }
-int population() {
+int population(int rules) {
     const int workers = number(1,10), n = number(1,4096), q = number(1,4096);
-    const auto count = static_cast<long long>(n) * q * 100;
+    const auto count = static_cast<long long>(n) * q * rules;
     if (count > 10000000) throw std::runtime_error("Cupo sectorial excedido");
     std::array<std::vector<Range>,10> ranges;
     for (auto& list : ranges) {
@@ -100,7 +101,7 @@ int population() {
     std::vector<std::thread> threads;
     for (int t=0;t<workers;++t) threads.emplace_back([&]{
         for(int s=next++; s<10; s=next++) {
-            try { output[s] = sectorRun(s,ranges[s],history,labels,queries); }
+            try { output[s] = sectorRun(s,ranges[s],history,labels,queries,rules); }
             catch (...) { failures[s]=std::current_exception(); }
         }
     });

@@ -125,11 +125,13 @@ export function populationResearch(
   layout,
   packet,
   threads = Math.min(4, availableParallelism()),
+  rules = RULES,
 ) {
   integer(threads, 1, 10, "hilos");
+  if (![1, 10, RULES].includes(rules)) throw Error("Escala desconocida");
   const start = performance.now();
   const p = preparePopulation(packet),
-    perSector = p.queries.length * p.history.length * RULES;
+    perSector = p.queries.length * p.history.length * rules;
   const ranges = founderRanges(layout, perSector);
   const input = [
     [threads, p.history.length, p.queries.length].join(" "),
@@ -138,7 +140,9 @@ export function populationResearch(
     ...p.queries.map((x) => x.join(" ")),
   ].join("\n");
   const t = performance.now();
-  const job = spawnSync(executable, ["population"], {
+  const command =
+    rules === RULES ? ["population"] : ["population-scale", String(rules)];
+  const job = spawnSync(executable, command, {
     input,
     encoding: "utf8",
     maxBuffer: 8 * 1024 * 1024,
@@ -184,6 +188,11 @@ export function populationResearch(
     sectors,
     decisions: forecast(p, sectors),
   };
+  if (rules < RULES) {
+    result.schema = schema + "-SCALE-" + rules;
+    delete result.decisions.thousand;
+    if (rules === 1) delete result.decisions.hundred;
+  }
   return {
     result,
     commitment: digest(result),

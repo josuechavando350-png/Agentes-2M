@@ -6,7 +6,7 @@
 #include <vector>
 
 std::string team_scan(std::istream& input);
-int population();
+int population(int rules);
 int snapshot(const char* path, unsigned threads);
 
 namespace {
@@ -78,7 +78,13 @@ int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     try {
-        if (argc == 2 && std::string(argv[1]) == "population") return population();
+        if (argc == 2 && std::string(argv[1]) == "population") return population(100);
+        if (argc == 3 && std::string(argv[1]) == "population-scale") {
+            const std::string k = argv[2];
+            if (k == "1") return population(1);
+            if (k == "10") return population(10);
+            throw std::runtime_error("Escala desconocida");
+        }
         if (argc == 2 && std::string(argv[1]) == "serve") { serve(); return 0; }
         if (argc == 4 && std::string(argv[1]) == "snapshot")
             return snapshot(argv[2], static_cast<unsigned>(std::stoul(argv[3])));
