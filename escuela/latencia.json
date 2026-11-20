@@ -1,31 +1,36 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-19T18:58:49.513Z",
-  "commit": "65193065bfb0c772e40d2d737bdff46b7a077976",
+  "measuredAt": "2026-11-20T02:12:14.066Z",
+  "commit": "886212c8d9cd0ee572617984f1a46fcfdf660664",
   "runtime": {
     "node": "v24.22.2",
     "platform": "linux",
-    "os": "7.0.0-1016-aws",
+    "os": "7.0.0-1019-azure",
     "arch": "x64",
-    "cpu": "Intel(R) Xeon(R) 6975P-C",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
     "availableCpus": 4
   },
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "ec94dd662e033289beb9501446cb952ee6593f6a66396982d8530c2432a0efc1",
-    "population": 100027306,
+    "checkpoint": "f116ac0bdcb231c2943fc817cceacaf8e190d7167b7538ca241f7070cb128f5c",
+    "population": 100027972,
     "founders": 100000000,
-    "tested": 100027306,
+    "tested": 100027972,
     "bytesPerRow": 8,
-    "bodyBytes": 800218448,
-    "headerBytes": 21289,
-    "compressedBytes": 1169349,
-    "sha256Uncompressed": "d5bc61b1e51323463df0e0810ab0faabb7e6501f5ac61c6f029b99a3c3fa68fa",
+    "bodyBytes": 800223776,
+    "headerBytes": 23358,
+    "compressedBytes": 1169470,
+    "sha256Uncompressed": "8376594cd4bbb41ac96e3e3c88e8f93459d3ff01c188ea17a0cf9ef1922b9de0",
     "threads": 4,
-    "nativeExamAndGzipMs": 2690.709721,
-    "independentVerificationMs": 694.8970370000002,
+    "nativeExamAndGzipMs": 2155.197496,
+    "independentVerificationMs": 617.5130940000004,
     "sectors": [
+      {
+        "identities": 10003330,
+        "founders": 10000000,
+        "tested": 10003330
+      },
       {
         "identities": 10003330,
         "founders": 10000000,
@@ -70,61 +75,56 @@
         "identities": 10002664,
         "founders": 10000000,
         "tested": 10002664
-      },
-      {
-        "identities": 10002664,
-        "founders": 10000000,
-        "tested": 10002664
       }
     ]
   },
   "service": {
-    "checkpoint": "ec94dd662e033289beb9501446cb952ee6593f6a66396982d8530c2432a0efc1",
+    "checkpoint": "f116ac0bdcb231c2943fc817cceacaf8e190d7167b7538ca241f7070cb128f5c",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 372.63414699999976,
+    "coldStartAndFirstApprovedMs": 401.11747000000014,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.981087000000116,
-        "p95Ms": 3.726274999999987,
-        "p99Ms": 3.95915100000002,
-        "maxMs": 4.310461000000032,
-        "elapsedMs": 386.06432399999994,
-        "actionsPerSecond": 331.55096713883364
+        "p50Ms": 2.9203090000000884,
+        "p95Ms": 12.148753999999826,
+        "p99Ms": 21.172129999999925,
+        "maxMs": 21.594677000000047,
+        "elapsedMs": 500.9145620000004,
+        "actionsPerSecond": 255.53259919003892
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.813282000000072,
-        "p95Ms": 3.581773000000794,
-        "p99Ms": 5.018073000000186,
-        "maxMs": 5.305725000000166,
-        "elapsedMs": 372.7355749999997,
-        "actionsPerSecond": 343.40698496514614
+        "p50Ms": 2.802332000000206,
+        "p95Ms": 4.471201000000292,
+        "p99Ms": 9.947160000000622,
+        "maxMs": 12.410680000000866,
+        "elapsedMs": 403.43246700000054,
+        "actionsPerSecond": 317.27738957608443
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 11.658354999999574,
-        "p95Ms": 19.822158999999374,
-        "p99Ms": 21.052074000000175,
-        "maxMs": 24.149805000000015,
-        "elapsedMs": 319.9848029999994,
-        "actionsPerSecond": 400.0189971521874
+        "p50Ms": 14.846247999999832,
+        "p95Ms": 32.82505499999934,
+        "p99Ms": 36.434596000000056,
+        "maxMs": 38.922442000000046,
+        "elapsedMs": 451.21227199999976,
+        "actionsPerSecond": 283.6802275626051
       }
     ],
     "mission": {
       "status": "BUDGET_LIMIT",
-      "localMs": 2.0230780000001687,
+      "localMs": 2.8505850000001374,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "dd9d283a81d2f24f87ffea15a86e48a84d20c212a087b37e1f0379463efb2621"
+    "replayedTip": "70ebdd3a14f52560c0c8166667d2f7a719cb4ef5f5bcc83326f309483479ec69"
   }
 }
