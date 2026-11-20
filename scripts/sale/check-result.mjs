@@ -32,6 +32,13 @@ function normalize(value) {
       "cpu",
     ])
       delete value[k];
+  } else if (kind === "full-document") {
+    delete value.runsPerFormat;
+    for (const f of Object.values(value.formats)) {
+      delete f.solveMs;
+      delete f.checkMs;
+      delete f.peakMiB;
+    }
   } else if (kind === "pricing") {
     delete value.timing;
   } else if (["participation", "register"].includes(kind))

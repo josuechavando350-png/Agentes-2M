@@ -22,7 +22,7 @@ self.onmessage = async ({ data }) => {
         throw Error(
           "El navegador y el importador obtuvieron huellas distintas para el archivo",
         );
-      const result = traceCredits(next),
+      const result = traceCredits(next, { compact: true }),
         notes = creditRegister(next);
       packet = next;
       solved = result;

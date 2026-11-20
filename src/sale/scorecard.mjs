@@ -11,6 +11,7 @@ export async function saleScorecard(books) {
     );
   const factory = read("factory-exam"),
     credit = read("sale-retail"),
+    full = read("sale-full-file"),
     notes = read("sale-register"),
     history = read("sale-history"),
     program = read("sale-serving"),
@@ -37,6 +38,9 @@ export async function saleScorecard(books) {
     large = hill.workers.find((w) => w.population === participation.population);
   check(
     notes.input === window.inputHash &&
+      full.source === window.source &&
+      full.creditNotes === notes.registered &&
+      full.unmatchedValueCents === window.unmatchedValueCents &&
       queue.source === notes.source &&
       history.source === notes.source &&
       notes.registered === window.credits &&
@@ -63,6 +67,10 @@ export async function saleScorecard(books) {
       factoryCases: factory.exam.total,
       factoryCorrect: factory.exam.correct,
       creditNotes: notes.registered,
+      fullFileRows: full.lines,
+      allCreditIntervalsPreserved: full.allNoteIntervalsIdentical,
+      fullCertificateBytes: full.formats.legacy.certificateBytes,
+      compactCertificateBytes: full.formats.compact.certificateBytes,
       creditNotesChecked: notes.checkedWithThreeIndependentRanks,
       coverageGapUnits: window.mathematicalGapUnits,
       historicalNotesReexamined: history.examinedNotes,

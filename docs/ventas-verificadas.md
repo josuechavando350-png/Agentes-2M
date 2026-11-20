@@ -17,6 +17,8 @@ La primera entrega utilizable por un comprador es un auditor local de notas de c
 
 [Resultados de conciliación](../evidence/sale-retail.json) · [Registro de partidas](../evidence/sale-register.json) · [Revisión con documentos anteriores por mes](../evidence/sale-history.json) · [Iowa](../evidence/sale-iowa.json) · [Campaña](../evidence/sale-hillstrom.json) · [Tiempos de ejecución](../evidence/sale-throughput.json)
 
+Al procesar también las ventas de grupos sin cancelaciones, el archivo histórico completo tuvo 404,876 líneas admisibles y 274,985 combinaciones de comprador, producto y precio. Las 8,539 notas conservaron exactamente las mismas cotas individuales. El certificado descendió de 25,938,711 a 1,118,802 bytes. Los dos formatos incluyen todas las filas en la huella de entrada. [Prueba con el archivo completo](../evidence/sale-full-file.json)
+
 ## Probar el producto
 
 ```sh

@@ -14,7 +14,7 @@ from openpyxl import load_workbook
 SOURCE = "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b"
 
 
-def prepare(source, destination):
+def prepare(source, destination, all_sales=False):
     data = source.read_bytes()
     if hashlib.sha256(data).hexdigest() != SOURCE:
         raise ValueError("Fuente distinta de Online Retail")
@@ -49,8 +49,8 @@ def prepare(source, destination):
             needed.add(group)
     wb.close()
     lines=[{"id":"r-"+str(index),"row":index,"party":group[0],"sku":group[1],"price":group[2],"qty":qty,"time":when,"invoice":invoice}
-           for index,group,qty,when,invoice in valid if group in needed]
-    counts["salesOutsideAnyTargetGroup"] = len(valid)-len(lines)
+           for index,group,qty,when,invoice in valid if all_sales or group in needed]
+    counts["salesOutsideAnyTargetGroup"] = sum(entry[1] not in needed for entry in valid)
     counts["admittedRows"]=len(lines)
     epoch=lambda y,m,d:int(datetime(y,m,d,tzinfo=timezone.utc).timestamp()*1000)
     packet={"source":SOURCE,"currency":"GBP","from":epoch(2010,12,1),"until":epoch(2011,12,10),"maxAgeDays":90,"lines":lines}
@@ -60,4 +60,6 @@ def prepare(source, destination):
 
 
 if __name__=="__main__":
-    prepare(*map(Path,sys.argv[1:]))
+    if len(sys.argv) not in (3, 4) or (len(sys.argv) == 4 and sys.argv[3] != "--all-sales"):
+        raise SystemExit("Usa retail.py ARCHIVO.zip DIRECTORIO [--all-sales]")
+    prepare(Path(sys.argv[1]), Path(sys.argv[2]), len(sys.argv) == 4)

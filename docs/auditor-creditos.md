@@ -16,6 +16,8 @@ node credit-cli.mjs explain ejemplo.json credito-b
 
 El ejemplo contiene ocho unidades vendidas y diez canceladas. Las dos unidades restantes requieren más documentación. Para la última cancelación de seis unidades, diferentes asignaciones igualmente válidas permiten respaldar entre cuatro y seis.
 
+En archivos que contienen muchas ventas y pocas cancelaciones, `audit-compact` conserva la huella de todas las filas y certifica únicamente los grupos con notas. El navegador usa este formato. `check` admite certificados completos y compactos.
+
 ## Importar el archivo del comprador
 
 `ejemplo.csv` y `columnas.json` muestran el formato. En la configuración se indican los nombres de las ocho columnas, la moneda, el periodo, el separador y el signo decimal. La importación exige fechas UTC, precios con hasta dos decimales y una sola moneda. Si una fila contiene un error, corrígela en el origen y vuelve a importar. La huella SHA-256 identifica los bytes exactos del CSV recibido.

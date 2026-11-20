@@ -1,0 +1,67 @@
+{
+  "mode": "FULL_ELIGIBLE_HISTORICAL_FILE",
+  "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+  "intake": {
+    "sourceRows": 541909,
+    "excludedNonMerchandiseCode": 1920,
+    "missingCustomer": 135080,
+    "invalidQuantityOrPrice": 33,
+    "salesOutsideAnyTargetGroup": 380547,
+    "admittedRows": 404876
+  },
+  "lines": 404876,
+  "subsetLines": 24329,
+  "allCustomerProductPriceGroups": 274985,
+  "creditNotes": 8539,
+  "allNoteIntervalsIdentical": true,
+  "noteRegister": "4ccb04d1f6a141eb4c480b53847937a67f1eb7e4e2718b4bdfc032ac99c33a6a",
+  "currency": "GBP",
+  "unmatchedUnits": 34577,
+  "unmatchedValueCents": 5967275,
+  "input": "b574351de0a3216d895d46d8759ebe241f3e1df3b35302c7fe7548859eb70c12",
+  "runsPerFormat": 3,
+  "formats": {
+    "legacy": {
+      "certificate": "4918d81f7c5e9554986b5943050d5feed2b4f69c4ec509ca36188a99a7248e55",
+      "certificateBytes": 25938711,
+      "groupsInCertificate": 274985,
+      "solveMs": [
+        4177.476249,
+        3889.7393750000006,
+        3742.6194429999996
+      ],
+      "checkMs": [
+        1703.4909200000002,
+        2050.4604320000008,
+        2047.9740419999998
+      ],
+      "peakMiB": [
+        874.4609375,
+        848.22265625,
+        816.62109375
+      ]
+    },
+    "compact": {
+      "certificate": "15c907b74af7cc28046d4a2f0773d31a5866d6fdf7c6b738d0ce1e1f5477ca68",
+      "certificateBytes": 1118802,
+      "groupsInCertificate": 7709,
+      "solveMs": [
+        2747.487884,
+        1528.7044759999999,
+        2282.804399
+      ],
+      "checkMs": [
+        1397.0458540000004,
+        856.378956,
+        1206.7156919999998
+      ],
+      "peakMiB": [
+        386.09765625,
+        451.9375,
+        452.21484375
+      ]
+    }
+  },
+  "scope": "Todos los movimientos admitidos se validan y forman parte de la huella en los dos formatos. El certificado compacto omite los grupos en los que no existe una sola cancelación.",
+  "ownRevenue": null
+}

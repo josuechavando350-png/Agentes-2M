@@ -97,8 +97,11 @@ jobs:
           node scripts/sale/check-result.mjs queue turno.json evidence/sale-queue.json
           node scripts/sale/history-exam.mjs /tmp/comercio/packet.json > historial.json
           diff evidence/sale-history.json historial.json
+          python scripts/sale/retail.py /tmp/retail.zip /tmp/comercio-completo --all-sales
+          node scripts/sale/full-file.mjs examine /tmp/comercio-completo /tmp/comercio/packet.json 1 > completo.json
+          node scripts/sale/check-result.mjs full-document completo.json evidence/sale-full-file.json
           python3 -m zipfile -e entregas/auditor-creditos.zip /tmp/auditor
-          python3 scripts/factory/offline.py node scripts/sale/browser-exam.mjs /tmp/auditor /tmp/comercio/packet.json capturas > navegador.json
+          python3 scripts/factory/offline.py node scripts/sale/browser-exam.mjs /tmp/auditor /tmp/comercio-completo/packet.json capturas > navegador.json
       - uses: actions/upload-artifact@v4
         with:
           name: examenes-facturas
@@ -108,6 +111,7 @@ jobs:
             partidas.json
             turno.json
             historial.json
+            completo.json
             navegador.json
             capturas/
           retention-days: 30

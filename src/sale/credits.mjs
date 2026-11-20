@@ -27,7 +27,9 @@ function bound(rows, time, strict = false) {
   }
   return lo;
 }
-function prepare(packet) {
+const creditKey = (r) => JSON.stringify([r.party, r.sku, r.price]);
+const compactFormat = "SEMAR-CREDIT-DEMAND-1";
+function prepare(packet, demandOnly = false) {
   const { source, currency, from, until, maxAgeDays, lines } = packet;
   requireValue(
     /^[0-9a-f]{64}$/.test(source) && /^[A-Z]{3}$/.test(currency),
@@ -40,6 +42,10 @@ function prepare(packet) {
     Array.isArray(lines) && lines.length <= 600000,
     "Demasiadas partidas",
   );
+  const demand = demandOnly
+    ? new Set(lines.filter((r) => r.qty < 0).map(creditKey))
+    : null;
+  const groupKeys = demandOnly ? new Set() : null;
   const all = new Map(),
     rows = new Set(),
     groups = new Map(),
@@ -66,10 +72,13 @@ function prepare(packet) {
     );
     rows.add(row);
     all.set(id, l);
-    const group = JSON.stringify([party, sku, price]);
-    if (!groups.has(group))
-      groups.set(group, { key: group, sales: [], credits: [] });
-    groups.get(group)[qty > 0 ? "sales" : "credits"].push(l);
+    const group = creditKey(l);
+    groupKeys?.add(group);
+    if (!demand || demand.has(group)) {
+      if (!groups.has(group))
+        groups.set(group, { key: group, sales: [], credits: [] });
+      groups.get(group)[qty > 0 ? "sales" : "credits"].push(l);
+    }
     sha.update(
       JSON.stringify([id, party, sku, price, qty, time, invoice, row]) + "\n",
     );
@@ -82,6 +91,7 @@ function prepare(packet) {
   return {
     all,
     groups,
+    totalGroups: groupKeys?.size ?? groups.size,
     age: maxAgeDays * 86400000,
     inputHash: sha.digest("hex"),
   };
@@ -215,7 +225,7 @@ function solveGroup(g, age) {
 // Its guaranteed contribution to a maximum matching is the remaining gap clipped to demand.
 // Its maximum is its isolated rank: a matching of that credit extends to a maximum by augmenting other demands.
 export function creditRegister(packet) {
-  const { groups, inputHash, age } = prepare(packet),
+  const { groups, inputHash, age } = prepare(packet, true),
     rows = [];
   let unavoidableCents = 0,
     ambiguousNotes = 0;
@@ -272,7 +282,16 @@ export function creditRegister(packet) {
   };
 }
 export function verifyCredits(packet, certificate) {
-  const { groups, inputHash, age } = prepare(packet);
+  requireValue(
+    certificate &&
+      (certificate.format === undefined ||
+        certificate.format === compactFormat),
+    "Formato de certificado desconocido",
+  );
+  const { groups, inputHash, age, totalGroups } = prepare(
+    packet,
+    certificate.format === compactFormat,
+  );
   requireValue(
     certificate.inputHash === inputHash,
     "El certificado pertenece a otro expediente",
@@ -311,7 +330,7 @@ export function verifyCredits(packet, certificate) {
     source: packet.source,
     currency: packet.currency,
     maxAgeDays: packet.maxAgeDays,
-    groups: groups.size,
+    groups: totalGroups,
     lines: packet.lines.length,
     credits,
     creditUnits,
@@ -328,9 +347,10 @@ export function verifyCredits(packet, certificate) {
       "Máximo respaldo observable en este archivo, bajo el mismo comprador, producto y precio y la ventana declarada. La recuperación real requiere confirmación.",
   };
 }
-export function traceCredits(packet) {
-  const { groups, inputHash, age } = prepare(packet),
+export function traceCredits(packet, { compact = false } = {}) {
+  const { groups, inputHash, age } = prepare(packet, compact),
     certificate = {
+      ...(compact ? { format: compactFormat } : {}),
       inputHash,
       groups: [...groups.values()].map((g) => solveGroup(g, age)),
     };

@@ -125,15 +125,16 @@ async function evaluate(expression) {
     );
   return r.result.value;
 }
-async function until(condition, label) {
-  const stop = Date.now() + 20000;
+async function until(condition, label, timeout = 20000) {
+  const stop = Date.now() + timeout;
   while (Date.now() < stop) {
     if (await condition()) return;
     await pause(35);
   }
   throw Error("Tiempo agotado en " + label);
 }
-const truth = (expression, label) => until(() => evaluate(expression), label);
+const truth = (expression, label, timeout) =>
+  until(() => evaluate(expression), label, timeout);
 const click = (selector) =>
   evaluate("document.querySelector(" + JSON.stringify(selector) + ").click()");
 async function file(selector, path) {
@@ -155,7 +156,10 @@ async function screenshot(name) {
 }
 const loadJSON = (p) => JSON.parse(readFileSync(p));
 const html = pathToFileURL(join(folder, "auditor.html")).href;
-let notesFromHistory = null;
+let notesFromHistory = null,
+  rowsFromHistory = null,
+  historicalSource = null,
+  browserAuditMs = null;
 try {
   const { targetId } = await command(
     "Target.createTarget",
@@ -295,22 +299,25 @@ try {
     };
     const historicalFile = join(root, "comprador.csv");
     writeFileSync(historicalFile, csv);
-    const native = traceCredits(
-      importCreditCsv(Buffer.from(csv), config),
-    ).report;
+    const native = traceCredits(importCreditCsv(Buffer.from(csv), config), {
+      compact: true,
+    }).report;
     await evaluate(
       "document.querySelector('#config').value=" +
         JSON.stringify(JSON.stringify(config)) +
         ";document.querySelector('#config').dispatchEvent(new Event('input'))",
     );
     await file("#input", historicalFile);
+    const started = performance.now();
     await click("#run");
     await truth(
       "document.querySelector('#fingerprint').textContent.includes(" +
         JSON.stringify(native.source) +
         ") && document.querySelector('#rows').children.length===20",
       "historial completo",
+      120000,
     );
+    browserAuditMs = performance.now() - started;
     await click("#next");
     await truth(
       "document.querySelector('#page-info').textContent.startsWith('21–40')",
@@ -328,6 +335,8 @@ try {
       native,
     );
     notesFromHistory = native.credits;
+    rowsFromHistory = native.lines;
+    historicalSource = native.source;
   }
   assert.equal(remoteRequests.length, 0);
   console.log(
@@ -342,6 +351,9 @@ try {
         mobileWidth: 390,
         remotePageRequests: 0,
         notesFromHistory,
+        rowsFromHistory,
+        historicalSource,
+        browserAuditMs,
       },
       null,
       2,
