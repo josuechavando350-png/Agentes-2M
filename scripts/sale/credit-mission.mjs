@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { exampleBook } from "../global/demo.mjs";
 import { party } from "./pilot.mjs";
+import { projectCreditFile } from "../../src/sale/credits.mjs";
 import { hash } from "../../src/factory/reader.mjs";
 const [path] = process.argv.slice(2);
 const packet = JSON.parse(readFileSync(path, "utf8")),
@@ -31,7 +32,7 @@ try {
   command("credit-reserve", "auditar", {
     scope: "notas-credito",
     buyer: "comercio",
-    packet,
+    ...projectCreditFile(packet),
     cap: 4,
   });
   const result = await desk.work("auditar"),
@@ -71,16 +72,33 @@ try {
   });
   assert.equal(quote.data.kind, "CREDIT_AUDIT");
   assert.equal(desk.sales().bankCollectedCents, 0);
+  const submitted = desk.read().jobs.get("auditar").snapshot.creditProjection;
+  const audit = await desk.audit();
+  assert.equal(audit.status, "VERIFIED");
   console.log(
     JSON.stringify(
-      {
-        mode: "DEMONSTRATION_WITH_HISTORICAL_DATA",
-        report,
-        nexus: result.nexus.roles,
-        preview: desk.quote("piloto-credito"),
-        book: await desk.audit(),
-        liveCashCents: desk.sales().bankCollectedCents,
-      },
+      process.argv[3] === "summary"
+        ? {
+            mode: "HISTORICAL_SIGNED_BOOK_TEST",
+            submitted,
+            creditNotes: report.credits,
+            unmatchedCents: report.unmatchedValueCents,
+            currency: report.currency,
+            roles: result.nexus.roles,
+            bookStatus: audit.status,
+            reproduced: audit.reproduced,
+            quoted: quote.data.kind,
+            ownRevenue: null,
+          }
+        : {
+            mode: "DEMONSTRATION_WITH_HISTORICAL_DATA",
+            report,
+            submitted,
+            nexus: result.nexus.roles,
+            preview: desk.quote("piloto-credito"),
+            book: audit,
+            liveCashCents: desk.sales().bankCollectedCents,
+          },
       null,
       2,
     ),

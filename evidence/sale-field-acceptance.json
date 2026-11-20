@@ -4,7 +4,7 @@
   "testBooks": 2,
   "randomizedPairs": 12,
   "verifiedUnits": 24,
-  "matchedCreditRows": 24,
+  "matchedCreditRows": 36,
   "missingSourceMappingRejected": true,
   "differentSourceMappingRejected": true,
   "realOwnReceipts": null,

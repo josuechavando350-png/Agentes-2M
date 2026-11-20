@@ -6,6 +6,31 @@ import { createHash } from "node:crypto";
 const read = (file) => JSON.parse(readFileSync(file));
 const sha = (file) =>
   createHash("sha256").update(readFileSync(file)).digest("hex");
+const cashSources = [
+  "scripts/sale/cash-stress.mjs",
+  "scripts/sale/pilot.mjs",
+  "src/sale/book.mjs",
+  "src/sale/replay.mjs",
+  "src/global-desk.mjs",
+  ".cache/semar-native",
+  ".cache/nexus.mjs",
+];
+const sources = {
+  workshopCash: cashSources,
+  releaseCash: cashSources,
+  factoryLearning: [
+    "scripts/factory/endurance.mjs",
+    "scripts/factory/fixtures.mjs",
+    "src/factory/discover.mjs",
+    "src/factory/reader.mjs",
+  ],
+  population: [
+    "scripts/sale/scale-endurance.mjs",
+    "src/sale/search.mjs",
+    "native/offers.cpp",
+    ".cache/semar-native",
+  ],
+};
 function finished(x, seconds) {
   assert.equal(x.status, "PASSED");
   assert.equal(x.seconds ?? x.targetSeconds, seconds);
@@ -20,7 +45,7 @@ function cash(x, seconds) {
   finished(x, seconds);
   assert.equal(x.mode, "DEMONSTRATION");
   assert.equal(x.ownRevenue, null);
-  assert.ok(x.books > 0);
+  assert.ok(Number.isSafeInteger(x.books) && x.books > 0);
   assert.equal(x.competingWriters, 4 * x.books);
   assert.equal(x.identicalRetries, x.books);
   assert.equal(x.interruptedWrites, x.books);
@@ -40,6 +65,7 @@ function validate(r) {
   );
   assert.ok(Date.parse(firstAttempt.updated) < Date.parse(factory.started));
   finished(factory, 7200);
+  assert.ok(Number.isSafeInteger(factory.rounds));
   assert.equal(factory.records, 36 * factory.rounds);
   assert.equal(factory.tools, 24 * factory.rounds);
   assert.equal(factory.negativeChecks, factory.rounds);
@@ -48,6 +74,7 @@ function validate(r) {
   cash(releaseCash, 2100);
   finished(population, 3900);
   assert.equal(population.populationPerRound, 100000000);
+  assert.ok(Number.isSafeInteger(population.rounds) && population.rounds >= 10);
   assert.equal(population.scoredContributions, population.rounds * 100000000);
   assert.equal(
     population.independentlyHashedContributions,
@@ -62,6 +89,9 @@ function validate(r) {
   assert.equal(population.timingsMs.length, population.rounds);
   assert.ok(population.timingsMs.every((n) => Number.isFinite(n) && n > 0));
   assert.match(r.release, /^[0-9a-f]{40}$/);
+  assert.deepEqual(Object.keys(r.runtimes).sort(), Object.keys(sources).sort());
+  for (const [k, required] of Object.entries(sources))
+    assert.deepEqual(Object.keys(r.runtimes[k]).sort(), [...required].sort());
   assert.ok(
     Object.values(r.runtimes).every((m) =>
       Object.values(m).every((h) => /^[0-9a-f]{64}$/.test(h)),
@@ -77,15 +107,6 @@ const [mode, location, release] = process.argv.slice(2);
 if (mode === "collect") {
   const root = location;
   const { stack, ...firstAttempt } = read(join(root, "endurance.json"));
-  const cashSources = [
-    "scripts/sale/cash-stress.mjs",
-    "scripts/sale/pilot.mjs",
-    "src/sale/book.mjs",
-    "src/sale/replay.mjs",
-    "src/global-desk.mjs",
-    ".cache/semar-native",
-    ".cache/nexus.mjs",
-  ];
   const result = validate({
     format: 1,
     release,
@@ -97,18 +118,8 @@ if (mode === "collect") {
     runtimes: {
       workshopCash: fingerprint(join(root, "cash-build"), cashSources),
       releaseCash: fingerprint(join(root, "release-soak"), cashSources),
-      factoryLearning: fingerprint(".", [
-        "scripts/factory/endurance.mjs",
-        "scripts/factory/fixtures.mjs",
-        "src/factory/discover.mjs",
-        "src/factory/reader.mjs",
-      ]),
-      population: fingerprint(".", [
-        "scripts/sale/scale-endurance.mjs",
-        "src/sale/search.mjs",
-        "native/offers.cpp",
-        ".cache/semar-native",
-      ]),
+      factoryLearning: fingerprint(".", sources.factoryLearning),
+      population: fingerprint(".", sources.population),
     },
     ownSalesVerifiedByTheseTests: null,
     scope:

@@ -32,6 +32,8 @@ function normalize(value) {
       "cpu",
     ])
       delete value[k];
+  } else if (kind === "browser") {
+    delete value.browserAuditMs;
   } else if (kind === "full-document") {
     delete value.runsPerFormat;
     for (const f of Object.values(value.formats)) {

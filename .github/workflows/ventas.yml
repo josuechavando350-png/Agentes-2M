@@ -80,6 +80,8 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: |
+          npm ci
+          npm run setup
           python -m pip install openpyxl==3.1.5 duckdb==1.4.3
           curl -fsSL --retry 3 --max-time 300 'https://media.githubusercontent.com/media/gatewaycat/iowa-liquor-sales2/1ee2a06e0d9d0f470607f89417acaaec6bd43607/data.parquet?full=1' -o /tmp/iowa.parquet
           python scripts/sale/iowa.py /tmp/iowa.parquet /tmp/precios evidence/factory-iowa-result.json
@@ -100,8 +102,11 @@ jobs:
           python scripts/sale/retail.py /tmp/retail.zip /tmp/comercio-completo --all-sales
           node scripts/sale/full-file.mjs examine /tmp/comercio-completo /tmp/comercio/packet.json 1 > completo.json
           node scripts/sale/check-result.mjs full-document completo.json evidence/sale-full-file.json
+          python3 scripts/factory/offline.py node scripts/sale/credit-mission.mjs /tmp/comercio-completo/packet.json summary > admision.json
+          diff evidence/sale-intake.json admision.json
           python3 -m zipfile -e entregas/auditor-creditos.zip /tmp/auditor
           python3 scripts/factory/offline.py node scripts/sale/browser-exam.mjs /tmp/auditor /tmp/comercio-completo/packet.json capturas > navegador.json
+          node scripts/sale/check-result.mjs browser navegador.json evidence/sale-browser.json
       - uses: actions/upload-artifact@v4
         with:
           name: examenes-facturas
@@ -112,6 +117,7 @@ jobs:
             turno.json
             historial.json
             completo.json
+            admision.json
             navegador.json
             capturas/
           retention-days: 30

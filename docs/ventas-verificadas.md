@@ -19,6 +19,8 @@ La primera entrega utilizable por un comprador es un auditor local de notas de c
 
 Al procesar también las ventas de grupos sin cancelaciones, el archivo histórico completo tuvo 404,876 líneas admisibles y 274,985 combinaciones de comprador, producto y precio. Las 8,539 notas conservaron exactamente las mismas cotas individuales. El certificado descendió de 25,938,711 a 1,118,802 bytes. Los dos formatos incluyen todas las filas en la huella de entrada. [Prueba con el archivo completo](../evidence/sale-full-file.json)
 
+El navegador concilió las 404,876 filas y descargó un certificado que verificó el motor de terminal. El examen registró 10.14 segundos desde iniciar la auditoría del archivo hasta mostrar la primera página de notas, en Chromium en el equipo del examen. El libro comercial recibió 24,329 filas pertinentes, las huellas del expediente completo y del reducido y el conteo original. Los tres roles de NEXUS aceptaron la investigación y el libro reprodujo el trabajo. La comprobación de originales reconstruye la admisión desde el CSV físico antes de calificar una venta real. Para reservar ese trabajo se envían `scope`, `buyer`, `cap` y los dos campos `packet` y `projection` de la admisión exportada. [Examen del navegador](../evidence/sale-browser.json) · [Examen del mandato firmado](../evidence/sale-intake.json)
+
 ## Probar el producto
 
 ```sh

@@ -1,0 +1,14 @@
+{
+  "status": "PASSED",
+  "delivery": "LOCAL_HTML_FILE",
+  "exampleNotes": 3,
+  "importedCsvThroughForm": true,
+  "matchedCsvAndCertificate": true,
+  "alteredCertificateRejected": true,
+  "mobileWidth": 390,
+  "remotePageRequests": 0,
+  "notesFromHistory": 8539,
+  "rowsFromHistory": 404876,
+  "historicalSource": "6d30487e608ff91562e33d5e138da8d95585e15f1f59a2cc4e44d10a07c17044",
+  "browserAuditMs": 10144.237799
+}

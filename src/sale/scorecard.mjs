@@ -12,6 +12,8 @@ export async function saleScorecard(books) {
   const factory = read("factory-exam"),
     credit = read("sale-retail"),
     full = read("sale-full-file"),
+    browser = read("sale-browser"),
+    admission = read("sale-intake"),
     notes = read("sale-register"),
     history = read("sale-history"),
     program = read("sale-serving"),
@@ -39,6 +41,9 @@ export async function saleScorecard(books) {
   check(
     notes.input === window.inputHash &&
       full.source === window.source &&
+      browser.rowsFromHistory === full.lines &&
+      admission.submitted.fullInput === full.input &&
+      admission.submitted.retainedInput === window.inputHash &&
       full.creditNotes === notes.registered &&
       full.unmatchedValueCents === window.unmatchedValueCents &&
       queue.source === notes.source &&
@@ -68,6 +73,9 @@ export async function saleScorecard(books) {
       factoryCorrect: factory.exam.correct,
       creditNotes: notes.registered,
       fullFileRows: full.lines,
+      browserAuditMs: browser.browserAuditMs,
+      signedIntakeRows: admission.submitted.retainedRows,
+      signedIntakeAudit: admission.bookStatus,
       allCreditIntervalsPreserved: full.allNoteIntervalsIdentical,
       fullCertificateBytes: full.formats.legacy.certificateBytes,
       compactCertificateBytes: full.formats.compact.certificateBytes,

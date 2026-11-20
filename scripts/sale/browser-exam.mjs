@@ -18,6 +18,7 @@ import {
   traceCredits,
   verifyCredits,
   creditRegister,
+  projectCreditFile,
 } from "../../src/sale/credits.mjs";
 
 const [folderArg, historical, screenDir] = process.argv.slice(2),
@@ -238,11 +239,16 @@ try {
   );
   await click("#cert");
   await click("#csv");
-  for (const f of ["certificado.json", "revision.csv"])
+  await click("#intake");
+  for (const f of ["certificado.json", "revision.csv", "admision-semar.json"])
     await until(() => existsSync(join(downloads, f)), "descarga de " + f);
   const sample = loadJSON(join(folder, "expediente-turno.json")),
     cert = loadJSON(join(downloads, "certificado.json"));
   assert.deepEqual(verifyCredits(sample, cert), traceCredits(sample).report);
+  assert.deepEqual(
+    loadJSON(join(downloads, "admision-semar.json")),
+    projectCreditFile(sample),
+  );
   assert.equal(
     readFileSync(join(downloads, "revision.csv"), "utf8"),
     registerCsv(creditRegister(sample)),

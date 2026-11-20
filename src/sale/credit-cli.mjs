@@ -4,6 +4,7 @@ import { reviewQueue, verifyQueue } from "./review-queue.mjs";
 import { importCreditCsv, registerCsv } from "./credit-csv.mjs";
 import {
   traceCredits,
+  projectCreditFile,
   verifyCredits,
   creditRange,
   creditRegister,
@@ -24,6 +25,13 @@ try {
       mode: 0o600,
     });
     result = { source: packet.source, rows: packet.lines.length, destination };
+  } else if (action === "project") {
+    const intake = projectCreditFile(packet);
+    writeFileSync(arg, JSON.stringify(intake) + "\n", {
+      flag: "wx",
+      mode: 0o600,
+    });
+    result = intake.projection;
   } else if (action === "extend" || action === "extend-check") {
     const earlier = JSON.parse(readFileSync(arg, "utf8"));
     if (action === "extend-check")
@@ -77,7 +85,7 @@ try {
   else if (action === "explain") result = creditRange(packet, arg);
   else
     throw Error(
-      "Usa import CSV CONFIG EXPEDIENTE, audit o audit-compact EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV, queue EXPEDIENTE TURNO PLAN, queue-check EXPEDIENTE TURNO PLAN, extend ACTUAL ANTERIOR PRUEBA, extend-check ACTUAL ANTERIOR PRUEBA o explain EXPEDIENTE ID",
+      "Usa import CSV CONFIG EXPEDIENTE, project EXPEDIENTE ADMISION, audit o audit-compact EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV, queue EXPEDIENTE TURNO PLAN, queue-check EXPEDIENTE TURNO PLAN, extend ACTUAL ANTERIOR PRUEBA, extend-check ACTUAL ANTERIOR PRUEBA o explain EXPEDIENTE ID",
     );
   console.log(JSON.stringify(result, null, 2));
 } catch (error) {

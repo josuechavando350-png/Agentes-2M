@@ -272,6 +272,8 @@ byId("prev").onclick = () => page(currentPage - 1);
 byId("next").onclick = () => page(currentPage + 1);
 byId("csv").onclick = () =>
   worker?.postMessage({ type: "download", kind: "csv" });
+byId("intake").onclick = () =>
+  worker?.postMessage({ type: "download", kind: "intake" });
 byId("cert").onclick = () =>
   worker?.postMessage({ type: "download", kind: "certificate" });
 byId("check").onchange = async (e) => {

@@ -356,6 +356,32 @@ export function traceCredits(packet, { compact = false } = {}) {
     };
   return { certificate, report: verifyCredits(packet, certificate) };
 }
+// Preserve every cancellation and every sale that could share its buyer, product and price.
+export function projectCreditFile(original) {
+  const fullInput = creditRegister(original).inputHash;
+  const required = new Set(
+    original.lines.filter((r) => r.qty < 0).map(creditKey),
+  );
+  const packet = {
+    ...original,
+    lines: original.lines.filter((r) => required.has(creditKey(r))),
+  };
+  const retainedInput =
+    packet.lines.length === original.lines.length
+      ? fullInput
+      : creditRegister(packet).inputHash;
+  return {
+    packet,
+    projection: {
+      format: "SEMAR-CREDIT-SOURCE-1",
+      source: original.source,
+      fullInput,
+      retainedInput,
+      fullRows: original.lines.length,
+      retainedRows: packet.lines.length,
+    },
+  };
+}
 export function creditRange(packet, id) {
   const { groups, all, age } = prepare(packet),
     target = all.get(id);

@@ -16,7 +16,7 @@ node credit-cli.mjs explain ejemplo.json credito-b
 
 El ejemplo contiene ocho unidades vendidas y diez canceladas. Las dos unidades restantes requieren más documentación. Para la última cancelación de seis unidades, diferentes asignaciones igualmente válidas permiten respaldar entre cuatro y seis.
 
-En archivos que contienen muchas ventas y pocas cancelaciones, `audit-compact` conserva la huella de todas las filas y certifica únicamente los grupos con notas. El navegador usa este formato. `check` admite certificados completos y compactos.
+En archivos que contienen muchas ventas y pocas cancelaciones, `audit-compact` conserva la huella de todas las filas y certifica únicamente los grupos con notas. El navegador usa este formato. **Exportar para SEMAR** prepara la admisión con todas las cancelaciones y todas las ventas de los grupos relacionados. La admisión conserva la huella y el número de filas del archivo completo. También se obtiene con `node credit-cli.mjs project expediente-nuevo.json admision-semar.json`. `check` admite certificados completos y compactos.
 
 ## Importar el archivo del comprador
 

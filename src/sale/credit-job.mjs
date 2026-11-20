@@ -1,7 +1,7 @@
 import { digest, strict } from "../policy.mjs";
-import { key, check } from "../factory/reader.mjs";
+import { key, check, num } from "../factory/reader.mjs";
 import { reviewDecision } from "../global-analysis.mjs";
-import { traceCredits } from "./credits.mjs";
+import { traceCredits, projectCreditFile } from "./credits.mjs";
 export function creditGoal(scope) {
   return {
     scope,
@@ -19,7 +19,14 @@ export function creditGoal(scope) {
   };
 }
 export function creditMandate(data, at) {
-  strict(data, ["scope", "buyer", "packet", "cap"]);
+  const declared = Object.hasOwn(data, "projection");
+  strict(data, [
+    "scope",
+    "buyer",
+    "packet",
+    "cap",
+    ...(declared ? ["projection"] : []),
+  ]);
   key(data.scope);
   if (data.buyer !== null) key(data.buyer);
   check(
@@ -27,7 +34,35 @@ export function creditMandate(data, at) {
       JSON.stringify(data.packet).length <= 7000000,
     "Periodo posterior o paquete demasiado grande para el libro",
   );
+  if (declared) {
+    const p = data.projection;
+    strict(p, [
+      "format",
+      "source",
+      "fullInput",
+      "retainedInput",
+      "fullRows",
+      "retainedRows",
+    ]);
+    const local = projectCreditFile(data.packet).projection;
+    check(
+      p.format === local.format &&
+        p.source === local.source &&
+        /^([0-9a-f]{64})$/.test(p.fullInput) &&
+        p.retainedInput === local.retainedInput &&
+        p.retainedRows === local.retainedRows &&
+        local.retainedRows === data.packet.lines.length,
+      "La proyección no corresponde al expediente reservado",
+    );
+    num(p.fullRows, p.retainedRows, 600000);
+    if (p.fullRows === p.retainedRows)
+      check(
+        p.fullInput === p.retainedInput,
+        "La huella íntegra contradice el número de filas",
+      );
+  }
   return {
+    ...(declared ? { creditProjection: data.projection } : {}),
     creditScope: data.scope,
     creditBuyer: data.buyer,
     credit: data.packet,

@@ -2,9 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   traceCredits,
+  projectCreditFile,
   verifyCredits,
   creditRegister,
 } from "../src/sale/credits.mjs";
+import { importCreditCsv } from "../src/sale/credit-csv.mjs";
+import { reconcileCreditFile } from "../src/sale/originals.mjs";
+import { creditMandate } from "../src/sale/credit-job.mjs";
 const packet = {
   source: "1".repeat(64),
   currency: "MXN",
@@ -69,6 +73,88 @@ test("Los certificados íntegro y compacto coinciden y comprometen también las 
   const duplicated = structuredClone(packet);
   duplicated.lines[2].id = "v";
   assert.throws(() => creditRegister(duplicated), /repetida/);
+});
+test("El libro reconstruye cada admisión desde el original y detecta una nota omitida", () => {
+  const fields = {
+    id: "id",
+    party: "parte",
+    sku: "producto",
+    price: "precio",
+    qty: "cantidad",
+    time: "fecha",
+    invoice: "documento",
+    currency: "moneda",
+  };
+  const config = {
+    currency: "MXN",
+    delimiter: ",",
+    decimal: ".",
+    maxAgeDays: 30,
+    from: "2026-01-01T00:00:00.000Z",
+    until: "2026-02-01T00:00:00.000Z",
+    fields,
+  };
+  const bytes = Buffer.from(
+    "id,parte,producto,precio,cantidad,fecha,documento,moneda\n" +
+      "v,a,x,1.00,2,2026-01-01T00:00:00Z,V,MXN\n" +
+      "c,a,x,1.00,-4,2026-01-02T00:00:00Z,C,MXN\n" +
+      "b,b,y,1.00,8,2026-01-02T00:00:00Z,V2,MXN\n",
+  );
+  const original = importCreditCsv(bytes, config),
+    admitted = projectCreditFile(original);
+  assert.deepEqual(
+    admitted.packet.lines.map((l) => l.id),
+    ["v", "c"],
+  );
+  const mandate = creditMandate(
+    { scope: "notas", buyer: "cliente", cap: 1, ...admitted },
+    original.until,
+  );
+  assert.equal(
+    reconcileCreditFile(
+      bytes,
+      admitted.projection.retainedInput,
+      config,
+      mandate.creditProjection,
+    ),
+    3,
+  );
+  assert.throws(
+    () =>
+      reconcileCreditFile(bytes, admitted.projection.retainedInput, config, {
+        ...admitted.projection,
+        fullRows: 4,
+      }),
+    /original/i,
+  );
+  assert.throws(
+    () =>
+      creditMandate(
+        {
+          scope: "notas",
+          buyer: null,
+          cap: 1,
+          packet: original,
+          projection: admitted.projection,
+        },
+        original.until,
+      ),
+    /proyección/i,
+  );
+  const fake = projectCreditFile({
+    ...original,
+    lines: original.lines.filter((l) => l.id !== "c"),
+  });
+  assert.throws(
+    () =>
+      reconcileCreditFile(
+        bytes,
+        fake.projection.retainedInput,
+        config,
+        fake.projection,
+      ),
+    /original/i,
+  );
 });
 test("Todos los extremos quedan en cero si el archivo solo contiene ventas", () => {
   const sales = { ...packet, lines: packet.lines.filter((l) => l.qty > 0) },

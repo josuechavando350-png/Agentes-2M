@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { strict } from "../policy.mjs";
 import { check, unique, hash } from "../factory/reader.mjs";
 import { records, importCreditCsv } from "./credit-csv.mjs";
-import { creditRegister } from "./credits.mjs";
+import { creditRegister, projectCreditFile } from "./credits.mjs";
 
 const incoming = new Set(["fee", "funding", "unapplied"]);
 export function reconcileBankFile(bytes, p, profile) {
@@ -83,8 +83,21 @@ export function reconcileBankFile(bytes, p, profile) {
   );
   return p.lines.length;
 }
-export function reconcileCreditFile(bytes, expected, profile) {
+export function reconcileCreditFile(
+  bytes,
+  expected,
+  profile,
+  projection = null,
+) {
   const packet = importCreditCsv(bytes, profile);
+  if (projection) {
+    const rebuilt = projectCreditFile(packet).projection;
+    check(
+      hash(rebuilt) === hash(projection) && rebuilt.retainedInput === expected,
+      "El original contiene otras filas o difiere de la proyección declarada",
+    );
+    return rebuilt.fullRows;
+  }
   check(
     creditRegister(packet).inputHash === expected,
     "Las filas del archivo original difieren del expediente conciliado",
@@ -125,7 +138,12 @@ export async function checkOriginals(desk, mode, config) {
         const source = job.snapshot.credit.source;
         need(source, "archivo de conciliación");
         if (!creditJobs.has(source)) creditJobs.set(source, new Map());
-        creditJobs.get(source).set(o.job, job.output.credit.report.inputHash);
+        creditJobs
+          .get(source)
+          .set(o.job, {
+            input: job.output.credit.report.inputHash,
+            projection: job.snapshot.creditProjection,
+          });
       } else need(o.inputHash, "expediente JSON del comprador");
     }
   for (const a of b.activities.values())
@@ -180,7 +198,12 @@ export async function checkOriginals(desk, mode, config) {
         const profile = config.credit?.[job];
         if (!profile) missingProfiles.push({ sha, job, kind: "credit" });
         else {
-          matchedCreditRows += reconcileCreditFile(bytes, expected, profile);
+          matchedCreditRows += reconcileCreditFile(
+            bytes,
+            expected.input,
+            profile,
+            expected.projection,
+          );
           matchedCreditJobs++;
         }
       }

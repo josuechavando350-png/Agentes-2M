@@ -7,6 +7,7 @@ import { Semar } from "../../src/semar.mjs";
 import { GlobalDesk } from "../../src/global-desk.mjs";
 import { canonical } from "../../src/policy.mjs";
 import { hash } from "../../src/factory/reader.mjs";
+import { projectCreditFile } from "../../src/sale/credits.mjs";
 import { importCreditCsv } from "../../src/sale/credit-csv.mjs";
 import { portfolio } from "../../src/sale/portfolio.mjs";
 
@@ -227,7 +228,12 @@ async function week(number) {
         id +
         ",s,2.00,-4," +
         iso(start - day) +
-        ",C,MXN\n";
+        ",C,MXN\n" +
+        "otra," +
+        id +
+        ",sin-nota,50.00,7," +
+        iso(start - day) +
+        ",V-2,MXN\n";
       const creditProfile = {
         fields: creditFields,
         delimiter: ",",
@@ -242,7 +248,12 @@ async function week(number) {
       assert.equal(save(csv), packet.source);
       command(
         "credit-reserve",
-        { scope: "conciliacion", buyer: id, packet, cap: 2 },
+        {
+          scope: "conciliacion",
+          buyer: id,
+          ...projectCreditFile(packet),
+          cap: 2,
+        },
         job,
       );
       const product = await desk.work(job),
@@ -449,7 +460,7 @@ try {
     (n, v) => n + v.matchedCreditRows,
     0,
   );
-  assert.equal(matchedCreditRows, 24);
+  assert.equal(matchedCreditRows, 36);
   const without = structuredClone(a.originals);
   const job = Object.keys(without.credit)[0];
   delete without.credit[job];

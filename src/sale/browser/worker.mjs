@@ -1,6 +1,11 @@
 import { suggestProfile } from "./profile.mjs";
 import { importCreditCsv, registerCsv } from "../credit-csv.mjs";
-import { traceCredits, verifyCredits, creditRegister } from "../credits.mjs";
+import {
+  traceCredits,
+  verifyCredits,
+  creditRegister,
+  projectCreditFile,
+} from "../credits.mjs";
 let packet, solved, register;
 self.onmessage = async ({ data }) => {
   try {
@@ -65,6 +70,13 @@ self.onmessage = async ({ data }) => {
           name: "revision.csv",
           mime: "text/csv;charset=utf-8",
           content: registerCsv(register),
+        });
+      else if (data.kind === "intake")
+        self.postMessage({
+          type: "download",
+          name: "admision-semar.json",
+          mime: "application/json",
+          content: JSON.stringify(projectCreditFile(packet)),
         });
       else if (data.kind === "certificate")
         self.postMessage({
