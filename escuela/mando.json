@@ -3,7 +3,7 @@
     "source": "Postor Abierto",
     "documents": 5
   },
-  "latest": "BUDGET_LIMIT",
+  "latest": "RESEARCHED",
   "command": {
     "absolute": {
       "name": "Diablo 666",
@@ -76,8 +76,8 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 50,
-      "documents": 44,
+      "spent": 54,
+      "documents": 45,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -940,7 +940,7 @@
           "subject": "mx-1f765f22e2edb848eefd",
           "sector": 3,
           "revision": "028b2bb656e345404315715fa4176770d1e52210a3af6b450d8c45b15d8682be",
-          "phase": "DISCOVERY",
+          "phase": "VALIDATION",
           "policy": "indexed",
           "crew": [
             32676144,
@@ -1037,7 +1037,7 @@
           "firstDecision": "SEEK_EVIDENCE",
           "commercialEvidence": [],
           "firstAt": 1795073406349,
-          "at": 1795073406349,
+          "at": 1795151651707,
           "chief": 1007968,
           "missing": [
             "units",
@@ -1053,7 +1053,7 @@
               "potentialCents": "0"
             },
             {
-              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "subject": "mx-20d12f5e4c8e9a4734ae",
               "documentedFields": 3,
               "potentialCents": "0"
             }
@@ -1208,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "0f819f58f89949b2c0416ac5b31ad69d6456e76c8063ec620fd9e4edcc1d56af"
+  "checkpoint": "03c9c880d6ac69e4887e93176f770729edbcd050f24e0d8140a18e1021b64e93"
 }
