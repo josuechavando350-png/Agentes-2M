@@ -29,7 +29,7 @@ node entrega-ventas/credit-cli.mjs check entrega-ventas/ejemplo.json entrega-ven
 npm run sale:demo
 ```
 
-Se puede [descargar el ZIP público](../entregas/auditor-creditos.zip). La auditoría de integración genera ese mismo ZIP desde el código y compara los bytes de la descarga. La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuración de columnas, un certificado, una hoja de revisión y las huellas del contenido. La persona que recibe esa carpeta solo necesita Node 24 para usarla. [Manual del auditor](auditor-creditos.md)
+Se puede [descargar el ZIP público](../entregas/auditor-creditos.zip). La auditoría de integración genera ese mismo ZIP desde el código y compara los bytes de la descarga. La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuración de columnas, un certificado, una hoja de revisión y las huellas del contenido. La persona que recibe esa carpeta puede abrir `auditor.html` en su navegador. Las herramientas de terminal requieren Node 24. [Manual del auditor](auditor-creditos.md)
 
 ## Convertir una investigación en una venta
 

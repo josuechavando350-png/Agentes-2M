@@ -13,6 +13,7 @@ import { join, dirname, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { browserDelivery } from "./build-browser.mjs";
 const dir = resolve(process.argv[2]),
   parent = dirname(dir),
   root = fileURLToPath(new URL("../../", import.meta.url));
@@ -175,7 +176,9 @@ try {
       "comparacion.json",
     ),
   );
+  await browserDelivery(root, tmp);
   const names = [
+    "auditor.html",
     "credit-history.mjs",
     "diciembre.csv",
     "columnas-diciembre.json",
@@ -200,7 +203,10 @@ try {
   const manifest = {
     name: "SEMAR auditor de notas de crédito",
     version: 2,
-    requires: "Node 24",
+    requires: {
+      browser: "Navegador moderno con trabajadores locales y Web Crypto",
+      cli: "Node 24",
+    },
     externalServices: [],
     files: Object.fromEntries(
       names.map((n) => [n, sha(readFileSync(join(tmp, n)))]),

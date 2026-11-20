@@ -2,6 +2,10 @@
 
 Esta herramienta concilia cantidades de una nota de crédito con unidades vendidas anteriormente al mismo comprador, del mismo producto y al mismo precio. Entrega una asignación concreta y una prueba independiente del máximo que permite respaldar el archivo. Cuando varias cancelaciones compiten por las mismas unidades, se puede consultar cuánto es posible y cuánto está garantizado para una partida concreta.
 
+## Abrir el auditor en el navegador
+
+Descomprime el ZIP y abre **auditor.html** en un navegador moderno. `Cargar ejemplo` procesa tres notas y muestra los importes respaldados y por documentar. Para tus archivos, elige el CSV, abre **Columnas, moneda y periodo** y carga el JSON correspondiente o edita sus valores. Pulsa **Conciliar archivo**. El resultado permite buscar una factura, descargar la hoja CSV y comprobar un certificado recibido. El archivo HTML contiene el programa completo y trabaja localmente. La versión de terminal añade la planificación del turno y la extensión con documentos anteriores.
+
 ## Ejecutar con Node 24
 
 ```sh

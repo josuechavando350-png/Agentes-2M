@@ -95,6 +95,8 @@ jobs:
           node scripts/sale/check-result.mjs queue turno.json evidence/sale-queue.json
           node scripts/sale/history-exam.mjs /tmp/comercio/packet.json > historial.json
           diff evidence/sale-history.json historial.json
+          python3 -m zipfile -e entregas/auditor-creditos.zip /tmp/auditor
+          python3 scripts/factory/offline.py node scripts/sale/browser-exam.mjs /tmp/auditor /tmp/comercio/packet.json capturas > navegador.json
       - uses: actions/upload-artifact@v4
         with:
           name: examenes-facturas
@@ -104,4 +106,6 @@ jobs:
             partidas.json
             turno.json
             historial.json
+            navegador.json
+            capturas/
           retention-days: 30

@@ -48,6 +48,7 @@ jobs:
           python3 scripts/factory/offline.py node scripts/sale/package.mjs entrega-ventas
           python3 scripts/sale/distribution.py entrega-ventas "$RUNNER_TEMP/auditor-creditos.zip"
           cmp entregas/auditor-creditos.zip "$RUNNER_TEMP/auditor-creditos.zip"
+          python3 scripts/factory/offline.py node scripts/sale/browser-exam.mjs entrega-ventas - capturas-ventas > aceptacion-navegador.json
           python3 scripts/factory/offline.py node scripts/sale/price-exam.mjs > limites-de-precio.json
           node scripts/sale/check-result.mjs pricing limites-de-precio.json evidence/sale-pricing.json
           python3 scripts/factory/offline.py node scripts/sale/pilot.mjs > demostracion-ventas.json
@@ -67,6 +68,8 @@ jobs:
             demostracion-ventas.json
             concurrencia-ventas.json
             aceptacion-de-campo.json
+            aceptacion-navegador.json
+            capturas-ventas/
             actualizacion-libro.json
             limites-de-precio.json
             dictamen-de-ventas.json
