@@ -3,14 +3,14 @@
     "source": "Postor Abierto",
     "documents": 5
   },
-  "latest": "RESEARCHED",
+  "latest": "DEAD_ZERO",
   "command": {
     "absolute": {
       "name": "Diablo 666",
       "holder": {
-        "id": 1007968,
+        "id": 7968,
         "generation": 1,
-        "policy": "indexed"
+        "policy": "crosscheck"
       },
       "ranking": [
         {
@@ -76,8 +76,8 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 62,
-      "documents": 53,
+      "spent": 63,
+      "documents": 58,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -1208,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "18cf5b3f94e48003ebdc2f03664aa01d474e813431046161512e0c3f46b4c486"
+  "checkpoint": "7a3ab2763c08a878730237a31d5cab4f0ad176529b93248a8371469e6d1590c3"
 }
