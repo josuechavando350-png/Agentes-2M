@@ -38,6 +38,17 @@ La entrega incluye un segundo ejemplo, `ejemplo-turno.csv`. Una segunda empresa 
 
 El plan muestra las facturas, las filas originales, los minutos y el volumen documental. Con datos históricos y un turno hipotético de una hora, seis facturas concentraban GBP 27,038.58 por revisar. Solicitar primero las facturas de mayor valor nominal cubría GBP 26,167.90 con los mismos límites. La recuperación requiere originales y confirmación del comprador.
 
+## Verificar si un documento anterior explica la diferencia
+
+Importa el periodo anterior con el mismo plazo y moneda. Incluye sus cancelaciones y sus ventas. `extend` vuelve a conciliar los dos periodos, calcula cuánto respaldo de las notas actuales es posible bajo cada asignación óptima y conserva las filas originales de los dos archivos. `extend-check` verifica los cuatro certificados, los importes y las referencias.
+
+```sh
+node credit-cli.mjs extend importado.json diciembre.json revision-con-historial.json
+node credit-cli.mjs extend-check importado.json diciembre.json revision-con-historial.json
+```
+
+Con el ejemplo de la entrega, las ventas de enero respaldan ocho de las diez unidades canceladas en enero. La factura de diciembre respalda las otras dos. Si otras cancelaciones compiten por una venta, el resultado puede ser un intervalo. La selección concreta en `earlierSalesInOneAssignment` permite localizar una asignación válida. La comprobación depende de la integridad de los exportes y del criterio de conciliación acordado.
+
 ## Formato de entrada
 
 Un expediente JSON contiene `source` (SHA-256 del archivo fuente), `currency` (código de tres letras), `from` y `until` (instantes UTC en milisegundos, final excluido), `maxAgeDays` y `lines`. Cada partida lleva `id`, `party`, `sku`, `price` en unidades monetarias mínimas, `qty` entera positiva para ventas o negativa para cancelaciones, `time`, `invoice` y `row` en el original. Deben ser únicos el identificador y la fila. La huella y las filas sirven para localizar la evidencia. El operador prepara los datos a partir del original autorizado.

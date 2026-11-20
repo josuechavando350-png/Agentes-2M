@@ -191,6 +191,8 @@ export function combineWeeks(weeks) {
       tip: w.tip,
       commercialStatus: w.report.commercialStatus,
       documentation: w.documentation?.status ?? "SOURCE_FILES_PENDING",
+      verifiedMovements: w.documentation?.verifiedMovements ?? null,
+      matchedCreditRows: w.documentation?.matchedCreditRows ?? null,
     })),
     currency: first.currency,
     bankCollectedCents: collected,

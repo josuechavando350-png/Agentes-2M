@@ -194,6 +194,7 @@ async function week(number) {
       sales = new Map(),
       bankLines = [],
       fieldLines = new Map(units.map((u) => [u.subject, []]));
+    const creditProfiles = {};
     let expectedNet = 0;
     const iso = (t) => new Date(t).toISOString();
     now += 2000;
@@ -227,7 +228,7 @@ async function week(number) {
         ",s,2.00,-4," +
         iso(start - day) +
         ",C,MXN\n";
-      const packet = importCreditCsv(Buffer.from(csv), {
+      const creditProfile = {
         fields: creditFields,
         delimiter: ",",
         decimal: ".",
@@ -235,7 +236,9 @@ async function week(number) {
         from: iso(start - 20 * day),
         until: iso(start),
         maxAgeDays: 5,
-      });
+      };
+      creditProfiles[job] = creditProfile;
+      const packet = importCreditCsv(Buffer.from(csv), creditProfile);
       assert.equal(save(csv), packet.source);
       command(
         "credit-reserve",
@@ -411,7 +414,11 @@ async function week(number) {
     assert.equal((await desk.audit()).status, "VERIFIED");
     return {
       path,
-      originals: { directory, bank: { cuenta: bankProfile } },
+      originals: {
+        directory,
+        bank: { cuenta: bankProfile },
+        credit: creditProfiles,
+      },
       units: units.length,
       verified: trialReport.matched,
       pairs: trialReport.marginTest.pairs,
@@ -438,6 +445,19 @@ try {
     JSON.stringify(combined),
   );
   assert.equal(combined.portfolioNetCents, a.expectedNet + b.expectedNet);
+  const matchedCreditRows = combined.books.reduce(
+    (n, v) => n + v.matchedCreditRows,
+    0,
+  );
+  assert.equal(matchedCreditRows, 24);
+  const without = structuredClone(a.originals);
+  const job = Object.keys(without.credit)[0];
+  delete without.credit[job];
+  const incomplete = await portfolio([a.path], "LIVE", { [a.path]: without });
+  assert.equal(incomplete.books[0].documentation, "SOURCE_PROFILE_REQUIRED");
+  without.credit[job] = { ...a.originals.credit[job], maxAgeDays: 6 };
+  const changed = await portfolio([a.path], "LIVE", { [a.path]: without });
+  assert.equal(changed.books[0].documentation, "SOURCE_DISAGREEMENT");
   console.log(
     JSON.stringify(
       {
@@ -446,6 +466,9 @@ try {
         testBooks: 2,
         randomizedPairs: a.pairs + b.pairs,
         verifiedUnits: a.verified + b.verified,
+        matchedCreditRows,
+        missingSourceMappingRejected: true,
+        differentSourceMappingRejected: true,
         realOwnReceipts: null,
         scope:
           "Datos y firmantes creados para verificar los caminos de producción; las bases temporales se eliminan al terminar.",

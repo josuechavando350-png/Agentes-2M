@@ -1,0 +1,12 @@
+{
+  "mode": "SYNTHETIC_ACCEPTANCE_TEST",
+  "status": "PASSED",
+  "testBooks": 2,
+  "randomizedPairs": 12,
+  "verifiedUnits": 24,
+  "matchedCreditRows": 24,
+  "missingSourceMappingRejected": true,
+  "differentSourceMappingRejected": true,
+  "realOwnReceipts": null,
+  "scope": "Datos y firmantes creados para verificar los caminos de producción; las bases temporales se eliminan al terminar."
+}

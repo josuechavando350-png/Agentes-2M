@@ -1,0 +1,204 @@
+{
+  "mode": "HISTORICAL_DOCUMENT_RECONCILIATION",
+  "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+  "currency": "GBP",
+  "windowDays": 90,
+  "periods": [
+    {
+      "month": "2011-01",
+      "notes": 667,
+      "previousRows": 1835,
+      "currentRows": 1594,
+      "previouslyBackedCents": 8382416,
+      "backedCentsWithHistory": [
+        8747832,
+        8750272
+      ],
+      "additionalBoundedBelowCents": 365416,
+      "changes": 181,
+      "notesWithEarlierSales": 212,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "7d81a6909eed3396e296e103db023795b739c51d56bbe1a89f487fab59f72f58"
+    },
+    {
+      "month": "2011-02",
+      "notes": 414,
+      "previousRows": 3429,
+      "currentRows": 1328,
+      "previouslyBackedCents": 306221,
+      "backedCentsWithHistory": [
+        703020,
+        703020
+      ],
+      "additionalBoundedBelowCents": 396799,
+      "changes": 140,
+      "notesWithEarlierSales": 166,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "eacde2c79c2ae945e47aba9eb5ba1a450d766484f1222a3d1cf6dca22041a683"
+    },
+    {
+      "month": "2011-03",
+      "notes": 609,
+      "previousRows": 4757,
+      "currentRows": 1858,
+      "previouslyBackedCents": 680028,
+      "backedCentsWithHistory": [
+        899535,
+        899535
+      ],
+      "additionalBoundedBelowCents": 219507,
+      "changes": 179,
+      "notesWithEarlierSales": 234,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "3340ae1310541ea17b4769876b6e11857bc18232a9fe9e27b343ee567b638c2b"
+    },
+    {
+      "month": "2011-04",
+      "notes": 530,
+      "previousRows": 6615,
+      "currentRows": 1549,
+      "previouslyBackedCents": 421093,
+      "backedCentsWithHistory": [
+        799018,
+        802263
+      ],
+      "additionalBoundedBelowCents": 377925,
+      "changes": 201,
+      "notesWithEarlierSales": 262,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "7dc6414aeaa2281a7981cc4cee60d1ba92a842398857e77326b8d5c75b4336f1"
+    },
+    {
+      "month": "2011-05",
+      "notes": 552,
+      "previousRows": 8164,
+      "currentRows": 1895,
+      "previouslyBackedCents": 644558,
+      "backedCentsWithHistory": [
+        823193,
+        826283
+      ],
+      "additionalBoundedBelowCents": 178635,
+      "changes": 138,
+      "notesWithEarlierSales": 204,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "095267fd555c52ff7cc8b1cef7c2d9db0c1ce6b44242be29c2e33ce79ff49e9f"
+    },
+    {
+      "month": "2011-06",
+      "notes": 629,
+      "previousRows": 10059,
+      "currentRows": 1951,
+      "previouslyBackedCents": 791180,
+      "backedCentsWithHistory": [
+        1133643,
+        1136318
+      ],
+      "additionalBoundedBelowCents": 342463,
+      "changes": 216,
+      "notesWithEarlierSales": 280,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "e44ab9a69bbbec2c5d560791e3ab49ae1d636ed0a4c1acb59531cc2727424177"
+    },
+    {
+      "month": "2011-07",
+      "notes": 638,
+      "previousRows": 12010,
+      "currentRows": 1986,
+      "previouslyBackedCents": 450608,
+      "backedCentsWithHistory": [
+        782114,
+        783389
+      ],
+      "additionalBoundedBelowCents": 331506,
+      "changes": 200,
+      "notesWithEarlierSales": 268,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "0eb4eb03924c4569300cdf5c89721b0951e139a2d0ba2015027c43e5b686e21f"
+    },
+    {
+      "month": "2011-08",
+      "notes": 614,
+      "previousRows": 13996,
+      "currentRows": 1756,
+      "previouslyBackedCents": 1617442,
+      "backedCentsWithHistory": [
+        2188649,
+        2188649
+      ],
+      "additionalBoundedBelowCents": 571207,
+      "changes": 215,
+      "notesWithEarlierSales": 325,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "51682be6e478a12aeefdfe6eb0be2da3649f864c83c36753ceed3ba3a876864a"
+    },
+    {
+      "month": "2011-09",
+      "notes": 758,
+      "previousRows": 15752,
+      "currentRows": 2315,
+      "previouslyBackedCents": 856378,
+      "backedCentsWithHistory": [
+        1295610,
+        1298580
+      ],
+      "additionalBoundedBelowCents": 439232,
+      "changes": 193,
+      "notesWithEarlierSales": 273,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "6ba3bfff921b9fd7358da8e7f98d093c0c148ed29f6ffc11f0bacfaa40612722"
+    },
+    {
+      "month": "2011-10",
+      "notes": 1103,
+      "previousRows": 18067,
+      "currentRows": 2759,
+      "previouslyBackedCents": 3382696,
+      "backedCentsWithHistory": [
+        3977226,
+        3977226
+      ],
+      "additionalBoundedBelowCents": 594530,
+      "changes": 412,
+      "notesWithEarlierSales": 512,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "ee18e7ae4c4287fb2a102f4b2ce56fcb2321ae88a71abdb413c908bbead36703"
+    },
+    {
+      "month": "2011-11",
+      "notes": 1003,
+      "previousRows": 20826,
+      "currentRows": 2760,
+      "previouslyBackedCents": 1492835,
+      "backedCentsWithHistory": [
+        2037255,
+        2038795
+      ],
+      "additionalBoundedBelowCents": 544420,
+      "changes": 382,
+      "notesWithEarlierSales": 491,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "1036b9637c9b0f0f4327ecf05145cb5d12042341ee884d9015a33433ba1add98"
+    },
+    {
+      "month": "2011-12",
+      "notes": 347,
+      "previousRows": 23586,
+      "currentRows": 743,
+      "previouslyBackedCents": 16930306,
+      "backedCentsWithHistory": [
+        17285556,
+        17287546
+      ],
+      "additionalBoundedBelowCents": 355250,
+      "changes": 251,
+      "notesWithEarlierSales": 259,
+      "lowerAndUpperAttainedIndependently": true,
+      "receipt": "dbf2ea4cbba51891b2605fc49b1ee257f601c7e07151009b35c64c0150758c89"
+    }
+  ],
+  "examinedNotes": 7864,
+  "sumOfMonthlyLowerIncreasesCents": 4716890,
+  "ownRevenue": null,
+  "scope": "Cada mes usa el archivo disponible hasta su cierre. Las notas actuales pertenecen a meses distintos. Las cotas mensuales se estiman en cortes separados y no constituyen una asignación anual conjunta."
+}

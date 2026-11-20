@@ -27,8 +27,14 @@ function validateOption(o) {
   num(o.variableCostBps, 0, scale);
   num(o.fixedCostCents, 0, 1e10);
 }
-// Below and above the fee cap, integer profit changes by a fixed amount after 10,000 cents.
-// Checking the first and last representative for every residue in each interval proves its extrema.
+function gcd(a, b) {
+  while (b) [a, b] = [b, a % b];
+  return a;
+}
+
+// Before the cap, floor(a*n/B)-ceil(b*n/B) is either floor((a-b)*n/B) or one less.
+// A point two units of slope away cannot improve an endpoint. Repeating a whole residue
+// period changes profit by a fixed integer. Both arguments bound the exact search width.
 export function boundaries(o, low, high) {
   const change = Math.ceil((o.capCents * scale) / o.shareBps);
   let min = Infinity,
@@ -48,14 +54,38 @@ export function boundaries(o, low, high) {
       maxAt = n;
     }
   }
-  for (const [a, b] of [
-    [low, Math.min(high, change - 1)],
-    [Math.max(low, change), high],
-  ]) {
-    if (a > b) continue;
-    const boundary = Math.min(b, a + scale - 1);
-    for (let n = a; n <= boundary; n++) visit(n);
-    for (let n = Math.max(boundary + 1, b - scale + 1); n <= b; n++) visit(n);
+  const end = Math.min(high, change - 1),
+    share = o.shareBps,
+    variable = o.variableCostBps;
+  if (low <= end) {
+    const slope = share - variable,
+      period = scale / gcd(scale, gcd(share, variable));
+    if (slope === 0) {
+      visit(low);
+      // A whole cent gives zero rounding loss; every other recovery loses one cent.
+      const multiple = Math.ceil(low / period) * period;
+      if (multiple > low && multiple <= end) visit(multiple);
+      if (low % period === 0 && period > 1 && low < end) visit(low + 1);
+    } else {
+      const width = Math.min(period, Math.ceil((2 * scale) / Math.abs(slope)));
+      const firstEnd = Math.min(end, low + width - 1);
+      for (let n = low; n <= firstEnd; n++) visit(n);
+      for (let n = Math.max(firstEnd + 1, end - width + 1); n <= end; n++)
+        visit(n);
+    }
+  }
+  const start = Math.max(low, change);
+  if (start <= high) {
+    visit(start);
+    if (variable) {
+      // The fee is constant. Only the first occurrence of the largest rounded cost is needed.
+      const lastCost = Math.ceil((high * variable) / scale);
+      const firstAtLastCost = Math.max(
+        start,
+        Math.floor(((lastCost - 1) * scale) / variable) + 1,
+      );
+      if (firstAtLastCost > start) visit(firstAtLastCost);
+    }
   }
   return { lower: min, upper: max, minAt, maxAt, examined };
 }

@@ -93,6 +93,8 @@ jobs:
           node scripts/sale/check-result.mjs register partidas.json evidence/sale-register.json
           node scripts/sale/queue-exam.mjs /tmp/comercio/packet.json > turno.json
           node scripts/sale/check-result.mjs queue turno.json evidence/sale-queue.json
+          node scripts/sale/history-exam.mjs /tmp/comercio/packet.json > historial.json
+          diff evidence/sale-history.json historial.json
       - uses: actions/upload-artifact@v4
         with:
           name: examenes-facturas
@@ -100,4 +102,6 @@ jobs:
             diagnostico.json
             retail.json
             partidas.json
+            turno.json
+            historial.json
           retention-days: 30

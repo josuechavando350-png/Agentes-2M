@@ -12,6 +12,7 @@ export async function saleScorecard(books) {
   const factory = read("factory-exam"),
     credit = read("sale-retail"),
     notes = read("sale-register"),
+    history = read("sale-history"),
     program = read("sale-serving"),
     hill = read("sale-hillstrom"),
     prices = read("sale-iowa"),
@@ -35,6 +36,7 @@ export async function saleScorecard(books) {
   check(
     notes.input === window.inputHash &&
       queue.source === notes.source &&
+      history.source === notes.source &&
       notes.registered === window.credits &&
       large.sectorSeals === participation.nativeSectorCommitment &&
       large.scoresHash === times.reference &&
@@ -61,6 +63,10 @@ export async function saleScorecard(books) {
       creditNotes: notes.registered,
       creditNotesChecked: notes.checkedWithThreeIndependentRanks,
       coverageGapUnits: window.mathematicalGapUnits,
+      historicalNotesReexamined: history.examinedNotes,
+      historicalMonthsWithBothEndpointsVerified: history.periods.filter(
+        (p) => p.lowerAndUpperAttainedIndependently,
+      ).length,
       reviewShiftMinutes: 60,
       documentaryVolumeCents: queue.runs.find((r) => r.spec.minutes === 60)
         .reviewCents,

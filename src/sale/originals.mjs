@@ -3,7 +3,8 @@ import { lstatSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { strict } from "../policy.mjs";
 import { check, unique, hash } from "../factory/reader.mjs";
-import { records } from "./credit-csv.mjs";
+import { records, importCreditCsv } from "./credit-csv.mjs";
+import { creditRegister } from "./credits.mjs";
 
 const incoming = new Set(["fee", "funding", "unapplied"]);
 export function reconcileBankFile(bytes, p, profile) {
@@ -82,13 +83,23 @@ export function reconcileBankFile(bytes, p, profile) {
   );
   return p.lines.length;
 }
+export function reconcileCreditFile(bytes, expected, profile) {
+  const packet = importCreditCsv(bytes, profile);
+  check(
+    creditRegister(packet).inputHash === expected,
+    "Las filas del archivo original difieren del expediente conciliado",
+  );
+  return packet.lines.length;
+}
+
 export async function checkOriginals(desk, mode, config) {
   check(["LIVE", "DEMONSTRATION"].includes(mode), "Modo de libro desconocido");
   const governance = desk.store.audit();
   const audit = await desk.audit(),
     s = desk.read(),
     sources = new Map(),
-    statements = [];
+    statements = [],
+    creditJobs = new Map();
   function need(sha, kind) {
     if (!sha) return;
     check(/^[a-f0-9]{64}$/.test(sha), "Huella de un original inválida");
@@ -110,9 +121,12 @@ export async function checkOriginals(desk, mode, config) {
       for (const close of o.closes ?? (o.close ? [o.close] : []))
         need(close.evidence, "horas y tarifa");
       const job = s.jobs.get(o.job);
-      need(job.snapshot.credit?.source, "archivo de conciliación");
-      if (!job.snapshot.credit)
-        need(o.inputHash, "expediente JSON del comprador");
+      if (job.snapshot.credit) {
+        const source = job.snapshot.credit.source;
+        need(source, "archivo de conciliación");
+        if (!creditJobs.has(source)) creditJobs.set(source, new Map());
+        creditJobs.get(source).set(o.job, job.output.credit.report.inputHash);
+      } else need(o.inputHash, "expediente JSON del comprador");
     }
   for (const a of b.activities.values())
     if (a.mode === mode) need(a.source, "horas de campo");
@@ -130,9 +144,12 @@ export async function checkOriginals(desk, mode, config) {
   }
   const missing = [],
     invalid = [],
+    missingProfiles = [],
     seen = new Set();
   let verifiedMovements = 0,
-    matchedStatements = 0;
+    matchedStatements = 0,
+    matchedCreditJobs = 0,
+    matchedCreditRows = 0;
   const perSource = new Map(statements.map((p) => [p.source, p]));
   for (const [sha, kinds] of sources) {
     let bytes;
@@ -154,9 +171,18 @@ export async function checkOriginals(desk, mode, config) {
       const p = perSource.get(sha);
       if (p) {
         const profile = config.bank?.[p.account];
-        check(profile, "Falta el mapeo de columnas de la cuenta");
-        verifiedMovements += reconcileBankFile(bytes, p, profile);
-        matchedStatements++;
+        if (profile) {
+          verifiedMovements += reconcileBankFile(bytes, p, profile);
+          matchedStatements++;
+        } else missingProfiles.push({ sha, account: p.account, kind: "bank" });
+      }
+      for (const [job, expected] of creditJobs.get(sha) ?? []) {
+        const profile = config.credit?.[job];
+        if (!profile) missingProfiles.push({ sha, job, kind: "credit" });
+        else {
+          matchedCreditRows += reconcileCreditFile(bytes, expected, profile);
+          matchedCreditJobs++;
+        }
       }
       seen.add(sha);
     } catch (error) {
@@ -172,9 +198,11 @@ export async function checkOriginals(desk, mode, config) {
     ? "SOURCE_DISAGREEMENT"
     : missing.length
       ? "SOURCE_FILES_PENDING"
-      : statements.length && seen.size
-        ? "ORIGINALS_MATCHED"
-        : "AWAIT_SOURCE_STATEMENT";
+      : missingProfiles.length
+        ? "SOURCE_PROFILE_REQUIRED"
+        : statements.length && seen.size
+          ? "ORIGINALS_MATCHED"
+          : "AWAIT_SOURCE_STATEMENT";
   return {
     tip: audit.tip,
     governanceTip: governance.tip,
@@ -185,9 +213,12 @@ export async function checkOriginals(desk, mode, config) {
     statements: statements.length,
     matchedStatements,
     verifiedMovements,
+    matchedCreditJobs,
+    matchedCreditRows,
+    missingProfiles,
     missing,
     invalid,
     scope:
-      "Identidad de los bytes y coincidencia de todas las referencias, fechas, monedas e importes de los extractos registrados. La autenticidad externa depende de los emisores acreditados.",
+      "Identidad de los bytes y coincidencia de todas las referencias, fechas, monedas e importes de los extractos registrados. Las filas de los expedientes de conciliación se reconstruyen desde sus CSV. La autenticidad externa depende de los emisores acreditados.",
   };
 }

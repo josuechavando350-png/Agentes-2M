@@ -23,6 +23,7 @@ const tmp = mkdtempSync(join(parent, ".auditor-")),
 try {
   for (const n of [
     "credit-cli.mjs",
+    "credit-history.mjs",
     "credits.mjs",
     "credit-csv.mjs",
     "review-queue.mjs",
@@ -142,7 +143,44 @@ try {
     queue,
     call("queue-check", "expediente-turno.json", "turno.json", "cola.json"),
   );
+  const previousCsv =
+    csv.split("\r\n")[0] +
+    "\r\n" +
+    "venta-anterior,empresa-ejemplo,servicio-ejemplo,100.00,2,2025-12-28T00:00:00.000Z,FACTURA-DIC,MXN\r\n";
+  const previousSettings = {
+    ...settings,
+    from: "2025-12-01T00:00:00.000Z",
+    until: settings.from,
+  };
+  writeFileSync(join(tmp, "diciembre.csv"), previousCsv);
+  writeFileSync(
+    join(tmp, "columnas-diciembre.json"),
+    JSON.stringify(previousSettings, null, 2) + "\n",
+  );
+  call("import", "diciembre.csv", "columnas-diciembre.json", "diciembre.json");
+  const corrected = call(
+    "extend",
+    "importado.json",
+    "diciembre.json",
+    "comparacion.json",
+  );
+  assert.equal(corrected.previouslyBackedUnits, 8);
+  assert.deepEqual(corrected.currentBackedUnitsWithHistory, [10, 10]);
+  assert.deepEqual(
+    corrected,
+    call(
+      "extend-check",
+      "importado.json",
+      "diciembre.json",
+      "comparacion.json",
+    ),
+  );
   const names = [
+    "credit-history.mjs",
+    "diciembre.csv",
+    "columnas-diciembre.json",
+    "diciembre.json",
+    "comparacion.json",
     "review-queue.mjs",
     "turno.json",
     "cola.json",
@@ -161,7 +199,7 @@ try {
   ];
   const manifest = {
     name: "SEMAR auditor de notas de crédito",
-    version: 1,
+    version: 2,
     requires: "Node 24",
     externalServices: [],
     files: Object.fromEntries(

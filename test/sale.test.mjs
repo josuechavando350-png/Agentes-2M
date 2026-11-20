@@ -132,6 +132,7 @@ test("La comisión contingente demuestra los extremos incluso al cruzar su tope 
     const b = boundaries(o, lo, hi);
     assert.deepEqual([b.lower, b.upper], [min, max]);
     assert.equal(fee(b.minAt, o) - cost(b.minAt, o), min);
+    assert.equal(fee(b.maxAt, o) - cost(b.maxAt, o), max);
   }
   const c = {
     id: "caro",

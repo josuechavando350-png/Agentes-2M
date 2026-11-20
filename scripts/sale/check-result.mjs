@@ -24,6 +24,8 @@ function normalize(value) {
       "cpu",
     ])
       delete value[k];
+  } else if (kind === "pricing") {
+    delete value.timing;
   } else if (["participation", "register"].includes(kind))
     delete value.milliseconds;
   else assert.equal(kind, "diagnostic");

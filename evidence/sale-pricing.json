@@ -1,0 +1,29 @@
+{
+  "mode": "LOCAL_CONTRACT_CALCULATION",
+  "cases": 1536,
+  "comparison": "Revisión individual de cotas y comprobación de los importes que alcanzan ambos extremos.",
+  "inputs": "4a2aad6a70e17d5d8d5f58c5632245f9ddb131d6812134f07a0c113322c589ed",
+  "outcomes": "f15594805a2c91913390d0118f3e88629b0cda3908ca3ebccd534924f4b3bc37",
+  "evaluations": {
+    "current": 5204815,
+    "reference": 39795164,
+    "maximumPerContract": 20002
+  },
+  "timing": {
+    "batch": 64,
+    "repetitions": 31,
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.22.3",
+    "methods": {
+      "current": {
+        "medianMs": 1.5225279999999657,
+        "p95Ms": 1.9421539999999595
+      },
+      "reference": {
+        "medianMs": 17.65338600000007,
+        "p95Ms": 19.608624000000077
+      }
+    }
+  },
+  "actualOrders": null
+}

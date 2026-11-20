@@ -8,13 +8,14 @@ La primera entrega utilizable por un comprador es un auditor local de notas de c
 | --- | --- | --- |
 | ¿Entrega una herramienta utilizable? | Producto con importación de CSV, exportación, verificador y búsqueda por factura. Examen de UCI Online Retail con 541,909 filas de origen y 24,329 filas admitidas. | En 90 días de búsqueda, 34,577 unidades canceladas quedaron sin respaldo observable, por GBP 59,672.75. La consulta simple reutilizaba 654 unidades. |
 | ¿Distingue un hallazgo individual de una diferencia compartida? | 8,539 notas contrastadas con tres cálculos de flujo por nota. | GBP 44,863.00 correspondían a diferencias individualmente inevitables con ventana completa. GBP 14,140.56 correspondían a notas cercanas al inicio del archivo y GBP 669.19 a diferencias compartidas por notas. |
+| ¿Corrige aparentes discrepancias cuando llega el historial? | 7,864 notas de UCI en doce cortes mensuales. Se volvió a calcular el respaldo de cada mes usando los meses anteriores y dos asignaciones independientes. | Solo en enero de 2011, el respaldo de las notas pasó de GBP 83,824.16 a un intervalo entre GBP 87,478.32 y GBP 87,502.72. La diferencia identificada se explica con documentos previos. |
 | ¿Investiga una discrepancia nueva mejor que la regla existente? | Dos periodos reservados de Iowa, 200 facturas por periodo. Se sellaron las decisiones antes de abrir los importes. | 397 aciertos sobre 400 frente a 398 del precio declarado. Se mantuvo el método anterior. En 13 de 16 errores ya conocidos, al menos una explicación rival reconstruyó el importe histórico. La factura original sigue siendo necesaria para confirmar la causa. |
 | ¿Cien millones compran más información? | Historial aleatorizado Hillstrom. 16,000 clientes para ajustar, 10,000 para buscar, 14,000 para seleccionar y 24,000 para examinar una sola vez. | Los 100 millones de contribuciones reprodujeron todos los puntajes de un cálculo exacto de un trabajador. Diez mil reglas produjeron 9,005 series distintas de decisiones en los clientes de búsqueda. Se conservó la oferta uniforme. |
 | ¿Mejoró el resultado comercial de esa campaña? | Diferencias de gasto por cliente en el grupo de examen. | Oferta seleccionada frente a ausencia de contacto, +USD 0.40 por cliente, intervalo aproximado del 95 % desde −USD 0.07 hasta +USD 0.87. Frente al método simple, diferencia cero. |
 | ¿Identifica más suscripciones con una lista limitada? | UCI Bank Marketing, 9,188 contactos posteriores reservados y 1,837 plazas. | La regla elegida identificó 527 suscripciones, las mismas que el mejor control sencillo. El sorteo uniforme por bloques esperaba 517.49. |
 | ¿Generó ventas propias? | El libro distingue propuesta, pedido, recuperación confirmada, comisión devengada, dinero recibido, devoluciones y margen. | La entrega incluye una demostración contable y exámenes con datos públicos. La medición de ingresos propios necesita un piloto con cliente, costos y extracto verificables. |
 
-[Resultados de conciliación](../evidence/sale-retail.json) · [Registro de partidas](../evidence/sale-register.json) · [Iowa](../evidence/sale-iowa.json) · [Campaña](../evidence/sale-hillstrom.json) · [Tiempos de ejecución](../evidence/sale-throughput.json)
+[Resultados de conciliación](../evidence/sale-retail.json) · [Registro de partidas](../evidence/sale-register.json) · [Revisión con documentos anteriores por mes](../evidence/sale-history.json) · [Iowa](../evidence/sale-iowa.json) · [Campaña](../evidence/sale-hillstrom.json) · [Tiempos de ejecución](../evidence/sale-throughput.json)
 
 ## Probar el producto
 
@@ -28,7 +29,7 @@ node entrega-ventas/credit-cli.mjs check entrega-ventas/ejemplo.json entrega-ven
 npm run sale:demo
 ```
 
-La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuración de columnas, un certificado, una hoja de revisión y las huellas del contenido. La persona que recibe esa carpeta solo necesita Node 24 para usarla. [Manual del auditor](auditor-creditos.md)
+Se puede [descargar el ZIP público](../entregas/auditor-creditos.zip). La auditoría de integración genera ese mismo ZIP desde el código y compara los bytes de la descarga. La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuración de columnas, un certificado, una hoja de revisión y las huellas del contenido. La persona que recibe esa carpeta solo necesita Node 24 para usarla. [Manual del auditor](auditor-creditos.md)
 
 ## Convertir una investigación en una venta
 
@@ -38,6 +39,8 @@ La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuració
 4. El comprador firma `order` o `decline` y, si acepta la entrega, `delivery` con la recuperación comprobada. El custodio del extracto firma `statement` con su fuente, periodo continuo, saldos y movimientos. `sale-bank` comprueba la aritmética y cada devolución contra su cobro. Un depósito pendiente de asignación mantiene abierto el margen. `sale-assign` admite una distribución firmada entre entregas y aportaciones, conservando el importe original.
 5. `sale-close` registra horas, tarifa y fecha de corte. El informe deduce costos de servicio, investigación conciliada y gastos comunes. Un nuevo extracto vuelve a exigir el cierre de horas. El presupuesto descuenta trabajos liquidados y egresos bancarios comerciales posteriores a la apertura. Los pedidos aceptados comparten el disponible entre cuentas. Un extracto que lleva el presupuesto a cero retira todas las identidades del mandato, aunque después aparezca un depósito. Las conciliaciones y devoluciones siguen disponibles y se informa cualquier sobregiro observado. La firma acredita qué clave respaldó cada hecho. La comprobación de titularidad de las claves y de autenticidad de los documentos originales corresponde a las partes.
 6. `sale-readiness` cruza los cierres con un ensayo aleatorizado registrado por adelantado. Cada comprador debe tener una asignación aplicada, un grupo independiente y un cierre que coincida en cobros, devoluciones, costos y horas. El seguimiento sin oferta puede presentar `sale-activity` con firma del comprador y los gastos bancarios correspondientes. `sale-portfolio` comprueba varios mandatos, descarta movimientos duplicados o cortes superpuestos y exige repetición en otro periodo y con otros compradores antes de calificar un efecto como replicado.
+
+El precio y el costo se redondean por centavo. El selector calcula los dos extremos de margen de cada contrato respetando el tope de comisión. Un examen de 1,536 contratos comparó esos extremos con la enumeración de residuos, incluidos costos variables iguales o casi iguales a la comisión. Se conservan los datos de rendimiento por lote y la huella de las 1,536 respuestas. [Resultados de cotización local](../evidence/sale-pricing.json)
 
 Cada orden de tesorería se firma como `SEMAR-GLOBAL-1`. Las atestaciones externas usan `SEMAR-SALE-1`, el mismo identificador de libro y una clave distinta según el papel. Los programas que firmaron la decisión se conservan en la bitácora para reproducirla. El archivo de datos del piloto y las claves privadas permanecen bajo control de sus titulares. [Libro y firmas](operacion-global.md) · [Ejemplo ejecutable de pedidos, cobro y devolución](../scripts/sale/pilot.mjs) · [Mandato con expediente histórico](../scripts/sale/credit-mission.mjs)
 
@@ -74,6 +77,8 @@ SEMAR_DB=operacion.sqlite node src/cli.mjs sale-proof LIVE perfil.json
 node src/cli.mjs sale-design diseno.json
 node src/cli.mjs sale-scorecard libros.json
 ```
+
+Para una auditoría de notas, añade `credit` al perfil. Su clave es el identificador de trabajo de `credit-reserve` y su valor es la configuración usada para importar el CSV del comprador. El verificador reconstruye las filas desde los bytes originales y compara su huella, moneda, periodo y plazo con la entrega registrada. Una configuración ausente queda pendiente y una discrepancia se identifica en el informe.
 
 En `libros.json`, `originals` relaciona cada ruta de base con su perfil de comprobantes. Se puede probar todo el recorrido con firmas y archivos temporales usando `node scripts/sale/field-acceptance.mjs`. Ese examen cubre dos mandatos, doce pares aleatorizados y los veinticuatro cierres de comprador. [Cálculo de potencia y contraste de margen](../src/sale/experiment.mjs) · [Examen de integración](../scripts/sale/field-acceptance.mjs)
 

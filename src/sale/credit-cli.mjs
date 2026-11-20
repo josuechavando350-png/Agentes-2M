@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { extendCreditHistory, verifyCreditHistory } from "./credit-history.mjs";
 import { reviewQueue, verifyQueue } from "./review-queue.mjs";
 import { importCreditCsv, registerCsv } from "./credit-csv.mjs";
 import {
@@ -23,6 +24,22 @@ try {
       mode: 0o600,
     });
     result = { source: packet.source, rows: packet.lines.length, destination };
+  } else if (action === "extend" || action === "extend-check") {
+    const earlier = JSON.parse(readFileSync(arg, "utf8"));
+    if (action === "extend-check")
+      result = verifyCreditHistory(
+        packet,
+        earlier,
+        JSON.parse(readFileSync(destination, "utf8")),
+      );
+    else {
+      const receipt = extendCreditHistory(packet, earlier);
+      result = verifyCreditHistory(packet, earlier, receipt);
+      writeFileSync(destination, JSON.stringify(receipt) + "\n", {
+        flag: "wx",
+        mode: 0o600,
+      });
+    }
   } else if (action === "queue" || action === "queue-check") {
     const spec = JSON.parse(readFileSync(arg, "utf8"));
     if (action === "queue-check")
@@ -58,7 +75,7 @@ try {
   else if (action === "explain") result = creditRange(packet, arg);
   else
     throw Error(
-      "Usa import CSV CONFIG EXPEDIENTE, audit EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV, queue EXPEDIENTE TURNO PLAN, queue-check EXPEDIENTE TURNO PLAN o explain EXPEDIENTE ID",
+      "Usa import CSV CONFIG EXPEDIENTE, audit EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV, queue EXPEDIENTE TURNO PLAN, queue-check EXPEDIENTE TURNO PLAN, extend ACTUAL ANTERIOR PRUEBA, extend-check ACTUAL ANTERIOR PRUEBA o explain EXPEDIENTE ID",
     );
   console.log(JSON.stringify(result, null, 2));
 } catch (error) {

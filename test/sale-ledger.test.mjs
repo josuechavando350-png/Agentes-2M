@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { exampleBook } from "../scripts/global/demo.mjs";
 import { party, pilotBook } from "../scripts/sale/pilot.mjs";
 import { hash } from "../src/factory/reader.mjs";
+import { verifiedWeek } from "../src/sale/portfolio.mjs";
 import { commercialReadiness } from "../src/sale/field.mjs";
 import { archivedExecution, engine } from "../src/global-archive.mjs";
 import { saleReplayInput, evaluateSale } from "../src/sale/replay.mjs";
@@ -113,7 +114,7 @@ test("Un verificador designado en el mandato debe acreditar las claves para regi
   await assert.rejects(() => e.desk.audit());
 });
 test("El reparto de un depósito conserva los saldos, permite un reembolso parcial y mantiene su referencia", async (t) => {
-  const e = await pilotBook(db(t));
+  const path = db(t), e = await pilotBook(path);
   t.after(() => e.close());
   e.client("uno");
   e.client("dos");
@@ -162,6 +163,8 @@ test("El reparto de un depósito conserva los saldos, permite un reembolso parci
   ];
   assert.throws(() => propose(parts.slice(1)), /conservar/);
   propose(parts);
+  const afterSplit = await verifiedWeek(path, "DEMONSTRATION");
+  assert.equal(afterSplit.receipts.length, 2);
   assert.throws(() => propose(parts), /asignado/);
   assert.equal(e.desk.sales("DEMONSTRATION").campaignNetCents, 58);
   assert.equal(e.desk.read().sales.accounts.get("cuenta").balance, 153);
