@@ -76,8 +76,8 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 58,
-      "documents": 48,
+      "spent": 62,
+      "documents": 53,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -553,12 +553,12 @@
           "subject": "mx-21904339beeb2287248f",
           "sector": 2,
           "revision": "a21a124d0bbcbba9bd016ff0b84901441da91ac1a6d6655dd527bf34a84338a1",
-          "phase": "DISCOVERY",
+          "phase": "VALIDATION",
           "policy": "indexed",
           "crew": [
-            1000720,
-            2000752,
-            3000784
+            31847994,
+            92012799,
+            93836855
           ],
           "proof": {
             "proposer": {
@@ -650,7 +650,7 @@
           "firstDecision": "SEEK_EVIDENCE",
           "commercialEvidence": [],
           "firstAt": 1795063681803,
-          "at": 1795063681803,
+          "at": 1795199765136,
           "chief": 1007968,
           "missing": [
             "units",
@@ -666,7 +666,7 @@
               "potentialCents": "0"
             },
             {
-              "subject": "mx-4ee43bc0520eedd7c828",
+              "subject": "mx-3ae52a864d8bcdfb41f1",
               "documentedFields": 3,
               "potentialCents": "0"
             }
@@ -1208,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "672aa3378ef9a0c06efca9dd8f28775b5f7fe01d24dbfec850fcb4325ae958e8"
+  "checkpoint": "18cf5b3f94e48003ebdc2f03664aa01d474e813431046161512e0c3f46b4c486"
 }
