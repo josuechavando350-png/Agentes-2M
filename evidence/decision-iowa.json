@@ -1,0 +1,344 @@
+{
+  "series": "recompra-iowa",
+  "unit": "30-day positive net purchasing from vendor through Iowa's wholesale channel",
+  "verdict": {
+    "policy": "a09d67e5e4574a778f9037c11dadb15eb55e29b8f71fdbfd66633911a073b014",
+    "niche": "iowa-wholesale",
+    "cohorts": [
+      {
+        "id": "ia-260-2018",
+        "merchant": "vendor-260",
+        "cutoff": "2018-04-01",
+        "observed": 185,
+        "cases": 200,
+        "incumbentHits": 39,
+        "hits": 39,
+        "seats": 40,
+        "precision95": [
+          0.8711863103652591,
+          0.9955731684973186
+        ],
+        "incumbentBrier": 0.0992623981997487,
+        "candidateBrier": 0.08313818266400838,
+        "seal": "e49d2e929412a189bc51bc9ee9d51573e9e7e1b968fb435c760217d56fe2c58a",
+        "margin": null,
+        "passes": true
+      },
+      {
+        "id": "ia-421-2018",
+        "merchant": "vendor-421",
+        "cutoff": "2018-04-01",
+        "observed": 182,
+        "cases": 200,
+        "incumbentHits": 40,
+        "hits": 40,
+        "seats": 40,
+        "precision95": [
+          0.9123783988027135,
+          1
+        ],
+        "incumbentBrier": 0.11704410174094056,
+        "candidateBrier": 0.11181188467382246,
+        "seal": "5a45f2cc4a5627d3d2db9cdc7c65d46771f42c04ce3fd6c12eff44a7d7c3c578",
+        "margin": null,
+        "passes": true
+      },
+      {
+        "id": "ia-260-2019",
+        "merchant": "vendor-260",
+        "cutoff": "2019-04-01",
+        "observed": 177,
+        "cases": 200,
+        "incumbentHits": 40,
+        "hits": 40,
+        "seats": 40,
+        "precision95": [
+          0.9123783988027135,
+          1
+        ],
+        "incumbentBrier": 0.12434202348141829,
+        "candidateBrier": 0.10584322896062855,
+        "seal": "f6c3040723bd6f417684d427a240f2016a0221a43edf4ee9caf07a6717714d13",
+        "margin": null,
+        "passes": true
+      },
+      {
+        "id": "ia-421-2019",
+        "merchant": "vendor-421",
+        "cutoff": "2019-04-01",
+        "observed": 179,
+        "cases": 200,
+        "incumbentHits": 40,
+        "hits": 40,
+        "seats": 40,
+        "precision95": [
+          0.9123783988027135,
+          1
+        ],
+        "incumbentBrier": 0.13981366611581492,
+        "candidateBrier": 0.132647541882582,
+        "seal": "6ce3be4b488b2575e847144d8252aba8783661b84fc6bdde9f388f3fe330b3da",
+        "margin": null,
+        "passes": true
+      }
+    ],
+    "hits": 159,
+    "seats": 160,
+    "precision": 0.99375,
+    "interval95": [
+      0.965451014037521,
+      0.9988958682306179
+    ],
+    "status": "READY_FOR_PROSPECTIVE_TRIAL"
+  },
+  "reports": [
+    {
+      "id": "ia-260-2018",
+      "selected": 40,
+      "deployedHits": 39,
+      "recencyHits": 39,
+      "buyersIn200": 185,
+      "omittedBuyers": 146,
+      "empiricalBase": 0.925,
+      "precision": 0.975,
+      "precision95": [
+        0.8711863103652591,
+        0.9955731684973186
+      ],
+      "margin": null,
+      "outcomeHash": "5dfc95c628b4dfb03a502c1d33b7fa1ec5df8a6e2698c383efc5067214684112",
+      "firstPriority": {
+        "id": "ia-0288d37fc4d2c10a80b5",
+        "rank": 1,
+        "action": "PRIORITIZE",
+        "deadline": "2018-04-01",
+        "probability": 0.995,
+        "incumbent": 0.995,
+        "challenger": 0.995,
+        "sectorProbability": 0.931,
+        "reason": {
+          "signal": "semanas activas",
+          "value": 13,
+          "logOddsContribution": 1.582271781641647,
+          "rescueApplied": false
+        },
+        "evidence": {
+          "source": "Iowa Alcoholic Beverages Division / gatewaycat data.parquet / SHA256 5c73d802109e24c5160d3920c8821e37d3b60132bfc287ae1b66bae95bb077aa",
+          "dossier": "26de0b1ae484fb4d488f4a3bafe74d1681ad31782d1375cdcc5941b816253016",
+          "references": 184,
+          "latest": {
+            "invoice": "111186000001",
+            "day": "2018-03-29",
+            "firstRow": 6515140
+          }
+        },
+        "nextEvidence": {
+          "question": "¿Una corrección documentada de semanas activas cambiaría la prioridad?",
+          "probe": null,
+          "rival": "ia-06554bfe0b7758411483",
+          "threshold": 0.9684771737094517,
+          "direction": "BELOW",
+          "ties": "id ascendente"
+        },
+        "calibration": {
+          "from": 0.9,
+          "to": 1,
+          "cases": 0,
+          "bought": 0,
+          "observedRate": null,
+          "interval95": null,
+          "scope": "EXTERNAL_REFERENCE",
+          "basis": [
+            "5d12ff7b4842616db86f8a08f0587931432526ab9d53869776f65d39a3944021"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ia-421-2018",
+      "selected": 40,
+      "deployedHits": 40,
+      "recencyHits": 39,
+      "buyersIn200": 182,
+      "omittedBuyers": 142,
+      "empiricalBase": 0.91,
+      "precision": 1,
+      "precision95": [
+        0.9123783988027135,
+        1
+      ],
+      "margin": null,
+      "outcomeHash": "67803f007b39bafe45901a727af77aa1160262dccb32e80b4d4d3fecf9403f56",
+      "firstPriority": {
+        "id": "ia-2a5f4b09d9392e94aeb8",
+        "rank": 1,
+        "action": "PRIORITIZE",
+        "deadline": "2018-04-01",
+        "probability": 0.995,
+        "incumbent": 0.995,
+        "challenger": 0.995,
+        "sectorProbability": 0.909,
+        "reason": {
+          "signal": "concentración del mayor pedido",
+          "value": 68,
+          "logOddsContribution": 1.8415561281238892,
+          "rescueApplied": false
+        },
+        "evidence": {
+          "source": "Iowa Alcoholic Beverages Division / gatewaycat data.parquet / SHA256 5c73d802109e24c5160d3920c8821e37d3b60132bfc287ae1b66bae95bb077aa",
+          "dossier": "74347bf5277c1e6a8a5375de4fb0fc632697a4909cef726c7912e533dfc78c33",
+          "references": 97,
+          "latest": {
+            "invoice": "111206800006",
+            "day": "2018-03-30",
+            "firstRow": 6527753
+          }
+        },
+        "nextEvidence": {
+          "question": "¿Una corrección documentada de concentración del mayor pedido cambiaría la prioridad?",
+          "probe": null,
+          "rival": "ia-34bc5676bb549f032a62",
+          "threshold": 0.9399623895983122,
+          "direction": "BELOW",
+          "ties": "id ascendente"
+        },
+        "calibration": {
+          "from": 0.9,
+          "to": 1,
+          "cases": 0,
+          "bought": 0,
+          "observedRate": null,
+          "interval95": null,
+          "scope": "EXTERNAL_REFERENCE",
+          "basis": [
+            "5d12ff7b4842616db86f8a08f0587931432526ab9d53869776f65d39a3944021"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ia-260-2019",
+      "selected": 40,
+      "deployedHits": 40,
+      "recencyHits": 39,
+      "buyersIn200": 177,
+      "omittedBuyers": 137,
+      "empiricalBase": 0.885,
+      "precision": 1,
+      "precision95": [
+        0.9123783988027135,
+        1
+      ],
+      "margin": null,
+      "outcomeHash": "7da71a790d21ce94ec5e84aaf0bcf9cc858ba0b008453613f345f3e73902320c",
+      "firstPriority": {
+        "id": "ia-37292172dfab9843f27d",
+        "rank": 1,
+        "action": "PRIORITIZE",
+        "deadline": "2019-04-01",
+        "probability": 0.995,
+        "incumbent": 0.995,
+        "challenger": 0.995,
+        "sectorProbability": 0.95,
+        "reason": {
+          "signal": "semanas activas",
+          "value": 13,
+          "logOddsContribution": 1.582271781641647,
+          "rescueApplied": false
+        },
+        "evidence": {
+          "source": "Iowa Alcoholic Beverages Division / gatewaycat data.parquet / SHA256 5c73d802109e24c5160d3920c8821e37d3b60132bfc287ae1b66bae95bb077aa",
+          "dossier": "35bd5db66b060a683ed71287c52c59a103c26c4fb7ab4976135852af3662b420",
+          "references": 154,
+          "latest": {
+            "invoice": "118310200008",
+            "day": "2019-03-25",
+            "firstRow": 15578758
+          }
+        },
+        "nextEvidence": {
+          "question": "¿Una corrección documentada de semanas activas cambiaría la prioridad?",
+          "probe": null,
+          "rival": "ia-4ed2429cb4e6ddbd1989",
+          "threshold": 0.9490823932139986,
+          "direction": "BELOW",
+          "ties": "id ascendente"
+        },
+        "calibration": {
+          "from": 0.9,
+          "to": 1,
+          "cases": 0,
+          "bought": 0,
+          "observedRate": null,
+          "interval95": null,
+          "scope": "EXTERNAL_REFERENCE",
+          "basis": [
+            "5d12ff7b4842616db86f8a08f0587931432526ab9d53869776f65d39a3944021"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ia-421-2019",
+      "selected": 40,
+      "deployedHits": 40,
+      "recencyHits": 37,
+      "buyersIn200": 179,
+      "omittedBuyers": 139,
+      "empiricalBase": 0.895,
+      "precision": 1,
+      "precision95": [
+        0.9123783988027135,
+        1
+      ],
+      "margin": null,
+      "outcomeHash": "739c65175add953f6c4e3cfb85497bacc4e69e9473027f398d1f195a218babd5",
+      "firstPriority": {
+        "id": "ia-6a6ba3a7b82ea19cb893",
+        "rank": 1,
+        "action": "PRIORITIZE",
+        "deadline": "2019-04-01",
+        "probability": 0.9917274303950895,
+        "incumbent": 0.9917274303950895,
+        "challenger": 0.9917274303950895,
+        "sectorProbability": 0.945,
+        "reason": {
+          "signal": "semanas activas",
+          "value": 13,
+          "logOddsContribution": 1.582271781641647,
+          "rescueApplied": false
+        },
+        "evidence": {
+          "source": "Iowa Alcoholic Beverages Division / gatewaycat data.parquet / SHA256 5c73d802109e24c5160d3920c8821e37d3b60132bfc287ae1b66bae95bb077aa",
+          "dossier": "103c5559eb98e328fdb0e9d13b98585dfbb1a2fc9d4ece2758f431bd789ce5e1",
+          "references": 117,
+          "latest": {
+            "invoice": "118358500004",
+            "day": "2019-03-26",
+            "firstRow": 15431534
+          }
+        },
+        "nextEvidence": {
+          "question": "¿Una corrección documentada de semanas activas cambiaría la prioridad?",
+          "probe": null,
+          "rival": "ia-82d833595e3f2bf7a6a9",
+          "threshold": 0.9342315348481274,
+          "direction": "BELOW",
+          "ties": "id ascendente"
+        },
+        "calibration": {
+          "from": 0.9,
+          "to": 1,
+          "cases": 0,
+          "bought": 0,
+          "observedRate": null,
+          "interval95": null,
+          "scope": "EXTERNAL_REFERENCE",
+          "basis": [
+            "5d12ff7b4842616db86f8a08f0587931432526ab9d53869776f65d39a3944021"
+          ]
+        }
+      }
+    }
+  ]
+}

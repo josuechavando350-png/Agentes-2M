@@ -1,3 +1,4 @@
+import { commercialList } from "./commercial-decision.mjs";
 import { DecisionBook } from "./decision-book.mjs";
 import {
   populationResearch,
@@ -140,6 +141,7 @@ try {
     case "aware":
       show(store.awareness(Number(args[0])));
       break;
+    case "decision-run":
     case "decision-register":
     case "decision-plan":
     case "decision-answer":
@@ -152,7 +154,37 @@ try {
       });
       const file = (p) => JSON.parse(readFileSync(p, "utf8"));
       try {
-        if (action === "decision-register") show(book.register(file(args[0])));
+        if (action === "decision-run") {
+          const input = file(args[0]),
+            b = input.brief,
+            series = "serie-" + digest(b.id).slice(0, 40);
+          book.register({
+            id: series,
+            mode: b.mode,
+            selection:
+              "Todas las cuentas distintas entregadas en el expediente",
+            cohorts: [
+              {
+                id: b.id,
+                cutoff: b.cutoff,
+                accounts: input.packet.queries.length,
+                briefHash: digest(b),
+              },
+            ],
+          });
+          book.start(store.layout(), series, input);
+          const current = book.latest(b.id);
+          const plan = current.data.plan ?? book.sealed(b.id).plan;
+          show({
+            stage: current.kind,
+            revision: current.hash,
+            ...commercialList(plan),
+            ...(current.kind === "GRADED"
+              ? { evaluation: current.data.result }
+              : {}),
+          });
+        } else if (action === "decision-register")
+          show(book.register(file(args[0])));
         else if (action === "decision-plan") {
           const e = book.start(
             store.layout(),
@@ -160,11 +192,11 @@ try {
             file(args[1]),
             args[2] ?? null,
           );
-          show({ revision: e.hash, ...e.data.plan });
+          show({ revision: e.hash, ...commercialList(e.data.plan) });
         } else if (action === "decision-answer") {
           const { answer, signature } = file(args[1]);
           const e = book.answer(store.layout(), args[0], answer, signature);
-          show({ revision: e.hash, ...e.data.plan });
+          show({ revision: e.hash, ...commercialList(e.data.plan) });
         } else if (action === "decision-seal")
           show(book.seal(args[0], args[1]));
         else if (action === "decision-close") {
@@ -176,11 +208,13 @@ try {
         } else if (action === "decision-verdict") show(book.verdict(args[0]));
         else {
           const e = book.latest(args[0]);
-          show(
-            e.data.plan
-              ? { revision: e.hash, ...e.data.plan }
-              : book.sealed(args[0]),
-          );
+          const plan = e.data.plan ?? book.sealed(args[0]).plan;
+          show({
+            stage: e.kind,
+            revision: e.hash,
+            ...commercialList(plan),
+            ...(e.kind === "GRADED" ? { evaluation: e.data.result } : {}),
+          });
         }
       } finally {
         book.close();

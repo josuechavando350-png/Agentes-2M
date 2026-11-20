@@ -1,0 +1,100 @@
+name: Examen comercial de Diablo
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/decisiones.yml'
+      - 'scripts/decisions/**'
+      - 'src/decision-model.mjs'
+      - 'src/decision-book.mjs'
+      - 'src/commercial-decision.mjs'
+      - 'evidence/decision-*.json'
+permissions: {contents: read}
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          npm ci && npm run setup
+          python -m pip install openpyxl==3.1.5 duckdb==1.4.3
+          curl -fsSL --retry 3 --max-time 120 'https://archive.ics.uci.edu/static/public/352/online+retail.zip' -o /tmp/uci.zip
+          python scripts/business/prepare.py /tmp/uci.zip dev --population
+          node scripts/population/exam.mjs packet dev
+          curl -fsSL --retry 3 --max-time 300 'https://media.githubusercontent.com/media/gatewaycat/iowa-liquor-sales2/1ee2a06e0d9d0f470607f89417acaaec6bd43607/data.parquet?full=1' -o /tmp/iowa.parquet
+          python scripts/decisions/iowa.py /tmp/iowa.parquet datos
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aprendizaje-uci
+          path: |
+            dev/packet.json
+            dev/population-outcomes.json
+            dev/reserve-*.json
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with: {name: cuentas-iowa, path: 'datos/*-cases.json', retention-days: 5}
+      - uses: actions/upload-artifact@v4
+        with: {name: desenlaces-iowa, path: 'datos/*-outcomes.json', retention-days: 5}
+  congelar:
+    needs: preparar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: estado, ref: 23df7aa50d30be6f75d5d3b9c778738e995ad1cb, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: previa, ref: c486447d9d6079c97c34f33ebd5a10192d0bbfa2, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: titular, ref: 4afdef2a7cafecd5a570f13d80df2082fc4571d3, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: aprendizaje-uci, path: dev}
+      - uses: actions/download-artifact@v4
+        with: {name: cuentas-iowa, path: datos}
+      - run: |
+          rm -f evidence/decision-iowa.json
+          npm ci && npm run setup
+          node scripts/decisions/learn.mjs dev previa titular estado/escuela /tmp/model.json
+          cmp /tmp/model.json evidence/decision-model.json
+          node scripts/decisions/exam.mjs freeze datos dev estado/escuela
+          cmp datos/commitments.json evidence/decision-commitments.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: registro-sellado
+          path: |
+            datos/decisions.sqlite
+            datos/commitments.json
+            datos/example-input.json
+          retention-days: 30
+  calificar:
+    needs: congelar
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: preregistro, ref: 00a17afeade2826677286506b07f163bdb3e5e8e, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/download-artifact@v4
+        with: {name: registro-sellado, path: datos}
+      - uses: actions/download-artifact@v4
+        with: {name: desenlaces-iowa, path: datos}
+      - run: |
+          npm ci && npm run setup
+          cmp datos/commitments.json preregistro/evidence/decision-commitments.json
+          node scripts/decisions/exam.mjs grade datos
+          cmp datos/result.json evidence/decision-iowa.json
+      - uses: actions/upload-artifact@v4
+        with: {name: examen-calificado, path: datos/result.json, retention-days: 30}

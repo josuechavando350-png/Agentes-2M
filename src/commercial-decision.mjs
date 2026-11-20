@@ -146,6 +146,7 @@ export function buildDecision(
   method = "incumbent",
   answers = [],
   local = null,
+  previous = null,
 ) {
   const b = checkInput(input),
     all = potentialInquiries(input),
@@ -164,9 +165,44 @@ export function buildDecision(
   const rows = input.packet.queries.map((r) => replaced.get(r.id) ?? r),
     byId = new Map(rows.map((r) => [r.id, r])),
     packet = { ...input.packet, queries: rows };
-  const pop = populationResearch(layout, packet),
-    votes = pop.result.decisions.thousand,
-    ranking = rank(rows, votes, b.seats, method),
+  // Each query votes independently against the identical historical packet.
+  // A clarification can only change one query's vote. The rankings are global.
+  let votes, participants, participation, additionalComparisons;
+  if (previous) {
+    if (
+      previous.source !== digest(input) ||
+      previous.checkpoint !== layout.checkpoint ||
+      !answers.length ||
+      digest(previous.answers) !== digest(answers.slice(0, -1))
+    )
+      throw Error("Revisión de otro lote");
+    votes = previous.decisions.map((r) => ({
+      id: r.id,
+      probability: r.sectorProbability,
+    }));
+    participants = previous.participants;
+    participation = previous.participation;
+    additionalComparisons = 0;
+    const answer = answers.at(-1);
+    if (answer.branch === "ALTERNATIVE") {
+      const p = all.find((v) => v.id === answer.probe),
+        updated = populationResearch(layout, {
+          ...packet,
+          queries: [p.alternative],
+        });
+      votes = votes.map((v) =>
+        v.id === p.account ? updated.result.decisions.thousand[0] : v,
+      );
+      additionalComparisons = updated.result.participants;
+      participation = digest([participation, p.account, updated.commitment]);
+    }
+  } else {
+    const pop = populationResearch(layout, packet);
+    votes = pop.result.decisions.thousand;
+    participants = pop.result.participants;
+    participation = pop.commitment;
+  }
+  const ranking = rank(rows, votes, b.seats, method),
     chosen = new Set(ranking.slice(0, b.seats).map((r) => r.id));
   const budget = {
     contactMinutes: b.seats * b.minutesPerAccount,
@@ -179,13 +215,16 @@ export function buildDecision(
   const queue = [];
   for (const p of all) {
     if (closed.has(p.account)) continue;
-    const altVotes = populationResearch(layout, {
-      ...packet,
-      queries: [p.alternative],
-    }).result.decisions.thousand[0];
+    const altVotes =
+      method === "incumbent"
+        ? null
+        : populationResearch(layout, {
+            ...packet,
+            queries: [p.alternative],
+          }).result.decisions.thousand[0];
     const alt = rank(
       rows.map((r) => (r.id === p.account ? p.alternative : r)),
-      votes.map((v) => (v.id === p.account ? altVotes : v)),
+      altVotes ? votes.map((v) => (v.id === p.account ? altVotes : v)) : votes,
       b.seats,
       method,
     );
@@ -291,8 +330,9 @@ export function buildDecision(
     method,
     source: digest(input),
     checkpoint: layout.checkpoint,
-    participants: pop.result.participants,
-    participation: pop.commitment,
+    participants,
+    participation,
+    ...(previous ? { additionalComparisons } : {}),
     closeFrom: dateAt(utc(b.cutoff) + 30 * DAY),
     budget: { ...budget, unreservedMinutes: time, unreservedCents: cash },
     answers,
@@ -427,8 +467,11 @@ export function verdict(results) {
       [...companies].every(
         (m) => cohorts.filter((c) => c.merchant === m).length >= 2,
       );
-  const limits = interval(hits, seats),
-    passed = enough && limits[0] >= 0.9 && cohorts.every((c) => c.passes);
+  const limits = interval(hits, seats);
+  const improved = cohorts.some(
+    (c) => c.hits > c.incumbentHits || c.candidateBrier < c.incumbentBrier,
+  );
+  const passed = enough && improved && limits[0] >= 0.9 && cohorts.every((c) => c.passes);
   return {
     policy: policyId,
     niche: first.brief.niche,
@@ -443,4 +486,21 @@ export function verdict(results) {
         : "READY_FOR_PROSPECTIVE_TRIAL"
       : "KEEP_INCUMBENT",
   };
+}
+
+export function commercialList(plan) {
+  const data = plan.decisions.map((r) => {
+    const probe = plan.queue.find((q) => q.id === r.nextEvidence.probe);
+    const instruction = probe
+      ? probe.question
+      : r.action === "PRIORITIZE"
+        ? "Preparar una revisión de reposición a partir de la compra documentada en " +
+          r.evidence.latest.invoice +
+          ". Confirmar la necesidad con el comprador autorizado."
+        : "Conservar en reserva y reconsiderar si una nueva fuente cambia el orden frente a " +
+          r.nextEvidence.rival +
+          ".";
+    return { ...r, instruction };
+  });
+  return { ...plan, decisions: data };
 }

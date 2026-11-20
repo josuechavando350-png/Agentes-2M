@@ -60,6 +60,10 @@ try {
           briefHash: digest(brief),
         })),
       });
+      writeFileSync(
+        join(dir, "example-input.json"),
+        JSON.stringify(inputs[0]) + "\n",
+      );
       const seals = {};
       for (const input of inputs) {
         const id = input.brief.id,

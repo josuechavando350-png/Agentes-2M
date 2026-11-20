@@ -66,7 +66,7 @@ export class DecisionBook {
         this.db.exec("COMMIT");
         return old;
       }
-      const at = this.clock();
+      const at = Math.max(this.clock(), rows.at(-1)?.at ?? 0);
       if (
         at > deadline ||
         rows.length !== rev ||
@@ -202,6 +202,7 @@ export class DecisionBook {
         plan,
         series,
         release,
+        layout,
         local,
         authority: b.mode === "PROSPECTIVE" ? this.authority : null,
       },
@@ -245,15 +246,16 @@ export class DecisionBook {
       !["ORIGINAL", "ALTERNATIVE", "UNRESOLVED"].includes(a.branch) ||
       utc(a.observedAt) > Math.min(utc(b.cutoff), this.clock()) ||
       plan.answers.some((x) => x.reference === a.reference) ||
-      layout.checkpoint !== plan.checkpoint
+      (events[0].data.layout ?? layout).checkpoint !== plan.checkpoint
     )
       throw Error("Aclaración inválida");
     const next = buildDecision(
-      layout,
+      events[0].data.layout ?? layout,
       events[0].data.input,
       plan.method,
       [...plan.answers, a],
       events[0].data.local,
+      plan,
     );
     return this.append(
       id,
@@ -322,6 +324,7 @@ export class DecisionBook {
     }
     return this.append(id, old.rev + 1, old.hash, "GRADED", {
       result,
+      actual,
       signature,
     });
   }
