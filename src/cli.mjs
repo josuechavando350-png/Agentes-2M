@@ -41,6 +41,7 @@ const store = new Semar(
 const show = (x) => console.log(JSON.stringify(x, null, 2));
 try {
   switch (action) {
+    case "factory-export":
     case "global-command":
     case "global-run":
     case "global-audit":
@@ -57,7 +58,15 @@ try {
         store,
       );
       try {
-        if (action === "global-status") show(desk.view());
+        if (action === "factory-export") {
+          if (!args[0] || !args[1])
+            throw Error(
+              "Indica la misión de fábrica y el directorio nuevo de entrega",
+            );
+          const { exportProduct } = await import("./factory/export.mjs");
+          await desk.audit();
+          show(exportProduct(desk.read().jobs.get(args[0]), args[1]));
+        } else if (action === "global-status") show(desk.view());
         else if (action === "global-audit") show(await desk.audit());
         else if (action === "global-aware") {
           const view = desk.view(),
@@ -119,9 +128,13 @@ try {
           const envelope = JSON.parse(readFileSync(args[0] ?? 0, "utf8"));
           if (
             action === "global-run" &&
-            !["reserve", "reserve-brief", "reserve-method", "refresh"].includes(
-              envelope.record?.kind,
-            )
+            ![
+              "reserve",
+              "reserve-brief",
+              "reserve-method",
+              "refresh",
+              "factory-reserve",
+            ].includes(envelope.record?.kind)
           )
             throw Error("Se requiere una reserva firmada");
           const event = desk.command(envelope);

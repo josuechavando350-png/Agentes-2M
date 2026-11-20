@@ -1,0 +1,117 @@
+{
+  "source": "Iowa Alcoholic Beverages Division, Iowa Liquor Sales, CC BY 4.0. gatewaycat/iowa-liquor-sales2, 1ee2a06e0d9d0f470607f89417acaaec6bd43607",
+  "training": 20,
+  "strict": "OUTSIDE_LANGUAGE",
+  "model": "EXPLORATORY",
+  "trainingErrors": 2,
+  "formula": {
+    "op": "mul",
+    "a": {
+      "field": "precio"
+    },
+    "b": {
+      "field": "unidades"
+    }
+  },
+  "sealed": "f0b708ae0293127debbd125533e0e2cbf2e81734ae5c974e4319532aad069051",
+  "periods": [
+    {
+      "year": 2019,
+      "cases": 120,
+      "correct": 114,
+      "knownRuleCorrect": 114,
+      "errors": [
+        {
+          "invoice": "118654500001",
+          "expected": 5850,
+          "predicted": 5556
+        },
+        {
+          "invoice": "118547200131",
+          "expected": 3888,
+          "predicted": 4032
+        },
+        {
+          "invoice": "118808700061",
+          "expected": 20250,
+          "predicted": 20478
+        },
+        {
+          "invoice": "118900400064",
+          "expected": 21660,
+          "predicted": 17892
+        },
+        {
+          "invoice": "118871200018",
+          "expected": 8316,
+          "predicted": 7722
+        },
+        {
+          "invoice": "118881700002",
+          "expected": 42264,
+          "predicted": 44064
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "cases": 120,
+      "correct": 110,
+      "knownRuleCorrect": 110,
+      "errors": [
+        {
+          "invoice": "126489200161",
+          "expected": 6750,
+          "predicted": 7200
+        },
+        {
+          "invoice": "126589600012",
+          "expected": 7200,
+          "predicted": 8226
+        },
+        {
+          "invoice": "126775700001",
+          "expected": 28800,
+          "predicted": 29700
+        },
+        {
+          "invoice": "126588400066",
+          "expected": 2126,
+          "predicted": 1878
+        },
+        {
+          "invoice": "126291300007",
+          "expected": 5850,
+          "predicted": 5400
+        },
+        {
+          "invoice": "126546700048",
+          "expected": 1125,
+          "predicted": 1050
+        },
+        {
+          "invoice": "126613000061",
+          "expected": 1950,
+          "predicted": 1800
+        },
+        {
+          "invoice": "126454300008",
+          "expected": 10062,
+          "predicted": 9000
+        },
+        {
+          "invoice": "126632700008",
+          "expected": 5760,
+          "predicted": 5940
+        },
+        {
+          "invoice": "126898300149",
+          "expected": 1683,
+          "predicted": 1779
+        }
+      ]
+    }
+  ],
+  "property": "agreement with recorded line amounts",
+  "receiptsCollected": null
+}

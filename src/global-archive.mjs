@@ -13,6 +13,17 @@ import { execFileSync } from "node:child_process";
 import { digest } from "./policy.mjs";
 
 const paths = [
+  ...[
+    "reader",
+    "rules",
+    "proof",
+    "expert",
+    "workflow",
+    "discover",
+    "challenge",
+    "mission",
+    "synth",
+  ].map((n) => "src/factory/" + n + ".mjs"),
   "src/global-planner.mjs",
   "src/global-desk.mjs",
   "src/global-analysis.mjs",
@@ -45,7 +56,7 @@ export function saveRuntime(db) {
     compressed,
   );
 }
-export function archivedExecution(db, job) {
+export function archivedExecution(db, job, input = job.snapshot) {
   const key = job.snapshot.engine;
   const row = db
     .prepare("SELECT archive FROM global_runtime WHERE id=?")
@@ -75,7 +86,7 @@ export function archivedExecution(db, job) {
       {
         cwd: root,
         env: {},
-        input: JSON.stringify(job.snapshot),
+        input: JSON.stringify(input),
         encoding: "utf8",
         timeout: 30000,
         maxBuffer: 16_000_000,

@@ -15,7 +15,8 @@
     "demo": "node src/cli.mjs demo",
     "semar": "node src/cli.mjs",
     "global:demo": "node src/cli.mjs global-demo",
-    "global:exam": "node scripts/global/exam.mjs"
+    "global:exam": "node scripts/global/exam.mjs",
+    "factory:exam": "node scripts/factory/exam.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12"

@@ -2,6 +2,10 @@
 
 Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón base contiene 100,000,000 de fundadores lógicos, diez millones por líder. Las réplicas certificadas se cuentan aparte. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
 
+## Fábrica local de herramientas
+
+SEMAR puede aprender una regla a partir de expedientes de ejemplo, generar una herramienta, probarla en otros sectores y exportar un producto ejecutable con Node 24 y SQLite. El resultado incluye citas, las preguntas que requieren más evidencia y una comparación frente a métodos conocidos. El examen público reproduce importes históricos de Iowa y publica las discrepancias. Para construir una entrega completa después de preparar el repositorio, ejecuta `npm run factory:exam -- entrega`. [Operación, alcance y resultados](docs/fabrica-local.md)
+
 ## Consultas repartidas entre sectores
 
 `team_inquiry` permite que 1, 10 o 100 identidades vivas revisen los documentos admitidos de una misión. El motor C++17 asigna a cada agente un tramo exclusivo de filas, con hasta cuatro hilos de ejecución por solicitud. El titular de Diablo 666 ocupa el primer puesto. Los equipos de 10 y 100 distribuyen los demás puestos hasta tener el mismo número de participantes por sector. El recibo conserva el ID, la generación, la versión, el sector y el intervalo de cada participante. El Oráculo comprueba la cobertura y vuelve a calcular la conclusión y sus citas. El saldo y el dictamen se confirman juntos en SQLite.

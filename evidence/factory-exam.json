@@ -1,0 +1,154 @@
+{
+  "dataset": "generated controlled cases; no real customers, savings or receipts",
+  "seed": "80c2bc5a094dc0f012aff5591055556f",
+  "version": "60888802227534b0effb98493321f4ff0c4859402e81aba77a41832c0f39863f",
+  "search": {
+    "ledgerPrograms": 247,
+    "selected": {
+      "group": "accounts",
+      "weights": [
+        1,
+        -1,
+        -1
+      ],
+      "rateIndex": 0,
+      "bps": 500
+    },
+    "formulaAttempts": 432,
+    "formula": {
+      "op": "positive",
+      "a": {
+        "op": "sub",
+        "a": {
+          "op": "mul",
+          "a": {
+            "field": "demanda"
+          },
+          "b": {
+            "field": "dias"
+          }
+        },
+        "b": {
+          "field": "stock"
+        }
+      }
+    },
+    "adversarialCases": 395,
+    "controls": 19
+  },
+  "exam": {
+    "correct": 36,
+    "total": 36,
+    "opportunities": 12,
+    "missing": 18,
+    "bestControl": 24,
+    "falseClaims": 0,
+    "missed": 0,
+    "sectors": [
+      {
+        "sector": "construccion",
+        "period": "periodo-1",
+        "cases": 12,
+        "hits": 12,
+        "coverage": [
+          "CLEAR",
+          "FOUND",
+          "NEED_EVIDENCE"
+        ]
+      },
+      {
+        "sector": "logistica",
+        "period": "periodo-2",
+        "cases": 12,
+        "hits": 12,
+        "coverage": [
+          "CLEAR",
+          "FOUND",
+          "NEED_EVIDENCE"
+        ]
+      },
+      {
+        "sector": "servicios",
+        "period": "periodo-3",
+        "cases": 12,
+        "hits": 12,
+        "coverage": [
+          "CLEAR",
+          "FOUND",
+          "NEED_EVIDENCE"
+        ]
+      }
+    ],
+    "tools": {
+      "reposicion": {
+        "correct": 24,
+        "total": 24,
+        "sectors": [
+          {
+            "sector": "construccion",
+            "correct": 8,
+            "total": 8
+          },
+          {
+            "sector": "logistica",
+            "correct": 8,
+            "total": 8
+          },
+          {
+            "sector": "servicios",
+            "correct": 8,
+            "total": 8
+          }
+        ],
+        "controlHits": [
+          12,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "seal": "f6578b33904addd44f1fbee119b4a2c0228987ea5f7338af74dc7d92cfbe80df"
+  },
+  "workflow": {
+    "stages": [
+      "conciliar"
+    ],
+    "baselineMinutes": 530,
+    "optimalMinutes": 220,
+    "gap": 0
+  },
+  "native": {
+    "cases": 604,
+    "selected": "reference",
+    "nativeMs": 5.084349999999972,
+    "referenceMs": 0.6346709999999689,
+    "benchmark": "complete local batch call including IPC"
+  },
+  "product": {
+    "single": "FOUND",
+    "sourceReferences": 9,
+    "batch": 36,
+    "replenishment": 78,
+    "historyRecords": 1
+  },
+  "nexus": {
+    "grounding": "SUPPORTED",
+    "roles": [
+      {
+        "role": "PLANNER",
+        "verdict": "ACCEPT"
+      },
+      {
+        "role": "CRITIC",
+        "verdict": "ACCEPT"
+      },
+      {
+        "role": "VERIFIER",
+        "verdict": "ACCEPT"
+      }
+    ]
+  },
+  "replay": true,
+  "audit": "VERIFIED"
+}

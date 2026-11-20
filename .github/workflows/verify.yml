@@ -20,3 +20,18 @@ jobs:
         run: node scripts/global/exam.mjs > examen-global.json
       - uses: actions/upload-artifact@v4
         with: {name: examen-global, path: examen-global.json, retention-days: 30}
+
+      - name: Construir y ejecutar el producto local con Internet bloqueado
+        run: python3 scripts/factory/offline.py node scripts/factory/exam.mjs entrega-fabrica > examen-fabrica.json
+      - name: Reproducir el examen histórico de Iowa
+        run: |
+          node scripts/factory/public.mjs freeze "$RUNNER_TEMP/iowa.json"
+          node scripts/factory/public.mjs grade "$RUNNER_TEMP/iowa.json" > "$RUNNER_TEMP/dictamen.json"
+          diff evidence/factory-iowa-result.json "$RUNNER_TEMP/dictamen.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fabrica-semar
+          path: |
+            entrega-fabrica/
+            examen-fabrica.json
+          retention-days: 30

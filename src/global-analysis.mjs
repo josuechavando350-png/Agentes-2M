@@ -363,22 +363,27 @@ export async function executeMission(snapshot) {
       criterion: plan.criterion,
     };
   }
+  return {
+    decision: out,
+    ...(await reviewDecision(snapshot, out.action, {
+      sources: out.sourcesStamp,
+      action: out.action,
+      threshold: out.threshold,
+    })),
+  };
+}
+export async function reviewDecision(snapshot, action, evidence) {
   const n = await deliberate({
     sector: snapshot.worker.sector,
     key: "global-" + digest(snapshot).slice(0, 32),
     op: snapshot.goal.op,
-    data: {
-      sources: out.sourcesStamp,
-      action: out.action,
-      threshold: out.threshold,
-    },
-    value: out.action,
+    data: evidence,
+    value: action,
     peer: snapshot.peer,
     states: snapshot.states,
     now: snapshot.at,
   });
   return {
-    decision: out,
     nexus: {
       grounding: n.grounding,
       roles: n.verdicts,

@@ -1,3 +1,11 @@
+import {
+  validateProject,
+  predictExam,
+  scoreExam,
+  examIdentities,
+} from "./factory/discover.mjs";
+import { runtimeStamp } from "./factory/export.mjs";
+import { factoryExecution, factoryGoal } from "./factory/mission.mjs";
 import { DatabaseSync } from "node:sqlite";
 import { engine, saveRuntime, archivedExecution } from "./global-archive.mjs";
 export { engine };
@@ -37,6 +45,8 @@ const empty = () => ({
   methods: new Map(),
   receipts: new Set(),
   feedback: new Map(),
+  factoryExams: new Set(),
+  factoryIdentities: new Set(),
   spent: 0,
   held: 0,
   tip: "",
@@ -106,6 +116,18 @@ function apply(s, e) {
       s.receipts.add(d.reference);
       j.settlement = d;
     }
+  } else if (kind === "factory-predict") {
+    const j = byKey(s, d.job);
+    j.predictions = d.frozen;
+    j.adapters = d.adapters;
+    for (const b of d.frozen.batches) {
+      s.factoryExams.add(b.inputHash);
+      for (const key of examIdentities(b)) s.factoryIdentities.add(key);
+    }
+  } else if (kind === "factory-score") {
+    const job = byKey(s, d.job);
+    job.grade = d.grade;
+    if (d.grade.status === "QUALIFIED_IN_SCOPE") job.qualifiedAt = e.seq;
   } else if (kind === "feedback") s.feedback.set(d.job, d);
   else throw Error("Evento global desconocido");
   s.tip = digest(e);
@@ -158,6 +180,7 @@ function ranking(s, g, at, store, cap, method, replica) {
         return [];
       const past = previous.filter(
         ([j, f]) =>
+          !j.snapshot.factory &&
           j.snapshot.team.some((m) => actorKey(m) === actorKey(w)) &&
           skillKey(j.snapshot.goal) === skillKey(g) &&
           f.until > at,
@@ -259,6 +282,7 @@ function methodFailures(s, proposal) {
     const j = byKey(s, feedback.job),
       g = j.snapshot.goal;
     if (
+      j.snapshot.factory ||
       g.scope !== proposal.scope ||
       g.op !== proposal.candidate.op ||
       digest(g.operands.map((o) => o.field)) !==
@@ -334,6 +358,24 @@ function commercialEvidence(store, scope) {
       : null,
   };
 }
+function factoryIncumbent(s, project) {
+  // Score events are serialized. The most recently authorized release is the comparison target.
+  const j = [...s.jobs.values()]
+    .filter(
+      (j) =>
+        j.snapshot.factory?.id === project.id &&
+        j.grade?.status === "QUALIFIED_IN_SCOPE",
+    )
+    .sort((a, b) => b.qualifiedAt - a.qualifiedAt)[0];
+  if (!j) return null;
+  const f = j.output.factory;
+  if (
+    f.program.unit !== project.unit ||
+    digest(f.program.kinds) !== digest(project.kinds)
+  )
+    throw Error("El titular usa otro esquema de unidades o movimientos");
+  return { job: j.id, programHash: f.programHash, rule: f.program.rule };
+}
 function context(s, job, at, store) {
   const { goal: g, cap } = job;
   validateGoal(g);
@@ -376,6 +418,7 @@ function context(s, job, at, store) {
     .find(
       (j) =>
         j.output &&
+        !j.snapshot.factory &&
         j.snapshot.worker.sector === worker.sector &&
         j.snapshot.goal.scope === g.scope &&
         j.snapshot.goal.op === g.op &&
@@ -515,6 +558,7 @@ export class GlobalDesk {
           field = commercialEvidence(this.store, goal.scope);
         const found = [...s.jobs.values()].find(
           (j) =>
+            !j.snapshot.factory &&
             j.status !== "CANCELLED" &&
             (j.method ?? null) === method &&
             (replica === null || j.snapshot.worker.id === replica) &&
@@ -562,6 +606,8 @@ export class GlobalDesk {
         return event(d);
       }
       if (r.kind === "feedback") {
+        if (byKey(s, d.job).snapshot.factory)
+          throw Error("Usa el examen reservado de la fábrica");
         strict(d, ["job", "resultHash", "action", "reference", "until"]);
         const j = byKey(s, d.job);
         if (
@@ -576,6 +622,100 @@ export class GlobalDesk {
         return event(d);
       }
       active(s, at);
+      if (r.kind === "factory-reserve") {
+        strict(d, ["project", "cap"]);
+        if (JSON.stringify(d.project).length > 4_000_000)
+          throw Error("Proyecto demasiado grande");
+        validateProject(d.project);
+        if (d.project.exams.some((g) => s.factoryExams.has(g.inputHash)))
+          throw Error("Examen retirado");
+        const goal = factoryGoal(d.project),
+          snap = context(s, { goal, cap: d.cap }, at, this.store);
+        const previous = factoryIncumbent(s, d.project);
+        if (previous) {
+          if (
+            d.project.precedents.length >= 32 ||
+            d.project.precedents.some(
+              (p) => p.name === "titular-" + previous.programHash.slice(0, 20),
+            )
+          )
+            throw Error("Reserva espacio para el control del titular");
+          const j = byKey(s, previous.job);
+          if (j.snapshot.worker.sector === snap.worker.sector) {
+            snap.peer = { at: j.snapshot.at, key: j.id, hash: j.resultHash };
+            snap.states = j.output.bandit;
+          }
+        }
+        return {
+          kind: "reserve",
+          data: {
+            cap: d.cap,
+            method: null,
+            snapshot: {
+              ...snap,
+              factory: d.project,
+              factoryPredecessor: previous,
+              productRuntime: runtimeStamp,
+            },
+            runtime: engine,
+          },
+          authorization: envelope,
+        };
+      }
+      if (r.kind === "factory-predict" || r.kind === "factory-score") {
+        const job = byKey(s, d.job),
+          f = job.output?.factory;
+        if (!f || job.status !== "WORKED" || job.snapshot.engine !== hash)
+          throw Error("Se requiere una reserva de fábrica vigente con entrega");
+        if (
+          digest(factoryIncumbent(s, job.snapshot.factory)) !==
+          digest(job.snapshot.factoryPredecessor)
+        )
+          throw Error("Cambió el titular; reserva un nuevo examen");
+        if (!isCurrent(s, job, at, this.store))
+          throw Error("Alcance o fuente caducados");
+        for (const w of job.snapshot.team) {
+          const a = this.store.agent(w.id);
+          if (a.status !== "LIVE" || a.generation !== w.generation)
+            throw Error("Equipo retirado");
+        }
+        if (r.kind === "factory-predict") {
+          strict(d, ["job", "groups"]);
+          if (
+            f.training.some((t) =>
+              s.factoryIdentities.has("pattern/" + t.pattern),
+            ) ||
+            Object.entries(f.toolTraining ?? {}).some(([id, items]) =>
+              items.some((h) =>
+                s.factoryIdentities.has("tool/" + id + "/" + h),
+              ),
+            )
+          )
+            throw Error("Material retirado usado en formación");
+          if (
+            job.predictions ||
+            f.exams.some((g) => s.factoryExams.has(g.inputHash))
+          )
+            throw Error("Examen retirado");
+          if (JSON.stringify(d.groups).length > 8_000_000)
+            throw Error("Examen demasiado grande");
+          const { frozen, adapters } = predictExam(f, d.groups);
+          if (
+            frozen.batches.some((b) =>
+              examIdentities(b).some((key) => s.factoryIdentities.has(key)),
+            )
+          )
+            throw Error("Caso ya expuesto");
+          active(s, Math.max(at, this.clock()));
+          return event({ job: job.id, frozen, adapters });
+        }
+        strict(d, ["job", "answers"]);
+        if (!job.predictions || job.grade)
+          throw Error("Examen sin reservar o retirado");
+        const grade = scoreExam(f, job.predictions, job.adapters, d.answers);
+        active(s, Math.max(at, this.clock()));
+        return event({ job: job.id, grade });
+      }
       if (r.kind === "withdraw") {
         strict(d, ["document", "previous", "reason"]);
         label(d.reason, 240);
@@ -727,6 +867,10 @@ export class GlobalDesk {
       if (r.kind === "refresh") {
         strict(d, ["job", "cap"]);
         const old = byKey(s, d.job);
+        if (old.snapshot.factory)
+          throw Error(
+            "Se requiere un nuevo mandato y nuevos exámenes de fábrica",
+          );
         if (old.method) throw Error("Revalida la versión con reserve-method");
         if (!old.output || isCurrent(s, old, at, this.store))
           throw Error("Entrega vigente");
@@ -787,7 +931,9 @@ export class GlobalDesk {
         throw Error("Reserva, fuente o ejecutor caducado");
     };
     check(s, Math.max(s.at, this.clock()));
-    const output = await executeMission(j.snapshot),
+    const output = j.snapshot.factory
+        ? await factoryExecution(j.snapshot)
+        : await executeMission(j.snapshot),
       resultHash = digest(output);
     this.write("@work/" + job, digest([job, j.snapshot]), (state, at) => {
       check(state, at);
@@ -932,6 +1078,52 @@ export class GlobalDesk {
           )
             throw Error("Dotación alterada");
         }
+        if (
+          r.kind === "factory-reserve" &&
+          (e.kind !== "reserve" ||
+            digest(e.data.snapshot.factory) !== digest(r.data.project) ||
+            digest(e.data.snapshot.factoryPredecessor) !==
+              digest(factoryIncumbent(s, r.data.project)) ||
+            digest(e.data.snapshot.goal) !==
+              digest(factoryGoal(r.data.project)))
+        )
+          throw Error("Mandato de fábrica alterado");
+        if (e.kind === "factory-predict" || e.kind === "factory-score") {
+          if (r.kind !== e.kind)
+            throw Error("Acción de fábrica sin autorización");
+          const j = byKey(s, r.data.job),
+            candidate = j.output?.factory;
+          if (!candidate || j.status !== "WORKED" || j.id !== e.data.job)
+            throw Error("Dictamen fuera de su reserva");
+          if (e.kind === "factory-predict") {
+            const { frozen, adapters } = archivedExecution(this.db, j, {
+              factoryReplay: "predict",
+              candidate,
+              groups: r.data.groups,
+            });
+            if (
+              j.predictions ||
+              frozen.batches.some(
+                (b) =>
+                  s.factoryExams.has(b.inputHash) ||
+                  examIdentities(b).some((k) => s.factoryIdentities.has(k)),
+              ) ||
+              digest(adapters) !== digest(e.data.adapters) ||
+              digest(frozen) !== digest(e.data.frozen)
+            )
+              throw Error("Predicciones alteradas o repetidas");
+          } else {
+            const grade = archivedExecution(this.db, j, {
+              factoryReplay: "score",
+              candidate,
+              predictions: j.predictions,
+              adapters: j.adapters,
+              answers: r.data.answers,
+            });
+            if (j.grade || digest(grade) !== digest(e.data.grade))
+              throw Error("Dictamen de fábrica alterado");
+          }
+        }
         if (e.kind === "examine") {
           const m = unknown(
             s.methods.get(r.data.proposal),
@@ -1015,7 +1207,9 @@ export class GlobalDesk {
       cases = [];
     for (const f of s.feedback.values()) {
       const j = byKey(s, f.job);
-      const out = await executeMission(j.snapshot);
+      const out = j.snapshot.factory
+        ? await factoryExecution(j.snapshot)
+        : await executeMission(j.snapshot);
       cases.push({
         job: j.id,
         was: j.output.decision.action,
