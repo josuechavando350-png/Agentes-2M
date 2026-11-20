@@ -22,6 +22,9 @@ import {
   salesReport,
   commercialScope,
   validateCommercialAuthority,
+  remainingBudget,
+  freeBudget,
+  committedOrders,
 } from "./sale/book.mjs";
 import {
   validateProject,
@@ -89,6 +92,8 @@ function apply(s, e) {
   const { kind, data: d } = e;
   if (kind === "open") {
     s.open = d;
+    s.openedAt = e.at;
+    s.commercialSpent = 0;
     for (const w of d.actors)
       s.actors.set(actorKey(w), { ...w, spent: 0, held: 0 });
   } else if (kind === "clarify") s.clarifications.set(e.key, d);
@@ -252,11 +257,17 @@ function validateOpen(d, now, store) {
     "budgetCents",
     "currency",
     ...(Object.hasOwn(d, "commercialAuthority") ? ["commercialAuthority"] : []),
+    ...(Object.hasOwn(d, "commercialBudget") ? ["commercialBudget"] : []),
     "until",
     "maxJobCents",
     "permissions",
     "actors",
   ]);
+  if (
+    Object.hasOwn(d, "commercialBudget") &&
+    (!d.commercialAuthority || d.commercialBudget !== "bank-outlays-v1")
+  )
+    throw Error("Configuración de presupuesto comercial inválida");
   if (Object.hasOwn(d, "commercialAuthority"))
     validateCommercialAuthority(
       d.commercialAuthority,
@@ -306,7 +317,7 @@ function validateOpen(d, now, store) {
   };
 }
 function active(s, now) {
-  if (!s.open || expires(s, now) || s.spent >= s.open.budgetCents)
+  if (!s.open || expires(s, now) || remainingBudget(s) === 0)
     throw Error("Tesorería cerrada o presupuesto cero");
 }
 function scopeDocs(s, g) {
@@ -435,7 +446,7 @@ function context(s, job, at, store) {
   )
     throw Error("Operación sin permiso");
   integer(cap, 1, s.open.maxJobCents, "reserva");
-  const free = s.open.budgetCents - s.spent - s.held;
+  const free = freeBudget(s);
   if (free < cap) throw Error("Presupuesto disponible insuficiente");
   const team = [],
     sectors = new Set();
@@ -557,13 +568,18 @@ export class GlobalDesk {
           .prepare("INSERT INTO global_events VALUES(?,?,?,?)")
           .run(e.seq, key, JSON.stringify(e), digest(e));
         apply(s, e);
-        if (e.kind === "open" || e.kind === "settle" || e.kind === "deploy") {
+        if (
+          e.kind === "open" ||
+          e.kind === "settle" ||
+          e.kind === "deploy" ||
+          e.kind === "sale-bank"
+        ) {
           const retire = this.db.prepare(
             "INSERT OR IGNORE INTO global_retired VALUES(?,?)",
           );
           for (const a of s.actors.values())
             if (a.limit === a.spent) retire.run(a.id, a.generation);
-          if (s.spent === s.open.budgetCents) retire.run(0, 0);
+          if (remainingBudget(s) === 0) retire.run(0, 0);
         }
       }
       this.db.exec("COMMIT");
@@ -902,7 +918,7 @@ export class GlobalDesk {
             ([id, v]) =>
               s.docs.get(id)?.version !== v || s.docs.get(id).until <= at,
           ) ||
-          s.open.budgetCents - s.spent - s.held < cost ||
+          freeBudget(s) < cost ||
           w.limit - w.spent - w.held < cost ||
           birth?.replicas !== BATCH ||
           birth.last - birth.first + 1 !== BATCH
@@ -966,10 +982,7 @@ export class GlobalDesk {
       }
       const fromBrief = (brief, cap, parent = null) => {
         integer(cap, 1, s.open.maxJobCents, "reserva");
-        if (
-          !s.open.permissions.includes("read") ||
-          s.open.budgetCents - s.spent - s.held < cap
-        )
+        if (!s.open.permissions.includes("read") || freeBudget(s) < cap)
           throw Error("Plan sin permiso o presupuesto");
         const sources = portfolioSources(s, brief),
           plan = compileBrief(
@@ -1070,11 +1083,7 @@ export class GlobalDesk {
       at = Math.max(s.at, this.clock());
     const decision = structuredClone(j.output.decision);
     const funding =
-      s.spent === s.open.budgetCents
-        ? "DEAD"
-        : expires(s, at)
-          ? "EXPIRED"
-          : "ACTIVE";
+      remainingBudget(s) === 0 ? "DEAD" : expires(s, at) ? "EXPIRED" : "ACTIVE";
     if (!isCurrent(s, j, at, this.store))
       return {
         job: j.id,
@@ -1133,24 +1142,29 @@ export class GlobalDesk {
     return {
       book: s.open.book,
       status:
-        s.spent === s.open.budgetCents
+        remainingBudget(s) === 0
           ? "DEAD"
           : expires(s, now)
             ? "EXPIRED"
             : "ACTIVE",
       currency: s.open.currency,
       budgetCents: s.open.budgetCents,
-      spentCents: s.spent,
+      spentCents: s.spent + (s.commercialSpent ?? 0),
+      jobSpentCents: s.spent,
+      commercialSpentCents: s.commercialSpent ?? 0,
+      outstandingOrderCents: s.open.commercialBudget ? committedOrders(s) : 0,
+      overrunCents: Math.max(
+        0,
+        s.spent + (s.commercialSpent ?? 0) - s.open.budgetCents,
+      ),
       reservedCents: s.held,
-      freeCents: s.open.budgetCents - s.spent - s.held,
+      freeCents: freeBudget(s),
       until: s.open.until,
       permissions: s.open.permissions,
       workers: [...s.actors.values()].map((w) => ({
         ...w,
         status:
-          s.spent === s.open.budgetCents || w.spent === w.limit
-            ? "DEAD"
-            : "LIVE",
+          remainingBudget(s) === 0 || w.spent === w.limit ? "DEAD" : "LIVE",
       })),
       clarifications: [...s.clarifications].map(([id, data]) => ({
         id,
@@ -1374,7 +1388,7 @@ export class GlobalDesk {
     const retirees = s.open
       ? [...s.actors.values()].filter((w) => w.spent === w.limit).map(actorKey)
       : [];
-    if (s.open && s.spent === s.open.budgetCents) retirees.push("0/0");
+    if (s.open && remainingBudget(s) === 0) retirees.push("0/0");
     const actual = this.db
       .prepare("SELECT actor,generation FROM global_retired")
       .all()

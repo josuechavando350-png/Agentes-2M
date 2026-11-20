@@ -1,6 +1,7 @@
 import { strict } from "../policy.mjs";
 import { hash, num, check, unique, list, key } from "../factory/reader.mjs";
 import { cost, fee } from "./pricing.mjs";
+import { remainingBudget, freeBudget, committedOrders } from "./book.mjs";
 
 function prepare(s, input, at) {
   strict(input, [
@@ -34,21 +35,14 @@ function prepare(s, input, at) {
     "Se requiere una sola caja y modo para optimizar",
   );
   const account = s.sales.accounts.get(offers[0].account);
-  const outsideHold = [...s.sales.offers.values()]
-    .filter(
-      (o) =>
-        o.account === account.id &&
-        o.order &&
-        !o.close &&
-        !input.offers.includes(o.id),
-    )
-    .reduce((n, o) => n + o.order.maxCost, 0);
+  const except = new Set(input.offers),
+    outsideHold = committedOrders(s, { account: account.id, except });
   const cash = Math.max(
     0,
     Math.min(
       input.maxOutlayCents,
       account.balance - outsideHold,
-      s.open.budgetCents - s.spent - s.held,
+      freeBudget(s, except),
     ),
   );
   unique(
@@ -141,7 +135,7 @@ function enumerate(p, visit) {
   walk(0, 0, 0);
 }
 export function allocateSales(s, input, at) {
-  if (!s.open || at >= s.open.until || s.spent >= s.open.budgetCents)
+  if (!s.open || at >= s.open.until || remainingBudget(s) === 0)
     return { status: "BUDGET_OR_WINDOW_CLOSED", selected: [] };
   const p = prepare(s, input, at),
     best = p.worlds.map(() => 0);

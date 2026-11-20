@@ -35,6 +35,11 @@ jobs:
           diff preregistro/evidence/sale-seal.json /tmp/sello.json
           node scripts/sale/exam.mjs grade /tmp/ensayo estado/escuela preregistro/evidence/sale-seal.json > campana.json
           node scripts/sale/check-result.mjs hillstrom campana.json evidence/sale-hillstrom.json
+          node scripts/sale/participants.mjs /tmp/ensayo estado/escuela evidence/sale-hillstrom.json > aportes.json
+          node scripts/sale/check-result.mjs participation aportes.json evidence/sale-participation.json
+          node src/cli.mjs sale-compile /tmp/ensayo/frozen.json /tmp/ensayo/packet.json "$(node -p "require('./evidence/sale-seal.json').policy")" 8 > /tmp/modelo.json
+          python3 scripts/factory/offline.py node scripts/sale/serve-exam.mjs /tmp/ensayo /tmp/modelo.json > consultas.json
+          node scripts/sale/check-result.mjs serving consultas.json evidence/sale-serving.json
       - uses: actions/upload-artifact@v4
         with: {name: examen-campana, path: campana.json, retention-days: 30}
   facturas:
@@ -63,6 +68,8 @@ jobs:
           node scripts/sale/check-result.mjs credit retail.json evidence/sale-retail.json
           node scripts/sale/register-exam.mjs /tmp/comercio/packet.json > partidas.json
           node scripts/sale/check-result.mjs register partidas.json evidence/sale-register.json
+          node scripts/sale/queue-exam.mjs /tmp/comercio/packet.json > turno.json
+          node scripts/sale/check-result.mjs queue turno.json evidence/sale-queue.json
       - uses: actions/upload-artifact@v4
         with:
           name: examenes-facturas

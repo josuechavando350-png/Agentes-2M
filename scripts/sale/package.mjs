@@ -21,7 +21,12 @@ mkdirSync(parent, { recursive: true });
 const tmp = mkdtempSync(join(parent, ".auditor-")),
   sha = (b) => createHash("sha256").update(b).digest("hex");
 try {
-  for (const n of ["credit-cli.mjs", "credits.mjs", "credit-csv.mjs"])
+  for (const n of [
+    "credit-cli.mjs",
+    "credits.mjs",
+    "credit-csv.mjs",
+    "review-queue.mjs",
+  ])
     copyFileSync(join(root, "src/sale", n), join(tmp, n));
   const base = {
     party: "empresa-ejemplo",
@@ -109,7 +114,25 @@ try {
   const imported = call("audit", "importado.json");
   assert.equal(imported.unmatchedUnits, report.unmatchedUnits);
   call("register", "importado.json", "revision.csv");
+  const shift = {
+    minutes: 60,
+    startBuyerMinutes: 5,
+    openInvoiceMinutes: 3,
+    perLineMinutes: 1,
+    windowsDays: [7, 30],
+    completeLookback: false,
+  };
+  writeFileSync(join(tmp, "turno.json"), JSON.stringify(shift, null, 2) + "\n");
+  const queue = call("queue", "importado.json", "turno.json", "cola.json");
+  assert.equal(queue.status, "OPTIMAL_IN_SCOPE");
+  assert.deepEqual(
+    queue,
+    call("queue-check", "importado.json", "turno.json", "cola.json"),
+  );
   const names = [
+    "review-queue.mjs",
+    "turno.json",
+    "cola.json",
     "credits.mjs",
     "credit-cli.mjs",
     "credit-csv.mjs",

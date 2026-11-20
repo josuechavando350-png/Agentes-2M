@@ -1,0 +1,64 @@
+{
+  "status": "ALL_CONTRIBUTIONS_REPRODUCED",
+  "recipe": "b52b3a3624afa0f9fae392b05ff5adf9772e08800f853060c2472a05ef2c0c5d",
+  "checkpoint": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959",
+  "population": 100000000,
+  "customers": 10000,
+  "policies": 10000,
+  "scoreHash": "417b1fbb082ac04612ab23ae50e247b270be749a9b4d6d46be867bc76e50910d",
+  "nativeSectorCommitment": "38216827b151f52535b3af798a796e387648c292d1002c87802d7082f5fcf605",
+  "sectors": [
+    {
+      "sector": 1,
+      "people": 10000000,
+      "seal": "86122b74f5e660d91fcc3ffc6a46e685a8ebc53c337eae0d832cd200b40be5f5"
+    },
+    {
+      "sector": 2,
+      "people": 10000000,
+      "seal": "d648a96796525eef93e376b4067ce55e3b7efd87994a9a46531b1bf4d6e57e03"
+    },
+    {
+      "sector": 3,
+      "people": 10000000,
+      "seal": "be0b2b243344fa03a58ffc10b497efa2a21f86bb1d893cc530b23bb569196e16"
+    },
+    {
+      "sector": 4,
+      "people": 10000000,
+      "seal": "1a0658cf8677ff7a047b3f70a8226892b5eb9b2c8e607ae04e5c221f8a4079ec"
+    },
+    {
+      "sector": 5,
+      "people": 10000000,
+      "seal": "b41533bfbb83f88717e7f71b1ab627583aaae6664aa0f978fe439a01ff48adf3"
+    },
+    {
+      "sector": 6,
+      "people": 10000000,
+      "seal": "a4f8c93884af050895c40f250f204d37cad491e1633a1f0b640123d6a654f5c8"
+    },
+    {
+      "sector": 7,
+      "people": 10000000,
+      "seal": "92889bbcf96666cc61fae1e7312ced741fe1d0e4fb9baadee470feb5700748e4"
+    },
+    {
+      "sector": 8,
+      "people": 10000000,
+      "seal": "a62a8a6e0c361dcef443a7d6c6da47a7ef2b7a12a142e961a0b86d31f9a5f37c"
+    },
+    {
+      "sector": 9,
+      "people": 10000000,
+      "seal": "5c0e1db06a6ecae075fa85416c9a65d391fc730163aa110088579b559ebb931f"
+    },
+    {
+      "sector": 10,
+      "people": 10000000,
+      "seal": "40fce8524007249e668c6d9922c05014a2e1e29b83cbee1e0018207c2e1b0ab8"
+    }
+  ],
+  "source": "Reproducción independiente en JavaScript de cada identidad, acción y contribución sellada en C++.",
+  "milliseconds": 22245.75487
+}

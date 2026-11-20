@@ -40,11 +40,16 @@ const store = new Semar(
     "packed",
     "batch-scan",
     "sale-route",
+    "sale-compile",
+    "sale-stream",
     "sale-recommend",
     "sale-grade",
     "sale-agent",
     "sale-diagnose",
     "sale-price",
+    "sale-design",
+    "sale-scorecard",
+    "sale-prospects",
     "sale-portfolio",
     "sale-credit",
     "sale-credit-check",
@@ -70,10 +75,61 @@ try {
       else show(traceCredits(packet));
       break;
     }
+    case "sale-compile":
+    case "sale-stream": {
+      const { compileServing, openServing, serveLines } = await import(
+        "./sale/serve.mjs"
+      );
+      const read = (p) => JSON.parse(readFileSync(p, "utf8"));
+      if (action === "sale-compile")
+        show(
+          compileServing(
+            read(args[0]),
+            read(args[1]),
+            args[2],
+            args[3] === undefined ? 8 : Number(args[3]),
+            args[4] ?? "policy-inputs",
+          ),
+        );
+      else
+        await serveLines(
+          openServing(read(args[0]), args[1]),
+          process.stdin,
+          process.stdout,
+        );
+      break;
+    }
+    case "sale-prospects": {
+      const { rankProspects } = await import("./sale/prospects.mjs");
+      const read = (p) => JSON.parse(readFileSync(p, "utf8"));
+      show(
+        rankProspects(
+          read(args[0]).recipe,
+          args[2],
+          read(args[1]),
+          Number(args[3]),
+        ),
+      );
+      break;
+    }
+    case "sale-scorecard": {
+      const { saleScorecard } = await import("./sale/scorecard.mjs");
+      show(
+        await saleScorecard(
+          args[0] ? JSON.parse(readFileSync(args[0], "utf8")) : null,
+        ),
+      );
+      break;
+    }
+    case "sale-design": {
+      const { planPilot } = await import("./sale/experiment.mjs");
+      show(planPilot(JSON.parse(readFileSync(args[0], "utf8"))));
+      break;
+    }
     case "sale-portfolio": {
       const { portfolio } = await import("./sale/portfolio.mjs");
       const p = JSON.parse(readFileSync(args[0], "utf8"));
-      show(await portfolio(p.paths, p.mode ?? "LIVE"));
+      show(await portfolio(p.paths, p.mode ?? "LIVE", p.originals));
       break;
     }
     case "sale-search":
@@ -124,6 +180,7 @@ try {
       break;
     }
     case "sale-best":
+    case "sale-proof":
     case "sale-readiness":
     case "sale-quote":
     case "sale-report":
@@ -144,7 +201,16 @@ try {
         store,
       );
       try {
-        if (action === "sale-best")
+        if (action === "sale-proof") {
+          const { checkOriginals } = await import("./sale/originals.mjs");
+          show(
+            await checkOriginals(
+              desk,
+              args[0] ?? "LIVE",
+              args[1] ? JSON.parse(readFileSync(args[1], "utf8")) : null,
+            ),
+          );
+        } else if (action === "sale-best")
           show(desk.bestSale(JSON.parse(readFileSync(args[0], "utf8"))));
         else if (action === "sale-quote") show(desk.quote(args[0]));
         else if (action === "sale-readiness")

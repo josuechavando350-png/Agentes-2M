@@ -1,4 +1,5 @@
 import { commercialScope } from "./book.mjs";
+import { checkOriginals } from "./originals.mjs";
 import { existsSync } from "node:fs";
 import { createPublicKey } from "node:crypto";
 import { hash, check, list, unique } from "../factory/reader.mjs";
@@ -11,12 +12,12 @@ const identity = (pem) =>
       .export({ format: "der", type: "spki" })
       .toString("hex"),
   );
-export async function verifiedWeek(path, mode) {
+export async function verifiedWeek(path, mode, originals) {
   check(existsSync(path), "Libro local inexistente");
   const store = new Semar(path),
     desk = new GlobalDesk(path, store);
   try {
-    store.audit();
+    const governance = store.audit();
     const audit = await desk.audit(),
       s = desk.read(),
       report = desk.readiness(mode);
@@ -32,7 +33,19 @@ export async function verifiedWeek(path, mode) {
     const receipts = [...s.sales.ledger.values()]
       .filter((l) => source.has(l.account))
       .map((l) => hash([source.get(l.account), l.id]));
+    const documentation = originals
+      ? await checkOriginals(desk, mode, originals)
+      : null;
+    check(
+      store.audit().tip === governance.tip &&
+        (!documentation ||
+          (documentation.tip === audit.tip &&
+            documentation.governanceTip === governance.tip)),
+      "Los originales o las asignaciones corresponden a otra revisión",
+    );
     return {
+      documentation,
+      governanceTip: governance.tip,
       book: s.open.book,
       tip: audit.tip,
       authority: identity(store.settlementAuthority()),
@@ -156,6 +169,7 @@ export function combineWeeks(weeks) {
       book: w.book,
       tip: w.tip,
       commercialStatus: w.report.commercialStatus,
+      documentation: w.documentation?.status ?? "SOURCE_FILES_PENDING",
     })),
     currency: first.currency,
     bankCollectedCents: collected,
@@ -166,16 +180,21 @@ export function combineWeeks(weeks) {
     status:
       first.mode !== "LIVE"
         ? "DEMONSTRATION"
-        : complete && net > 0 && repeatedEffect
-          ? "REPLICATED_INCREMENTAL_MARGIN_IN_SCOPE"
-          : complete && net > 0
-            ? "POSITIVE_MARGIN_AWAIT_REPLICATION"
-            : "AWAIT_COMPLETE_POSITIVE_MARGIN",
+        : complete &&
+            net > 0 &&
+            weeks.some((w) => w.documentation?.status !== "ORIGINALS_MATCHED")
+          ? "SOURCE_VERIFICATION_REQUIRED"
+          : complete && net > 0 && repeatedEffect
+            ? "REPLICATED_INCREMENTAL_MARGIN_IN_SCOPE"
+            : complete && net > 0
+              ? "POSITIVE_MARGIN_AWAIT_REPLICATION"
+              : "AWAIT_COMPLETE_POSITIVE_MARGIN",
   };
 }
-export async function portfolio(paths, mode = "LIVE") {
+export async function portfolio(paths, mode = "LIVE", originals = {}) {
   unique(list(paths, 1, 104));
   const weeks = [];
-  for (const path of paths) weeks.push(await verifiedWeek(path, mode));
+  for (const path of paths)
+    weeks.push(await verifiedWeek(path, mode, originals[path]));
   return combineWeeks(weeks);
 }

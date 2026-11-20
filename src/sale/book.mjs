@@ -58,6 +58,10 @@ export function validateCommercialAuthority(key, treasury) {
 function enrollment(s, d, role, at, signer) {
   if (d.mode !== "LIVE") return {};
   check(
+    s.open.commercialBudget === "bank-outlays-v1",
+    "El mandato real debe contabilizar los egresos comerciales contra el presupuesto",
+  );
+  check(
     s.open.commercialAuthority,
     "El mandato real requiere un verificador de titulares previamente designado",
   );
@@ -96,7 +100,7 @@ function lookup(map, id) {
 }
 function live(s, at) {
   check(
-    s.open && s.spent < s.open.budgetCents && at < s.open.until,
+    s.open && remainingBudget(s) > 0 && at < s.open.until,
     "Tesorería cerrada o presupuesto cero",
   );
 }
@@ -135,18 +139,43 @@ function sameKey(s, signer) {
 function bankKey(account, id) {
   return JSON.stringify([account, id]);
 }
-function cashAvailable(s, account) {
+export function remainingBudget(s) {
+  return Math.max(0, s.open.budgetCents - s.spent - (s.commercialSpent ?? 0));
+}
+export function committedOrders(
+  s,
+  { account = null, except = new Set() } = {},
+) {
+  const paid = new Map();
+  for (const l of s.sales.ledger.values())
+    if (l.kind === "cost") paid.set(l.sale, (paid.get(l.sale) ?? 0) + l.cents);
   let held = 0;
-  for (const o of s.sales.offers.values())
-    if (o.account === account.id && o.order && !o.close) {
-      const incurred = [...s.sales.ledger.values()]
-        .filter((t) => t.sale === o.id && t.kind === "cost")
-        .reduce((sum, t) => sum + t.cents, 0);
-      held += Math.max(0, o.order.maxCost - incurred);
-    }
+  for (const o of s.sales.offers.values()) {
+    if (
+      !o.order ||
+      o.close ||
+      except.has(o.id) ||
+      (account !== null ? o.account !== account : o.mode !== "LIVE")
+    )
+      continue;
+    held += Math.max(0, o.order.maxCost - (paid.get(o.id) ?? 0));
+  }
+  return held;
+}
+export function freeBudget(s, except = new Set()) {
+  const commitments =
+    s.open.commercialBudget === "bank-outlays-v1"
+      ? committedOrders(s, { except })
+      : 0;
+  return Math.max(0, remainingBudget(s) - s.held - commitments);
+}
+function cashAvailable(s, account) {
   return Math.max(
     0,
-    Math.min(s.open.budgetCents - s.spent - s.held, account.balance - held),
+    Math.min(
+      freeBudget(s),
+      account.balance - committedOrders(s, { account: account.id }),
+    ),
   );
 }
 export const commercialScope = (j) =>
@@ -554,7 +583,7 @@ export function planSale(s, r, at, treasury, trials = []) {
       "Extracto con huecos o revisión caducada",
     );
     num(p.until, p.from + 1, at + 1);
-    money(p.closing);
+    num(p.closing, -maxCash, maxCash);
     fingerprint(p.source);
     check(!b.references.has("bank/" + p.source), "Extracto reutilizado");
     unique(list(p.lines, 0, 10000).map((l) => ref(l.id)));
@@ -776,6 +805,18 @@ export function applySale(s, kind, d) {
     b.references.add("bank/" + d.source);
     for (const l of d.lines) {
       b.ledger.set(bankKey(d.account, l.id), { ...l, account: d.account });
+      if (
+        s.open.commercialBudget === "bank-outlays-v1" &&
+        a.mode === "LIVE" &&
+        l.at >= s.openedAt &&
+        ["overhead", "cost", "field-cost"].includes(l.kind)
+      ) {
+        s.commercialSpent = (s.commercialSpent ?? 0) + l.cents;
+        check(
+          Number.isSafeInteger(s.commercialSpent),
+          "Los egresos exceden la precisión contable",
+        );
+      }
       if (l.kind === "research") b.references.add("research/" + l.original);
     }
   } else {

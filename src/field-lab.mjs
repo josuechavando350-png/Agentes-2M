@@ -287,7 +287,17 @@ export function fieldHypotheses(m, subject) {
     }),
   };
 }
-export function fieldBankView(g) {
+export function fieldBankView(g, events = []) {
+  const signedCloses = new Map();
+  for (const event of events)
+    for (const step of event.steps) {
+      const command = step.kind === "government" ? step.command : null;
+      if (command?.type === "trial_observed")
+        signedCloses.set(
+          JSON.stringify([command.record.trial, command.record.subject]),
+          command.record,
+        );
+    }
   return (g.trials ?? []).map((t) => ({
     trial: t.id,
     scope: t.scope,
@@ -296,11 +306,27 @@ export function fieldBankView(g) {
     from: t.start,
     until: t.end,
     status: fieldResult(g, t).status,
-    units: t.pairs.flat().map((u) => {
+    alphaDenominator: t.alphaDenominator,
+    units: t.pairs.flat().map((u, index) => {
       const o = t.observations[u.subject];
+      const basis = proofBook(g, t, u.subject),
+        receipts = new Map(basis.map((x) => [moneyKey(x), x.cents]));
+      const close = signedCloses.get(JSON.stringify([t.id, u.subject]));
+      const entries =
+        close?.evidence === o?.evidence && close
+          ? close.settlements
+              .filter((l) => l.occurredAt >= t.start && l.occurredAt < t.end)
+              .map((l) => ({
+                kind: l.category === "payment" ? "fee" : l.category,
+                reference: l.reference,
+                at: l.occurredAt,
+                cents: receipts.get(moneyKey(l)),
+              }))
+          : null;
       return {
         subject: u.subject,
         arm: u.arm,
+        pair: Math.floor(index / 2),
         action: u[u.arm].action,
         applied: o?.applied === true,
         close:
@@ -311,6 +337,7 @@ export function fieldBankView(g) {
                 cost: o.cost,
                 labor: o.labor,
                 net: o.net,
+                entries,
               }
             : null,
       };

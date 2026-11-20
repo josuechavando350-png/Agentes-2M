@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { reviewQueue, verifyQueue } from "./review-queue.mjs";
 import { importCreditCsv, registerCsv } from "./credit-csv.mjs";
 import {
   traceCredits,
@@ -22,6 +23,22 @@ try {
       mode: 0o600,
     });
     result = { source: packet.source, rows: packet.lines.length, destination };
+  } else if (action === "queue" || action === "queue-check") {
+    const spec = JSON.parse(readFileSync(arg, "utf8"));
+    if (action === "queue-check")
+      result = verifyQueue(
+        packet,
+        spec,
+        JSON.parse(readFileSync(destination, "utf8")),
+      );
+    else {
+      const queue = reviewQueue(packet, spec);
+      result = verifyQueue(packet, spec, queue);
+      writeFileSync(destination, JSON.stringify(queue, null, 2) + "\n", {
+        flag: "wx",
+        mode: 0o600,
+      });
+    }
   } else if (action === "register") {
     const { rows, ...summary } = creditRegister(packet);
     writeFileSync(arg, registerCsv({ ...summary, rows }), {
@@ -41,7 +58,7 @@ try {
   else if (action === "explain") result = creditRange(packet, arg);
   else
     throw Error(
-      "Usa import CSV CONFIG EXPEDIENTE, audit EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV o explain EXPEDIENTE ID",
+      "Usa import CSV CONFIG EXPEDIENTE, audit EXPEDIENTE [CERTIFICADO], check EXPEDIENTE CERTIFICADO, register EXPEDIENTE CSV, queue EXPEDIENTE TURNO PLAN, queue-check EXPEDIENTE TURNO PLAN o explain EXPEDIENTE ID",
     );
   console.log(JSON.stringify(result, null, 2));
 } catch (error) {

@@ -28,6 +28,7 @@ const paths = [
   "src/sale/book.mjs",
   "src/sale/pricing.mjs",
   "src/sale/field.mjs",
+  "src/sale/experiment.mjs",
   "src/sale/replay.mjs",
   "src/sale/credits.mjs",
   "src/sale/credit-job.mjs",

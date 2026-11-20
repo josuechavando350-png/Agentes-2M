@@ -11,7 +11,21 @@ function normalize(value) {
     }
   } else if (kind === "credit") {
     for (const scope of value.runs) delete scope.elapsedMs;
-  } else if (kind === "register") delete value.milliseconds;
+  } else if (kind === "queue") {
+    for (const r of value.runs) delete r.elapsedMs;
+  } else if (kind === "serving") {
+    for (const k of [
+      "buildMs",
+      "localCallMicroseconds",
+      "firstResponseWithStartupMs",
+      "warmStreamMilliseconds",
+      "elapsedStreamMs",
+      "node",
+      "cpu",
+    ])
+      delete value[k];
+  } else if (["participation", "register"].includes(kind))
+    delete value.milliseconds;
   else assert.equal(kind, "diagnostic");
   return value;
 }

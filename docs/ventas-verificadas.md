@@ -31,11 +31,11 @@ La carpeta exportada contiene el programa, ejemplos CSV y JSON, la configuració
 
 ## Convertir una investigación en una venta
 
-1. El titular de tesorería registra el mandato `open`, la moneda, presupuesto y plazo máximo de 168 horas. Para `LIVE`, incluye en `commercialAuthority` la clave pública Ed25519 del verificador de titulares. El verificador acredita la cuenta de conciliación y la identidad y grupo empresarial del comprador con `purpose=enrollment`, alcance temporal y huella del original.
+1. El titular de tesorería registra el mandato `open`, la moneda, presupuesto y plazo máximo de 168 horas. Para `LIVE`, fija `commercialBudget` en `bank-outlays-v1` e incluye en `commercialAuthority` la clave pública Ed25519 del verificador de titulares. El verificador acredita la cuenta de conciliación y la identidad y grupo empresarial del comprador con `purpose=enrollment`, alcance temporal y huella del original.
 2. `sale-account` y `sale-client` inscriben a los participantes. Para la auditoría de notas, `credit-reserve` recibe `scope`, `buyer`, `packet` y `cap`. `global-work` calcula el flujo y su certificado. El costo real del trabajo queda identificado con `settle`. Para herramientas aprendidas, se exige una versión aprobada por el examen y un expediente nuevo del comprador. Una investigación con hipótesis rivales admite `probe-reserve` y `probe-observe`. El nuevo documento debe responder la pregunta autorizada y conservar la familia de procedencia y el costo observado.
 3. El comprador firma el alcance con `purpose=brief`, la huella del expediente, la base de los términos y su vencimiento. `sale-offer` calcula la comisión, el precio máximo, el costo y cuánto conserva el comprador. `sale-quote` devuelve la propuesta para revisión. `sale-best` compara hasta 17 ofertas factibles en escenarios declarados, incluido el de cero cobros, y permite conservar caja.
 4. El comprador firma `order` o `decline` y, si acepta la entrega, `delivery` con la recuperación comprobada. El custodio del extracto firma `statement` con su fuente, periodo continuo, saldos y movimientos. `sale-bank` comprueba la aritmética y cada devolución contra su cobro. Un depósito pendiente de asignación mantiene abierto el margen. `sale-assign` admite una distribución firmada entre entregas y aportaciones, conservando el importe original.
-5. `sale-close` registra horas, tarifa y fecha de corte. El informe deduce costos de servicio, investigación conciliada y gastos comunes. Un nuevo extracto vuelve a exigir el cierre de horas. Las operaciones que aumentan compromisos necesitan presupuesto; las conciliaciones permanecen disponibles después de agotarlo. La firma acredita qué clave respaldó cada hecho. La comprobación de titularidad de las claves y de autenticidad de los documentos originales corresponde a las partes.
+5. `sale-close` registra horas, tarifa y fecha de corte. El informe deduce costos de servicio, investigación conciliada y gastos comunes. Un nuevo extracto vuelve a exigir el cierre de horas. El presupuesto descuenta trabajos liquidados y egresos bancarios comerciales posteriores a la apertura. Los pedidos aceptados comparten el disponible entre cuentas. Un extracto que lleva el presupuesto a cero retira todas las identidades del mandato, aunque después aparezca un depósito. Las conciliaciones y devoluciones siguen disponibles y se informa cualquier sobregiro observado. La firma acredita qué clave respaldó cada hecho. La comprobación de titularidad de las claves y de autenticidad de los documentos originales corresponde a las partes.
 6. `sale-readiness` cruza los cierres con un ensayo aleatorizado registrado por adelantado. Cada comprador debe tener una asignación aplicada, un grupo independiente y un cierre que coincida en cobros, devoluciones, costos y horas. El seguimiento sin oferta puede presentar `sale-activity` con firma del comprador y los gastos bancarios correspondientes. `sale-portfolio` comprueba varios mandatos, descarta movimientos duplicados o cortes superpuestos y exige repetición en otro periodo y con otros compradores antes de calificar un efecto como replicado.
 
 Cada orden de tesorería se firma como `SEMAR-GLOBAL-1`. Las atestaciones externas usan `SEMAR-SALE-1`, el mismo identificador de libro y una clave distinta según el papel. Los programas que firmaron la decisión se conservan en la bitácora para reproducirla. El archivo de datos del piloto y las claves privadas permanecen bajo control de sus titulares. [Libro y firmas](operacion-global.md) · [Ejemplo ejecutable de pedidos, cobro y devolución](../scripts/sale/pilot.mjs) · [Mandato con expediente histórico](../scripts/sale/credit-mission.mjs)
@@ -50,6 +50,32 @@ node src/cli.mjs sale-portfolio libros.json
 
 `libros.json` contiene `{"paths":["semana1.sqlite","semana2.sqlite"],"mode":"LIVE"}`. Para comprobar la bitácora de una base concreta se usa `global-audit`. Las comisiones se expresan en unidades monetarias mínimas. El informe distingue montos en esa moneda y el gasto histórico por cliente del experimento.
 
+## Qué evidencia hace falta para calificar una venta
+
+`node src/cli.mjs sale-scorecard` muestra los cuatro resultados con sus denominadores y los controles que vencieron o conservaron su lugar. Con `sale-scorecard libros.json` añade el resultado de tus mandatos. Un libro ausente produce una medición pendiente. Los exámenes históricos se conservan por separado de los ingresos documentados.
+
+Una venta propia con margen requiere que la comisión aceptada coincida con el dinero recibido y que se hayan asentado las horas, los reembolsos y los costos directos y comunes. La comparación entre métodos exige además que coincidan las referencias, fechas e importes de cada movimiento del ensayo con el banco. Una prueba de aleatorización por pares contrasta la suma de las diferencias de margen en centavos con las asignaciones posibles. Con importes muy grandes calcula cotas para la probabilidad y exige que la superior respete el nivel fijado. Un resultado se puede replicar entre dos mandatos, con compradores independientes y documentos examinados.
+
+`sale-design` calcula cuántos pares caben en el presupuesto y la probabilidad de superar el examen de signos bajo tasas de empate y victoria **supuestas**. Por ejemplo, un archivo de diseño puede contener:
+
+```json
+{"alphaDenominator":20,"eligibleIndependentBuyers":80,"winBps":7500,"tieBps":1000,"powerBps":8000,"costPerPairCents":500,"minutesPerPair":20,"budgetCents":20000,"minutes":800}
+```
+
+Para cotejar un extracto original se conservan localmente los archivos con su huella SHA-256 como nombre. El perfil relaciona las columnas del banco con la referencia, hora ISO UTC con milisegundos, importe firmado, moneda y cuenta. Se admiten centavos enteros o decimales explícitos con dos dígitos. Para un expediente JSON de herramienta aprendida se comprueba su huella canónica. Una fuente ausente o contradictoria deja el resultado pendiente y el informe devuelve su huella.
+
+```json
+{"directory":"./comprobantes","bank":{"cuenta":{"delimiter":",","amountFormat":"minor","columns":{"reference":"folio","at":"fecha","amount":"importe","currency":"moneda","account":"cuenta"}}}}
+```
+
+```sh
+SEMAR_DB=operacion.sqlite node src/cli.mjs sale-proof LIVE perfil.json
+node src/cli.mjs sale-design diseno.json
+node src/cli.mjs sale-scorecard libros.json
+```
+
+En `libros.json`, `originals` relaciona cada ruta de base con su perfil de comprobantes. Se puede probar todo el recorrido con firmas y archivos temporales usando `node scripts/sale/field-acceptance.mjs`. Ese examen cubre dos mandatos, doce pares aleatorizados y los veinticuatro cierres de comprador. [Cálculo de potencia y contraste de margen](../src/sale/experiment.mjs) · [Examen de integración](../scripts/sale/field-acceptance.mjs)
+
 ## Cómo operan los 100 millones
 
 Los diez sectores reparten los clientes de búsqueda y las reglas de oferta. Cada fundador participante tiene una sola tarea identificable mediante su ID, acción y contribución aritmética. Los diez sellos se calculan sobre todas esas contribuciones. El cálculo comprimido suma tablas por pares de variables y obtiene exactamente el mismo vector. `sale-search` usa el censo local para emitir los recibos. `sale-route` obtiene la misma receta, decisiones y sello de examen en un solo trabajador. `sale-agent` permite reconstruir la participación de un ID y recalcular si su sustitución por el control cambiaría la regla ganadora.
@@ -63,6 +89,16 @@ node src/cli.mjs sale-recommend comprimido.json clientes-nuevos.json HUELLA_RECE
 ```
 
 Para el ensayo de latencia se prepararon las mismas filas y reglas de antemano. Se repitieron las siete configuraciones 31 veces en orden rotativo. Las mediciones incluyen la preparación de la entrada nativa y su transporte al proceso. Los resultados de ventas requieren observación posterior. [Receta y comando de medición](../scripts/sale/throughput.mjs)
+
+Un segundo programa en JavaScript recorrió el padrón publicado y reconstruyó los diez sellos de las contribuciones calculadas en C++. Una revisión posterior del transporte binario obtuvo una mediana de 323 ms en diez hilos emitiendo recibos individuales, 59 ms en diez hilos calculando solo puntajes y 33 ms con la agregación exacta de un trabajador. El examen de cada configuración incluye 31 mediciones. [Comprobación por sector](../evidence/sale-participation.json) · [Medición con transporte binario](../evidence/sale-throughput-packed.json)
+
+Para atender consultas locales repetidas, `sale-compile` prepara una tabla para una receta sellada y `sale-stream` lee un comprador en JSON por línea de entrada estándar. Cada respuesta incluye el sello y el alcance del soporte. Una combinación nueva requiere más evidencia cuando escasean ejemplos de los que dependen las decisiones. La referencia y la candidata pueden agrupar observaciones que siempre conducen a la misma decisión por construcción. El modo `observed-cell` exige soporte en la combinación completa de atributos. Una característica fuera del rango del ajuste produce abstención. Proponer la misma oferta del examen histórico a una persona nueva requiere todavía validar su pertinencia en ese negocio. [Prueba con 24,000 entradas y tiempos por consulta](../evidence/sale-serving.json)
+
+```sh
+node src/cli.mjs sale-compile poblacion.json paquete.json HUELLA_RECETA 8 policy-inputs > modelo-local.json
+node src/cli.mjs sale-stream modelo-local.json SELLO_MODELO < nuevos-clientes.jsonl
+node scripts/sale/participants.mjs DIRECTORIO_ENSAYO DIRECTORIO_PADRON evidence/sale-hillstrom.json 100000000
+```
 
 ## Fuentes y compromisos anteriores al examen
 

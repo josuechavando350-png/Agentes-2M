@@ -1,0 +1,122 @@
+{
+  "mode": "HISTORICAL_DOCUMENT_SELECTION",
+  "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+  "currency": "GBP",
+  "method": "e074626585e7bfcdebfaa778e17d466559db27c4b376feec028911aedee19ec7",
+  "assumption": "Calendario hipotético de revisión aplicado al archivo histórico. El importe mide volumen por documentar, no recuperación ni ingresos.",
+  "runs": [
+    {
+      "spec": {
+        "minutes": 30,
+        "startBuyerMinutes": 5,
+        "openInvoiceMinutes": 3,
+        "perLineMinutes": 1,
+        "windowsDays": [
+          30,
+          90
+        ],
+        "completeLookback": true
+      },
+      "status": "OPTIMAL_IN_SCOPE",
+      "reviewCents": 2458960,
+      "upperCents": 2458960,
+      "minutes": 22,
+      "documents": 2,
+      "buyers": 2,
+      "certificate": "5e4f9cea5a3807f66f7a00b5b56d9889e6f3ea3d41c8df27c8b53f9c36b73b47",
+      "eligibleDocuments": 519,
+      "eligibleBuyers": 353,
+      "faceValueBaseline": {
+        "cents": 2321550,
+        "minutes": 30
+      },
+      "advantageInDocumentedCents": 137410,
+      "elapsedMs": 168.153614
+    },
+    {
+      "spec": {
+        "minutes": 60,
+        "startBuyerMinutes": 5,
+        "openInvoiceMinutes": 3,
+        "perLineMinutes": 1,
+        "windowsDays": [
+          30,
+          90
+        ],
+        "completeLookback": true
+      },
+      "status": "OPTIMAL_IN_SCOPE",
+      "reviewCents": 2703858,
+      "upperCents": 2703858,
+      "minutes": 60,
+      "documents": 6,
+      "buyers": 6,
+      "certificate": "b1f4e08565aec7e909b2f9ae85e86a2156693dd4b2bfbb6132dd5e78a6983da8",
+      "eligibleDocuments": 529,
+      "eligibleBuyers": 355,
+      "faceValueBaseline": {
+        "cents": 2616790,
+        "minutes": 58
+      },
+      "advantageInDocumentedCents": 87068,
+      "elapsedMs": 110.107204
+    },
+    {
+      "spec": {
+        "minutes": 120,
+        "startBuyerMinutes": 5,
+        "openInvoiceMinutes": 3,
+        "perLineMinutes": 1,
+        "windowsDays": [
+          30,
+          90
+        ],
+        "completeLookback": true
+      },
+      "status": "OPTIMAL_IN_SCOPE",
+      "reviewCents": 2885106,
+      "upperCents": 2885106,
+      "minutes": 120,
+      "documents": 11,
+      "buyers": 11,
+      "certificate": "c9548f87df77ad0e27db1c55c43fa2d4f0a319eb97d80b6739d85f3d4ae01e70",
+      "eligibleDocuments": 529,
+      "eligibleBuyers": 355,
+      "faceValueBaseline": {
+        "cents": 2741816,
+        "minutes": 120
+      },
+      "advantageInDocumentedCents": 143290,
+      "elapsedMs": 166.71351699999997
+    },
+    {
+      "spec": {
+        "minutes": 240,
+        "startBuyerMinutes": 5,
+        "openInvoiceMinutes": 3,
+        "perLineMinutes": 1,
+        "windowsDays": [
+          30,
+          90
+        ],
+        "completeLookback": true
+      },
+      "status": "OPTIMAL_IN_SCOPE",
+      "reviewCents": 3150652,
+      "upperCents": 3150652,
+      "minutes": 239,
+      "documents": 17,
+      "buyers": 16,
+      "certificate": "bdae045f43147e1063e40d3f8b6d541cdf7740ce82653ae281afb1a7c48a0c78",
+      "eligibleDocuments": 529,
+      "eligibleBuyers": 355,
+      "faceValueBaseline": {
+        "cents": 3028205,
+        "minutes": 238
+      },
+      "advantageInDocumentedCents": 122447,
+      "elapsedMs": 114.72895500000004
+    }
+  ],
+  "ownReceipts": null
+}

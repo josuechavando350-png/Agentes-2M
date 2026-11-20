@@ -7,7 +7,7 @@
 
 std::string team_scan(std::istream& input);
 int population(int rules);
-int offer_search(bool sealed);
+int offer_search(bool sealed, bool packed);
 int snapshot(const char* path, unsigned threads);
 
 namespace {
@@ -79,8 +79,10 @@ int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     try {
-        if (argc == 2 && std::string(argv[1]) == "offers") return offer_search(true);
-        if (argc == 2 && std::string(argv[1]) == "offers-scores") return offer_search(false);
+        if (argc == 2 && std::string(argv[1]) == "offers") return offer_search(true, false);
+        if (argc == 2 && std::string(argv[1]) == "offers-packed") return offer_search(true, true);
+        if (argc == 2 && std::string(argv[1]) == "offers-scores") return offer_search(false, false);
+        if (argc == 2 && std::string(argv[1]) == "offers-scores-packed") return offer_search(false, true);
         if (argc == 2 && std::string(argv[1]) == "population") return population(100);
         if (argc == 3 && std::string(argv[1]) == "population-scale") {
             const std::string k = argv[2];

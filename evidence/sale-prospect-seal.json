@@ -1,0 +1,24 @@
+{
+  "source": "e0bf5f5de5b846e2f18e9d90606637267d46dfa260e0f17bb12e605db5efbeb4",
+  "seal": "35753edc037cf6c293bb1d11e2a64fba0a41d60f694b0d55a9fe2506b3ae52fc",
+  "recipe": "bbfaca98439e5ea9a8623767d6872fcdc2fe0146efb1aaa757f484c7d7cd6ccf",
+  "features": "88e3514bd04a25875317a5ce1634554f1a9ae270d9a492d84f9ce6da7fdfe89b",
+  "support": {
+    "fit": 23000,
+    "select": 5000,
+    "calibrate": 4000,
+    "holdout": 9188
+  },
+  "modelsExamined": {
+    "simple": 37,
+    "candidates": 3
+  },
+  "acceptance": "Cuatro tramos cronológicos. Igual o mayor número de contratos observados a capacidad fija en cada tramo y mejora estricta total frente al control simple seleccionado. Medición histórica.",
+  "labelsExcluded": [
+    "resultado actual",
+    "duración de la llamada",
+    "datos socioeconómicos individuales",
+    "variables macroeconómicas"
+  ],
+  "capacity": "Hasta una quinta parte de cada lote de 100 registros sucesivos"
+}

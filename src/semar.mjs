@@ -225,7 +225,8 @@ export class Semar {
     return this.#journal.read().gov?.key ?? null;
   }
   fieldBankTrials() {
-    return structuredClone(fieldBankView(this.#journal.read().gov ?? {}));
+    const state = this.#journal.read();
+    return structuredClone(fieldBankView(state.gov ?? {}, state.events));
   }
   fieldTrials() {
     return structuredClone(fieldView(this.#journal.read().gov ?? {}));

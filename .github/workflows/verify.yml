@@ -40,6 +40,8 @@ jobs:
           python3 scripts/factory/offline.py node scripts/sale/package.mjs entrega-ventas
           python3 scripts/factory/offline.py node scripts/sale/pilot.mjs > demostracion-ventas.json
           python3 scripts/factory/offline.py node scripts/sale/cash-stress.mjs run concurrencia-ventas.json 5
+          python3 scripts/factory/offline.py node scripts/sale/field-acceptance.mjs > aceptacion-de-campo.json
+          node src/cli.mjs sale-scorecard > dictamen-de-ventas.json
       - uses: actions/upload-artifact@v4
         with:
           name: auditor-notas-de-credito
@@ -51,4 +53,6 @@ jobs:
           path: |
             demostracion-ventas.json
             concurrencia-ventas.json
+            aceptacion-de-campo.json
+            dictamen-de-ventas.json
           retention-days: 30

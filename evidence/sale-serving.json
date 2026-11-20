@@ -1,0 +1,31 @@
+{
+  "mode": "HISTORICAL_QUERY_THROUGHPUT",
+  "modelSeal": "841eade6f893e399c2c8f9c9937f186d926ad63d19bf2fe312ba3c21e57fa937",
+  "trainingRecipe": "b52b3a3624afa0f9fae392b05ff5adf9772e08800f853060c2472a05ef2c0c5d",
+  "minPerArm": 8,
+  "observedCells": 2005,
+  "rows": 24000,
+  "counts": {
+    "PROPOSED_FOR_PILOT": 24000
+  },
+  "admittedExact": true,
+  "buildMs": 42.495232999999985,
+  "localCallMicroseconds": {
+    "p50": 0.5490000000349937,
+    "p95": 1.4700000000402724,
+    "p99": 3.4009999999966567,
+    "max": 1268.7949999999546
+  },
+  "streamRequests": 1000,
+  "firstResponseWithStartupMs": 158.56641800000006,
+  "warmStreamMilliseconds": {
+    "p50": 0.09124499999995805,
+    "p95": 0.31593099999997776,
+    "p99": 0.7774430000000621,
+    "max": 3.0309069999999565
+  },
+  "elapsedStreamMs": 324.312379,
+  "node": "v24.22.3",
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "semantics": "Una consulta por comprador a una receta fija. El dictamen puede abstenerse. Esta medición excluye investigación, cobro y evidencia de demanda."
+}

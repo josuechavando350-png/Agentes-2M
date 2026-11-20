@@ -4,7 +4,7 @@ import { creditRegister } from "./credits.mjs";
 function expect(ok, message) {
   if (!ok) throw Error(message);
 }
-function records(input, separator) {
+export function records(input, separator) {
   expect(
     typeof input === "string" && input.length <= 160_000_000,
     "CSV demasiado grande",

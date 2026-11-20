@@ -27,6 +27,7 @@ test("Un verificador designado en el mandato debe acreditar las claves para regi
   e.command("open", "abrir", {
     ...e.grant,
     commercialAuthority: verifier.publicKey,
+    commercialBudget: "bank-outlays-v1",
   });
   const enroll = (who, role, id, group, key) =>
     who.proof("enrollment", {
@@ -124,14 +125,12 @@ test("El reparto de un depósito conserva los saldos, permite un reembolso parci
   assert.throws(() => e.order(aa), /ya aceptó/);
   e.command("sale-decline", {
     sale: aa.id,
-    proof: e.buyers
-      .get("uno")
-      .proof("decline", {
-        sale: aa.id,
-        offer: aa.digest,
-        reference: "rechazo",
-        at: e.now(),
-      }),
+    proof: e.buyers.get("uno").proof("decline", {
+      sale: aa.id,
+      offer: aa.digest,
+      reference: "rechazo",
+      at: e.now(),
+    }),
   });
   e.advance();
   e.deliver(a, oa, 150);
@@ -207,13 +206,20 @@ test("Un estudio no califica cuando discrepan horas, moneda, intervención o din
         arm: "candidate",
         action: "OFFER",
         applied: true,
-        close: { paid: 20, refunds: 0, cost: 0, labor: 2 },
+        close: {
+          paid: 20,
+          refunds: 0,
+          cost: 0,
+          labor: 2,
+          entries: [{ kind: "fee", reference: "pago", at: e.now(), cents: 20 }],
+        },
       },
     ],
   };
   const read = (view = trial) =>
     commercialReadiness(s, [view], "DEMONSTRATION").randomizedTrials[0];
-  assert.equal(read().status, "BANK_MATCHED_INCREMENTAL_MARGIN");
+  assert.equal(read().matched, 1);
+  assert.equal(read().status, "AWAIT_INCREMENTAL_EVIDENCE");
   for (const changed of [
     { applied: false },
     { action: "WAIT" },

@@ -284,14 +284,12 @@ test("Firmas, pedidos, costos compartidos y pérdidas se concilian de extremo a 
   const a = e.offer("a", "ana"),
     b = e.offer("b", "bea");
   assert.match(e.desk.quote("a").text, /comisión/);
-  const bad = e.buyers
-    .get("bea")
-    .proof("order", {
-      sale: a.id,
-      offer: a.digest,
-      reference: "pedido",
-      at: e.now(),
-    });
+  const bad = e.buyers.get("bea").proof("order", {
+    sale: a.id,
+    offer: a.digest,
+    reference: "pedido",
+    at: e.now(),
+  });
   assert.throws(
     () => e.command("sale-order", { sale: a.id, proof: bad }),
     /firma/,
@@ -333,14 +331,12 @@ test("Firmas, pedidos, costos compartidos y pérdidas se concilian de extremo a 
   assert.throws(() => e.statement([wrong], 117), /conciliado/);
   e.command("sale-decline", {
     sale: b.id,
-    proof: e.buyers
-      .get("bea")
-      .proof("decline", {
-        sale: b.id,
-        offer: b.digest,
-        at: e.now(),
-        reference: "no-b",
-      }),
+    proof: e.buyers.get("bea").proof("decline", {
+      sale: b.id,
+      offer: b.digest,
+      at: e.now(),
+      reference: "no-b",
+    }),
   });
   e.statement(
     [
@@ -381,6 +377,7 @@ test("Libros repetidos, extractos solapados y firmas sin grupo independiente imp
     tip: "tip-" + i,
     currency: "MXN",
     mode: "LIVE",
+    documentation: { status: "ORIGINALS_MATCHED" },
     programs: { p: "credito" },
     buyers: { c: { group: "g-" + i, signer: "k-" + i } },
     windows: [{ source: "bank", from: i * 1e9, until: (i + 1) * 1e9 }],

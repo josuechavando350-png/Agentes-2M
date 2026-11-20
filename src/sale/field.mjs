@@ -1,5 +1,6 @@
 import { check, hash } from "../factory/reader.mjs";
 import { salesReport } from "./book.mjs";
+import { marginRandomization } from "./experiment.mjs";
 
 export function pilotAssignment(trials, subject, scope, id, at) {
   if (id === null) return null;
@@ -78,6 +79,34 @@ export function commercialReadiness(s, trials, mode = "LIVE") {
               )
               .reduce((v, l) => v + l.cents, 0)
           : 0;
+        const linkedBank = [
+          ...lines,
+          ...(activity
+            ? feed.filter(
+                (l) => l.kind === "field-cost" && l.original === activity.id,
+              )
+            : []),
+        ];
+        const ordered = (rows) => rows.map((row) => JSON.stringify(row)).sort();
+        const bankRefs = linkedBank.map((l) => [
+          l.kind === "field-cost" ? "cost" : l.kind,
+          l.id,
+          l.at,
+          l.cents,
+        ]);
+        const fieldRefs = observation.entries?.map((l) => [
+          l.kind,
+          l.reference,
+          l.at,
+          l.cents,
+        ]);
+        if (
+          !fieldRefs ||
+          hash(ordered(bankRefs)) !== hash(ordered(fieldRefs))
+        ) {
+          issues.push([buyer.id, "MOVEMENT_REFERENCES_DIFFER"]);
+          continue;
+        }
         const interfering = lines.some(
           (l) => b.offers.get(l.sale)?.pilot !== t.trial,
         );
@@ -119,6 +148,27 @@ export function commercialReadiness(s, trials, mode = "LIVE") {
         }
         matched++;
       }
+      const pairs = new Map();
+      for (const u of t.units) {
+        if (!u.close || !Number.isSafeInteger(u.pair)) continue;
+        const p = pairs.get(u.pair) ?? {};
+        p[u.arm] =
+          u.close.paid - u.close.refunds - u.close.cost - u.close.labor;
+        pairs.set(u.pair, p);
+      }
+      const complete =
+        matched === t.units.length &&
+        pairs.size > 0 &&
+        pairs.size * 2 === t.units.length &&
+        [...pairs.values()].every(
+          (p) => Object.hasOwn(p, "control") && Object.hasOwn(p, "candidate"),
+        );
+      const marginTest = complete
+        ? marginRandomization(
+            [...pairs.values()].map((p) => p.candidate - p.control),
+            t.alphaDenominator,
+          )
+        : null;
       return {
         id: t.trial,
         candidate: t.candidate,
@@ -129,8 +179,9 @@ export function commercialReadiness(s, trials, mode = "LIVE") {
         units: t.units.length,
         matched,
         issues,
+        marginTest,
         status:
-          matched === t.units.length && t.status === "QUALIFIED_IN_SCOPE"
+          complete && t.status === "QUALIFIED_IN_SCOPE" && marginTest?.passes
             ? "BANK_MATCHED_INCREMENTAL_MARGIN"
             : "AWAIT_INCREMENTAL_EVIDENCE",
       };

@@ -75,7 +75,7 @@ function firstBest(sums) {
   for (let i = 1; i < sums.length; i++) if (sums[i] > sums[best]) best = i;
   return best;
 }
-function auditSector(rows, rules, ranges) {
+export function auditSector(rows, rules, ranges) {
   const digest = createHash("sha256"),
     block = Buffer.alloc(32768);
   let length = 0,
@@ -119,26 +119,34 @@ export function runNative(layout, rows, rules, threads, sealed) {
   ]
     .map((v) => v.join(" "))
     .join("\n");
-  const run = spawnSync(executable, [sealed ? "offers" : "offers-scores"], {
-    input,
-    encoding: "utf8",
-    timeout: 180000,
-    maxBuffer: 12e6,
-  });
+  const run = spawnSync(
+    executable,
+    [sealed ? "offers-packed" : "offers-scores-packed"],
+    {
+      input,
+      timeout: 180000,
+      maxBuffer: 12e6,
+    },
+  );
   if (run.error || run.status !== 0) throw run.error ?? Error(run.stderr);
-  const lines = run.stdout.trim().split("\n");
-  assert.equal(lines.length, 10);
+  const binary = run.stdout,
+    receiptLength = sealed ? 64 : 0,
+    stride = receiptLength + 8 * rules.length;
+  assert.equal(binary.toString("ascii", 0, 4), sealed ? "SGN1" : "SUM1");
+  assert.equal(binary.length, 4 + 10 * stride);
   const total = Array(rules.length).fill(0);
-  const sectors = lines.map((line, i) => {
-    const [seal, ...data] = line.split(" ");
+  const sectors = ranges.map((_, i) => {
+    const start = 4 + i * stride,
+      seal = sealed ? binary.toString("ascii", start, start + 64) : "scores";
     if (sealed) assert.match(seal, /^[a-f0-9]{64}$/);
-    else assert.equal(seal, "scores");
-    assert.equal(data.length, rules.length);
-    data.forEach((v, j) => {
-      const value = Number(v);
+    for (let j = 0; j < rules.length; j++) {
+      const offset = start + receiptLength + 8 * j;
+      const value =
+        binary.readInt32LE(offset + 4) * 4294967296 +
+        binary.readUInt32LE(offset);
       num(value, -1e13, 1e13);
       total[j] += value;
-    });
+    }
     return { sector: i + 1, participants: perSector, ranges: ranges[i], seal };
   });
   return {

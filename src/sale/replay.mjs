@@ -26,7 +26,15 @@ export function saleReplayInput(s, record, at, treasury, trials) {
     trials: record.data.pilot
       ? trials.filter((t) => t.trial === record.data.pilot)
       : [],
-    state: { open: s.open, spent: s.spent, held: s.held, jobs, sales },
+    state: {
+      open: s.open,
+      openedAt: s.openedAt,
+      commercialSpent: s.commercialSpent ?? 0,
+      spent: s.spent,
+      held: s.held,
+      jobs,
+      sales,
+    },
   };
 }
 export function evaluateSale(input) {
