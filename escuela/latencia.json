@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-20T02:12:14.066Z",
-  "commit": "886212c8d9cd0ee572617984f1a46fcfdf660664",
+  "measuredAt": "2026-11-20T03:00:02.874Z",
+  "commit": "215063ee10de73472be4e315b0e9033e34d54a20",
   "runtime": {
     "node": "v24.22.2",
     "platform": "linux",
     "os": "7.0.0-1019-azure",
     "arch": "x64",
-    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
     "availableCpus": 4
   },
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "f116ac0bdcb231c2943fc817cceacaf8e190d7167b7538ca241f7070cb128f5c",
-    "population": 100027972,
+    "checkpoint": "98731a1733305e8ac4f53e9b0f6906385ba8118f82160630fb404fa918527be4",
+    "population": 100028638,
     "founders": 100000000,
-    "tested": 100027972,
+    "tested": 100028638,
     "bytesPerRow": 8,
-    "bodyBytes": 800223776,
-    "headerBytes": 23358,
-    "compressedBytes": 1169470,
-    "sha256Uncompressed": "8376594cd4bbb41ac96e3e3c88e8f93459d3ff01c188ea17a0cf9ef1922b9de0",
+    "bodyBytes": 800229104,
+    "headerBytes": 25423,
+    "compressedBytes": 1169590,
+    "sha256Uncompressed": "1d0e7c26c6fad52034a1aab34e22feb02c5df10b0aeeec76e202cc9a13bdfe0d",
     "threads": 4,
-    "nativeExamAndGzipMs": 2155.197496,
-    "independentVerificationMs": 617.5130940000004,
+    "nativeExamAndGzipMs": 3386.4392989999997,
+    "independentVerificationMs": 809.5663880000002,
     "sectors": [
       {
         "identities": 10003330,
@@ -37,9 +37,9 @@
         "tested": 10003330
       },
       {
-        "identities": 10002664,
+        "identities": 10003330,
         "founders": 10000000,
-        "tested": 10002664
+        "tested": 10003330
       },
       {
         "identities": 10002664,
@@ -79,52 +79,52 @@
     ]
   },
   "service": {
-    "checkpoint": "f116ac0bdcb231c2943fc817cceacaf8e190d7167b7538ca241f7070cb128f5c",
+    "checkpoint": "98731a1733305e8ac4f53e9b0f6906385ba8118f82160630fb404fa918527be4",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 401.11747000000014,
+    "coldStartAndFirstApprovedMs": 505.98768199999995,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.9203090000000884,
-        "p95Ms": 12.148753999999826,
-        "p99Ms": 21.172129999999925,
-        "maxMs": 21.594677000000047,
-        "elapsedMs": 500.9145620000004,
-        "actionsPerSecond": 255.53259919003892
+        "p50Ms": 4.028266999999687,
+        "p95Ms": 4.826570000000174,
+        "p99Ms": 6.089520999999877,
+        "maxMs": 21.30981900000006,
+        "elapsedMs": 544.9489590000003,
+        "actionsPerSecond": 234.88438299778446
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.802332000000206,
-        "p95Ms": 4.471201000000292,
-        "p99Ms": 9.947160000000622,
-        "maxMs": 12.410680000000866,
-        "elapsedMs": 403.43246700000054,
-        "actionsPerSecond": 317.27738957608443
+        "p50Ms": 3.943383000000722,
+        "p95Ms": 5.065270000000055,
+        "p99Ms": 7.084943999999268,
+        "maxMs": 17.815817000000607,
+        "elapsedMs": 536.8964169999999,
+        "actionsPerSecond": 238.4072531443249
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 14.846247999999832,
-        "p95Ms": 32.82505499999934,
-        "p99Ms": 36.434596000000056,
-        "maxMs": 38.922442000000046,
-        "elapsedMs": 451.21227199999976,
-        "actionsPerSecond": 283.6802275626051
+        "p50Ms": 17.634326999999757,
+        "p95Ms": 38.93473499999982,
+        "p99Ms": 48.59803400000055,
+        "maxMs": 48.81308200000058,
+        "elapsedMs": 532.6511060000003,
+        "actionsPerSecond": 240.30739551303952
       }
     ],
     "mission": {
       "status": "BUDGET_LIMIT",
-      "localMs": 2.8505850000001374,
+      "localMs": 4.692997999999534,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "70ebdd3a14f52560c0c8166667d2f7a719cb4ef5f5bcc83326f309483479ec69"
+    "replayedTip": "f386dad435918af92ed1f0ffd41d47147ef3fc7fb274c64a42df89055b785869"
   }
 }
