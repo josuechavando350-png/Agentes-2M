@@ -73,11 +73,11 @@
       "id": "semana-inaugural",
       "start": 1795063680215,
       "deadline": 1795668480215,
-      "phase": "DISCOVERY",
+      "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 40,
-      "documents": 43,
+      "spent": 50,
+      "documents": 44,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -277,6 +277,204 @@
             ]
           },
           "review": "e23d11459c1476f4d7996cf8ccec08a745e51e3c1b5eb83c1cbaa732c2d2031e",
+          "feedback": [],
+          "firstForecast": {
+            "paidProbability": null,
+            "observations": 0,
+            "priceMxnCents": null,
+            "costMxnCents": null,
+            "deliveryDays": null
+          },
+          "observed": null,
+          "paidMxnCents": 0,
+          "bookedExpenseMxnCents": 0,
+          "bookedNetMxnCents": 0,
+          "brier": null
+        },
+        {
+          "subject": "mx-043cfef146a072555f95",
+          "firstDecision": "INVESTIGATE",
+          "latest": {
+            "mission": "semana-inaugural",
+            "subject": "mx-043cfef146a072555f95",
+            "at": 1795150276327,
+            "revision": "669d1c073386a07347bf61c5af8baca96a412a102521151c9ca195e1685657fd",
+            "decision": "INVESTIGATE",
+            "checks": {
+              "buyer": {
+                "status": "SUPPORTED",
+                "value": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL",
+                "refs": [
+                  {
+                    "document": "mx-043cfef146a072555f95",
+                    "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr009-n-3-2027",
+                    "sha256": "663550bcd45fc8beee925658a68a75200d1059ab9ada811852c9c57f19b5dcfd",
+                    "row": 1,
+                    "pointer": "/dependencia",
+                    "quote": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL"
+                  }
+                ],
+                "usable": true,
+                "actor": 80888658
+              },
+              "prior_spend_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 1775578
+              },
+              "authority": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 52656306
+              },
+              "alternative": {
+                "status": "SUPPORTED",
+                "value": "LICITACIÓN PÚBLICA",
+                "refs": [
+                  {
+                    "document": "mx-043cfef146a072555f95",
+                    "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr009-n-3-2027",
+                    "sha256": "663550bcd45fc8beee925658a68a75200d1059ab9ada811852c9c57f19b5dcfd",
+                    "row": 3,
+                    "pointer": "/tipo_procedimiento",
+                    "quote": "LICITACIÓN PÚBLICA"
+                  }
+                ],
+                "usable": true,
+                "actor": 33330090
+              },
+              "access": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 54229713
+              },
+              "scope": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 85032978
+              },
+              "price_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 6538555
+              },
+              "cost_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 67133801
+              },
+              "delivery_days": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 8667956
+              },
+              "acceptance": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 29952608
+              }
+            },
+            "veto": [],
+            "gaps": [
+              {
+                "field": "access",
+                "question": "¿El comprador confirmó el acceso indispensable para entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [
+                  "ABANDON"
+                ],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "authority",
+                "question": "¿Qué puesto puede autorizar el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "delivery_days",
+                "question": "¿Cuántos días toma entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "prior_spend_mxn_cents",
+                "question": "¿Qué pagó recientemente el comprador por resolverlo?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "scope",
+                "question": "¿Qué entrega concreta aceptaría el comprador?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "price_mxn_cents",
+                "question": "¿Qué precio de piloto respalda la fuente?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "acceptance",
+                "question": "¿Qué medición demostraría que funcionó el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "cost_mxn_cents",
+                "question": "¿Cuál es el costo completo estimado de entregar ese piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 3
+              }
+            ],
+            "nextQuestion": "¿El comprador confirmó el acceso indispensable para entregar?",
+            "abandonIf": "Acceso indispensable denegado o margen del piloto no positivo",
+            "forecast": {
+              "paidProbability": null,
+              "observations": 0,
+              "priceMxnCents": null,
+              "costMxnCents": null,
+              "deliveryDays": null
+            },
+            "offer": null,
+            "actors": [
+              80888658,
+              1775578,
+              52656306,
+              33330090,
+              54229713,
+              85032978,
+              6538555,
+              67133801,
+              8667956,
+              29952608
+            ]
+          },
+          "review": "cc538eb9133a3661822370144c5fc053039828c4780d300e3a954d51ae674943",
           "feedback": [],
           "firstForecast": {
             "paidProbability": null,
@@ -1010,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "cd074d6ceb2e5baf7f6884629a3379babe77900f02baf6571b1aa1fdfea4ae65"
+  "checkpoint": "0f819f58f89949b2c0416ac5b31ad69d6456e76c8063ec620fd9e4edcc1d56af"
 }

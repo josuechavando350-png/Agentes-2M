@@ -5,14 +5,14 @@
     "generation": 1,
     "policy": "indexed"
   },
-  "seed": "c8421dcb8d951681efaf1b3421abb342417518c928e0eaec",
-  "checkpoint": "98731a1733305e8ac4f53e9b0f6906385ba8118f82160630fb404fa918527be4",
-  "code": "215063ee10de73472be4e315b0e9033e34d54a20",
-  "createdAt": "2026-11-20T03:00:53.860Z",
+  "seed": "df58e24ff8ae8ac99b95e7b9e0517534fca2233438275ca7",
+  "checkpoint": "0f819f58f89949b2c0416ac5b31ad69d6456e76c8063ec620fd9e4edcc1d56af",
+  "code": "9d86438df8cbb2c4d9c8d3ee1719617cd205d680",
+  "createdAt": "2026-11-20T04:51:59.988Z",
   "resources": {
     "creditCeilingPerCase": 100,
     "maxNativeLanes": 4,
-    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "cpu": "Intel(R) Xeon(R) 6975P-C",
     "availableCpus": 4,
     "node": "v24.22.2",
     "storage": "SQLite WAL FULL en disco"
@@ -27,14 +27,14 @@
       "workerRowReads": 32256,
       "credits": 36,
       "commitMs": {
-        "p50": 3.111,
-        "p95": 9.747,
-        "max": 12.408
+        "p50": 2.054,
+        "p95": 6.708,
+        "max": 8.268
       },
       "nativeMs": {
         "p50": 0.002,
-        "p95": 0.007,
-        "max": 0.007
+        "p95": 0.005,
+        "max": 0.005
       },
       "foundOnlyByTeam": 0
     },
@@ -47,14 +47,14 @@
       "workerRowReads": 32256,
       "credits": 360,
       "commitMs": {
-        "p50": 5.234,
-        "p95": 10.66,
-        "max": 11.432
+        "p50": 3.082,
+        "p95": 7.056,
+        "max": 8.284
       },
       "nativeMs": {
-        "p50": 0.258,
-        "p95": 0.468,
-        "max": 0.583
+        "p50": 0.183,
+        "p95": 0.227,
+        "max": 0.24
       },
       "foundOnlyByTeam": 0
     },
@@ -67,14 +67,14 @@
       "workerRowReads": 32256,
       "credits": 3600,
       "commitMs": {
-        "p50": 9.19,
-        "p95": 13.906,
-        "max": 14.432
+        "p50": 6.369,
+        "p95": 9.755,
+        "max": 10.532
       },
       "nativeMs": {
-        "p50": 0.25,
-        "p95": 0.287,
-        "max": 0.304
+        "p50": 0.192,
+        "p95": 0.413,
+        "max": 0.799
       },
       "foundOnlyByTeam": 0
     }
@@ -82,8 +82,8 @@
   "cases": [
     {
       "case": 1,
-      "inputDigest": "02aa892449cffda2f485731c025980f6714f3b815411e70c760508528f8bea4b",
-      "expectedDigest": "ac0f5b7b4c2338e64e3d56237cf69c10540f6479b488f2f4d7149d72d36a9d84",
+      "inputDigest": "7ce2c030be166fffeb34cb8ab616531266ae6ff8037270a880418f67380eb8af",
+      "expectedDigest": "0e353cafd47a123c40f1266c92c96513b5434edabb72ffef58db71aedb8dfff1",
       "expected": "SUPPORTED",
       "rows": 128,
       "arms": [
@@ -95,9 +95,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "ac0f5b7b4c2338e64e3d56237cf69c10540f6479b488f2f4d7149d72d36a9d84",
-          "latencyMs": 4.065364999999929,
-          "scanMs": 0.00164
+          "answerDigest": "0e353cafd47a123c40f1266c92c96513b5434edabb72ffef58db71aedb8dfff1",
+          "latencyMs": 1.9493009999999913,
+          "scanMs": 0.001122
         },
         {
           "size": 10,
@@ -107,9 +107,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "ac0f5b7b4c2338e64e3d56237cf69c10540f6479b488f2f4d7149d72d36a9d84",
-          "latencyMs": 3.8940990000000966,
-          "scanMs": 0.280557
+          "answerDigest": "0e353cafd47a123c40f1266c92c96513b5434edabb72ffef58db71aedb8dfff1",
+          "latencyMs": 2.7242369999999028,
+          "scanMs": 0.214111
         },
         {
           "size": 100,
@@ -119,15 +119,15 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "ac0f5b7b4c2338e64e3d56237cf69c10540f6479b488f2f4d7149d72d36a9d84",
-          "latencyMs": 8.94062800000006,
-          "scanMs": 0.284735
+          "answerDigest": "0e353cafd47a123c40f1266c92c96513b5434edabb72ffef58db71aedb8dfff1",
+          "latencyMs": 5.294120000000021,
+          "scanMs": 0.208429
         }
       ]
     },
     {
       "case": 2,
-      "inputDigest": "ba4b693fa81c56f75ad221907204192b81d372fe7397a4e4d3d2fd202fe072a4",
+      "inputDigest": "cd144048fcd3ebbf7ef2025e7b3e162723fe1076dd429daea143f2c8aba059fc",
       "expectedDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
       "expected": "UNKNOWN",
       "rows": 512,
@@ -141,8 +141,8 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 7.740262000000257,
-          "scanMs": 0.252931
+          "latencyMs": 3.343112999999903,
+          "scanMs": 0.201625
         },
         {
           "size": 100,
@@ -153,8 +153,8 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 9.27701100000013,
-          "scanMs": 0.253381
+          "latencyMs": 5.757500999999593,
+          "scanMs": 0.25719
         },
         {
           "size": 1,
@@ -165,15 +165,15 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 3.128327999999783,
-          "scanMs": 0.002136
+          "latencyMs": 2.0536409999999705,
+          "scanMs": 0.001268
         }
       ]
     },
     {
       "case": 3,
-      "inputDigest": "e467d8ba744a4e1345cd3f27f9c0ee50c31ae064efccdfdf55628dcd514500b2",
-      "expectedDigest": "9e27d5aee6143c46a000b425aa89559c7ca701470dc2fd5e92d26f1058e5ec99",
+      "inputDigest": "3ec0d4f88ca291719aec5a72bcaa2711002dbec4f2cc8d36ac5efebda0aca02f",
+      "expectedDigest": "dc56f6032c2c7ed5bc7c10593f0075162bcaf394da29e3b9cdef45e6fa6f4f35",
       "expected": "CONFLICTED",
       "rows": 2048,
       "arms": [
@@ -185,9 +185,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "9e27d5aee6143c46a000b425aa89559c7ca701470dc2fd5e92d26f1058e5ec99",
-          "latencyMs": 13.779292999999598,
-          "scanMs": 0.221056
+          "answerDigest": "dc56f6032c2c7ed5bc7c10593f0075162bcaf394da29e3b9cdef45e6fa6f4f35",
+          "latencyMs": 7.186314999999922,
+          "scanMs": 0.202255
         },
         {
           "size": 1,
@@ -197,9 +197,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "9e27d5aee6143c46a000b425aa89559c7ca701470dc2fd5e92d26f1058e5ec99",
-          "latencyMs": 7.124079999999594,
-          "scanMs": 0.00735
+          "answerDigest": "dc56f6032c2c7ed5bc7c10593f0075162bcaf394da29e3b9cdef45e6fa6f4f35",
+          "latencyMs": 3.7144969999999375,
+          "scanMs": 0.003624
         },
         {
           "size": 10,
@@ -209,16 +209,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "9e27d5aee6143c46a000b425aa89559c7ca701470dc2fd5e92d26f1058e5ec99",
-          "latencyMs": 6.268987999999808,
-          "scanMs": 0.270548
+          "answerDigest": "dc56f6032c2c7ed5bc7c10593f0075162bcaf394da29e3b9cdef45e6fa6f4f35",
+          "latencyMs": 7.01324300000033,
+          "scanMs": 0.136602
         }
       ]
     },
     {
       "case": 4,
-      "inputDigest": "c348be7af744569828c9e2e3c09a01b10d153da5e35902981b8740e84a3c3bb7",
-      "expectedDigest": "3fab48bcaac7bb37433222b5564263616d826fb300ced517f0cee2d36398c791",
+      "inputDigest": "1737661186effaca6694068b193caa89e46e9d4a2835c8fa0152828b29b67bcb",
+      "expectedDigest": "dec36098572f4846ec09457e7eb7a762ef4a98c6aecb1e4e6a4b7b3a55aa78b1",
       "expected": "SUPPORTED",
       "rows": 128,
       "arms": [
@@ -230,9 +230,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3fab48bcaac7bb37433222b5564263616d826fb300ced517f0cee2d36398c791",
-          "latencyMs": 11.929435999999441,
-          "scanMs": 0.27579
+          "answerDigest": "dec36098572f4846ec09457e7eb7a762ef4a98c6aecb1e4e6a4b7b3a55aa78b1",
+          "latencyMs": 6.7801800000002,
+          "scanMs": 0.172294
         },
         {
           "size": 10,
@@ -242,9 +242,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3fab48bcaac7bb37433222b5564263616d826fb300ced517f0cee2d36398c791",
-          "latencyMs": 4.73220499999934,
-          "scanMs": 0.228981
+          "answerDigest": "dec36098572f4846ec09457e7eb7a762ef4a98c6aecb1e4e6a4b7b3a55aa78b1",
+          "latencyMs": 3.7294959999999264,
+          "scanMs": 0.174831
         },
         {
           "size": 1,
@@ -254,16 +254,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3fab48bcaac7bb37433222b5564263616d826fb300ced517f0cee2d36398c791",
-          "latencyMs": 2.479912000000695,
-          "scanMs": 0.001313
+          "answerDigest": "dec36098572f4846ec09457e7eb7a762ef4a98c6aecb1e4e6a4b7b3a55aa78b1",
+          "latencyMs": 1.7221669999998994,
+          "scanMs": 0.001247
         }
       ]
     },
     {
       "case": 5,
-      "inputDigest": "622c876279f5288790106ef0d7f01dd63af7371d0a94f87462b02c900748b9fa",
-      "expectedDigest": "c39df9551e3f2efc1bd2f6cd98ed340810006310c1fac443b8d330d7289d9895",
+      "inputDigest": "32b5e27ebf0175dcef5a16c9345f7099c75742d34a41e3575f889ae0b17fd098",
+      "expectedDigest": "d3ba7118e112bb9018ced413fb31aaa941f5069454ceeda6c3af9fe3d7fe6859",
       "expected": "UNKNOWN",
       "rows": 512,
       "arms": [
@@ -275,9 +275,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c39df9551e3f2efc1bd2f6cd98ed340810006310c1fac443b8d330d7289d9895",
-          "latencyMs": 3.713050999999723,
-          "scanMs": 0.257807
+          "answerDigest": "d3ba7118e112bb9018ced413fb31aaa941f5069454ceeda6c3af9fe3d7fe6859",
+          "latencyMs": 2.854309999999714,
+          "scanMs": 0.18639
         },
         {
           "size": 1,
@@ -287,9 +287,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c39df9551e3f2efc1bd2f6cd98ed340810006310c1fac443b8d330d7289d9895",
-          "latencyMs": 2.8825630000001183,
-          "scanMs": 0.002051
+          "answerDigest": "d3ba7118e112bb9018ced413fb31aaa941f5069454ceeda6c3af9fe3d7fe6859",
+          "latencyMs": 6.707731999999851,
+          "scanMs": 0.001921
         },
         {
           "size": 100,
@@ -299,16 +299,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c39df9551e3f2efc1bd2f6cd98ed340810006310c1fac443b8d330d7289d9895",
-          "latencyMs": 8.492736999999579,
-          "scanMs": 0.268818
+          "answerDigest": "d3ba7118e112bb9018ced413fb31aaa941f5069454ceeda6c3af9fe3d7fe6859",
+          "latencyMs": 7.339074999999866,
+          "scanMs": 0.798897
         }
       ]
     },
     {
       "case": 6,
-      "inputDigest": "447c333a7964880ddee3b5f2b39eb2506d617ea297fa2153ea431fc9bf7b6691",
-      "expectedDigest": "8c8bc2467da428eda59bd21aa71494e29efd0f102da201f2f363ec50e69c7c6c",
+      "inputDigest": "1ce35a9165f6cac23a1dd17dbaa77f093f6ac8db5dbe4cc6519ba8ee2dc36dfe",
+      "expectedDigest": "a156df772e48ac81ad51d07cd1c0fe22dfaa909f53b653c752dc141458f253d2",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -320,9 +320,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "8c8bc2467da428eda59bd21aa71494e29efd0f102da201f2f363ec50e69c7c6c",
-          "latencyMs": 12.408278999999311,
-          "scanMs": 0.006924
+          "answerDigest": "a156df772e48ac81ad51d07cd1c0fe22dfaa909f53b653c752dc141458f253d2",
+          "latencyMs": 4.612912999999935,
+          "scanMs": 0.003311
         },
         {
           "size": 100,
@@ -332,9 +332,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "8c8bc2467da428eda59bd21aa71494e29efd0f102da201f2f363ec50e69c7c6c",
-          "latencyMs": 9.719896000000517,
-          "scanMs": 0.266095
+          "answerDigest": "a156df772e48ac81ad51d07cd1c0fe22dfaa909f53b653c752dc141458f253d2",
+          "latencyMs": 6.867662999999993,
+          "scanMs": 0.185526
         },
         {
           "size": 10,
@@ -344,16 +344,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "8c8bc2467da428eda59bd21aa71494e29efd0f102da201f2f363ec50e69c7c6c",
-          "latencyMs": 6.487970000000132,
-          "scanMs": 0.26606
+          "answerDigest": "a156df772e48ac81ad51d07cd1c0fe22dfaa909f53b653c752dc141458f253d2",
+          "latencyMs": 3.9505499999995664,
+          "scanMs": 0.147248
         }
       ]
     },
     {
       "case": 7,
-      "inputDigest": "0c6ca07a514d0c2658547c5eb4cefa39537fd47bfb3a09249f7c470aee0f9a8a",
-      "expectedDigest": "53abdc727de54a3b1c3a24d4983cfd994e2417c1b4276b6b1502ad3162da2454",
+      "inputDigest": "4d9a52a52e646a143dd02b3b2638671668deceeff2bbe4e699ddd6c414b778c1",
+      "expectedDigest": "f3ff8b0fdbca1a026a4c886c013b35cb3c95923d17f74f064b7b507e0d4ad639",
       "expected": "SUPPORTED",
       "rows": 512,
       "arms": [
@@ -365,9 +365,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "53abdc727de54a3b1c3a24d4983cfd994e2417c1b4276b6b1502ad3162da2454",
-          "latencyMs": 2.7451510000009876,
-          "scanMs": 0.002007
+          "answerDigest": "f3ff8b0fdbca1a026a4c886c013b35cb3c95923d17f74f064b7b507e0d4ad639",
+          "latencyMs": 5.926590000000033,
+          "scanMs": 0.002463
         },
         {
           "size": 10,
@@ -377,9 +377,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "53abdc727de54a3b1c3a24d4983cfd994e2417c1b4276b6b1502ad3162da2454",
-          "latencyMs": 3.5492040000008274,
-          "scanMs": 0.253096
+          "answerDigest": "f3ff8b0fdbca1a026a4c886c013b35cb3c95923d17f74f064b7b507e0d4ad639",
+          "latencyMs": 2.7399149999992005,
+          "scanMs": 0.210601
         },
         {
           "size": 100,
@@ -389,16 +389,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "53abdc727de54a3b1c3a24d4983cfd994e2417c1b4276b6b1502ad3162da2454",
-          "latencyMs": 7.636652999999569,
-          "scanMs": 0.242193
+          "answerDigest": "f3ff8b0fdbca1a026a4c886c013b35cb3c95923d17f74f064b7b507e0d4ad639",
+          "latencyMs": 5.0530509999998685,
+          "scanMs": 0.177799
         }
       ]
     },
     {
       "case": 8,
-      "inputDigest": "8adb8a7f61761566e88db68ab90654a6059b0184531ea2c259845b04362f67ce",
-      "expectedDigest": "497b32cdf3b6287a61dabf33ef9fe064de6d4b508166705da02ecbcff7f5783c",
+      "inputDigest": "71250757f7ab397229738489f9fc7aa8c21de1ebf4e9c39c34adc0fdf2a3067b",
+      "expectedDigest": "c2e4627d10d4e5bea5fcdcb602c02ba8d8cf173e1d15d3b617ae888cb9ff903b",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -410,9 +410,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "497b32cdf3b6287a61dabf33ef9fe064de6d4b508166705da02ecbcff7f5783c",
-          "latencyMs": 10.35946100000001,
-          "scanMs": 0.225212
+          "answerDigest": "c2e4627d10d4e5bea5fcdcb602c02ba8d8cf173e1d15d3b617ae888cb9ff903b",
+          "latencyMs": 5.475868999999875,
+          "scanMs": 0.215228
         },
         {
           "size": 100,
@@ -422,9 +422,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "497b32cdf3b6287a61dabf33ef9fe064de6d4b508166705da02ecbcff7f5783c",
-          "latencyMs": 9.689126000001124,
-          "scanMs": 0.21536
+          "answerDigest": "c2e4627d10d4e5bea5fcdcb602c02ba8d8cf173e1d15d3b617ae888cb9ff903b",
+          "latencyMs": 8.473281000000497,
+          "scanMs": 0.170872
         },
         {
           "size": 1,
@@ -434,16 +434,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "497b32cdf3b6287a61dabf33ef9fe064de6d4b508166705da02ecbcff7f5783c",
-          "latencyMs": 4.367291000000478,
-          "scanMs": 0.004426
+          "answerDigest": "c2e4627d10d4e5bea5fcdcb602c02ba8d8cf173e1d15d3b617ae888cb9ff903b",
+          "latencyMs": 3.2939429999987624,
+          "scanMs": 0.003285
         }
       ]
     },
     {
       "case": 9,
-      "inputDigest": "b3654ef59b74f8066d1192031e86182f0ffa6e0ff9593e8b7a12fea7db359aa1",
-      "expectedDigest": "0944c6626353b9992d63429cb4b158eee56cbf387f5de03ae0bbafb5d9c8335b",
+      "inputDigest": "173d1328fd0f7235254ab8e7ee072226921ae2034ee4acf4981a6d31f8b939ec",
+      "expectedDigest": "39215159bae5f820ad2c5672bbc4400aec75a4545c63ebe734a561681eeb1630",
       "expected": "CONFLICTED",
       "rows": 128,
       "arms": [
@@ -455,9 +455,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "0944c6626353b9992d63429cb4b158eee56cbf387f5de03ae0bbafb5d9c8335b",
-          "latencyMs": 6.984126999999717,
-          "scanMs": 0.262808
+          "answerDigest": "39215159bae5f820ad2c5672bbc4400aec75a4545c63ebe734a561681eeb1630",
+          "latencyMs": 7.782427000000098,
+          "scanMs": 0.208913
         },
         {
           "size": 1,
@@ -467,9 +467,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "0944c6626353b9992d63429cb4b158eee56cbf387f5de03ae0bbafb5d9c8335b",
-          "latencyMs": 2.3288880000000063,
-          "scanMs": 0.001561
+          "answerDigest": "39215159bae5f820ad2c5672bbc4400aec75a4545c63ebe734a561681eeb1630",
+          "latencyMs": 1.6760319999993953,
+          "scanMs": 0.001613
         },
         {
           "size": 10,
@@ -479,16 +479,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "0944c6626353b9992d63429cb4b158eee56cbf387f5de03ae0bbafb5d9c8335b",
-          "latencyMs": 4.452796999999919,
-          "scanMs": 0.261174
+          "answerDigest": "39215159bae5f820ad2c5672bbc4400aec75a4545c63ebe734a561681eeb1630",
+          "latencyMs": 2.4433910000007018,
+          "scanMs": 0.178598
         }
       ]
     },
     {
       "case": 10,
-      "inputDigest": "64a226b56bed259c709399473645fd1bf9e750bd15f805eeca447b6973b298a4",
-      "expectedDigest": "fe38f5452deacf4b5c2954533ee51c11ae7b6c42312671431d1e0c3db18a0ebd",
+      "inputDigest": "98bcaede6b8bca3c7c7c8213a3d239ad2e0981fba0051b4b359f0801ecb936d9",
+      "expectedDigest": "500ffa4cc436fca6a1306a1711f597eace71860e48ec56bfe90786bce1b2c8dc",
       "expected": "SUPPORTED",
       "rows": 512,
       "arms": [
@@ -500,9 +500,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "fe38f5452deacf4b5c2954533ee51c11ae7b6c42312671431d1e0c3db18a0ebd",
-          "latencyMs": 6.897864000000482,
-          "scanMs": 0.236936
+          "answerDigest": "500ffa4cc436fca6a1306a1711f597eace71860e48ec56bfe90786bce1b2c8dc",
+          "latencyMs": 5.0049309999994875,
+          "scanMs": 0.20405
         },
         {
           "size": 10,
@@ -512,9 +512,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "fe38f5452deacf4b5c2954533ee51c11ae7b6c42312671431d1e0c3db18a0ebd",
-          "latencyMs": 7.378747999999177,
-          "scanMs": 0.467838
+          "answerDigest": "500ffa4cc436fca6a1306a1711f597eace71860e48ec56bfe90786bce1b2c8dc",
+          "latencyMs": 2.7999369999997725,
+          "scanMs": 0.178615
         },
         {
           "size": 1,
@@ -524,16 +524,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "fe38f5452deacf4b5c2954533ee51c11ae7b6c42312671431d1e0c3db18a0ebd",
-          "latencyMs": 6.6805829999993875,
-          "scanMs": 0.002192
+          "answerDigest": "500ffa4cc436fca6a1306a1711f597eace71860e48ec56bfe90786bce1b2c8dc",
+          "latencyMs": 2.477108999999473,
+          "scanMs": 0.001813
         }
       ]
     },
     {
       "case": 11,
-      "inputDigest": "a1c935c8ec540881839df3563ddb0e71bd6d77129cafb9b1e3c17050cc4ac988",
-      "expectedDigest": "253759517235f7bfac7934ff9026cc3054cb1858ec1c4adb67fbe08f0f7f4f63",
+      "inputDigest": "bc5359fa27922a44cefb912f55da5ae1f17478141ad7a13f545c2b2059aff755",
+      "expectedDigest": "2bc3b327b866795054204352c13dea6abebeafaa46dc6f3ba187d01b93299795",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -545,9 +545,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "253759517235f7bfac7934ff9026cc3054cb1858ec1c4adb67fbe08f0f7f4f63",
-          "latencyMs": 6.002986999999848,
-          "scanMs": 0.26217
+          "answerDigest": "2bc3b327b866795054204352c13dea6abebeafaa46dc6f3ba187d01b93299795",
+          "latencyMs": 8.283690999998726,
+          "scanMs": 0.184017
         },
         {
           "size": 1,
@@ -557,9 +557,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "253759517235f7bfac7934ff9026cc3054cb1858ec1c4adb67fbe08f0f7f4f63",
-          "latencyMs": 5.548561999999947,
-          "scanMs": 0.004692
+          "answerDigest": "2bc3b327b866795054204352c13dea6abebeafaa46dc6f3ba187d01b93299795",
+          "latencyMs": 4.0705310000012105,
+          "scanMs": 0.00365
         },
         {
           "size": 100,
@@ -569,16 +569,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "253759517235f7bfac7934ff9026cc3054cb1858ec1c4adb67fbe08f0f7f4f63",
-          "latencyMs": 9.912082999999257,
-          "scanMs": 0.217565
+          "answerDigest": "2bc3b327b866795054204352c13dea6abebeafaa46dc6f3ba187d01b93299795",
+          "latencyMs": 6.443161999999575,
+          "scanMs": 0.213414
         }
       ]
     },
     {
       "case": 12,
-      "inputDigest": "fa9d51778ebd088a542c7654593c777bfe3d964928da6fb6a24e8486ddcf637d",
-      "expectedDigest": "2bdce0e8e59cec41fd5f2f4f093e973f1f82428cb0fe1d6a2b768046c965df89",
+      "inputDigest": "0f3dce639e144f5d16e91baba6f31fc43c8a38e91ffe975ac95290818cad6100",
+      "expectedDigest": "65f690f833175dc7f2a7d891bd9b352c7e79542ff1f38929b0c5ae095920b988",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -590,9 +590,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2bdce0e8e59cec41fd5f2f4f093e973f1f82428cb0fe1d6a2b768046c965df89",
-          "latencyMs": 2.4093400000019756,
-          "scanMs": 0.001492
+          "answerDigest": "65f690f833175dc7f2a7d891bd9b352c7e79542ff1f38929b0c5ae095920b988",
+          "latencyMs": 1.8175799999989977,
+          "scanMs": 0.001592
         },
         {
           "size": 100,
@@ -602,9 +602,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2bdce0e8e59cec41fd5f2f4f093e973f1f82428cb0fe1d6a2b768046c965df89",
-          "latencyMs": 13.905845000001136,
-          "scanMs": 0.280643
+          "answerDigest": "65f690f833175dc7f2a7d891bd9b352c7e79542ff1f38929b0c5ae095920b988",
+          "latencyMs": 4.605313000000024,
+          "scanMs": 0.224134
         },
         {
           "size": 10,
@@ -614,16 +614,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2bdce0e8e59cec41fd5f2f4f093e973f1f82428cb0fe1d6a2b768046c965df89",
-          "latencyMs": 3.2437989999998535,
-          "scanMs": 0.162791
+          "answerDigest": "65f690f833175dc7f2a7d891bd9b352c7e79542ff1f38929b0c5ae095920b988",
+          "latencyMs": 2.448046000001341,
+          "scanMs": 0.178312
         }
       ]
     },
     {
       "case": 13,
-      "inputDigest": "3fb1a630aa4902a84de50a224e9ec13efd9093f2f81d3839b1d496529219f976",
-      "expectedDigest": "606316384e03119ad4ef8b0f98657c75c5b585d268050257981204f9664e07ca",
+      "inputDigest": "e1e5a90852c53318c9f4bafa4c2bb50a9f9dd3b495c3044b14cf4ee678d5f09b",
+      "expectedDigest": "ced1f6b1373dc0d720094bcd213cd29686d31bb392c9b54ec36a5562d4e908dc",
       "expected": "SUPPORTED",
       "rows": 2048,
       "arms": [
@@ -635,9 +635,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "606316384e03119ad4ef8b0f98657c75c5b585d268050257981204f9664e07ca",
-          "latencyMs": 4.8268129999996745,
-          "scanMs": 0.004442
+          "answerDigest": "ced1f6b1373dc0d720094bcd213cd29686d31bb392c9b54ec36a5562d4e908dc",
+          "latencyMs": 8.26751399999921,
+          "scanMs": 0.005075
         },
         {
           "size": 10,
@@ -647,9 +647,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "606316384e03119ad4ef8b0f98657c75c5b585d268050257981204f9664e07ca",
-          "latencyMs": 6.343535999996675,
-          "scanMs": 0.276598
+          "answerDigest": "ced1f6b1373dc0d720094bcd213cd29686d31bb392c9b54ec36a5562d4e908dc",
+          "latencyMs": 4.2902759999997215,
+          "scanMs": 0.206217
         },
         {
           "size": 100,
@@ -659,16 +659,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "606316384e03119ad4ef8b0f98657c75c5b585d268050257981204f9664e07ca",
-          "latencyMs": 9.49284699999771,
-          "scanMs": 0.25013
+          "answerDigest": "ced1f6b1373dc0d720094bcd213cd29686d31bb392c9b54ec36a5562d4e908dc",
+          "latencyMs": 7.081647000000885,
+          "scanMs": 0.175361
         }
       ]
     },
     {
       "case": 14,
-      "inputDigest": "57a473769902ae0b74f185b14df9654d81f910c950949615be8476e3c626680c",
-      "expectedDigest": "1207f8a5fab1e0b33436a2467541aa46b6f8eaee21c3443cc16a6c65d690d6c8",
+      "inputDigest": "383c98793cc7f64b53089220e37aae68456f435c5006d3c55bf1bb0a0fa579b0",
+      "expectedDigest": "72de99f840d3367487a19d62b4e0d967d4a068a6f0e9217721961871b318ec59",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -680,9 +680,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "1207f8a5fab1e0b33436a2467541aa46b6f8eaee21c3443cc16a6c65d690d6c8",
-          "latencyMs": 3.3518939999994473,
-          "scanMs": 0.223108
+          "answerDigest": "72de99f840d3367487a19d62b4e0d967d4a068a6f0e9217721961871b318ec59",
+          "latencyMs": 2.285631000000649,
+          "scanMs": 0.192395
         },
         {
           "size": 100,
@@ -692,9 +692,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "1207f8a5fab1e0b33436a2467541aa46b6f8eaee21c3443cc16a6c65d690d6c8",
-          "latencyMs": 13.35034799999994,
-          "scanMs": 0.174767
+          "answerDigest": "72de99f840d3367487a19d62b4e0d967d4a068a6f0e9217721961871b318ec59",
+          "latencyMs": 5.099532000000181,
+          "scanMs": 0.217357
         },
         {
           "size": 1,
@@ -704,16 +704,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "1207f8a5fab1e0b33436a2467541aa46b6f8eaee21c3443cc16a6c65d690d6c8",
-          "latencyMs": 2.8406790000008186,
-          "scanMs": 0.001021
+          "answerDigest": "72de99f840d3367487a19d62b4e0d967d4a068a6f0e9217721961871b318ec59",
+          "latencyMs": 1.6264650000011898,
+          "scanMs": 0.001486
         }
       ]
     },
     {
       "case": 15,
-      "inputDigest": "3f3e54d75f23292adb60d702aaf2561c97c07e0dd86c09e48d2f2c3c997cfa2a",
-      "expectedDigest": "f5f036a876c13f29e8c8a7005201acb83dc49273bd71cce50fe10ef990e4a329",
+      "inputDigest": "03268e2bb3385cfa37d5d21061b7c0e527fdf428ee3f0f3bfc33d9cdec12d5aa",
+      "expectedDigest": "1f54ce619282c1b250ccc5418afc66249759563ae6a28732257e3f3deb50540e",
       "expected": "CONFLICTED",
       "rows": 512,
       "arms": [
@@ -725,9 +725,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "f5f036a876c13f29e8c8a7005201acb83dc49273bd71cce50fe10ef990e4a329",
-          "latencyMs": 7.473152999999002,
-          "scanMs": 0.2428
+          "answerDigest": "1f54ce619282c1b250ccc5418afc66249759563ae6a28732257e3f3deb50540e",
+          "latencyMs": 8.191945999999007,
+          "scanMs": 0.413312
         },
         {
           "size": 1,
@@ -737,9 +737,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "f5f036a876c13f29e8c8a7005201acb83dc49273bd71cce50fe10ef990e4a329",
-          "latencyMs": 2.7681369999991148,
-          "scanMs": 0.002338
+          "answerDigest": "1f54ce619282c1b250ccc5418afc66249759563ae6a28732257e3f3deb50540e",
+          "latencyMs": 1.9669689999991533,
+          "scanMs": 0.002199
         },
         {
           "size": 10,
@@ -749,16 +749,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "f5f036a876c13f29e8c8a7005201acb83dc49273bd71cce50fe10ef990e4a329",
-          "latencyMs": 3.945847999999387,
-          "scanMs": 0.270617
+          "answerDigest": "1f54ce619282c1b250ccc5418afc66249759563ae6a28732257e3f3deb50540e",
+          "latencyMs": 2.928147999999055,
+          "scanMs": 0.191909
         }
       ]
     },
     {
       "case": 16,
-      "inputDigest": "035621b2f6f391ffccd70f9d861a6ff37c5c64b7dcc07247848f7019f1e0979a",
-      "expectedDigest": "526e8320f41610079f3f1bd63452cf721002ced11837c6ff49e29b29fa096d33",
+      "inputDigest": "0ebe98f7c5f74fff404649295f100028a1fa595ce92cd79a6bbdc0c81cd8f901",
+      "expectedDigest": "27de0e57e8702d4021bbbe71c815a67c0191960f32198e3301edbc75ac1c10dc",
       "expected": "SUPPORTED",
       "rows": 2048,
       "arms": [
@@ -770,9 +770,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "526e8320f41610079f3f1bd63452cf721002ced11837c6ff49e29b29fa096d33",
-          "latencyMs": 8.911195000000589,
-          "scanMs": 0.280363
+          "answerDigest": "27de0e57e8702d4021bbbe71c815a67c0191960f32198e3301edbc75ac1c10dc",
+          "latencyMs": 6.759358999999677,
+          "scanMs": 0.172762
         },
         {
           "size": 10,
@@ -782,9 +782,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "526e8320f41610079f3f1bd63452cf721002ced11837c6ff49e29b29fa096d33",
-          "latencyMs": 11.432244999999966,
-          "scanMs": 0.257523
+          "answerDigest": "27de0e57e8702d4021bbbe71c815a67c0191960f32198e3301edbc75ac1c10dc",
+          "latencyMs": 6.222267000001011,
+          "scanMs": 0.167862
         },
         {
           "size": 1,
@@ -794,16 +794,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "526e8320f41610079f3f1bd63452cf721002ced11837c6ff49e29b29fa096d33",
-          "latencyMs": 4.814775999999256,
-          "scanMs": 0.00467
+          "answerDigest": "27de0e57e8702d4021bbbe71c815a67c0191960f32198e3301edbc75ac1c10dc",
+          "latencyMs": 3.5247810000000754,
+          "scanMs": 0.003933
         }
       ]
     },
     {
       "case": 17,
-      "inputDigest": "59178e51000263e4c364eaf0510cb1efdf2d711ecd51b7ac8c469fc20662e7a4",
-      "expectedDigest": "4e6911f7eb3f386456f9623b497ed56c16d4a489115f2b893d9d0dc2fc872967",
+      "inputDigest": "a857f3deec582afa22a58db00630115a3e64b1299895b84a97d49b1589119adf",
+      "expectedDigest": "5f1e4debf6d5ca6ae3d3cdecba3a618ef9b9348278bed4637579f065549bee06",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -815,9 +815,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4e6911f7eb3f386456f9623b497ed56c16d4a489115f2b893d9d0dc2fc872967",
-          "latencyMs": 3.594420999997965,
-          "scanMs": 0.271998
+          "answerDigest": "5f1e4debf6d5ca6ae3d3cdecba3a618ef9b9348278bed4637579f065549bee06",
+          "latencyMs": 4.812941000000137,
+          "scanMs": 0.226645
         },
         {
           "size": 1,
@@ -827,9 +827,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4e6911f7eb3f386456f9623b497ed56c16d4a489115f2b893d9d0dc2fc872967",
-          "latencyMs": 2.424721999999747,
-          "scanMs": 0.001647
+          "answerDigest": "5f1e4debf6d5ca6ae3d3cdecba3a618ef9b9348278bed4637579f065549bee06",
+          "latencyMs": 1.8501980000000913,
+          "scanMs": 0.001707
         },
         {
           "size": 100,
@@ -839,16 +839,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4e6911f7eb3f386456f9623b497ed56c16d4a489115f2b893d9d0dc2fc872967",
-          "latencyMs": 6.916610000000219,
-          "scanMs": 0.304325
+          "answerDigest": "5f1e4debf6d5ca6ae3d3cdecba3a618ef9b9348278bed4637579f065549bee06",
+          "latencyMs": 5.018793999999616,
+          "scanMs": 0.191514
         }
       ]
     },
     {
       "case": 18,
-      "inputDigest": "a3e8561303423cc1b5218eba03a4407e0113968f8109a224156e8a94c4f42400",
-      "expectedDigest": "361399ff62d970f99655c30a2b69dc8d87092210127b078caadeeebd2891d378",
+      "inputDigest": "4e6915e77ef0176cfc49f1765ca12c516da8ea1048c695af2176bb24929def08",
+      "expectedDigest": "032cd1a01c682008da7a022b79d3f62571e3e961e00cebaf0fa25e74b083128a",
       "expected": "UNKNOWN",
       "rows": 512,
       "arms": [
@@ -860,9 +860,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "361399ff62d970f99655c30a2b69dc8d87092210127b078caadeeebd2891d378",
-          "latencyMs": 3.1106929999987187,
-          "scanMs": 0.002382
+          "answerDigest": "032cd1a01c682008da7a022b79d3f62571e3e961e00cebaf0fa25e74b083128a",
+          "latencyMs": 2.1494089999978314,
+          "scanMs": 0.001717
         },
         {
           "size": 100,
@@ -872,9 +872,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "361399ff62d970f99655c30a2b69dc8d87092210127b078caadeeebd2891d378",
-          "latencyMs": 7.156880999998975,
-          "scanMs": 0.269675
+          "answerDigest": "032cd1a01c682008da7a022b79d3f62571e3e961e00cebaf0fa25e74b083128a",
+          "latencyMs": 5.388468000001012,
+          "scanMs": 0.185149
         },
         {
           "size": 10,
@@ -884,16 +884,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "361399ff62d970f99655c30a2b69dc8d87092210127b078caadeeebd2891d378",
-          "latencyMs": 6.59816900000078,
-          "scanMs": 0.180095
+          "answerDigest": "032cd1a01c682008da7a022b79d3f62571e3e961e00cebaf0fa25e74b083128a",
+          "latencyMs": 3.0821219999997993,
+          "scanMs": 0.1683
         }
       ]
     },
     {
       "case": 19,
-      "inputDigest": "96608e9d96129258edfe46b31b1475d69acad92c5a937e3e46b425a558d7ca83",
-      "expectedDigest": "4c78c2a8ba53dcae17f181d56b7310e1af151ed15c9ec09b95dcd2360a0c25d5",
+      "inputDigest": "fde5a20d851da2421169958776065ec0aab2a29d24bb25bc8d4f45f83c0b6cd6",
+      "expectedDigest": "9f5a054f39e72321f72d90e57a562d0139aa5914c82258733d97f8e17bfc2328",
       "expected": "SUPPORTED",
       "rows": 128,
       "arms": [
@@ -905,9 +905,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4c78c2a8ba53dcae17f181d56b7310e1af151ed15c9ec09b95dcd2360a0c25d5",
-          "latencyMs": 2.263223999998445,
-          "scanMs": 0.001231
+          "answerDigest": "9f5a054f39e72321f72d90e57a562d0139aa5914c82258733d97f8e17bfc2328",
+          "latencyMs": 1.5446000000010827,
+          "scanMs": 0.000889
         },
         {
           "size": 10,
@@ -917,9 +917,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4c78c2a8ba53dcae17f181d56b7310e1af151ed15c9ec09b95dcd2360a0c25d5",
-          "latencyMs": 3.6632119999994757,
-          "scanMs": 0.233223
+          "answerDigest": "9f5a054f39e72321f72d90e57a562d0139aa5914c82258733d97f8e17bfc2328",
+          "latencyMs": 7.055535999999847,
+          "scanMs": 0.185155
         },
         {
           "size": 100,
@@ -929,15 +929,15 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "4c78c2a8ba53dcae17f181d56b7310e1af151ed15c9ec09b95dcd2360a0c25d5",
-          "latencyMs": 6.882534999997006,
-          "scanMs": 0.254439
+          "answerDigest": "9f5a054f39e72321f72d90e57a562d0139aa5914c82258733d97f8e17bfc2328",
+          "latencyMs": 4.6011060000018915,
+          "scanMs": 0.188358
         }
       ]
     },
     {
       "case": 20,
-      "inputDigest": "2aedffc72805b2dcd2cfc9ad8611864c02674fc3be8dadd861f8a00d6671cfc0",
+      "inputDigest": "2778b7a453fd356803284d6b3bc11a08ccb4a429f07c7646cf8db9eeb2e80a0b",
       "expectedDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
       "expected": "UNKNOWN",
       "rows": 512,
@@ -951,8 +951,8 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 7.303030999999464,
-          "scanMs": 0.225589
+          "latencyMs": 2.7322779999994964,
+          "scanMs": 0.225648
         },
         {
           "size": 100,
@@ -963,8 +963,8 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 10.587500000001455,
-          "scanMs": 0.245761
+          "latencyMs": 5.042914000001474,
+          "scanMs": 0.217089
         },
         {
           "size": 1,
@@ -975,15 +975,15 @@
           "correct": true,
           "severe": false,
           "answerDigest": "50222ebf006dd3237f673b6d9edaf4ade62f0206f589d17690d64b4c314e1a5e",
-          "latencyMs": 2.845146999999997,
-          "scanMs": 0.001077
+          "latencyMs": 2.1252709999971557,
+          "scanMs": 0.001048
         }
       ]
     },
     {
       "case": 21,
-      "inputDigest": "0944b7af2a6da85e007dd359d7ef56dfbb98612c720cc0abc2e69ca9f2ef7ac4",
-      "expectedDigest": "c895899fd3a823bb1774dc77ace62f3234fb69e4e8c078fc67161f224d54cb34",
+      "inputDigest": "2aae1995526f9d24584c92a5dc8b7c61dd1acfe7189661ec6d2dbacae91d5a2b",
+      "expectedDigest": "9c6d6486f70f2aa99d83ef59e73139549881869d9bcc4aca0e53e817b6670a12",
       "expected": "CONFLICTED",
       "rows": 2048,
       "arms": [
@@ -995,9 +995,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "c895899fd3a823bb1774dc77ace62f3234fb69e4e8c078fc67161f224d54cb34",
-          "latencyMs": 14.431558000000223,
-          "scanMs": 0.26164
+          "answerDigest": "9c6d6486f70f2aa99d83ef59e73139549881869d9bcc4aca0e53e817b6670a12",
+          "latencyMs": 7.556358000001637,
+          "scanMs": 0.186538
         },
         {
           "size": 1,
@@ -1007,9 +1007,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "c895899fd3a823bb1774dc77ace62f3234fb69e4e8c078fc67161f224d54cb34",
-          "latencyMs": 4.941008000001602,
-          "scanMs": 0.00462
+          "answerDigest": "9c6d6486f70f2aa99d83ef59e73139549881869d9bcc4aca0e53e817b6670a12",
+          "latencyMs": 5.311276000000362,
+          "scanMs": 0.005418
         },
         {
           "size": 10,
@@ -1019,16 +1019,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "c895899fd3a823bb1774dc77ace62f3234fb69e4e8c078fc67161f224d54cb34",
-          "latencyMs": 7.082757000000129,
-          "scanMs": 0.258031
+          "answerDigest": "9c6d6486f70f2aa99d83ef59e73139549881869d9bcc4aca0e53e817b6670a12",
+          "latencyMs": 4.151236000001518,
+          "scanMs": 0.168384
         }
       ]
     },
     {
       "case": 22,
-      "inputDigest": "fa6cc1b6752a2de3bd8f2444eb87c75ea02bb63a9737bdf8e458d18f1cde2121",
-      "expectedDigest": "640c9dccb57a99b55bbd7bcb9ffc5a1254c9faf50f1ef56b95fc219c4ed4848d",
+      "inputDigest": "6e4f4164bdd60e0b67f5069dd1c5febe9d0a18fea8eafe08ed31f20a8c25f6b2",
+      "expectedDigest": "c04bf118e7abe27643381bb78f96f3e6c1a8a068412a37394926f8138bd66c7e",
       "expected": "SUPPORTED",
       "rows": 128,
       "arms": [
@@ -1040,9 +1040,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "640c9dccb57a99b55bbd7bcb9ffc5a1254c9faf50f1ef56b95fc219c4ed4848d",
-          "latencyMs": 6.937935000001744,
-          "scanMs": 0.275668
+          "answerDigest": "c04bf118e7abe27643381bb78f96f3e6c1a8a068412a37394926f8138bd66c7e",
+          "latencyMs": 4.574490999999398,
+          "scanMs": 0.194207
         },
         {
           "size": 10,
@@ -1052,9 +1052,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "640c9dccb57a99b55bbd7bcb9ffc5a1254c9faf50f1ef56b95fc219c4ed4848d",
-          "latencyMs": 5.383316999999806,
-          "scanMs": 0.272758
+          "answerDigest": "c04bf118e7abe27643381bb78f96f3e6c1a8a068412a37394926f8138bd66c7e",
+          "latencyMs": 2.27605400000175,
+          "scanMs": 0.192021
         },
         {
           "size": 1,
@@ -1064,16 +1064,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "640c9dccb57a99b55bbd7bcb9ffc5a1254c9faf50f1ef56b95fc219c4ed4848d",
-          "latencyMs": 2.3386829999981273,
-          "scanMs": 0.001455
+          "answerDigest": "c04bf118e7abe27643381bb78f96f3e6c1a8a068412a37394926f8138bd66c7e",
+          "latencyMs": 1.6367110000028333,
+          "scanMs": 0.001409
         }
       ]
     },
     {
       "case": 23,
-      "inputDigest": "9e3e0c4a887e084b79fc2bedcf3421bdc53540f6eef901c3bd3caf22ff513d56",
-      "expectedDigest": "9474803ed806e54dbbb8b86c603ed903a11059f75278293b7d87123929259cc1",
+      "inputDigest": "a46689a83d30bf2896b8703084169008be849cc8195be183eda248a01620822f",
+      "expectedDigest": "baaa969033c2a19c5293fa61559737f546cc4962527c87180f4c37b6f818d8eb",
       "expected": "UNKNOWN",
       "rows": 512,
       "arms": [
@@ -1085,9 +1085,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "9474803ed806e54dbbb8b86c603ed903a11059f75278293b7d87123929259cc1",
-          "latencyMs": 3.670010000001639,
-          "scanMs": 0.267601
+          "answerDigest": "baaa969033c2a19c5293fa61559737f546cc4962527c87180f4c37b6f818d8eb",
+          "latencyMs": 2.832057999999961,
+          "scanMs": 0.18229
         },
         {
           "size": 1,
@@ -1097,9 +1097,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "9474803ed806e54dbbb8b86c603ed903a11059f75278293b7d87123929259cc1",
-          "latencyMs": 6.178829999997106,
-          "scanMs": 0.002251
+          "answerDigest": "baaa969033c2a19c5293fa61559737f546cc4962527c87180f4c37b6f818d8eb",
+          "latencyMs": 1.8506520000009914,
+          "scanMs": 0.002009
         },
         {
           "size": 100,
@@ -1109,16 +1109,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "9474803ed806e54dbbb8b86c603ed903a11059f75278293b7d87123929259cc1",
-          "latencyMs": 10.849426000000676,
-          "scanMs": 0.286777
+          "answerDigest": "baaa969033c2a19c5293fa61559737f546cc4962527c87180f4c37b6f818d8eb",
+          "latencyMs": 10.531965000001946,
+          "scanMs": 0.144353
         }
       ]
     },
     {
       "case": 24,
-      "inputDigest": "c7c4d50f40257d09f038b549d8936956a4636f0fbeeae66c4950e864f67a3616",
-      "expectedDigest": "a2c3b2b484bf03f41e4547e1a51d1b0b8ec7d00cb886bfe5bc787248d3d8665c",
+      "inputDigest": "9a1d797a1ab0315fcf8458c4f2f74f9078adcc1df4aae9b2362743bfc23aa2be",
+      "expectedDigest": "876e1710d642463cc337f54db2bc821ad29f7766ac5e63e2613d30857b4c997d",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -1130,9 +1130,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "a2c3b2b484bf03f41e4547e1a51d1b0b8ec7d00cb886bfe5bc787248d3d8665c",
-          "latencyMs": 4.762372000004689,
-          "scanMs": 0.004601
+          "answerDigest": "876e1710d642463cc337f54db2bc821ad29f7766ac5e63e2613d30857b4c997d",
+          "latencyMs": 3.456475999999384,
+          "scanMs": 0.003806
         },
         {
           "size": 100,
@@ -1142,9 +1142,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "a2c3b2b484bf03f41e4547e1a51d1b0b8ec7d00cb886bfe5bc787248d3d8665c",
-          "latencyMs": 9.469144000002416,
-          "scanMs": 0.250641
+          "answerDigest": "876e1710d642463cc337f54db2bc821ad29f7766ac5e63e2613d30857b4c997d",
+          "latencyMs": 6.607965999999578,
+          "scanMs": 0.183772
         },
         {
           "size": 10,
@@ -1154,16 +1154,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "a2c3b2b484bf03f41e4547e1a51d1b0b8ec7d00cb886bfe5bc787248d3d8665c",
-          "latencyMs": 6.046626000003016,
-          "scanMs": 0.242927
+          "answerDigest": "876e1710d642463cc337f54db2bc821ad29f7766ac5e63e2613d30857b4c997d",
+          "latencyMs": 4.491000000001804,
+          "scanMs": 0.182812
         }
       ]
     },
     {
       "case": 25,
-      "inputDigest": "f16aeee2c80feed427d2378d88640cffc89d14217f1901768d513c2d7ee085b3",
-      "expectedDigest": "59366585f174e94b31653d3fbe400052068c3e2936c59aa07bea5aad46ccf3c3",
+      "inputDigest": "e130120dad011dec8d3ea8cabbf6da8ac43ce61881915c722fa65aca07db9750",
+      "expectedDigest": "1c0630aeea23f952259f5e62bea304ff6d56c09993f8f7a685728e2337220775",
       "expected": "SUPPORTED",
       "rows": 512,
       "arms": [
@@ -1175,9 +1175,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "59366585f174e94b31653d3fbe400052068c3e2936c59aa07bea5aad46ccf3c3",
-          "latencyMs": 2.9877849999975297,
-          "scanMs": 0.003019
+          "answerDigest": "1c0630aeea23f952259f5e62bea304ff6d56c09993f8f7a685728e2337220775",
+          "latencyMs": 1.9036549999982526,
+          "scanMs": 0.001884
         },
         {
           "size": 10,
@@ -1187,9 +1187,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "59366585f174e94b31653d3fbe400052068c3e2936c59aa07bea5aad46ccf3c3",
-          "latencyMs": 6.480935999999929,
-          "scanMs": 0.257708
+          "answerDigest": "1c0630aeea23f952259f5e62bea304ff6d56c09993f8f7a685728e2337220775",
+          "latencyMs": 2.7294199999996636,
+          "scanMs": 0.179352
         },
         {
           "size": 100,
@@ -1199,16 +1199,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "59366585f174e94b31653d3fbe400052068c3e2936c59aa07bea5aad46ccf3c3",
-          "latencyMs": 10.868183000005956,
-          "scanMs": 0.212769
+          "answerDigest": "1c0630aeea23f952259f5e62bea304ff6d56c09993f8f7a685728e2337220775",
+          "latencyMs": 8.482620999999199,
+          "scanMs": 0.152838
         }
       ]
     },
     {
       "case": 26,
-      "inputDigest": "55d102d72780e2c68ac7e9980552ad72d1480fbc422284d28d81020cffa0651a",
-      "expectedDigest": "d5b27b187fa6c4ec48abf4f7612231606943d11a2794c879294132dd90705808",
+      "inputDigest": "79c514d833f287d87e1c7441c171c609045e7bf538b977ff9223646f2cdd19d4",
+      "expectedDigest": "279526c943a14637c028aada67e02b2f71033538c26e0dc76888ec8bee74e818",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -1220,9 +1220,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "d5b27b187fa6c4ec48abf4f7612231606943d11a2794c879294132dd90705808",
-          "latencyMs": 5.318299999998999,
-          "scanMs": 0.262726
+          "answerDigest": "279526c943a14637c028aada67e02b2f71033538c26e0dc76888ec8bee74e818",
+          "latencyMs": 4.038377000000764,
+          "scanMs": 0.173584
         },
         {
           "size": 100,
@@ -1232,9 +1232,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "d5b27b187fa6c4ec48abf4f7612231606943d11a2794c879294132dd90705808",
-          "latencyMs": 10.914237999997567,
-          "scanMs": 0.189943
+          "answerDigest": "279526c943a14637c028aada67e02b2f71033538c26e0dc76888ec8bee74e818",
+          "latencyMs": 6.746236000002682,
+          "scanMs": 0.178102
         },
         {
           "size": 1,
@@ -1244,16 +1244,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "d5b27b187fa6c4ec48abf4f7612231606943d11a2794c879294132dd90705808",
-          "latencyMs": 4.279570999999123,
-          "scanMs": 0.00391
+          "answerDigest": "279526c943a14637c028aada67e02b2f71033538c26e0dc76888ec8bee74e818",
+          "latencyMs": 3.491175999999541,
+          "scanMs": 0.003204
         }
       ]
     },
     {
       "case": 27,
-      "inputDigest": "1cea5dc7ad6a07e6e787488ff6cb16a895b52e7b575f889246fb8bc5efdd8e76",
-      "expectedDigest": "2d0bd0a0701710b7f9aaa181a9c0be9b9180a4d5ba35c2ad669fb3362fb254c0",
+      "inputDigest": "c96103364fdb8b23f53512a41ddbc6149808f6104fcf3ded4f66ab8ec0fb0097",
+      "expectedDigest": "09f5f37acb316751112002d9cec255d2190a7fac546e069ae9548580385237bc",
       "expected": "CONFLICTED",
       "rows": 128,
       "arms": [
@@ -1265,9 +1265,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2d0bd0a0701710b7f9aaa181a9c0be9b9180a4d5ba35c2ad669fb3362fb254c0",
-          "latencyMs": 6.63461400000233,
-          "scanMs": 0.271223
+          "answerDigest": "09f5f37acb316751112002d9cec255d2190a7fac546e069ae9548580385237bc",
+          "latencyMs": 4.790240999998787,
+          "scanMs": 0.184661
         },
         {
           "size": 1,
@@ -1277,9 +1277,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2d0bd0a0701710b7f9aaa181a9c0be9b9180a4d5ba35c2ad669fb3362fb254c0",
-          "latencyMs": 4.649144000002707,
-          "scanMs": 0.001907
+          "answerDigest": "09f5f37acb316751112002d9cec255d2190a7fac546e069ae9548580385237bc",
+          "latencyMs": 1.5874899999980698,
+          "scanMs": 0.001631
         },
         {
           "size": 10,
@@ -1289,16 +1289,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "2d0bd0a0701710b7f9aaa181a9c0be9b9180a4d5ba35c2ad669fb3362fb254c0",
-          "latencyMs": 3.6530619999975897,
-          "scanMs": 0.262949
+          "answerDigest": "09f5f37acb316751112002d9cec255d2190a7fac546e069ae9548580385237bc",
+          "latencyMs": 4.292955000000802,
+          "scanMs": 0.239735
         }
       ]
     },
     {
       "case": 28,
-      "inputDigest": "523cecdd3e6dd523e764d3420a73c3149f6180d0270b4a0c7f62844c17c83ca4",
-      "expectedDigest": "75b6a7d7540af12017774528a51381e8844e250bd6c89eb20d7e8151736a332e",
+      "inputDigest": "abbbbb6e8be33d9049d1012d0580e9e83495a57afc80993b962c2a648abb4ef4",
+      "expectedDigest": "4575fc6d7b55f0070492a3ee4328afbc672f09214f79aa7fe0dff8a4e290c593",
       "expected": "SUPPORTED",
       "rows": 512,
       "arms": [
@@ -1310,9 +1310,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "75b6a7d7540af12017774528a51381e8844e250bd6c89eb20d7e8151736a332e",
-          "latencyMs": 7.256750000000466,
-          "scanMs": 0.222776
+          "answerDigest": "4575fc6d7b55f0070492a3ee4328afbc672f09214f79aa7fe0dff8a4e290c593",
+          "latencyMs": 4.932454000001599,
+          "scanMs": 0.197528
         },
         {
           "size": 10,
@@ -1322,9 +1322,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "75b6a7d7540af12017774528a51381e8844e250bd6c89eb20d7e8151736a332e",
-          "latencyMs": 3.97273299999506,
-          "scanMs": 0.225039
+          "answerDigest": "4575fc6d7b55f0070492a3ee4328afbc672f09214f79aa7fe0dff8a4e290c593",
+          "latencyMs": 2.8145110000004934,
+          "scanMs": 0.182959
         },
         {
           "size": 1,
@@ -1334,16 +1334,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "75b6a7d7540af12017774528a51381e8844e250bd6c89eb20d7e8151736a332e",
-          "latencyMs": 2.9401419999994687,
-          "scanMs": 0.002337
+          "answerDigest": "4575fc6d7b55f0070492a3ee4328afbc672f09214f79aa7fe0dff8a4e290c593",
+          "latencyMs": 2.0685709999997925,
+          "scanMs": 0.00227
         }
       ]
     },
     {
       "case": 29,
-      "inputDigest": "9f9d8fa750c8bfb9dfd8f7e8d9036f5bb0593382a91d5bbc36654933254f05cc",
-      "expectedDigest": "35c5fe29554ac0ce5d240fb9da51813c441a2c863f28c6c204b20d6cbb835c48",
+      "inputDigest": "2f9ad3ce501c0c217d08c1db471d0a591c6c4c10bd9c254f40f79d7938d62e12",
+      "expectedDigest": "2077140bf6e21346a85ec3cae6d4b7f996c2d897b37269a1265114e7b3d32a31",
       "expected": "UNKNOWN",
       "rows": 2048,
       "arms": [
@@ -1355,9 +1355,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "35c5fe29554ac0ce5d240fb9da51813c441a2c863f28c6c204b20d6cbb835c48",
-          "latencyMs": 5.234099000001152,
-          "scanMs": 0.244024
+          "answerDigest": "2077140bf6e21346a85ec3cae6d4b7f996c2d897b37269a1265114e7b3d32a31",
+          "latencyMs": 4.081036999999924,
+          "scanMs": 0.166185
         },
         {
           "size": 1,
@@ -1367,9 +1367,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "35c5fe29554ac0ce5d240fb9da51813c441a2c863f28c6c204b20d6cbb835c48",
-          "latencyMs": 9.74669300000096,
-          "scanMs": 0.00716
+          "answerDigest": "2077140bf6e21346a85ec3cae6d4b7f996c2d897b37269a1265114e7b3d32a31",
+          "latencyMs": 3.471003999999084,
+          "scanMs": 0.003978
         },
         {
           "size": 100,
@@ -1379,16 +1379,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "35c5fe29554ac0ce5d240fb9da51813c441a2c863f28c6c204b20d6cbb835c48",
-          "latencyMs": 9.189874000003329,
-          "scanMs": 0.23497
+          "answerDigest": "2077140bf6e21346a85ec3cae6d4b7f996c2d897b37269a1265114e7b3d32a31",
+          "latencyMs": 9.252017999999225,
+          "scanMs": 0.207843
         }
       ]
     },
     {
       "case": 30,
-      "inputDigest": "1999fac01b606db0b47590e613b30dd5a1b843ba0be083ddeac37d65cf8f87d6",
-      "expectedDigest": "40d1945f0a7c94db6c3d0b389eff5f563cc45522083ba96ba677199822b31207",
+      "inputDigest": "8d5ed9adca515c5480fc8baecdc21403583e4f642551c085ebf8c18304ea519a",
+      "expectedDigest": "203af1629a7eb3ae5b568140fef6da57a5cef7238ed1ff7d4f69f03bb08a084f",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -1400,9 +1400,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "40d1945f0a7c94db6c3d0b389eff5f563cc45522083ba96ba677199822b31207",
-          "latencyMs": 2.2773749999978463,
-          "scanMs": 0.001396
+          "answerDigest": "203af1629a7eb3ae5b568140fef6da57a5cef7238ed1ff7d4f69f03bb08a084f",
+          "latencyMs": 1.5883749999993597,
+          "scanMs": 0.001749
         },
         {
           "size": 100,
@@ -1412,9 +1412,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "40d1945f0a7c94db6c3d0b389eff5f563cc45522083ba96ba677199822b31207",
-          "latencyMs": 6.699716000002809,
-          "scanMs": 0.231677
+          "answerDigest": "203af1629a7eb3ae5b568140fef6da57a5cef7238ed1ff7d4f69f03bb08a084f",
+          "latencyMs": 4.756736999999703,
+          "scanMs": 0.213414
         },
         {
           "size": 10,
@@ -1424,16 +1424,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "40d1945f0a7c94db6c3d0b389eff5f563cc45522083ba96ba677199822b31207",
-          "latencyMs": 3.369409999999334,
-          "scanMs": 0.229833
+          "answerDigest": "203af1629a7eb3ae5b568140fef6da57a5cef7238ed1ff7d4f69f03bb08a084f",
+          "latencyMs": 2.3838849999992817,
+          "scanMs": 0.183518
         }
       ]
     },
     {
       "case": 31,
-      "inputDigest": "c6eff7eb64492df96a7814792910fe13a8a6fa75d670ef44e7cd8e244d12f264",
-      "expectedDigest": "cf120f6e9640aad76b7fb5dd10f50404845cd3f1dc9eee09413dea9fdaf7b2b0",
+      "inputDigest": "411a500f6c9a4959c89324ccc0aeda951eb76855246356394ad531e1d24e28b2",
+      "expectedDigest": "3173580d9a9049a6838cf247a1d2a7810d0bdc5e4649ff2b382f33b93b10413b",
       "expected": "SUPPORTED",
       "rows": 2048,
       "arms": [
@@ -1445,9 +1445,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "cf120f6e9640aad76b7fb5dd10f50404845cd3f1dc9eee09413dea9fdaf7b2b0",
-          "latencyMs": 4.8108290000018314,
-          "scanMs": 0.004953
+          "answerDigest": "3173580d9a9049a6838cf247a1d2a7810d0bdc5e4649ff2b382f33b93b10413b",
+          "latencyMs": 3.117278999998234,
+          "scanMs": 0.003494
         },
         {
           "size": 10,
@@ -1457,9 +1457,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "cf120f6e9640aad76b7fb5dd10f50404845cd3f1dc9eee09413dea9fdaf7b2b0",
-          "latencyMs": 10.660297000002174,
-          "scanMs": 0.438097
+          "answerDigest": "3173580d9a9049a6838cf247a1d2a7810d0bdc5e4649ff2b382f33b93b10413b",
+          "latencyMs": 4.205804000001081,
+          "scanMs": 0.224542
         },
         {
           "size": 100,
@@ -1469,16 +1469,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "cf120f6e9640aad76b7fb5dd10f50404845cd3f1dc9eee09413dea9fdaf7b2b0",
-          "latencyMs": 10.440051999998104,
-          "scanMs": 0.254152
+          "answerDigest": "3173580d9a9049a6838cf247a1d2a7810d0bdc5e4649ff2b382f33b93b10413b",
+          "latencyMs": 9.755182999997487,
+          "scanMs": 0.344442
         }
       ]
     },
     {
       "case": 32,
-      "inputDigest": "cc503da84123af01814094c50ab4c88d018a50b39b9c6817dd2109d3f93e5ca5",
-      "expectedDigest": "05967d1f6284e12a98e84b33ef11c1643fce5736b7bb91922ba0850102cc3f0b",
+      "inputDigest": "92f91c56ed85600dc582004909f06177b34ad17decb7eb34d82a784925cdbbb8",
+      "expectedDigest": "a90deefe7fbcb5b6b532edfaa4a105070668150fb2bf074b1a7c7833edb4b547",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -1490,9 +1490,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "05967d1f6284e12a98e84b33ef11c1643fce5736b7bb91922ba0850102cc3f0b",
-          "latencyMs": 3.3149039999989327,
-          "scanMs": 0.246334
+          "answerDigest": "a90deefe7fbcb5b6b532edfaa4a105070668150fb2bf074b1a7c7833edb4b547",
+          "latencyMs": 2.470742000001337,
+          "scanMs": 0.16308
         },
         {
           "size": 100,
@@ -1502,9 +1502,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "05967d1f6284e12a98e84b33ef11c1643fce5736b7bb91922ba0850102cc3f0b",
-          "latencyMs": 6.595861000001605,
-          "scanMs": 0.212121
+          "answerDigest": "a90deefe7fbcb5b6b532edfaa4a105070668150fb2bf074b1a7c7833edb4b547",
+          "latencyMs": 4.87657699999545,
+          "scanMs": 0.186048
         },
         {
           "size": 1,
@@ -1514,16 +1514,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "05967d1f6284e12a98e84b33ef11c1643fce5736b7bb91922ba0850102cc3f0b",
-          "latencyMs": 2.1900620000014897,
-          "scanMs": 0.001254
+          "answerDigest": "a90deefe7fbcb5b6b532edfaa4a105070668150fb2bf074b1a7c7833edb4b547",
+          "latencyMs": 1.7667900000014924,
+          "scanMs": 0.000995
         }
       ]
     },
     {
       "case": 33,
-      "inputDigest": "71fd139cd8e874bdba68270c7bbd347972d9c7ccf5f5b46ee82fb7ac7d180182",
-      "expectedDigest": "c827e5d830d6139d158b8665503727fc38282d49d173e4da14f188bada2be8af",
+      "inputDigest": "c57b7df4d4b37f17e540cc8f9c0703a4c4fb9d32eb499136050b2bf049ab80e1",
+      "expectedDigest": "83d3e9309c606bec5e4e1e255bc3f602b2cc90a6d3aeb2c2f7a17f271a1167a4",
       "expected": "CONFLICTED",
       "rows": 512,
       "arms": [
@@ -1535,9 +1535,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c827e5d830d6139d158b8665503727fc38282d49d173e4da14f188bada2be8af",
-          "latencyMs": 7.265789000004588,
-          "scanMs": 0.261666
+          "answerDigest": "83d3e9309c606bec5e4e1e255bc3f602b2cc90a6d3aeb2c2f7a17f271a1167a4",
+          "latencyMs": 5.013881999999285,
+          "scanMs": 0.228815
         },
         {
           "size": 1,
@@ -1547,9 +1547,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c827e5d830d6139d158b8665503727fc38282d49d173e4da14f188bada2be8af",
-          "latencyMs": 2.8150469999964116,
-          "scanMs": 0.001908
+          "answerDigest": "83d3e9309c606bec5e4e1e255bc3f602b2cc90a6d3aeb2c2f7a17f271a1167a4",
+          "latencyMs": 2.040569000004325,
+          "scanMs": 0.001736
         },
         {
           "size": 10,
@@ -1559,16 +1559,16 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "c827e5d830d6139d158b8665503727fc38282d49d173e4da14f188bada2be8af",
-          "latencyMs": 6.867569000001822,
-          "scanMs": 0.582736
+          "answerDigest": "83d3e9309c606bec5e4e1e255bc3f602b2cc90a6d3aeb2c2f7a17f271a1167a4",
+          "latencyMs": 4.809737000003224,
+          "scanMs": 0.187322
         }
       ]
     },
     {
       "case": 34,
-      "inputDigest": "cd78a20bd3905abc917d2e5137da92c9e82491289762897f0736e98e1d737967",
-      "expectedDigest": "da449c03a521f1b3df85954ea94516002ea41165d873d017f3ca2d57a3fc017c",
+      "inputDigest": "eef69fd62bb0b9eccaa85a45d462d19aafd8a8ba4c5edaa3f4326188a4a14f47",
+      "expectedDigest": "17af559ecbf109f80f9474324e8dec5d7220114ba18efc349247a7c522412554",
       "expected": "SUPPORTED",
       "rows": 2048,
       "arms": [
@@ -1580,9 +1580,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "da449c03a521f1b3df85954ea94516002ea41165d873d017f3ca2d57a3fc017c",
-          "latencyMs": 9.820983999998134,
-          "scanMs": 0.249947
+          "answerDigest": "17af559ecbf109f80f9474324e8dec5d7220114ba18efc349247a7c522412554",
+          "latencyMs": 6.3686520000046585,
+          "scanMs": 0.224227
         },
         {
           "size": 10,
@@ -1592,9 +1592,9 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "da449c03a521f1b3df85954ea94516002ea41165d873d017f3ca2d57a3fc017c",
-          "latencyMs": 5.915111000002071,
-          "scanMs": 0.308017
+          "answerDigest": "17af559ecbf109f80f9474324e8dec5d7220114ba18efc349247a7c522412554",
+          "latencyMs": 6.276602999998431,
+          "scanMs": 0.148916
         },
         {
           "size": 1,
@@ -1604,16 +1604,16 @@
           "reads": 2048,
           "correct": true,
           "severe": false,
-          "answerDigest": "da449c03a521f1b3df85954ea94516002ea41165d873d017f3ca2d57a3fc017c",
-          "latencyMs": 4.422345999999379,
-          "scanMs": 0.004837
+          "answerDigest": "17af559ecbf109f80f9474324e8dec5d7220114ba18efc349247a7c522412554",
+          "latencyMs": 3.120208000000275,
+          "scanMs": 0.00417
         }
       ]
     },
     {
       "case": 35,
-      "inputDigest": "5287b044178fe7051d54586cd5352413e95a90b102fb4ccdd942fd15056be6d7",
-      "expectedDigest": "3c99e8b5b3576e20240d2cf67c0e3a02e082bc934050ed19e8313fd346ad01b7",
+      "inputDigest": "02f6644da54564821035953d7fe447d6a66590c9cba0d4f1fde0a24a3853633b",
+      "expectedDigest": "579ec282dc81954e7f974cdf0b7597bb46a2b505ea5b9f70e079f3464673954b",
       "expected": "UNKNOWN",
       "rows": 128,
       "arms": [
@@ -1625,9 +1625,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3c99e8b5b3576e20240d2cf67c0e3a02e082bc934050ed19e8313fd346ad01b7",
-          "latencyMs": 3.2195750000028056,
-          "scanMs": 0.246679
+          "answerDigest": "579ec282dc81954e7f974cdf0b7597bb46a2b505ea5b9f70e079f3464673954b",
+          "latencyMs": 2.280370000000403,
+          "scanMs": 0.178736
         },
         {
           "size": 1,
@@ -1637,9 +1637,9 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3c99e8b5b3576e20240d2cf67c0e3a02e082bc934050ed19e8313fd346ad01b7",
-          "latencyMs": 5.699465000005148,
-          "scanMs": 0.001773
+          "answerDigest": "579ec282dc81954e7f974cdf0b7597bb46a2b505ea5b9f70e079f3464673954b",
+          "latencyMs": 1.7360310000003665,
+          "scanMs": 0.001585
         },
         {
           "size": 100,
@@ -1649,16 +1649,16 @@
           "reads": 128,
           "correct": true,
           "severe": false,
-          "answerDigest": "3c99e8b5b3576e20240d2cf67c0e3a02e082bc934050ed19e8313fd346ad01b7",
-          "latencyMs": 12.192182999999204,
-          "scanMs": 0.200383
+          "answerDigest": "579ec282dc81954e7f974cdf0b7597bb46a2b505ea5b9f70e079f3464673954b",
+          "latencyMs": 6.63347999999678,
+          "scanMs": 0.149341
         }
       ]
     },
     {
       "case": 36,
-      "inputDigest": "c6a71853a65080378f6b9a1048c5349a0a972cdeed16fdc2a2f5a6ae3471c55c",
-      "expectedDigest": "4fccbb49b97edb3ef11892846058195240ddb2095f71332d00ddaac2e6c92164",
+      "inputDigest": "dc9de2af8883ccad09cb67f92e97f51aebeb5fc03474c45981ea0121b42af977",
+      "expectedDigest": "a0298d0784f40d63937f15d1c56110c7f752c9ba3abdbcaddeed20e8447e7e93",
       "expected": "UNKNOWN",
       "rows": 512,
       "arms": [
@@ -1670,9 +1670,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "4fccbb49b97edb3ef11892846058195240ddb2095f71332d00ddaac2e6c92164",
-          "latencyMs": 2.9491349999952945,
-          "scanMs": 0.002131
+          "answerDigest": "a0298d0784f40d63937f15d1c56110c7f752c9ba3abdbcaddeed20e8447e7e93",
+          "latencyMs": 1.9132260000042152,
+          "scanMs": 0.001846
         },
         {
           "size": 100,
@@ -1682,9 +1682,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "4fccbb49b97edb3ef11892846058195240ddb2095f71332d00ddaac2e6c92164",
-          "latencyMs": 7.3148309999960475,
-          "scanMs": 0.233412
+          "answerDigest": "a0298d0784f40d63937f15d1c56110c7f752c9ba3abdbcaddeed20e8447e7e93",
+          "latencyMs": 4.958920999997645,
+          "scanMs": 0.185117
         },
         {
           "size": 10,
@@ -1694,9 +1694,9 @@
           "reads": 512,
           "correct": true,
           "severe": false,
-          "answerDigest": "4fccbb49b97edb3ef11892846058195240ddb2095f71332d00ddaac2e6c92164",
-          "latencyMs": 4.0792900000014924,
-          "scanMs": 0.282792
+          "answerDigest": "a0298d0784f40d63937f15d1c56110c7f752c9ba3abdbcaddeed20e8447e7e93",
+          "latencyMs": 2.6677750000017113,
+          "scanMs": 0.211585
         }
       ]
     }
