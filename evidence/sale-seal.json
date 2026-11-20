@@ -1,0 +1,19 @@
+{
+  "policy": "b52b3a3624afa0f9fae392b05ff5adf9772e08800f853060c2472a05ef2c0c5d",
+  "seal": "7377adca66da0efe653831f43a324a6a8f42be7768cac919f4e087b15e039657",
+  "features": "216bb7e64971e8b9cae32036d786c2f1b28592e5c5922b0968809f6a83dd64ff",
+  "source": "Hillstrom / MineThatData 2008",
+  "sample": {
+    "fit": 16000,
+    "search": 10000,
+    "validation": 14000,
+    "holdout": 24000
+  },
+  "comparisons": [
+    10000,
+    1000000,
+    10000000,
+    100000000
+  ],
+  "roster": "41e90f9ba677344a6213a2e6189941912f867f1a26d86a2ffce116efebb21959"
+}
