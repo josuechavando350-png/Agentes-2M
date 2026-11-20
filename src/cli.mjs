@@ -1,3 +1,4 @@
+import { DecisionBook } from "./decision-book.mjs";
 import {
   populationResearch,
   verifyPopulation,
@@ -139,6 +140,53 @@ try {
     case "aware":
       show(store.awareness(Number(args[0])));
       break;
+    case "decision-register":
+    case "decision-plan":
+    case "decision-answer":
+    case "decision-seal":
+    case "decision-close":
+    case "decision-list":
+    case "decision-verdict": {
+      const book = new DecisionBook(process.env.SEMAR_DB ?? "semar.sqlite", {
+        authority: store.settlementAuthority(),
+      });
+      const file = (p) => JSON.parse(readFileSync(p, "utf8"));
+      try {
+        if (action === "decision-register") show(book.register(file(args[0])));
+        else if (action === "decision-plan") {
+          const e = book.start(
+            store.layout(),
+            args[0],
+            file(args[1]),
+            args[2] ?? null,
+          );
+          show({ revision: e.hash, ...e.data.plan });
+        } else if (action === "decision-answer") {
+          const { answer, signature } = file(args[1]);
+          const e = book.answer(store.layout(), args[0], answer, signature);
+          show({ revision: e.hash, ...e.data.plan });
+        } else if (action === "decision-seal")
+          show(book.seal(args[0], args[1]));
+        else if (action === "decision-close") {
+          const { actual, signature } = file(args[2]);
+          show(
+            book.grade(args[0], args[1], actual, store.fieldTrials(), signature)
+              .data.result,
+          );
+        } else if (action === "decision-verdict") show(book.verdict(args[0]));
+        else {
+          const e = book.latest(args[0]);
+          show(
+            e.data.plan
+              ? { revision: e.hash, ...e.data.plan }
+              : book.sealed(args[0]),
+          );
+        }
+      } finally {
+        book.close();
+      }
+      break;
+    }
     case "population-submit": {
       const [mission, input, result] = args;
       show(

@@ -207,6 +207,9 @@ export class Semar {
   agent(id) {
     return getAgent(this.#journal.read(), id);
   }
+  settlementAuthority() {
+    return this.#journal.read().gov?.key ?? null;
+  }
   fieldTrials() {
     return structuredClone(fieldView(this.#journal.read().gov ?? {}));
   }
