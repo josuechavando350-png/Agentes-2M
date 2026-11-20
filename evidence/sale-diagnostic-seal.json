@@ -1,0 +1,18 @@
+{
+  "seal": "aab45fc83e9b62fa7495d69d1e3185b00a6c6a74e84099ccbad897f6d476cf9f",
+  "training": "f4b058d9836cb9bad0a70d6fdf1496e6e086185a666548644037cef1857bc282",
+  "periods": [
+    "future-a",
+    "future-b"
+  ],
+  "observations": [
+    200,
+    200
+  ],
+  "hypotheses": [
+    "precio declarado",
+    "precio efectivo más reciente",
+    "consenso de precios efectivos anteriores"
+  ],
+  "excluded": "Indicador Anomalous derivado del importe objetivo"
+}
