@@ -287,6 +287,36 @@ export function fieldHypotheses(m, subject) {
     }),
   };
 }
+export function fieldBankView(g) {
+  return (g.trials ?? []).map((t) => ({
+    trial: t.id,
+    scope: t.scope,
+    candidate: methodVersion(t.candidate),
+    control: methodVersion(t.control),
+    from: t.start,
+    until: t.end,
+    status: fieldResult(g, t).status,
+    units: t.pairs.flat().map((u) => {
+      const o = t.observations[u.subject];
+      return {
+        subject: u.subject,
+        arm: u.arm,
+        action: u[u.arm].action,
+        applied: o?.applied === true,
+        close:
+          o && o.book === bookHash(proofBook(g, t, u.subject))
+            ? {
+                paid: o.paid,
+                refunds: o.refunds,
+                cost: o.cost,
+                labor: o.labor,
+                net: o.net,
+              }
+            : null,
+      };
+    }),
+  }));
+}
 export function fieldView(g) {
   return (g.trials ?? []).map((t) => ({
     ...fieldResult(g, t),
@@ -294,6 +324,7 @@ export function fieldView(g) {
     from: t.start,
     until: t.end,
     capacity: t.capacity,
+    hourlyCents: t.hourlyCents,
     pairs: t.pairs,
   }));
 }

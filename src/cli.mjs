@@ -34,13 +34,99 @@ import { Semar } from "./semar.mjs";
 
 const [action = "status", ...args] = process.argv.slice(2);
 const store = new Semar(
-  ["demo", "global-demo", "packed", "batch-scan"].includes(action)
+  [
+    "demo",
+    "global-demo",
+    "packed",
+    "batch-scan",
+    "sale-route",
+    "sale-recommend",
+    "sale-grade",
+    "sale-agent",
+    "sale-diagnose",
+    "sale-price",
+    "sale-portfolio",
+    "sale-credit",
+    "sale-credit-check",
+    "sale-credit-range",
+  ].includes(action)
     ? ":memory:"
     : (process.env.SEMAR_DB ?? "semar.sqlite"),
 );
 const show = (x) => console.log(JSON.stringify(x, null, 2));
 try {
   switch (action) {
+    case "sale-credit":
+    case "sale-credit-check":
+    case "sale-credit-range": {
+      const { traceCredits, verifyCredits, creditRange } = await import(
+        "./sale/credits.mjs"
+      );
+      const packet = JSON.parse(readFileSync(args[0], "utf8"));
+      if (action === "sale-credit-check")
+        show(verifyCredits(packet, JSON.parse(readFileSync(args[1], "utf8"))));
+      else if (action === "sale-credit-range")
+        show(creditRange(packet, args[1]));
+      else show(traceCredits(packet));
+      break;
+    }
+    case "sale-portfolio": {
+      const { portfolio } = await import("./sale/portfolio.mjs");
+      const p = JSON.parse(readFileSync(args[0], "utf8"));
+      show(await portfolio(p.paths, p.mode ?? "LIVE"));
+      break;
+    }
+    case "sale-search":
+    case "sale-route":
+    case "sale-recommend":
+    case "sale-grade":
+    case "sale-agent":
+    case "sale-diagnose":
+    case "sale-price": {
+      const read = (p) => JSON.parse(readFileSync(p, "utf8"));
+      if (action === "sale-price") {
+        const { chooseOffer } = await import("./sale/pricing.mjs");
+        const p = read(args[0]);
+        show(chooseOffer(p.terms, p.potentialCents, p.availableCents));
+      } else if (action === "sale-diagnose") {
+        const { predictPrice } = await import("./sale/diagnose.mjs");
+        const p = read(args[0]);
+        show(predictPrice(p.case, p.rule));
+      } else {
+        const { prepareSearch, gradeSearch, recommendTrial, explainFounder } =
+          await import("./sale/search.mjs");
+        if (action === "sale-search" || action === "sale-route")
+          show(
+            prepareSearch(
+              action === "sale-search" ? store.layout() : null,
+              read(args[0]),
+              action === "sale-search" ? "population" : "compressed",
+            ),
+          );
+        if (action === "sale-grade") {
+          const frozen = read(args[0]);
+          if (frozen.seal !== args[3])
+            throw Error("Se requiere el sello original");
+          show(gradeSearch(frozen, read(args[1]), read(args[2])));
+        }
+        if (action === "sale-recommend")
+          show(recommendTrial(read(args[0]), read(args[1]), args[2]));
+        if (action === "sale-agent")
+          show(
+            explainFounder(
+              read(args[0]),
+              read(args[1]),
+              Number(args[2]),
+              Number(args[3]),
+            ),
+          );
+      }
+      break;
+    }
+    case "sale-best":
+    case "sale-readiness":
+    case "sale-quote":
+    case "sale-report":
     case "factory-export":
     case "global-command":
     case "global-run":
@@ -58,7 +144,13 @@ try {
         store,
       );
       try {
-        if (action === "factory-export") {
+        if (action === "sale-best")
+          show(desk.bestSale(JSON.parse(readFileSync(args[0], "utf8"))));
+        else if (action === "sale-quote") show(desk.quote(args[0]));
+        else if (action === "sale-readiness")
+          show(desk.readiness(args[0] ?? "LIVE"));
+        else if (action === "sale-report") show(desk.sales(args[0] ?? "LIVE"));
+        else if (action === "factory-export") {
           if (!args[0] || !args[1])
             throw Error(
               "Indica la misión de fábrica y el directorio nuevo de entrega",
@@ -134,6 +226,9 @@ try {
               "reserve-method",
               "refresh",
               "factory-reserve",
+              "credit-reserve",
+              "probe-reserve",
+              "probe-observe",
             ].includes(envelope.record?.kind)
           )
             throw Error("Se requiere una reserva firmada");

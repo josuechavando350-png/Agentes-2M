@@ -1,0 +1,73 @@
+name: Exámenes de venta con archivos históricos
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ventas.yml'
+      - 'scripts/sale/**'
+      - 'src/sale/**'
+      - 'native/offers.cpp'
+      - 'evidence/sale-seal.json'
+      - 'evidence/sale-diagnostic-seal.json'
+permissions:
+  contents: read
+jobs:
+  campana:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: estado, ref: 23df7aa50d30be6f75d5d3b9c778738e995ad1cb, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: preregistro, ref: 667e737175d07cd90ce0d1ca6624be60bf9203d8, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: |
+          npm ci
+          npm run setup
+          curl -fsSL --retry 3 --max-time 90 'https://hillstorm1.s3.us-east-2.amazonaws.com/hillstorm_no_indices.csv.gz' -o /tmp/hillstrom.csv.gz
+          gzip -dc /tmp/hillstrom.csv.gz > /tmp/hillstrom.csv
+          python3 scripts/sale/hillstrom.py /tmp/hillstrom.csv /tmp/ensayo
+          node scripts/sale/exam.mjs freeze /tmp/ensayo estado/escuela > /tmp/sello.json
+          diff preregistro/evidence/sale-seal.json /tmp/sello.json
+          node scripts/sale/exam.mjs grade /tmp/ensayo estado/escuela preregistro/evidence/sale-seal.json > campana.json
+          node scripts/sale/check-result.mjs hillstrom campana.json evidence/sale-hillstrom.json
+      - uses: actions/upload-artifact@v4
+        with: {name: examen-campana, path: campana.json, retention-days: 30}
+  facturas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {path: preregistro, ref: 50ba99e3f8070dfea321817e63e6aa3622db649d, persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python -m pip install openpyxl==3.1.5 duckdb==1.4.3
+          curl -fsSL --retry 3 --max-time 300 'https://media.githubusercontent.com/media/gatewaycat/iowa-liquor-sales2/1ee2a06e0d9d0f470607f89417acaaec6bd43607/data.parquet?full=1' -o /tmp/iowa.parquet
+          python scripts/sale/iowa.py /tmp/iowa.parquet /tmp/precios evidence/factory-iowa-result.json
+          node scripts/sale/diagnostic.mjs freeze /tmp/precios > /tmp/sello.json
+          diff preregistro/evidence/sale-diagnostic-seal.json /tmp/sello.json
+          node scripts/sale/diagnostic.mjs grade /tmp/precios preregistro/evidence/sale-diagnostic-seal.json > diagnostico.json
+          node scripts/sale/check-result.mjs diagnostic diagnostico.json evidence/sale-iowa.json
+          curl -fsSL --retry 3 --max-time 120 'https://archive.ics.uci.edu/static/public/352/online+retail.zip' -o /tmp/retail.zip
+          python scripts/sale/retail.py /tmp/retail.zip /tmp/comercio
+          node scripts/sale/retail-exam.mjs /tmp/comercio > retail.json
+          node scripts/sale/check-result.mjs credit retail.json evidence/sale-retail.json
+          node scripts/sale/register-exam.mjs /tmp/comercio/packet.json > partidas.json
+          node scripts/sale/check-result.mjs register partidas.json evidence/sale-register.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: examenes-facturas
+          path: |
+            diagnostico.json
+            retail.json
+            partidas.json
+          retention-days: 30

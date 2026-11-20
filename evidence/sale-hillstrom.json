@@ -1,0 +1,374 @@
+{
+  "mode": "HISTORICAL_RANDOMIZED",
+  "unit": "USD cents per eligible customer over the observation window",
+  "support": {
+    "fit": 16000,
+    "search": 10000,
+    "validation": 14000,
+    "holdout": 24000
+  },
+  "seal": "7377adca66da0efe653831f43a324a6a8f42be7768cac919f4e087b15e039657",
+  "selected": "simple",
+  "selectedVsSimple": {
+    "n": 24000,
+    "mean": 0,
+    "se": 0,
+    "lower": 0,
+    "upper": 0,
+    "z": 1.96
+  },
+  "selectedVsNoContact": {
+    "n": 24000,
+    "mean": 39.869375,
+    "se": 24.046529500096668,
+    "lower": -7.261822820189472,
+    "upper": 87.00057282018946,
+    "z": 1.96
+  },
+  "observedArms": [
+    {
+      "action": "control",
+      "people": 7982,
+      "positiveSpend": 51,
+      "historicalGrossCents": 661089,
+      "observedMeanCents": 82.82247557003258
+    },
+    {
+      "action": "oferta-a",
+      "people": 8046,
+      "positiveSpend": 109,
+      "historicalGrossCents": 1201960,
+      "observedMeanCents": 149.38603032562764
+    },
+    {
+      "action": "oferta-b",
+      "people": 7972,
+      "positiveSpend": 74,
+      "historicalGrossCents": 984816,
+      "observedMeanCents": 123.53437029603613
+    }
+  ],
+  "qualification": "NO_DEMONSTRATED_ADVANTAGE_OVER_INCUMBENT",
+  "ownSales": null,
+  "merchantMargin": null,
+  "relativeToSimple": "KEEP_SIMPLE",
+  "methods": [
+    {
+      "name": "simple",
+      "contacts": 24000,
+      "matched": 7972,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 0,
+        "se": 0,
+        "lower": 0,
+        "upper": 0,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 39.869375,
+        "se": 24.046529500096668,
+        "lower": -26.018115830264883,
+        "upper": 105.75686583026487,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "rules-1",
+      "contacts": 0,
+      "matched": 7982,
+      "vsSimple": {
+        "n": 24000,
+        "mean": -39.869375,
+        "se": 24.046529500096668,
+        "lower": -105.75686583026487,
+        "upper": 26.018115830264883,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 0,
+        "se": 0,
+        "lower": 0,
+        "upper": 0,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "rules-100",
+      "contacts": 24000,
+      "matched": 8058,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 0.939875,
+        "se": 14.937050718244889,
+        "lower": -39.987643967991,
+        "upper": 41.867393967991,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 40.80925,
+        "se": 24.04488305667098,
+        "lower": -25.073729575278485,
+        "upper": 106.69222957527847,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "rules-1000",
+      "contacts": 24000,
+      "matched": 8002,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 15.070958333333333,
+        "se": 21.058747549948862,
+        "lower": -42.63000995352655,
+        "upper": 72.77192662019321,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 54.940333333333335,
+        "se": 24.70277230623853,
+        "lower": -12.74526278576024,
+        "upper": 122.6259294524269,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "rules-10000",
+      "contacts": 20794,
+      "matched": 8068,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 21.16154166666667,
+        "se": 24.36300872286108,
+        "lower": -45.5931022339727,
+        "upper": 87.91618556730603,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 61.03091666666667,
+        "se": 23.164542310106903,
+        "lower": -2.439929263026251,
+        "upper": 124.50176259635958,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "control",
+      "contacts": 0,
+      "matched": 7982,
+      "vsSimple": {
+        "n": 24000,
+        "mean": -39.869375,
+        "se": 24.046529500096668,
+        "lower": -105.75686583026487,
+        "upper": 26.018115830264883,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 0,
+        "se": 0,
+        "lower": 0,
+        "upper": 0,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "offer-a",
+      "contacts": 24000,
+      "matched": 8046,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 25.968416666666666,
+        "se": 27.267566047713235,
+        "lower": -48.7447143040676,
+        "upper": 100.68154763740094,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 65.83779166666666,
+        "se": 25.21664654871701,
+        "lower": -3.2558198768179523,
+        "upper": 134.93140321015127,
+        "z": 2.74
+      }
+    },
+    {
+      "name": "offer-b",
+      "contacts": 24000,
+      "matched": 7972,
+      "vsSimple": {
+        "n": 24000,
+        "mean": 0,
+        "se": 0,
+        "lower": 0,
+        "upper": 0,
+        "z": 2.74
+      },
+      "vsNoContact": {
+        "n": 24000,
+        "mean": 39.869375,
+        "se": 24.046529500096668,
+        "lower": -26.018115830264883,
+        "upper": 105.75686583026487,
+        "z": 2.74
+      }
+    }
+  ],
+  "baseline": 2,
+  "routing": [
+    {
+      "policies": 1,
+      "previous": 0,
+      "againstSimple": {
+        "n": 14000,
+        "mean": -40.632,
+        "se": 22.82258261758446,
+        "lower": -103.16587637218143,
+        "upper": 21.901876372181427,
+        "z": 2.74
+      },
+      "againstPrevious": {
+        "n": 14000,
+        "mean": -40.632,
+        "se": 22.82258261758446,
+        "lower": -103.16587637218143,
+        "upper": 21.901876372181427,
+        "z": 2.74
+      },
+      "promoted": false
+    },
+    {
+      "policies": 100,
+      "previous": 0,
+      "againstSimple": {
+        "n": 14000,
+        "mean": 3.2517857142857145,
+        "se": 17.189579761012283,
+        "lower": -43.84766283088794,
+        "upper": 50.351234259459375,
+        "z": 2.74
+      },
+      "againstPrevious": {
+        "n": 14000,
+        "mean": 3.2517857142857145,
+        "se": 17.189579761012283,
+        "lower": -43.84766283088794,
+        "upper": 50.351234259459375,
+        "z": 2.74
+      },
+      "promoted": false
+    },
+    {
+      "policies": 1000,
+      "previous": 0,
+      "againstSimple": {
+        "n": 14000,
+        "mean": 20.540214285714285,
+        "se": 26.946957985235066,
+        "lower": -53.29445059382981,
+        "upper": 94.37487916525838,
+        "z": 2.74
+      },
+      "againstPrevious": {
+        "n": 14000,
+        "mean": 20.540214285714285,
+        "se": 26.946957985235066,
+        "lower": -53.29445059382981,
+        "upper": 94.37487916525838,
+        "z": 2.74
+      },
+      "promoted": false
+    },
+    {
+      "policies": 10000,
+      "previous": 0,
+      "againstSimple": {
+        "n": 14000,
+        "mean": 14.096928571428572,
+        "se": 25.636134407344503,
+        "lower": -56.146079704695374,
+        "upper": 84.33993684755252,
+        "z": 2.74
+      },
+      "againstPrevious": {
+        "n": 14000,
+        "mean": 14.096928571428572,
+        "se": 25.636134407344503,
+        "lower": -56.146079704695374,
+        "upper": 84.33993684755252,
+        "z": 2.74
+      },
+      "promoted": false
+    }
+  ],
+  "workers": [
+    {
+      "population": 10000,
+      "rules": 1,
+      "distinctTrainingDecisions": 1,
+      "independentCustomers": 10000,
+      "sourceExperiments": 1,
+      "selected": 0,
+      "equalsSingleWorker": true,
+      "compressedAdditions": 30004,
+      "scoresHash": "2c8719f8839eb237629142a525680ea492b6c02720e7c1cb73feff6f24bf62bc",
+      "sectorSeals": "54938df90d1b5f74cd12f9c88a51536894fd790715c82332b24ae0bdf182486d",
+      "populationMs": 21.809754999999996,
+      "oneWorkerMs": 1.6444730000000618
+    },
+    {
+      "population": 1000000,
+      "rules": 100,
+      "distinctTrainingDecisions": 99,
+      "independentCustomers": 10000,
+      "sourceExperiments": 1,
+      "selected": 53,
+      "equalsSingleWorker": true,
+      "compressedAdditions": 2220400,
+      "scoresHash": "1815b10e9d3fbeca0ebf1222d3bb93c7955b801c39a8d28cd267d89565930f73",
+      "sectorSeals": "6a13153d68d2323002991c62c5b2c2a2c2a912c00fd085b9d3c42c7e3cb46ee7",
+      "populationMs": 29.40277200000014,
+      "oneWorkerMs": 14.604804999999942
+    },
+    {
+      "population": 10000000,
+      "rules": 1000,
+      "distinctTrainingDecisions": 959,
+      "independentCustomers": 10000,
+      "sourceExperiments": 1,
+      "selected": 343,
+      "equalsSingleWorker": true,
+      "compressedAdditions": 5914000,
+      "scoresHash": "0ebe5226d7aa27c9500f4c6be8336be74f1752fcf029da5466d1c24f6b04036e",
+      "sectorSeals": "5ae160c9c748d462ced080a740e0978598ebbb9a3db825447e23cd78b644d1f0",
+      "populationMs": 127.95513099999994,
+      "oneWorkerMs": 17.164062999999942
+    },
+    {
+      "population": 100000000,
+      "rules": 10000,
+      "distinctTrainingDecisions": 9005,
+      "independentCustomers": 10000,
+      "sourceExperiments": 1,
+      "selected": 4693,
+      "equalsSingleWorker": true,
+      "compressedAdditions": 5980000,
+      "scoresHash": "417b1fbb082ac04612ab23ae50e247b270be749a9b4d6d46be867bc76e50910d",
+      "sectorSeals": "38216827b151f52535b3af798a796e387648c292d1002c87802d7082f5fcf605",
+      "populationMs": 669.571592,
+      "oneWorkerMs": 15.518060000000105
+    }
+  ],
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "threads": 4
+  }
+}

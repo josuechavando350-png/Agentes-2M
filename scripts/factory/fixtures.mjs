@@ -161,7 +161,11 @@ export function corpus(seed = randomBytes(16).toString("hex"), perSector = 12) {
         b = 4000 + (n(seed, id) % 60000),
         g = [
           [b, 1 + (n(seed, id + "p") % 30), 1 + (n(seed, id + "a") % 32)],
-          [8539 + (n(seed, id + "b") % 1000), 2000, 5],
+          [
+            8000 + (i * sectors.length + s) * 64 + (n(seed, id + "b") % 64),
+            2000,
+            5,
+          ],
         ];
       if (mode === 1) g[0][2] = Math.ceil(b / 20);
       cases.push(workCase(sector, id, period, g, mode, i));

@@ -2,6 +2,10 @@
 
 Motor local de agentes lógicos con presupuesto individual, aprendizaje entre sectores y auditoría de cada entrega. El padrón base contiene 100,000,000 de fundadores lógicos, diez millones por líder. Las réplicas certificadas se cuentan aparte. Una identidad adquiere tiempo de CPU al recibir trabajo. El censo recorre cada ID y calcula una huella de su estado. El límite de registro es un billón en español, 1,000,000,000,000.
 
+## Investigación y venta
+
+El auditor de notas de crédito acepta un CSV, entrega las partidas a revisar y genera un certificado que el comprador puede comprobar en su equipo. El libro comercial conserva la autorización del cliente, el pedido, la entrega, los gastos y la conciliación bancaria. La búsqueda de ofertas compara los resultados del padrón de 100 millones con una ruta exacta de un trabajador. [Producto, exámenes y resultados comerciales](docs/ventas-verificadas.md)
+
 ## Fábrica local de herramientas
 
 SEMAR puede aprender una regla a partir de expedientes de ejemplo, generar una herramienta, probarla en otros sectores y exportar un producto ejecutable con Node 24 y SQLite. El resultado incluye citas, las preguntas que requieren más evidencia y una comparación frente a métodos conocidos. El examen público reproduce importes históricos de Iowa y publica las discrepancias. Para construir una entrega completa después de preparar el repositorio, ejecuta `npm run factory:exam -- entrega`. [Operación, alcance y resultados](docs/fabrica-local.md)

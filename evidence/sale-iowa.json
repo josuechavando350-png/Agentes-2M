@@ -1,0 +1,410 @@
+{
+  "source": "Iowa Alcoholic Beverages Division / gatewaycat 1ee2a06",
+  "mode": "historical chronological",
+  "model": {
+    "rule": {
+      "usePrior": true,
+      "shops": 2,
+      "days": 1,
+      "age": 2,
+      "percent": 66
+    },
+    "tried": 82,
+    "training": [
+      {
+        "exact": 150,
+        "absoluteError": 0
+      },
+      {
+        "exact": 150,
+        "absoluteError": 0
+      }
+    ],
+    "baseline": [
+      {
+        "exact": 149,
+        "absoluteError": 294
+      },
+      {
+        "exact": 148,
+        "absoluteError": 11880
+      }
+    ],
+    "trainingHash": "f4b058d9836cb9bad0a70d6fdf1496e6e086185a666548644037cef1857bc282",
+    "latestTrainingDay": "2019-08-30"
+  },
+  "seal": "aab45fc83e9b62fa7495d69d1e3185b00a6c6a74e84099ccbad897f6d476cf9f",
+  "periods": [
+    {
+      "period": "future-a",
+      "cases": 200,
+      "exact": 200,
+      "baseline": 200,
+      "fixed": 0,
+      "broken": 0,
+      "absoluteError": 0,
+      "baselineError": 0,
+      "questions": 0,
+      "errors": []
+    },
+    {
+      "period": "future-b",
+      "cases": 200,
+      "exact": 197,
+      "baseline": 198,
+      "fixed": 0,
+      "broken": 1,
+      "absoluteError": 1794,
+      "baselineError": 1344,
+      "questions": 3,
+      "errors": [
+        {
+          "id": "ia-130691400006",
+          "predicted": 5850,
+          "observed": 5178,
+          "primaryDocument": "Factura original de la partida"
+        },
+        {
+          "id": "ia-131350300011",
+          "predicted": 5850,
+          "observed": 5178,
+          "primaryDocument": "Tarifa vigente o factura original con el precio unitario aplicable"
+        },
+        {
+          "id": "ia-130684000005",
+          "predicted": 18900,
+          "observed": 19350,
+          "primaryDocument": "Tarifa vigente o factura original con el precio unitario aplicable"
+        }
+      ]
+    }
+  ],
+  "verdict": "KEEP_LISTED_PRICE",
+  "previouslyOpened": [
+    {
+      "id": "ia-118547200131",
+      "observed": 3888,
+      "listed": 4032,
+      "model": 3888,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "49189",
+        "day": "2019-04-03",
+        "invoice": "118547200131",
+        "distinguish": [
+          972,
+          1008
+        ]
+      }
+    },
+    {
+      "id": "ia-118654500001",
+      "observed": 5850,
+      "listed": 5556,
+      "model": 5850,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "57148",
+        "day": "2019-04-09",
+        "invoice": "118654500001",
+        "distinguish": [
+          926,
+          975
+        ]
+      }
+    },
+    {
+      "id": "ia-118808700061",
+      "observed": 20250,
+      "listed": 20478,
+      "model": 20250,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "34422",
+        "day": "2019-04-17",
+        "invoice": "118808700061",
+        "distinguish": [
+          3375,
+          3413
+        ]
+      }
+    },
+    {
+      "id": "ia-118871200018",
+      "observed": 8316,
+      "listed": 7722,
+      "model": 8316,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "21598",
+        "day": "2019-04-19",
+        "invoice": "118871200018",
+        "distinguish": [
+          1287,
+          1386
+        ]
+      }
+    },
+    {
+      "id": "ia-118881700002",
+      "observed": 42264,
+      "listed": 44064,
+      "model": 42264,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "49186",
+        "day": "2019-04-19",
+        "invoice": "118881700002",
+        "distinguish": [
+          3522,
+          3672
+        ]
+      }
+    },
+    {
+      "id": "ia-118900400064",
+      "observed": 21660,
+      "listed": 17892,
+      "model": 17892,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "4936",
+        "day": "2019-04-22",
+        "invoice": "118900400064",
+        "distinguish": [
+          1491,
+          1805
+        ]
+      }
+    },
+    {
+      "id": "ia-126291300007",
+      "observed": 5850,
+      "listed": 5400,
+      "model": 5400,
+      "consistent": [],
+      "cause": "UNTESTED",
+      "request": null
+    },
+    {
+      "id": "ia-126454300008",
+      "observed": 10062,
+      "listed": 9000,
+      "model": 10062,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "8828",
+        "day": "2020-04-10",
+        "invoice": "126454300008",
+        "distinguish": [
+          1500,
+          1677
+        ]
+      }
+    },
+    {
+      "id": "ia-126489200161",
+      "observed": 6750,
+      "listed": 7200,
+      "model": 7200,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "89242",
+        "day": "2020-04-13",
+        "invoice": "126489200161",
+        "distinguish": [
+          2250,
+          2400
+        ]
+      }
+    },
+    {
+      "id": "ia-126546700048",
+      "observed": 1125,
+      "listed": 1050,
+      "model": 1125,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "43648",
+        "day": "2020-04-14",
+        "invoice": "126546700048",
+        "distinguish": [
+          1050,
+          1125
+        ]
+      }
+    },
+    {
+      "id": "ia-126588400066",
+      "observed": 2126,
+      "listed": 1878,
+      "model": 2126,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "29119",
+        "day": "2020-04-15",
+        "invoice": "126588400066",
+        "distinguish": [
+          1878,
+          2126
+        ]
+      }
+    },
+    {
+      "id": "ia-126589600012",
+      "observed": 7200,
+      "listed": 8226,
+      "model": 7200,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "12408",
+        "day": "2020-04-15",
+        "invoice": "126589600012",
+        "distinguish": [
+          1200,
+          1371
+        ]
+      }
+    },
+    {
+      "id": "ia-126613000061",
+      "observed": 1950,
+      "listed": 1800,
+      "model": 1950,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "80058",
+        "day": "2020-04-16",
+        "invoice": "126613000061",
+        "distinguish": [
+          900,
+          975
+        ]
+      }
+    },
+    {
+      "id": "ia-126632700008",
+      "observed": 5760,
+      "listed": 5940,
+      "model": 5760,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "36873",
+        "day": "2020-04-17",
+        "invoice": "126632700008",
+        "distinguish": [
+          480,
+          495
+        ]
+      }
+    },
+    {
+      "id": "ia-126775700001",
+      "observed": 28800,
+      "listed": 29700,
+      "model": 28800,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "36873",
+        "day": "2020-04-23",
+        "invoice": "126775700001",
+        "distinguish": [
+          480,
+          495
+        ]
+      }
+    },
+    {
+      "id": "ia-126898300149",
+      "observed": 1683,
+      "listed": 1779,
+      "model": 1683,
+      "consistent": [
+        "prior-consensus",
+        "latest-transaction"
+      ],
+      "cause": "AWAIT_PRIMARY_DOCUMENT",
+      "request": {
+        "document": "Tarifa vigente o factura original con el precio unitario aplicable",
+        "sku": "65253",
+        "day": "2020-04-28",
+        "invoice": "126898300149",
+        "distinguish": [
+          561,
+          593
+        ]
+      }
+    }
+  ],
+  "ownReceipts": null
+}

@@ -1,0 +1,87 @@
+{
+  "dataset": "ventas-centavos",
+  "eligibleCustomers": 10000,
+  "policies": 10000,
+  "comparisons": 100000000,
+  "reference": "417b1fbb082ac04612ab23ae50e247b270be749a9b4d6d46be867bc76e50910d",
+  "repetitions": 31,
+  "warmups": 1,
+  "started": "2026-11-20T04:42:00.024Z",
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "available": 9,
+  "node": "v24.22.3",
+  "scope": "Tiempo desde las filas puntuadas y el catálogo listo hasta el vector exacto de totales. Incluye serialización y proceso para C++. Auditoría individual solo en las configuraciones con recibos.",
+  "finished": "2026-11-20T04:43:49.425Z",
+  "timings": [
+    {
+      "method": "tablas",
+      "threads": 1,
+      "receipts": false,
+      "minMs": 24.26733399999648,
+      "medianMs": 32.67595799999981,
+      "p95Ms": 49.26631199999974,
+      "maxMs": 67.63342200001352,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 1,
+      "receipts": false,
+      "minMs": 152.29234099999303,
+      "medianMs": 180.25153300000238,
+      "p95Ms": 244.76259600000049,
+      "maxMs": 277.74004499999864,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 4,
+      "receipts": false,
+      "minMs": 69.08244199999899,
+      "medianMs": 88.70185099999799,
+      "p95Ms": 125.68284399999538,
+      "maxMs": 159.72031900000002,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 10,
+      "receipts": false,
+      "minMs": 73.09593300000415,
+      "medianMs": 90.15814800000226,
+      "p95Ms": 124.81512199999997,
+      "maxMs": 126.4153559999977,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 1,
+      "receipts": true,
+      "minMs": 1679.5787680000067,
+      "medianMs": 1802.912424000002,
+      "p95Ms": 2329.4787610000003,
+      "maxMs": 2477.4937000000064,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 4,
+      "receipts": true,
+      "minMs": 548.9869249999974,
+      "medianMs": 666.6739760000055,
+      "p95Ms": 793.892154000001,
+      "maxMs": 796.5774220000021,
+      "allExact": true
+    },
+    {
+      "method": "recorrido",
+      "threads": 10,
+      "receipts": true,
+      "minMs": 412.746020999999,
+      "medianMs": 455.3332880000007,
+      "p95Ms": 519.3816460000016,
+      "maxMs": 528.9362220000039,
+      "allExact": true
+    }
+  ]
+}

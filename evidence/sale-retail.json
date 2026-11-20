@@ -1,0 +1,192 @@
+{
+  "source": "Daqing Chen, Online Retail, UCI, DOI 10.24432/C5BW33, CC BY 4.0",
+  "mode": "historical ledger reconciliation",
+  "intake": {
+    "sourceRows": 541909,
+    "excludedNonMerchandiseCode": 1920,
+    "missingCustomer": 135080,
+    "invalidQuantityOrPrice": 33,
+    "salesOutsideAnyTargetGroup": 380547,
+    "admittedRows": 24329
+  },
+  "runs": [
+    {
+      "inputHash": "fe207d1b43ee8800cbf459b1f91a102ba8b8ac78743bb19e03e2a25a56d5fd50",
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "currency": "GBP",
+      "maxAgeDays": 30,
+      "groups": 7709,
+      "lines": 24329,
+      "credits": 8539,
+      "creditUnits": 269484,
+      "creditedValueCents": 47440333,
+      "backedUnits": 224234,
+      "backedValueCents": 39237275,
+      "unmatchedUnits": 45250,
+      "unmatchedValueCents": 8203058,
+      "creditsNearStart": 675,
+      "looseLookupBackedUnits": 224847,
+      "overstatementByLooseLookup": 613,
+      "mathematicalGapUnits": 0,
+      "meaning": "Máximo respaldo observable en este archivo, bajo el mismo comprador, producto y precio y la ventana declarada. La recuperación real requiere confirmación.",
+      "certificateHash": "e8ffab4b3e8b990e07327d9274b281fb67227fa121dcce6dcf79fd3ffac5ea5b",
+      "elapsedMs": 322.447132
+    },
+    {
+      "inputHash": "ddcb76026152b497f5fc33451c822d95a60e8bb457ecc0c84ceb84e0bcbeed91",
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "currency": "GBP",
+      "maxAgeDays": 90,
+      "groups": 7709,
+      "lines": 24329,
+      "credits": 8539,
+      "creditUnits": 269484,
+      "creditedValueCents": 47440333,
+      "backedUnits": 234907,
+      "backedValueCents": 41473058,
+      "unmatchedUnits": 34577,
+      "unmatchedValueCents": 5967275,
+      "creditsNearStart": 1756,
+      "looseLookupBackedUnits": 235561,
+      "overstatementByLooseLookup": 654,
+      "mathematicalGapUnits": 0,
+      "meaning": "Máximo respaldo observable en este archivo, bajo el mismo comprador, producto y precio y la ventana declarada. La recuperación real requiere confirmación.",
+      "certificateHash": "21a1dde891453cda5f3b987458e4f9bd5b629a0bb2a6a397b2a83458ea5b0979",
+      "elapsedMs": 216.39049899999998
+    },
+    {
+      "inputHash": "0cedf90e511a970d887415764621a7585923e7a044ca2597828c03ce1cd35f1f",
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "currency": "GBP",
+      "maxAgeDays": 365,
+      "groups": 7709,
+      "lines": 24329,
+      "credits": 8539,
+      "creditUnits": 269484,
+      "creditedValueCents": 47440333,
+      "backedUnits": 248011,
+      "backedValueCents": 44476517,
+      "unmatchedUnits": 21473,
+      "unmatchedValueCents": 2963816,
+      "creditsNearStart": 8192,
+      "looseLookupBackedUnits": 248684,
+      "overstatementByLooseLookup": 673,
+      "mathematicalGapUnits": 0,
+      "meaning": "Máximo respaldo observable en este archivo, bajo el mismo comprador, producto y precio y la ventana declarada. La recuperación real requiere confirmación.",
+      "certificateHash": "8b202d08d2fa747f57b857c4bc9a641ebe32320c779072258af3bbe862a9a91d",
+      "elapsedMs": 240.62484200000006
+    }
+  ],
+  "sample": [
+    {
+      "id": "r-225285",
+      "invoice": "C556644",
+      "row": 225285,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 1,
+      "minBacked": 1,
+      "maxBacked": 1,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": false,
+      "ranks": {
+        "all": 1,
+        "without": 0,
+        "alone": 1
+      },
+      "request": null
+    },
+    {
+      "id": "r-253966",
+      "invoice": "C559253",
+      "row": 253966,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 1,
+      "minBacked": 1,
+      "maxBacked": 1,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": false,
+      "ranks": {
+        "all": 1,
+        "without": 0,
+        "alone": 1
+      },
+      "request": null
+    },
+    {
+      "id": "r-472197",
+      "invoice": "C576670",
+      "row": 472197,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 1,
+      "minBacked": 1,
+      "maxBacked": 1,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": false,
+      "ranks": {
+        "all": 1,
+        "without": 0,
+        "alone": 1
+      },
+      "request": null
+    },
+    {
+      "id": "r-527358",
+      "invoice": "C580710",
+      "row": 527358,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 3,
+      "minBacked": 3,
+      "maxBacked": 3,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": false,
+      "ranks": {
+        "all": 3,
+        "without": 0,
+        "alone": 3
+      },
+      "request": null
+    },
+    {
+      "id": "r-74415",
+      "invoice": "C542424",
+      "row": 74415,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 1,
+      "minBacked": 1,
+      "maxBacked": 1,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": true,
+      "ranks": {
+        "all": 4,
+        "without": 3,
+        "alone": 1
+      },
+      "request": null
+    },
+    {
+      "id": "r-123560",
+      "invoice": "C546897",
+      "row": 123560,
+      "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+      "units": 1,
+      "minBacked": 1,
+      "maxBacked": 1,
+      "unavoidableUnmatched": 0,
+      "ambiguous": false,
+      "leftCensored": false,
+      "ranks": {
+        "all": 2,
+        "without": 1,
+        "alone": 1
+      },
+      "request": null
+    }
+  ],
+  "ownRecoveryCents": null,
+  "ownRevenueCents": null
+}

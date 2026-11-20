@@ -61,7 +61,7 @@ export function preparePopulation(packet) {
     labels,
   };
 }
-function founderRanges(layout, perSector) {
+export function founderRanges(layout, perSector) {
   const sectors = SECTORS.map(() => ({ count: 0, ranges: [] }));
   let previous = 0;
   for (const run of layout.runs) {

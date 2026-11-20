@@ -1,3 +1,28 @@
+import { allocateSales } from "./sale/allocation.mjs";
+import {
+  creditGoal,
+  creditMandate,
+  creditExecution,
+} from "./sale/credit-job.mjs";
+import {
+  inquiryGoal,
+  inquirySnapshot,
+  inquiryExecution,
+} from "./sale/inquiry-job.mjs";
+import {
+  pilotAssignment,
+  commercialReadiness,
+  customerQuote,
+} from "./sale/field.mjs";
+import {
+  salesState,
+  saleEvent,
+  planSale,
+  applySale,
+  salesReport,
+  commercialScope,
+  validateCommercialAuthority,
+} from "./sale/book.mjs";
 import {
   validateProject,
   predictExam,
@@ -7,7 +32,13 @@ import {
 import { runtimeStamp } from "./factory/export.mjs";
 import { factoryExecution, factoryGoal } from "./factory/mission.mjs";
 import { DatabaseSync } from "node:sqlite";
-import { engine, saveRuntime, archivedExecution } from "./global-archive.mjs";
+import { saleReplayInput, evaluateSale } from "./sale/replay.mjs";
+import {
+  engine,
+  saveRuntime,
+  archivedExecution,
+  runtimeContents,
+} from "./global-archive.mjs";
 export { engine };
 import { digest, integer, strict, BATCH } from "./policy.mjs";
 import { token, label, investigate, referee, POLICIES } from "./dossiers.mjs";
@@ -37,6 +68,7 @@ const actorKey = (w) => w.id + "/" + w.generation;
 const expires = (s, now) => now >= s.open.until;
 const empty = () => ({
   open: null,
+  sales: salesState(),
   actors: new Map(),
   docs: new Map(),
   jobs: new Map(),
@@ -128,7 +160,8 @@ function apply(s, e) {
     const job = byKey(s, d.job);
     job.grade = d.grade;
     if (d.grade.status === "QUALIFIED_IN_SCOPE") job.qualifiedAt = e.seq;
-  } else if (kind === "feedback") s.feedback.set(d.job, d);
+  } else if (saleEvent(kind)) applySale(s, kind, d);
+  else if (kind === "feedback") s.feedback.set(d.job, d);
   else throw Error("Evento global desconocido");
   s.tip = digest(e);
   s.seq = e.seq;
@@ -181,6 +214,8 @@ function ranking(s, g, at, store, cap, method, replica) {
       const past = previous.filter(
         ([j, f]) =>
           !j.snapshot.factory &&
+          !j.snapshot.inquiry &&
+          !j.snapshot.credit &&
           j.snapshot.team.some((m) => actorKey(m) === actorKey(w)) &&
           skillKey(j.snapshot.goal) === skillKey(g) &&
           f.until > at,
@@ -216,11 +251,17 @@ function validateOpen(d, now, store) {
   strict(d, [
     "budgetCents",
     "currency",
+    ...(Object.hasOwn(d, "commercialAuthority") ? ["commercialAuthority"] : []),
     "until",
     "maxJobCents",
     "permissions",
     "actors",
   ]);
+  if (Object.hasOwn(d, "commercialAuthority"))
+    validateCommercialAuthority(
+      d.commercialAuthority,
+      store.settlementAuthority(),
+    );
   integer(d.budgetCents, 0, maxMoney, "presupuesto");
   integer(d.maxJobCents, 1, maxMoney, "tope por trabajo");
   integer(d.until, now + 1, now + WEEK, "plazo máximo de 168 horas");
@@ -283,6 +324,8 @@ function methodFailures(s, proposal) {
       g = j.snapshot.goal;
     if (
       j.snapshot.factory ||
+      j.snapshot.inquiry ||
+      j.snapshot.credit ||
       g.scope !== proposal.scope ||
       g.op !== proposal.candidate.op ||
       digest(g.operands.map((o) => o.field)) !==
@@ -309,6 +352,13 @@ function methodExam(s, c, d) {
   };
 }
 function isCurrent(s, j, at, store) {
+  if (
+    j.snapshot.inquiryFacts?.some(
+      (f) =>
+        s.docs.get(f.id)?.version !== f.version || s.docs.get(f.id).until <= at,
+    )
+  )
+    return false;
   const p = j.snapshot.portfolio;
   const method = j.method ? s.methods.get(j.method)?.candidate : null;
   if (
@@ -419,6 +469,8 @@ function context(s, job, at, store) {
       (j) =>
         j.output &&
         !j.snapshot.factory &&
+        !j.snapshot.inquiry &&
+        !j.snapshot.credit &&
         j.snapshot.worker.sector === worker.sector &&
         j.snapshot.goal.scope === g.scope &&
         j.snapshot.goal.op === g.op &&
@@ -498,7 +550,8 @@ export class GlobalDesk {
       } else {
         const at = Math.max(s.at, this.clock());
         const event = make(s, at);
-        if (event.kind === "reserve") saveRuntime(this.db);
+        if (event.kind === "reserve" || saleEvent(event.kind))
+          saveRuntime(this.db);
         e = { seq: s.seq + 1, prev: s.tip, key, input, at, ...event };
         this.db
           .prepare("INSERT INTO global_events VALUES(?,?,?,?)")
@@ -544,6 +597,29 @@ export class GlobalDesk {
         throw Error("Mandato de otro libro");
       if (d.job && s.aliases.has(d.job) && r.kind !== "refresh")
         throw Error("Usa la entrega original: " + s.aliases.get(d.job));
+      if (saleEvent(r.kind)) {
+        if (
+          r.kind === "sale-offer" &&
+          !isCurrent(s, byKey(s, d.job), at, this.store)
+        )
+          throw Error("El expediente del producto debe actualizarse");
+        const data = planSale(
+          s,
+          r,
+          at,
+          this.store.settlementAuthority(),
+          r.kind === "sale-activity" ? this.store.fieldTrials() : [],
+        );
+        if (r.kind === "sale-offer")
+          data.assignment = pilotAssignment(
+            this.store.fieldTrials(),
+            d.buyer,
+            commercialScope(s.jobs.get(d.job)),
+            d.pilot,
+            at,
+          );
+        return { ...event(data), saleRuntime: engine };
+      }
       const reserve = (
         goal,
         cap,
@@ -559,6 +635,8 @@ export class GlobalDesk {
         const found = [...s.jobs.values()].find(
           (j) =>
             !j.snapshot.factory &&
+            !j.snapshot.inquiry &&
+            !j.snapshot.credit &&
             j.status !== "CANCELLED" &&
             (j.method ?? null) === method &&
             (replica === null || j.snapshot.worker.id === replica) &&
@@ -606,7 +684,11 @@ export class GlobalDesk {
         return event(d);
       }
       if (r.kind === "feedback") {
-        if (byKey(s, d.job).snapshot.factory)
+        if (
+          byKey(s, d.job).snapshot.factory ||
+          byKey(s, d.job).snapshot.inquiry ||
+          byKey(s, d.job).snapshot.credit
+        )
           throw Error("Usa el examen reservado de la fábrica");
         strict(d, ["job", "resultHash", "action", "reference", "until"]);
         const j = byKey(s, d.job);
@@ -622,6 +704,42 @@ export class GlobalDesk {
         return event(d);
       }
       active(s, at);
+      if (r.kind === "credit-reserve") {
+        const parts = creditMandate(d, at);
+        if (d.buyer !== null && !s.sales.clients.has(d.buyer))
+          throw Error("Comprador no registrado");
+        const snap = context(
+          s,
+          { goal: creditGoal(d.scope), cap: d.cap },
+          at,
+          this.store,
+        );
+        return {
+          kind: "reserve",
+          data: {
+            cap: d.cap,
+            method: null,
+            snapshot: { ...snap, ...parts },
+            runtime: engine,
+          },
+          authorization: envelope,
+        };
+      }
+      if (r.kind === "probe-reserve" || r.kind === "probe-observe") {
+        const parts = inquirySnapshot(s, r, at),
+          goal = inquiryGoal(parts.inquiry.id),
+          snap = context(s, { goal, cap: d.cap }, at, this.store);
+        return {
+          kind: "reserve",
+          data: {
+            cap: d.cap,
+            method: null,
+            snapshot: { ...snap, ...parts },
+            runtime: engine,
+          },
+          authorization: envelope,
+        };
+      }
       if (r.kind === "factory-reserve") {
         strict(d, ["project", "cap"]);
         if (JSON.stringify(d.project).length > 4_000_000)
@@ -867,7 +985,7 @@ export class GlobalDesk {
       if (r.kind === "refresh") {
         strict(d, ["job", "cap"]);
         const old = byKey(s, d.job);
-        if (old.snapshot.factory)
+        if (old.snapshot.factory || old.snapshot.inquiry || old.snapshot.credit)
           throw Error(
             "Se requiere un nuevo mandato y nuevos exámenes de fábrica",
           );
@@ -931,9 +1049,13 @@ export class GlobalDesk {
         throw Error("Reserva, fuente o ejecutor caducado");
     };
     check(s, Math.max(s.at, this.clock()));
-    const output = j.snapshot.factory
-        ? await factoryExecution(j.snapshot)
-        : await executeMission(j.snapshot),
+    const output = j.snapshot.credit
+        ? await creditExecution(j.snapshot)
+        : j.snapshot.inquiry
+          ? await inquiryExecution(j.snapshot)
+          : j.snapshot.factory
+            ? await factoryExecution(j.snapshot)
+            : await executeMission(j.snapshot),
       resultHash = digest(output);
     this.write("@work/" + job, digest([job, j.snapshot]), (state, at) => {
       check(state, at);
@@ -983,6 +1105,23 @@ export class GlobalDesk {
       originalNode: j.runtime.node,
       replayNode: engine.node,
     };
+  }
+  bestSale(input) {
+    const s = this.#state();
+    return allocateSales(s, input, Math.max(s.at, this.clock()));
+  }
+  sales(mode = "LIVE") {
+    return salesReport(this.#state(), mode);
+  }
+  readiness(mode = "LIVE") {
+    return commercialReadiness(
+      this.#state(),
+      this.store.fieldBankTrials(),
+      mode,
+    );
+  }
+  quote(id) {
+    return customerQuote(this.#state().sales.offers.get(id));
   }
   view() {
     return structuredClone(this.summary());
@@ -1043,7 +1182,8 @@ export class GlobalDesk {
   async audit() {
     const s = empty(),
       authority = this.store.settlementAuthority();
-    const verified = [];
+    const verified = [],
+      saleArchives = new Set();
     for (const row of this.db
       .prepare("SELECT * FROM global_events ORDER BY seq")
       .iterate()) {
@@ -1077,6 +1217,29 @@ export class GlobalDesk {
             digest({ ...terms, actors: original }) !== digest(r.data)
           )
             throw Error("Dotación alterada");
+        }
+        if (r.kind === "credit-reserve") {
+          const parts = creditMandate(r.data, e.at);
+          if (
+            e.kind !== "reserve" ||
+            Object.keys(parts).some(
+              (k) => digest(parts[k]) !== digest(e.data.snapshot[k]),
+            ) ||
+            digest(e.data.snapshot.goal) !== digest(creditGoal(r.data.scope))
+          )
+            throw Error("Mandato de conciliación alterado");
+        }
+        if (r.kind === "probe-reserve" || r.kind === "probe-observe") {
+          const original = inquirySnapshot(s, r, e.at),
+            snap = e.data.snapshot;
+          if (
+            e.kind !== "reserve" ||
+            Object.keys(original).some(
+              (k) => digest(original[k]) !== digest(snap[k]),
+            ) ||
+            digest(snap.goal) !== digest(inquiryGoal(original.inquiry.id))
+          )
+            throw Error("Investigación alterada");
         }
         if (
           r.kind === "factory-reserve" &&
@@ -1123,6 +1286,31 @@ export class GlobalDesk {
             if (j.grade || digest(grade) !== digest(e.data.grade))
               throw Error("Dictamen de fábrica alterado");
           }
+        }
+        if (saleEvent(e.kind) || saleEvent(r.kind)) {
+          const runtime = e.saleRuntime;
+          if (!runtime) throw Error("Falta el programa archivado de venta");
+          const key = digest(runtime),
+            job = { runtime, snapshot: { engine: key } };
+          const input = saleReplayInput(
+            s,
+            r,
+            e.at,
+            authority,
+            ["sale-offer", "sale-activity"].includes(r.kind)
+              ? this.store.fieldTrials()
+              : [],
+          );
+          let planned;
+          if (key === digest(engine)) {
+            if (!saleArchives.has(key)) {
+              runtimeContents(this.db, job);
+              saleArchives.add(key);
+            }
+            planned = evaluateSale(input);
+          } else planned = archivedExecution(this.db, job, input);
+          if (r.kind !== e.kind || digest(planned) !== digest(e.data))
+            throw Error("Operación comercial alterada");
         }
         if (e.kind === "examine") {
           const m = unknown(
@@ -1207,9 +1395,13 @@ export class GlobalDesk {
       cases = [];
     for (const f of s.feedback.values()) {
       const j = byKey(s, f.job);
-      const out = j.snapshot.factory
-        ? await factoryExecution(j.snapshot)
-        : await executeMission(j.snapshot);
+      const out = j.snapshot.credit
+        ? await creditExecution(j.snapshot)
+        : j.snapshot.inquiry
+          ? await inquiryExecution(j.snapshot)
+          : j.snapshot.factory
+            ? await factoryExecution(j.snapshot)
+            : await executeMission(j.snapshot);
       cases.push({
         job: j.id,
         was: j.output.decision.action,

@@ -1,4 +1,9 @@
-import { fieldView, fieldLesson, fieldHypotheses } from "./field-lab.mjs";
+import {
+  fieldBankView,
+  fieldView,
+  fieldLesson,
+  fieldHypotheses,
+} from "./field-lab.mjs";
 import { businessOutcomes, commercialQueue } from "./business.mjs";
 import { rosterLayout } from "./packed.mjs";
 import { NativeWorker } from "./native.mjs";
@@ -218,6 +223,9 @@ export class Semar {
   }
   settlementAuthority() {
     return this.#journal.read().gov?.key ?? null;
+  }
+  fieldBankTrials() {
+    return structuredClone(fieldBankView(this.#journal.read().gov ?? {}));
   }
   fieldTrials() {
     return structuredClone(fieldView(this.#journal.read().gov ?? {}));

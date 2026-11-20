@@ -35,3 +35,20 @@ jobs:
             entrega-fabrica/
             examen-fabrica.json
           retention-days: 30
+      - name: Empaquetar el auditor del comprador y probar pedidos, cobros y reembolsos
+        run: |
+          python3 scripts/factory/offline.py node scripts/sale/package.mjs entrega-ventas
+          python3 scripts/factory/offline.py node scripts/sale/pilot.mjs > demostracion-ventas.json
+          python3 scripts/factory/offline.py node scripts/sale/cash-stress.mjs run concurrencia-ventas.json 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: auditor-notas-de-credito
+          path: entrega-ventas/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pruebas-flujo-comercial
+          path: |
+            demostracion-ventas.json
+            concurrencia-ventas.json
+          retention-days: 30

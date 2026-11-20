@@ -24,6 +24,15 @@ const paths = [
     "mission",
     "synth",
   ].map((n) => "src/factory/" + n + ".mjs"),
+  "src/factory/product.mjs",
+  "src/sale/book.mjs",
+  "src/sale/pricing.mjs",
+  "src/sale/field.mjs",
+  "src/sale/replay.mjs",
+  "src/sale/credits.mjs",
+  "src/sale/credit-job.mjs",
+  "src/sale/investigation.mjs",
+  "src/sale/inquiry-job.mjs",
   "src/global-planner.mjs",
   "src/global-desk.mjs",
   "src/global-analysis.mjs",
@@ -56,7 +65,7 @@ export function saveRuntime(db) {
     compressed,
   );
 }
-export function archivedExecution(db, job, input = job.snapshot) {
+export function runtimeContents(db, job) {
   const key = job.snapshot.engine;
   const row = db
     .prepare("SELECT archive FROM global_runtime WHERE id=?")
@@ -68,11 +77,17 @@ export function archivedExecution(db, job, input = job.snapshot) {
   );
   if (Object.keys(contents).length !== Object.keys(job.runtime.files).length)
     throw Error("Archivo incompleto");
+  for (const [p, code] of Object.entries(contents)) {
+    if (!paths.includes(p) || sha(code) !== job.runtime.files[p])
+      throw Error("Archivo de reproducción alterado");
+  }
+  return contents;
+}
+export function archivedExecution(db, job, input = job.snapshot) {
+  const contents = runtimeContents(db, job);
   const root = mkdtempSync(join(tmpdir(), "semar-replay-"));
   try {
     for (const [p, code] of Object.entries(contents)) {
-      if (!paths.includes(p) || sha(code) !== job.runtime.files[p])
-        throw Error("Archivo de reproducción alterado");
       mkdirSync(dirname(join(root, p)), { recursive: true });
       writeFileSync(join(root, p), code);
     }

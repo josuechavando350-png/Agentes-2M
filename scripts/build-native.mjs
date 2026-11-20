@@ -19,6 +19,7 @@ try {
       "native/team.cpp",
       "native/snapshot.cpp",
       "native/population.cpp",
+      "native/offers.cpp",
       "-lcrypto",
       "-lz",
       "-o",

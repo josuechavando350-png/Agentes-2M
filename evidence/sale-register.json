@@ -1,0 +1,20 @@
+{
+  "mode": "HISTORICAL_DOCUMENTARY",
+  "currency": "GBP",
+  "source": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+  "input": "ddcb76026152b497f5fc33451c822d95a60e8bb457ecc0c84ceb84e0bcbeed91",
+  "windowDays": 90,
+  "registered": 8539,
+  "checkedWithThreeIndependentRanks": 8539,
+  "ambiguousNotes": 73,
+  "withIndividualShortfall": 1902,
+  "leftCensoredNotes": 1756,
+  "aggregateUnmatchedCents": 5967275,
+  "individualUnavoidableCents": 5900356,
+  "atBeginningOfFileCents": 1414056,
+  "individualWithCompleteLookbackCents": 4486300,
+  "sharedShortfallCents": 66919,
+  "registerHash": "026277f7e6b418a6e64f96d8c5d595ead17573508095e0a7493060b64554d313",
+  "milliseconds": 122.05194799999998,
+  "ownRecoveryCents": null
+}
