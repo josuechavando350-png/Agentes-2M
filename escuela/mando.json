@@ -76,8 +76,8 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 54,
-      "documents": 45,
+      "spent": 58,
+      "documents": 48,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -811,7 +811,7 @@
           "subject": "mx-20d12f5e4c8e9a4734ae",
           "sector": 2,
           "revision": "a0b8c1d5ec8eca18206cbab98d3a4e33a9f9b06f8f26428ff7964a2a59c7b950",
-          "phase": "DISCOVERY",
+          "phase": "VALIDATION",
           "policy": "indexed",
           "crew": [
             31847994,
@@ -908,7 +908,7 @@
           "firstDecision": "SEEK_EVIDENCE",
           "commercialEvidence": [],
           "firstAt": 1795069730020,
-          "at": 1795069730020,
+          "at": 1795181442292,
           "chief": 1007968,
           "missing": [
             "units",
@@ -924,7 +924,7 @@
               "potentialCents": "0"
             },
             {
-              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "subject": "mx-21904339beeb2287248f",
               "documentedFields": 3,
               "potentialCents": "0"
             }
@@ -1208,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "03c9c880d6ac69e4887e93176f770729edbcd050f24e0d8140a18e1021b64e93"
+  "checkpoint": "672aa3378ef9a0c06efca9dd8f28775b5f7fe01d24dbfec850fcb4325ae958e8"
 }
