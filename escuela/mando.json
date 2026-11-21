@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 75,
+      "spent": 79,
       "documents": 68,
       "pilots": [
         {
@@ -1322,6 +1322,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-0500bcef26d43d9efb6d",
+          "sector": 7,
+          "revision": "a5fac8ff8fda50dd9a80c448f015310001e934e01423a2c845255c21b2d82aad",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            26733823,
+            27378892,
+            78539133
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "013J2Y - ADMINISTRACION DEL SISTEMA PORTUARIO NACIONAL ALTAMIRA, S.A. DE C.V.",
+              "refs": [
+                {
+                  "document": "mx-0500bcef26d43d9efb6d",
+                  "source": "https://postor.com.mx/licitacion/la-13-j2y-013j2y002-n-89-2026",
+                  "sha256": "47d63687bb77073997a3f528f905fa29cf8209d02e07c94726d4aadd5c0ee02e",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "013J2Y - ADMINISTRACION DEL SISTEMA PORTUARIO NACIONAL ALTAMIRA, S.A. DE C.V."
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "SERVICIO INTEGRAL DE MANTENIMIENTOA PORTONES Y CORTINAS METALICAS",
+              "refs": [
+                {
+                  "document": "mx-0500bcef26d43d9efb6d",
+                  "source": "https://postor.com.mx/licitacion/la-13-j2y-013j2y002-n-89-2026",
+                  "sha256": "47d63687bb77073997a3f528f905fa29cf8209d02e07c94726d4aadd5c0ee02e",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "SERVICIO INTEGRAL DE MANTENIMIENTOA PORTONES Y CORTINAS METALICAS"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "LICITACIÓN PÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-0500bcef26d43d9efb6d",
+                  "source": "https://postor.com.mx/licitacion/la-13-j2y-013j2y002-n-89-2026",
+                  "sha256": "47d63687bb77073997a3f528f905fa29cf8209d02e07c94726d4aadd5c0ee02e",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "LICITACIÓN PÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795290200667,
+          "at": 1795290200667,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-0500bcef26d43d9efb6d",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-0a1ea2da146171426185",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1337,5 +1466,5 @@
       "close": null
     }
   },
-  "checkpoint": "a02ff3475c47e75efcf5bbb265841a2ba9d8ba6802c0100a6087cfe11b1c570e"
+  "checkpoint": "659c779d584dce1bd4bce707c99ef77554d52818fbe6de4e41e23615c3116776"
 }
