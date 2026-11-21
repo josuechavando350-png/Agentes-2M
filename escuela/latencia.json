@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-20T18:36:14.532Z",
+  "measuredAt": "2026-11-21T17:27:46.343Z",
   "commit": "1fcc9b6f4a7715c8df451e9c7e9e338a9e99cb92",
   "runtime": {
     "node": "v24.22.3",
     "platform": "linux",
     "os": "7.0.0-1020-azure",
     "arch": "x64",
-    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "cpu": "AMD EPYC 9V45 96-Core Processor",
     "availableCpus": 4
   },
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "18cf5b3f94e48003ebdc2f03664aa01d474e813431046161512e0c3f46b4c486",
-    "population": 100030636,
+    "checkpoint": "a02ff3475c47e75efcf5bbb265841a2ba9d8ba6802c0100a6087cfe11b1c570e",
+    "population": 100031302,
     "founders": 100000000,
-    "tested": 100030636,
+    "tested": 100031301,
     "bytesPerRow": 8,
-    "bodyBytes": 800245088,
-    "headerBytes": 32384,
-    "compressedBytes": 1170072,
-    "sha256Uncompressed": "8db9d4236e0642774e089ba07af578ffb8221379d910a9df297628d89af9264e",
+    "bodyBytes": 800250416,
+    "headerBytes": 35047,
+    "compressedBytes": 1170267,
+    "sha256Uncompressed": "6c6eb95626f53826f48c3cce2ff7bf51af01da5a0d08a4141891a1711a9fa8af",
     "threads": 4,
-    "nativeExamAndGzipMs": 3955.5306359999995,
-    "independentVerificationMs": 840.881324,
+    "nativeExamAndGzipMs": 1395.325421,
+    "independentVerificationMs": 503.4638210000003,
     "sectors": [
       {
         "identities": 10003330,
@@ -34,7 +34,7 @@
       {
         "identities": 10003330,
         "founders": 10000000,
-        "tested": 10003330
+        "tested": 10003329
       },
       {
         "identities": 10003330,
@@ -57,9 +57,9 @@
         "tested": 10003330
       },
       {
-        "identities": 10002664,
+        "identities": 10003330,
         "founders": 10000000,
-        "tested": 10002664
+        "tested": 10003330
       },
       {
         "identities": 10002664,
@@ -79,52 +79,52 @@
     ]
   },
   "service": {
-    "checkpoint": "18cf5b3f94e48003ebdc2f03664aa01d474e813431046161512e0c3f46b4c486",
+    "checkpoint": "a02ff3475c47e75efcf5bbb265841a2ba9d8ba6802c0100a6087cfe11b1c570e",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 588.3500880000001,
+    "coldStartAndFirstApprovedMs": 329.9477999999999,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 3.805062999999791,
-        "p95Ms": 4.365552000000207,
-        "p99Ms": 5.323962000000392,
-        "maxMs": 5.941272000000026,
-        "elapsedMs": 498.16444499999943,
-        "actionsPerSecond": 256.9432669969053
+        "p50Ms": 2.144810000000234,
+        "p95Ms": 2.403816000000006,
+        "p99Ms": 2.6194369999998344,
+        "maxMs": 3.191280000000006,
+        "elapsedMs": 278.6963639999999,
+        "actionsPerSecond": 459.28119822905205
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 3.6631280000001425,
-        "p95Ms": 4.434850999999981,
-        "p99Ms": 6.569120000000112,
-        "maxMs": 8.247921000000133,
-        "elapsedMs": 487.98257699999976,
-        "actionsPerSecond": 262.3044469884835
+        "p50Ms": 2.0981700000002093,
+        "p95Ms": 2.6894349999997758,
+        "p99Ms": 4.306167000000187,
+        "maxMs": 4.315860000000157,
+        "elapsedMs": 280.57886800000006,
+        "actionsPerSecond": 456.19971636638
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 16.794004999999743,
-        "p95Ms": 31.133130000000165,
-        "p99Ms": 35.98666400000002,
-        "maxMs": 39.82938800000011,
-        "elapsedMs": 495.0728800000006,
-        "actionsPerSecond": 258.54779199377646
+        "p50Ms": 9.049062000000049,
+        "p95Ms": 17.044110000000273,
+        "p99Ms": 19.150019000000157,
+        "maxMs": 21.085148000000117,
+        "elapsedMs": 261.560661,
+        "actionsPerSecond": 489.3702268170977
       }
     ],
     "mission": {
-      "status": "DEAD_ZERO",
-      "localMs": 6.609876999999869,
+      "status": "RESEARCHED",
+      "localMs": 6.799682000000303,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "9d9cfd4738fe3ec54acb704fccb21ca6b72c432b6f335d50804a4ecd112e8b85"
+    "replayedTip": "05ae880da513448980124ad7e673513516a802f5952dd1a9129b65390dab32a2"
   }
 }
