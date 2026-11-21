@@ -76,8 +76,8 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 67,
-      "documents": 63,
+      "spent": 71,
+      "documents": 68,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -682,8 +682,8 @@
           "subject": "mx-4ee43bc0520eedd7c828",
           "sector": 5,
           "revision": "7e81df50838463843571a8ce8cb6a3f75fcd77a457766cd1a6696a97d280f9ea",
-          "phase": "DISCOVERY",
-          "policy": "indexed",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
           "crew": [
             64742713,
             35216343,
@@ -779,8 +779,8 @@
           "firstDecision": "SEEK_EVIDENCE",
           "commercialEvidence": [],
           "firstAt": 1795065167372,
-          "at": 1795065167372,
-          "chief": 1007968,
+          "at": 1795261239556,
+          "chief": 7968,
           "missing": [
             "units",
             "price",
@@ -790,12 +790,12 @@
           "question": "¿Hay demanda documentada y margen unitario positivo?",
           "alternatives": [
             {
-              "subject": "mx-20d12f5e4c8e9a4734ae",
+              "subject": "mx-4ee43bc0520eedd7c828",
               "documentedFields": 3,
               "potentialCents": "0"
             },
             {
-              "subject": "mx-3ae52a864d8bcdfb41f1",
+              "subject": "mx-043cfef146a072555f95",
               "documentedFields": 3,
               "potentialCents": "0"
             }
@@ -1208,5 +1208,5 @@
       "close": null
     }
   },
-  "checkpoint": "81b73f8aa219ebeef349226fa3ee4d803ecc78d4ddded2b0cfc3f500747a4036"
+  "checkpoint": "4e8f23d83d1f54369852ade257c2f7009884ad305b42b2a4a30e5a71aa89e4a3"
 }
