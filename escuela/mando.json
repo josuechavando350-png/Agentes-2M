@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 91,
+      "spent": 95,
       "documents": 68,
       "pilots": [
         {
@@ -1838,6 +1838,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-159ac8b92fa2c6c502c7",
+          "sector": 3,
+          "revision": "9be01a548afacbec4f22f99d7659a1a720ff23904e504221cd61e9b2003a3854",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            32676144,
+            93512484,
+            64442265
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL",
+              "refs": [
+                {
+                  "document": "mx-159ac8b92fa2c6c502c7",
+                  "source": "https://postor.com.mx/invitacion/ia-50-gyr-050gyr057-t-2-2027",
+                  "sha256": "1145e65bbcd5086d79791c7c107c8b19c9e52757f0a98db2a31a1ff1dd553667",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "SERVICIO MÉDICO INTEGRAL DE BANCO DE SANGRE 2027",
+              "refs": [
+                {
+                  "document": "mx-159ac8b92fa2c6c502c7",
+                  "source": "https://postor.com.mx/invitacion/ia-50-gyr-050gyr057-t-2-2027",
+                  "sha256": "1145e65bbcd5086d79791c7c107c8b19c9e52757f0a98db2a31a1ff1dd553667",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "SERVICIO MÉDICO INTEGRAL DE BANCO DE SANGRE 2027"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-159ac8b92fa2c6c502c7",
+                  "source": "https://postor.com.mx/invitacion/ia-50-gyr-050gyr057-t-2-2027",
+                  "sha256": "1145e65bbcd5086d79791c7c107c8b19c9e52757f0a98db2a31a1ff1dd553667",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795387472119,
+          "at": 1795387472119,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-159ac8b92fa2c6c502c7",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-15a3be4bc44cc18c7795",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1853,5 +1982,5 @@
       "close": null
     }
   },
-  "checkpoint": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d"
+  "checkpoint": "7c5677139211a2b183a23f9b6eb2fd8a1fff2b7d2ef252c0c3032e0a7f5dc8e0"
 }

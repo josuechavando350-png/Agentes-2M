@@ -1,6 +1,6 @@
 {
   "cycle": 20,
-  "parentTip": "b4cc0bb5dcb19ec9495e68daa4986c6d25c90a7307e6bafb2d947124643808d1",
+  "parentTip": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d",
   "result": {
     "cycle": 20,
     "status": "COMPLETED",
@@ -26,11 +26,11 @@
     "live": 100031967,
     "dead": 1,
     "treasury": 9998999680320,
-    "spent": 201,
+    "spent": 205,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 222,
-    "tip": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d",
+    "events": 223,
+    "tip": "7c5677139211a2b183a23f9b6eb2fd8a1fff2b7d2ef252c0c3032e0a7f5dc8e0",
     "absolute": {
       "name": "Diablo 666",
       "holder": {
@@ -98,7 +98,7 @@
     "blindPromotions": 23,
     "replicaCertificates": 31968,
     "registeredReplicas": 31968,
-    "events": 222,
-    "tip": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d"
+    "events": 223,
+    "tip": "7c5677139211a2b183a23f9b6eb2fd8a1fff2b7d2ef252c0c3032e0a7f5dc8e0"
   }
 }
