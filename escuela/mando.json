@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 79,
+      "spent": 83,
       "documents": 68,
       "pilots": [
         {
@@ -1451,6 +1451,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-0a1ea2da146171426185",
+          "sector": 2,
+          "revision": "85aaf77cc36f3e8475217c68779e5338879729e97bcd22333317aa0cba1895e7",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            31847994,
+            92012799,
+            93836855
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL",
+              "refs": [
+                {
+                  "document": "mx-0a1ea2da146171426185",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr069-n-25-2027",
+                  "sha256": "131fa4372c436c5bf8a98f010c8ebd94d30c6cc9fa234a04baaa412f0a6103c5",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "SERVICIO DE DOTACIÓN DE MEDICINA MAGISTRAL PARA EL OOAD CAMPECHE, EJERCICIO 2027",
+              "refs": [
+                {
+                  "document": "mx-0a1ea2da146171426185",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr069-n-25-2027",
+                  "sha256": "131fa4372c436c5bf8a98f010c8ebd94d30c6cc9fa234a04baaa412f0a6103c5",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "SERVICIO DE DOTACIÓN DE MEDICINA MAGISTRAL PARA EL OOAD CAMPECHE, EJERCICIO 2027"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "LICITACIÓN PÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-0a1ea2da146171426185",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr069-n-25-2027",
+                  "sha256": "131fa4372c436c5bf8a98f010c8ebd94d30c6cc9fa234a04baaa412f0a6103c5",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "LICITACIÓN PÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795307889827,
+          "at": 1795307889827,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-0a1ea2da146171426185",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-0ebaf79f0f4ad3fe82c6",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1466,5 +1595,5 @@
       "close": null
     }
   },
-  "checkpoint": "659c779d584dce1bd4bce707c99ef77554d52818fbe6de4e41e23615c3116776"
+  "checkpoint": "2b48096dfa99d40d807ec3838828486525f3907c332598944f9b1c8830110834"
 }
