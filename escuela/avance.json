@@ -1,36 +1,36 @@
 {
-  "cycle": 19,
-  "parentTip": "a904af6a4f89a604da7c1967390a5b38bfb2f846c4585094fc7efedf586ac586",
+  "cycle": 20,
+  "parentTip": "b4cc0bb5dcb19ec9495e68daa4986c6d25c90a7307e6bafb2d947124643808d1",
   "result": {
-    "cycle": 19,
+    "cycle": 20,
     "status": "COMPLETED",
-    "id": "be2fa6852398a623fdc65390717d3e48879bad000679035953fad9d8f26717e9",
+    "id": "99ff8cf72443952be684c2dc018b5d4ce2391fec653a2869360d23d20a37ebe8",
     "exam": {
       "training": 12,
       "heldOut": 4,
       "heldOutCorrect": 4,
       "total": 16,
       "correct": 16,
-      "baselineCorrect": 10,
-      "nodes": 7
+      "baselineCorrect": 12,
+      "nodes": 5
     },
-    "first": 100030637,
-    "last": 100031302,
+    "first": 100031303,
+    "last": 100031968,
     "replicas": 666,
     "childValue": "SUPPORTED"
   },
   "status": {
-    "population": 100031302,
+    "population": 100031968,
     "founders": 100000000,
     "foundersPerSector": 10000000,
-    "live": 100031301,
+    "live": 100031967,
     "dead": 1,
-    "treasury": 9998999686980,
-    "spent": 198,
+    "treasury": 9998999680320,
+    "spent": 201,
     "unit": "créditos simulados",
     "cap": 1000000000000,
-    "events": 219,
-    "tip": "b4cc0bb5dcb19ec9495e68daa4986c6d25c90a7307e6bafb2d947124643808d1",
+    "events": 222,
+    "tip": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d",
     "absolute": {
       "name": "Diablo 666",
       "holder": {
@@ -94,11 +94,11 @@
   },
   "audit": {
     "status": "VERIFIED",
-    "deliveries": 88,
-    "blindPromotions": 22,
-    "replicaCertificates": 31302,
-    "registeredReplicas": 31302,
-    "events": 219,
-    "tip": "b4cc0bb5dcb19ec9495e68daa4986c6d25c90a7307e6bafb2d947124643808d1"
+    "deliveries": 90,
+    "blindPromotions": 23,
+    "replicaCertificates": 31968,
+    "registeredReplicas": 31968,
+    "events": 222,
+    "tip": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d"
   }
 }
