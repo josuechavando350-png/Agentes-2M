@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 87,
+      "spent": 91,
       "documents": 68,
       "pilots": [
         {
@@ -1709,6 +1709,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-0fb1519f7168d06f199d",
+          "sector": 5,
+          "revision": "69c4231bcf2db37e1c59712aa83d8aefa03675805133b1c9190dd999a5df0d78",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            64742713,
+            35216343,
+            6490097
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "088001 - OFICIALÍA MAYOR DE GOBIERNO (TLAX)",
+              "refs": [
+                {
+                  "document": "mx-0fb1519f7168d06f199d",
+                  "source": "https://postor.com.mx/invitacion/ia-88-001-088001001-n-90-2026",
+                  "sha256": "bb99739afaedfc3c377917cfe53ecc23036166e75a358cbea2835910a4c6cedb",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "088001 - OFICIALÍA MAYOR DE GOBIERNO (TLAX)"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "MATERIAL DIDÁCTICO PARA DESARROLLO DE ESTRATEGIAS EDUCATIVAS",
+              "refs": [
+                {
+                  "document": "mx-0fb1519f7168d06f199d",
+                  "source": "https://postor.com.mx/invitacion/ia-88-001-088001001-n-90-2026",
+                  "sha256": "bb99739afaedfc3c377917cfe53ecc23036166e75a358cbea2835910a4c6cedb",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "MATERIAL DIDÁCTICO PARA DESARROLLO DE ESTRATEGIAS EDUCATIVAS"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-0fb1519f7168d06f199d",
+                  "source": "https://postor.com.mx/invitacion/ia-88-001-088001001-n-90-2026",
+                  "sha256": "bb99739afaedfc3c377917cfe53ecc23036166e75a358cbea2835910a4c6cedb",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795368078563,
+          "at": 1795368078563,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-0fb1519f7168d06f199d",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-159ac8b92fa2c6c502c7",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1724,5 +1853,5 @@
       "close": null
     }
   },
-  "checkpoint": "a904af6a4f89a604da7c1967390a5b38bfb2f846c4585094fc7efedf586ac586"
+  "checkpoint": "b4cc0bb5dcb19ec9495e68daa4986c6d25c90a7307e6bafb2d947124643808d1"
 }
