@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 83,
+      "spent": 87,
       "documents": 68,
       "pilots": [
         {
@@ -1580,6 +1580,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-0ebaf79f0f4ad3fe82c6",
+          "sector": 10,
+          "revision": "2c663be27c7bd6b0c0f455582d5083d88920dc2291dca99fb14812ff71acc9b8",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            19636978,
+            190149,
+            21147400
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL",
+              "refs": [
+                {
+                  "document": "mx-0ebaf79f0f4ad3fe82c6",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr022-n-21-2027",
+                  "sha256": "0cb8d27636dad741a7ea391f39dd72e02a4fd842a66f0e489a804513d6a71b75",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "050GYR - INSTITUTO MEXICANO DEL SEGURO SOCIAL"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "SERVICIO SUBROGADO DE COLPOSCOPIA",
+              "refs": [
+                {
+                  "document": "mx-0ebaf79f0f4ad3fe82c6",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr022-n-21-2027",
+                  "sha256": "0cb8d27636dad741a7ea391f39dd72e02a4fd842a66f0e489a804513d6a71b75",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "SERVICIO SUBROGADO DE COLPOSCOPIA"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "LICITACIÓN PÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-0ebaf79f0f4ad3fe82c6",
+                  "source": "https://postor.com.mx/licitacion/la-50-gyr-050gyr022-n-21-2027",
+                  "sha256": "0cb8d27636dad741a7ea391f39dd72e02a4fd842a66f0e489a804513d6a71b75",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "LICITACIÓN PÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795337023980,
+          "at": 1795337023980,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-0ebaf79f0f4ad3fe82c6",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-0fb1519f7168d06f199d",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1595,5 +1724,5 @@
       "close": null
     }
   },
-  "checkpoint": "2b48096dfa99d40d807ec3838828486525f3907c332598944f9b1c8830110834"
+  "checkpoint": "a904af6a4f89a604da7c1967390a5b38bfb2f846c4585094fc7efedf586ac586"
 }
