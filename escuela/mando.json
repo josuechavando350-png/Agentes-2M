@@ -76,7 +76,7 @@
       "phase": "VALIDATION",
       "sealed": false,
       "budget": 168,
-      "spent": 95,
+      "spent": 99,
       "documents": 68,
       "pilots": [
         {
@@ -1967,6 +1967,135 @@
             "cost": 4,
             "nextEvidence": "fuente primaria sobre units, price, cost"
           }
+        },
+        {
+          "subject": "mx-15a3be4bc44cc18c7795",
+          "sector": 7,
+          "revision": "731724cebe8ab0e0744985590340f6baf80fec1bf24a812b72d79d9a08621098",
+          "phase": "VALIDATION",
+          "policy": "crosscheck",
+          "crew": [
+            26733823,
+            27378892,
+            78539133
+          ],
+          "proof": {
+            "proposer": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 14
+            },
+            "investigator": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "referee": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": []
+            },
+            "sensitivity": []
+          },
+          "facts": {
+            "buyer": {
+              "status": "SUPPORTED",
+              "value": "049000 - FISCALÍA GENERAL DE LA REPÚBLICA",
+              "refs": [
+                {
+                  "document": "mx-15a3be4bc44cc18c7795",
+                  "source": "https://postor.com.mx/invitacion/ia-49-830-049830002-i-86-2026",
+                  "sha256": "5fba0dfefb0c36c8fadaf399c911a09c31e12372fa1a52dec865a36eacc5815d",
+                  "row": 1,
+                  "pointer": "/dependencia",
+                  "quote": "049000 - FISCALÍA GENERAL DE LA REPÚBLICA"
+                }
+              ],
+              "cost": 7
+            },
+            "problem": {
+              "status": "SUPPORTED",
+              "value": "ADQUISICIÓN DE PLAGUICIDAS, ABONOS Y FERTILIZANTES",
+              "refs": [
+                {
+                  "document": "mx-15a3be4bc44cc18c7795",
+                  "source": "https://postor.com.mx/invitacion/ia-49-830-049830002-i-86-2026",
+                  "sha256": "5fba0dfefb0c36c8fadaf399c911a09c31e12372fa1a52dec865a36eacc5815d",
+                  "row": 2,
+                  "pointer": "/nombre_procedimiento",
+                  "quote": "ADQUISICIÓN DE PLAGUICIDAS, ABONOS Y FERTILIZANTES"
+                }
+              ],
+              "cost": 7
+            },
+            "alternative": {
+              "status": "SUPPORTED",
+              "value": "INVITACIÓN A CUANDO MENOS TRES PERSONAS",
+              "refs": [
+                {
+                  "document": "mx-15a3be4bc44cc18c7795",
+                  "source": "https://postor.com.mx/invitacion/ia-49-830-049830002-i-86-2026",
+                  "sha256": "5fba0dfefb0c36c8fadaf399c911a09c31e12372fa1a52dec865a36eacc5815d",
+                  "row": 3,
+                  "pointer": "/tipo_procedimiento",
+                  "quote": "INVITACIÓN A CUANDO MENOS TRES PERSONAS"
+                }
+              ],
+              "cost": 7
+            },
+            "units": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "price": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            },
+            "cost": {
+              "status": "UNKNOWN",
+              "value": null,
+              "refs": [],
+              "cost": 7
+            }
+          },
+          "decision": "SEEK_EVIDENCE",
+          "forecast": 0.5,
+          "firstDecision": "SEEK_EVIDENCE",
+          "commercialEvidence": [],
+          "firstAt": 1795406224253,
+          "at": 1795406224253,
+          "chief": 7968,
+          "missing": [
+            "units",
+            "price",
+            "cost"
+          ],
+          "abandonIf": "Margen documentado no positivo o demanda refutada",
+          "question": "¿Hay demanda documentada y margen unitario positivo?",
+          "alternatives": [
+            {
+              "subject": "mx-15a3be4bc44cc18c7795",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            },
+            {
+              "subject": "mx-215b143339a6799ff948",
+              "documentedFields": 3,
+              "potentialCents": "0"
+            }
+          ],
+          "experiment": {
+            "strategy": "contrastar margen y demanda",
+            "alternative": "esperar nueva evidencia",
+            "cost": 4,
+            "nextEvidence": "fuente primaria sobre units, price, cost"
+          }
         }
       ],
       "finance": {
@@ -1982,5 +2111,5 @@
       "close": null
     }
   },
-  "checkpoint": "7c5677139211a2b183a23f9b6eb2fd8a1fff2b7d2ef252c0c3032e0a7f5dc8e0"
+  "checkpoint": "afc1bfe6b0ec83d55cd3a59400002717792a704fd06f7d185c38230da13e1c91"
 }
