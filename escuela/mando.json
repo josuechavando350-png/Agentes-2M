@@ -8,13 +8,13 @@
     "absolute": {
       "name": "Diablo 666",
       "holder": {
-        "id": 7968,
+        "id": 1007969,
         "generation": 1,
-        "policy": "crosscheck"
+        "policy": "indexed"
       },
       "ranking": [
         {
-          "id": 1007968,
+          "id": 1007969,
           "generation": 1,
           "policy": "indexed"
         },
@@ -22,20 +22,21 @@
           "id": 7968,
           "generation": 1,
           "policy": "crosscheck"
+        },
+        {
+          "id": 7969,
+          "generation": 1,
+          "policy": "crosscheck"
+        },
+        {
+          "id": 1007968,
+          "generation": 1,
+          "policy": "indexed"
         }
       ],
       "lastExam": {
-        "seed": "1c0742622a623bd425070515d9828c8f35026335d941484a",
+        "seed": "30f0e1880f9ef835618059863aca0f010bc5d6c924178f00",
         "entries": [
-          {
-            "id": 666,
-            "policy": "first",
-            "correct": 12,
-            "total": 16,
-            "severe": 4,
-            "cost": 64,
-            "elapsedUs": 925
-          },
           {
             "id": 7968,
             "policy": "crosscheck",
@@ -43,16 +44,25 @@
             "total": 16,
             "severe": 0,
             "cost": 104,
-            "elapsedUs": 643
+            "elapsedUs": 600
           },
           {
-            "id": 1007968,
+            "id": 7969,
+            "policy": "crosscheck",
+            "correct": 16,
+            "total": 16,
+            "severe": 0,
+            "cost": 104,
+            "elapsedUs": 573
+          },
+          {
+            "id": 1007969,
             "policy": "indexed",
             "correct": 16,
             "total": 16,
             "severe": 0,
             "cost": 52,
-            "elapsedUs": 795
+            "elapsedUs": 584
           }
         ]
       }
@@ -73,11 +83,11 @@
       "id": "semana-inaugural",
       "start": 1795063680215,
       "deadline": 1795668480215,
-      "phase": "VALIDATION",
+      "phase": "COMMERCIAL",
       "sealed": false,
       "budget": 168,
-      "spent": 99,
-      "documents": 68,
+      "spent": 113,
+      "documents": 73,
       "pilots": [
         {
           "subject": "mx-21904339beeb2287248f",
@@ -475,6 +485,204 @@
             ]
           },
           "review": "cc538eb9133a3661822370144c5fc053039828c4780d300e3a954d51ae674943",
+          "feedback": [],
+          "firstForecast": {
+            "paidProbability": null,
+            "observations": 0,
+            "priceMxnCents": null,
+            "costMxnCents": null,
+            "deliveryDays": null
+          },
+          "observed": null,
+          "paidMxnCents": 0,
+          "bookedExpenseMxnCents": 0,
+          "bookedNetMxnCents": 0,
+          "brier": null
+        },
+        {
+          "subject": "mx-0500bcef26d43d9efb6d",
+          "firstDecision": "INVESTIGATE",
+          "latest": {
+            "mission": "semana-inaugural",
+            "subject": "mx-0500bcef26d43d9efb6d",
+            "at": 1795655283706,
+            "revision": "1bfc76b83687fc23650bb133fcac6173e46a25ff35360a1429c0b4dcf777f30f",
+            "decision": "INVESTIGATE",
+            "checks": {
+              "buyer": {
+                "status": "SUPPORTED",
+                "value": "013J2Y - ADMINISTRACION DEL SISTEMA PORTUARIO NACIONAL ALTAMIRA, S.A. DE C.V.",
+                "refs": [
+                  {
+                    "document": "mx-0500bcef26d43d9efb6d",
+                    "source": "https://postor.com.mx/licitacion/la-13-j2y-013j2y002-n-89-2026",
+                    "sha256": "47d63687bb77073997a3f528f905fa29cf8209d02e07c94726d4aadd5c0ee02e",
+                    "row": 1,
+                    "pointer": "/dependencia",
+                    "quote": "013J2Y - ADMINISTRACION DEL SISTEMA PORTUARIO NACIONAL ALTAMIRA, S.A. DE C.V."
+                  }
+                ],
+                "usable": true,
+                "actor": 50607623
+              },
+              "prior_spend_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 71049788
+              },
+              "authority": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 12063782
+              },
+              "alternative": {
+                "status": "SUPPORTED",
+                "value": "LICITACIÓN PÚBLICA",
+                "refs": [
+                  {
+                    "document": "mx-0500bcef26d43d9efb6d",
+                    "source": "https://postor.com.mx/licitacion/la-13-j2y-013j2y002-n-89-2026",
+                    "sha256": "47d63687bb77073997a3f528f905fa29cf8209d02e07c94726d4aadd5c0ee02e",
+                    "row": 3,
+                    "pointer": "/tipo_procedimiento",
+                    "quote": "LICITACIÓN PÚBLICA"
+                  }
+                ],
+                "usable": true,
+                "actor": 33946533
+              },
+              "access": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 44839800
+              },
+              "scope": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 5558746
+              },
+              "price_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 26399466
+              },
+              "cost_mxn_cents": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 97886759
+              },
+              "delivery_days": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 18782618
+              },
+              "acceptance": {
+                "status": "UNKNOWN",
+                "value": null,
+                "refs": [],
+                "usable": false,
+                "actor": 79546292
+              }
+            },
+            "veto": [],
+            "gaps": [
+              {
+                "field": "access",
+                "question": "¿El comprador confirmó el acceso indispensable para entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [
+                  "ABANDON"
+                ],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "authority",
+                "question": "¿Qué puesto puede autorizar el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "delivery_days",
+                "question": "¿Cuántos días toma entregar?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 1
+              },
+              {
+                "field": "prior_spend_mxn_cents",
+                "question": "¿Qué pagó recientemente el comprador por resolverlo?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "scope",
+                "question": "¿Qué entrega concreta aceptaría el comprador?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "price_mxn_cents",
+                "question": "¿Qué precio de piloto respalda la fuente?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "acceptance",
+                "question": "¿Qué medición demostraría que funcionó el piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 2
+              },
+              {
+                "field": "cost_mxn_cents",
+                "question": "¿Cuál es el costo completo estimado de entregar ese piloto?",
+                "reason": "UNKNOWN",
+                "canChangeTo": [],
+                "estimatedResearchCredits": 3
+              }
+            ],
+            "nextQuestion": "¿El comprador confirmó el acceso indispensable para entregar?",
+            "abandonIf": "Acceso indispensable denegado o margen del piloto no positivo",
+            "forecast": {
+              "paidProbability": null,
+              "observations": 0,
+              "priceMxnCents": null,
+              "costMxnCents": null,
+              "deliveryDays": null
+            },
+            "offer": null,
+            "actors": [
+              50607623,
+              71049788,
+              12063782,
+              33946533,
+              44839800,
+              5558746,
+              26399466,
+              97886759,
+              18782618,
+              79546292
+            ]
+          },
+          "review": "91e3e3c53182286717ac357263363d7dbeaf4cb828a9633f147228d15d921867",
           "feedback": [],
           "firstForecast": {
             "paidProbability": null,
@@ -1198,8 +1406,8 @@
           "subject": "mx-043cfef146a072555f95",
           "sector": 6,
           "revision": "77749d39ed7728571ce934c3906973d86eb38ef3a7c2c9f4a732781710e8464d",
-          "phase": "VALIDATION",
-          "policy": "crosscheck",
+          "phase": "COMMERCIAL",
+          "policy": "indexed",
           "crew": [
             5847626,
             46539653,
@@ -1295,8 +1503,8 @@
           "firstDecision": "SEEK_EVIDENCE",
           "commercialEvidence": [],
           "firstAt": 1795282061850,
-          "at": 1795282061850,
-          "chief": 7968,
+          "at": 1795655283691,
+          "chief": 1007969,
           "missing": [
             "units",
             "price",
@@ -1320,7 +1528,7 @@
             "strategy": "contrastar margen y demanda",
             "alternative": "esperar nueva evidencia",
             "cost": 4,
-            "nextEvidence": "fuente primaria sobre units, price, cost"
+            "nextEvidence": "constancia firmada de pedido, cobro o gasto"
           }
         },
         {
@@ -2111,5 +2319,5 @@
       "close": null
     }
   },
-  "checkpoint": "afc1bfe6b0ec83d55cd3a59400002717792a704fd06f7d185c38230da13e1c91"
+  "checkpoint": "de3273e5fa47b701aaae8e6eb298ec1222e07e12b151c1dcdbd60c78d9d39978"
 }
