@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-22T17:48:31.994Z",
+  "measuredAt": "2026-11-26T19:36:28.390Z",
   "commit": "1fcc9b6f4a7715c8df451e9c7e9e338a9e99cb92",
   "runtime": {
     "node": "v24.22.3",
@@ -13,18 +13,18 @@
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d",
-    "population": 100031968,
+    "checkpoint": "ac5e92cf45678fa360a80a56cd681a0421753a4aa1d74902f0d8bce97ddf20d6",
+    "population": 100032634,
     "founders": 100000000,
-    "tested": 100031967,
+    "tested": 100032633,
     "bytesPerRow": 8,
-    "bodyBytes": 800255744,
-    "headerBytes": 37234,
-    "compressedBytes": 1170428,
-    "sha256Uncompressed": "880406782e4f2e2f71d8f65397e1b3f3ff276b6eb542de8b4e03875310f449c6",
+    "bodyBytes": 800261072,
+    "headerBytes": 39641,
+    "compressedBytes": 1170657,
+    "sha256Uncompressed": "d00f9d6192202ce7fee3fb5b2cc0942c1ae1dbb8e1d06f10869603af0407c5ea",
     "threads": 4,
-    "nativeExamAndGzipMs": 3802.0374710000006,
-    "independentVerificationMs": 752.8443100000004,
+    "nativeExamAndGzipMs": 3910.684915,
+    "independentVerificationMs": 747.5130049999998,
     "sectors": [
       {
         "identities": 10003330,
@@ -67,9 +67,9 @@
         "tested": 10003330
       },
       {
-        "identities": 10002664,
+        "identities": 10003330,
         "founders": 10000000,
-        "tested": 10002664
+        "tested": 10003330
       },
       {
         "identities": 10002664,
@@ -79,52 +79,52 @@
     ]
   },
   "service": {
-    "checkpoint": "cf9b41e3b606c431a0ae20fa7da5eb810986679ac5bafd253a3955087a7c469d",
+    "checkpoint": "ac5e92cf45678fa360a80a56cd681a0421753a4aa1d74902f0d8bce97ddf20d6",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 635.4946230000005,
+    "coldStartAndFirstApprovedMs": 648.9441830000005,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 4.019012000000657,
-        "p95Ms": 4.726059999999961,
-        "p99Ms": 6.002739000000474,
-        "maxMs": 6.379496999999901,
-        "elapsedMs": 524.1067469999998,
-        "actionsPerSecond": 244.2250566944143
+        "p50Ms": 3.837094999999863,
+        "p95Ms": 4.337749999999687,
+        "p99Ms": 4.623133999999482,
+        "maxMs": 5.362070000000131,
+        "elapsedMs": 497.2012880000002,
+        "actionsPerSecond": 257.4410064681891
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 3.8320020000001023,
-        "p95Ms": 5.846516999999949,
-        "p99Ms": 8.649884999999813,
-        "maxMs": 8.899946000000455,
-        "elapsedMs": 525.6079769999997,
-        "actionsPerSecond": 243.52750643280302
+        "p50Ms": 3.663078999999925,
+        "p95Ms": 5.2616879999995945,
+        "p99Ms": 7.089805999999953,
+        "maxMs": 7.8961920000001555,
+        "elapsedMs": 495.26114700000016,
+        "actionsPerSecond": 258.44950845699987
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 16.76309299999957,
-        "p95Ms": 31.52529500000037,
-        "p99Ms": 36.486289999999826,
-        "maxMs": 41.30523499999981,
-        "elapsedMs": 490.7583189999996,
-        "actionsPerSecond": 260.8208461159068
+        "p50Ms": 16.807506999999532,
+        "p95Ms": 28.85986199999934,
+        "p99Ms": 35.69218699999965,
+        "maxMs": 37.53350599999976,
+        "elapsedMs": 469.7400209999996,
+        "actionsPerSecond": 272.4911531436239
       }
     ],
     "mission": {
-      "status": "RESEARCHED",
-      "localMs": 10.67497099999946,
+      "status": "IDLE",
+      "localMs": 2.229559000000336,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "7732d6554924dff944fcb8d829880ce636958a601146700f4da072b577f4847f"
+    "replayedTip": "76cc3f40084fb4eb6fadee52c545f87faa025b106130f804aafddaf441b37794"
   }
 }
