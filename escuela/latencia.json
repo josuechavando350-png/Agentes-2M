@@ -1,30 +1,30 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-26T19:36:28.390Z",
+  "measuredAt": "2026-11-27T19:27:35.634Z",
   "commit": "1fcc9b6f4a7715c8df451e9c7e9e338a9e99cb92",
   "runtime": {
     "node": "v24.22.3",
     "platform": "linux",
     "os": "7.0.0-1020-azure",
     "arch": "x64",
-    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
     "availableCpus": 4
   },
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "ac5e92cf45678fa360a80a56cd681a0421753a4aa1d74902f0d8bce97ddf20d6",
-    "population": 100032634,
+    "checkpoint": "93b933b661f07a497ce39931f19c97a113e5ff2482d5e07bf3959999597aaa4b",
+    "population": 100033300,
     "founders": 100000000,
-    "tested": 100032633,
+    "tested": 100033299,
     "bytesPerRow": 8,
-    "bodyBytes": 800261072,
-    "headerBytes": 39641,
-    "compressedBytes": 1170657,
-    "sha256Uncompressed": "d00f9d6192202ce7fee3fb5b2cc0942c1ae1dbb8e1d06f10869603af0407c5ea",
+    "bodyBytes": 800266400,
+    "headerBytes": 41762,
+    "compressedBytes": 1170780,
+    "sha256Uncompressed": "233d96ae2b8f76928484456b67216cf7ae1ac6f0c1c259742cf550218214bcf4",
     "threads": 4,
-    "nativeExamAndGzipMs": 3910.684915,
-    "independentVerificationMs": 747.5130049999998,
+    "nativeExamAndGzipMs": 2185.3589840000004,
+    "independentVerificationMs": 665.4453519999997,
     "sectors": [
       {
         "identities": 10003330,
@@ -72,59 +72,59 @@
         "tested": 10003330
       },
       {
-        "identities": 10002664,
+        "identities": 10003330,
         "founders": 10000000,
-        "tested": 10002664
+        "tested": 10003330
       }
     ]
   },
   "service": {
-    "checkpoint": "ac5e92cf45678fa360a80a56cd681a0421753a4aa1d74902f0d8bce97ddf20d6",
+    "checkpoint": "93b933b661f07a497ce39931f19c97a113e5ff2482d5e07bf3959999597aaa4b",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 648.9441830000005,
+    "coldStartAndFirstApprovedMs": 499.84938099999954,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 3.837094999999863,
-        "p95Ms": 4.337749999999687,
-        "p99Ms": 4.623133999999482,
-        "maxMs": 5.362070000000131,
-        "elapsedMs": 497.2012880000002,
-        "actionsPerSecond": 257.4410064681891
+        "p50Ms": 2.95853199999965,
+        "p95Ms": 4.5889390000002095,
+        "p99Ms": 19.44104999999945,
+        "maxMs": 31.123595000000023,
+        "elapsedMs": 453.9856060000002,
+        "actionsPerSecond": 281.9472650857568
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 3.663078999999925,
-        "p95Ms": 5.2616879999995945,
-        "p99Ms": 7.089805999999953,
-        "maxMs": 7.8961920000001555,
-        "elapsedMs": 495.26114700000016,
-        "actionsPerSecond": 258.44950845699987
+        "p50Ms": 2.9432800000004136,
+        "p95Ms": 8.078221000000667,
+        "p99Ms": 20.35249599999952,
+        "maxMs": 28.73825500000021,
+        "elapsedMs": 477.301872,
+        "actionsPerSecond": 268.174100100743
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 16.807506999999532,
-        "p95Ms": 28.85986199999934,
-        "p99Ms": 35.69218699999965,
-        "maxMs": 37.53350599999976,
-        "elapsedMs": 469.7400209999996,
-        "actionsPerSecond": 272.4911531436239
+        "p50Ms": 12.93565899999976,
+        "p95Ms": 25.394940000000133,
+        "p99Ms": 35.63547900000049,
+        "maxMs": 38.57050699999945,
+        "elapsedMs": 389.9416680000004,
+        "actionsPerSecond": 328.25422493704843
       }
     ],
     "mission": {
       "status": "IDLE",
-      "localMs": 2.229559000000336,
+      "localMs": 1.9228620000003502,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "76cc3f40084fb4eb6fadee52c545f87faa025b106130f804aafddaf441b37794"
+    "replayedTip": "76f6cb23cb47ee6139846b21cf8bdfbc3e9663d688a96316acee917f644561e5"
   }
 }
