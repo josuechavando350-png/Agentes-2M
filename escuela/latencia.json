@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "measuredAt": "2026-11-27T19:27:35.634Z",
+  "measuredAt": "2026-11-28T18:14:15.034Z",
   "commit": "1fcc9b6f4a7715c8df451e9c7e9e338a9e99cb92",
   "runtime": {
     "node": "v24.22.3",
@@ -13,23 +13,23 @@
   "snapshot": {
     "schema": "SEMAR-ROWS-1",
     "file": "padron-100m.bin.gz",
-    "checkpoint": "93b933b661f07a497ce39931f19c97a113e5ff2482d5e07bf3959999597aaa4b",
-    "population": 100033300,
+    "checkpoint": "4dc7891955a853492de68ffcde576ecd15e288de50455455c0337c0262cd271b",
+    "population": 100033966,
     "founders": 100000000,
-    "tested": 100033299,
+    "tested": 100033965,
     "bytesPerRow": 8,
-    "bodyBytes": 800266400,
-    "headerBytes": 41762,
-    "compressedBytes": 1170780,
-    "sha256Uncompressed": "233d96ae2b8f76928484456b67216cf7ae1ac6f0c1c259742cf550218214bcf4",
+    "bodyBytes": 800271728,
+    "headerBytes": 44157,
+    "compressedBytes": 1170899,
+    "sha256Uncompressed": "32132da6c1ae633233128596e11689f58224cc3de4d26a84e0bbde6f21412ee1",
     "threads": 4,
-    "nativeExamAndGzipMs": 2185.3589840000004,
-    "independentVerificationMs": 665.4453519999997,
+    "nativeExamAndGzipMs": 2177.599384,
+    "independentVerificationMs": 647.567239,
     "sectors": [
       {
-        "identities": 10003330,
+        "identities": 10003996,
         "founders": 10000000,
-        "tested": 10003330
+        "tested": 10003996
       },
       {
         "identities": 10003330,
@@ -79,52 +79,52 @@
     ]
   },
   "service": {
-    "checkpoint": "93b933b661f07a497ce39931f19c97a113e5ff2482d5e07bf3959999597aaa4b",
+    "checkpoint": "4dc7891955a853492de68ffcde576ecd15e288de50455455c0337c0262cd271b",
     "transport": "local stdio JSONL",
     "storage": "SQLite en disco, WAL, synchronous=FULL",
-    "coldStartAndFirstApprovedMs": 499.84938099999954,
+    "coldStartAndFirstApprovedMs": 494.09189899999956,
     "warmups": 12,
     "workloads": [
       {
         "op": "sum",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.95853199999965,
-        "p95Ms": 4.5889390000002095,
-        "p99Ms": 19.44104999999945,
-        "maxMs": 31.123595000000023,
-        "elapsedMs": 453.9856060000002,
-        "actionsPerSecond": 281.9472650857568
+        "p50Ms": 2.8704609999995228,
+        "p95Ms": 3.5484740000001693,
+        "p99Ms": 17.794770000000426,
+        "maxMs": 20.830504999999903,
+        "elapsedMs": 410.58202699999947,
+        "actionsPerSecond": 311.75256485350286
       },
       {
         "op": "inference",
         "concurrency": 1,
         "samples": 128,
-        "p50Ms": 2.9432800000004136,
-        "p95Ms": 8.078221000000667,
-        "p99Ms": 20.35249599999952,
-        "maxMs": 28.73825500000021,
-        "elapsedMs": 477.301872,
-        "actionsPerSecond": 268.174100100743
+        "p50Ms": 2.828128000000106,
+        "p95Ms": 3.502867000000151,
+        "p99Ms": 20.25326099999984,
+        "maxMs": 21.148167000000285,
+        "elapsedMs": 420.29984799999966,
+        "actionsPerSecond": 304.54448320428634
       },
       {
         "op": "inference",
         "concurrency": 8,
         "samples": 128,
-        "p50Ms": 12.93565899999976,
-        "p95Ms": 25.394940000000133,
-        "p99Ms": 35.63547900000049,
-        "maxMs": 38.57050699999945,
-        "elapsedMs": 389.9416680000004,
-        "actionsPerSecond": 328.25422493704843
+        "p50Ms": 12.582394000000022,
+        "p95Ms": 25.42064500000015,
+        "p99Ms": 34.90604000000076,
+        "maxMs": 36.41116099999999,
+        "elapsedMs": 393.2331830000003,
+        "actionsPerSecond": 325.5066091408667
       }
     ],
     "mission": {
       "status": "IDLE",
-      "localMs": 1.9228620000003502,
+      "localMs": 2.25586900000053,
       "documentsFetchedDuringTiming": 0
     },
     "verifiedNewDeliveries": 397,
-    "replayedTip": "76f6cb23cb47ee6139846b21cf8bdfbc3e9663d688a96316acee917f644561e5"
+    "replayedTip": "2a40fc9d9a693d5c6609adffbc5496ac1009f0b8bfa7a20981e6fc36a3f8d81f"
   }
 }
